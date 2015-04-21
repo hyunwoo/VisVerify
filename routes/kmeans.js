@@ -79,7 +79,7 @@ module.exports = router;
 router.get('/', function(req, res) {
 
 
-    res.render('kmeans');
+    res.render('layout');
 });
 
 
@@ -87,7 +87,7 @@ router.post('/', function(req, res) {
     console.log(req.body)
 
 
-    res.render('kmeans');
+    res.render('layout');
 });
 
 
