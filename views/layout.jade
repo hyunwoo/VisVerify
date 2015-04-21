@@ -1,14 +1,83 @@
 doctype html
 html
-  head
-    title express-upload-progress
-    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    head
+        title IDLAB Verify
+        link(rel='stylesheet', href='dist/css/bootstrap.css')
+        link(rel='stylesheet', href='dist/css/docs.min.css')
+    nav.navbar.navbar-inverse.navbar-static-top
+        div.container
+            div.row
+                div.col-sm-6
+                    div.nav.navbar-header
+                        h4
+                            p.navbar-brand(style='text-color=#ffffff')
+                                span.glyphicon.glyphicon-ok-circle
+                                | &nbsp;LVS Verify System
+                -if(logined == true)
+                    div.col-sm-6(align='right')
+                        p
+                        div.btn.btn-group
+                            button.btn.btn-outline-inverse
+                                span.glyphicon.glyphicon-cloud-upload
+                                | &nbsp;File Upload
+                            button.btn.btn-outline-inverse
+                                span.glyphicon.glyphicon-list
+                                | &nbsp;File List
+                            button.btn.btn-outline-inverse
+                                span.glyphicon.glyphicon-list
+                                | &nbsp;File List
+                -if(logined == undefined)
+                    div.col-sm-6(align='right')
+                        p
+                        div.btn.btn-group
+                            button.btn.btn-outline-inverse
+                                span.glyphicon.glyphicon-cloud-upload
+                                | &nbsp;File Upload
+                            button.btn.btn-outline-inverse
+                                span.glyphicon.glyphicon-list
+                                | &nbsp;File List
+                            button.btn.btn-outline-inverse
+                                span.glyphicon.glyphicon-list
+                                | &nbsp;File List
+                -if(logined === false)
+                    div.col-sm-6(align='right')
+                        p
+                        div.btn.btn-group
+                            button.btn.btn-outline-inverse
+                                span.glyphicon.glyphicon-pencil
+                                | &nbsp;Sign Up
+                            button.btn.btn-outline-inverse
+                                span.glyphicon.glyphicon-log-in
+                                | &nbsp;&nbsp;Sign In
 
-  body
+        div.container
+            ul.nav.navbar-nav
+                li
+                    a Kmeans
+                li
+                    a EM
+                li
+                    a Tokenizer
+                li
+                    a String Distance
+                li
+                    a NaiveBayes Classifier
+                li
+                    a Phonetics
+                li
+                    a Noun Inflectors
+                li
+                    a N-Grams
+                li
+                    a TF-IDF
+
+
+    body
+
     block content
-    script(src='/javascripts/jquery-1.9.1.min.js')
-    script(src='/javascripts/bootstrap.min.js')
-    script(src='/javascripts/script.js')
+    script(src='dist/js/bootstrap.js')
+    script(src='javascripts/script.js')
     script(src="http://code.jquery.com/jquery-latest.min.js")
     script(src="http://code.jquery.com/ui/1.10.2/jquery-ui.js")
+
+

@@ -9,12 +9,30 @@ var routes = require('./routes/index');
 var route_kmeans = require('./routes/kmeans');
 var users = require('./routes/users');
 
-var app = express();
 
+var app = express();
 var busboy = require('connect-busboy'); //middleware for form/file upload
 var path = require('path');     //used for file path
 var fs = require('fs-extra');       //File System - for file manipulation
 
+
+
+
+var natural = require('natural');
+var wordnet = new natural.WordNet();
+
+wordnet.lookup('node', function(results) {
+    results.forEach(function(result) {
+        /*
+        console.log('------------------------------------');
+        console.log(result.synsetOffset);
+        console.log(result.pos);
+        console.log(result.lemma);
+        console.log(result.synonyms);
+        console.log(result.pos);
+        console.log(result.gloss);*/
+    });
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,9 +56,6 @@ app.use(function(req, res, next) {
 });
 
 app.listen(3001);
-// error handlers
-// development error handler
-// will print stacktrace
 
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
@@ -52,8 +67,9 @@ if (app.get('env') === 'development') {
   });
 }
 
-// production error handler
-// no stacktraces leaked to user
+
+
+
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
