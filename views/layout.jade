@@ -2,82 +2,92 @@ doctype html
 html
     head
         title IDLAB Verify
-        link(rel='stylesheet', href='dist/css/bootstrap.css')
-        link(rel='stylesheet', href='dist/css/docs.min.css')
-    nav.navbar.navbar-inverse.navbar-static-top
-        div.container
-            div.row
-                div.col-sm-6
-                    div.nav.navbar-header
-                        h4
-                            p.navbar-brand(style='text-color=#ffffff')
-                                span.glyphicon.glyphicon-ok-circle
-                                | &nbsp;LVS Verify System
-                -if(logined == true)
-                    div.col-sm-6(align='right')
-                        p
-                        div.btn.btn-group
-                            button.btn.btn-outline-inverse
-                                span.glyphicon.glyphicon-cloud-upload
-                                | &nbsp;File Upload
-                            button.btn.btn-outline-inverse
-                                span.glyphicon.glyphicon-list
-                                | &nbsp;File List
-                            button.btn.btn-outline-inverse
-                                span.glyphicon.glyphicon-list
-                                | &nbsp;File List
-                -if(logined == undefined)
-                    div.col-sm-6(align='right')
-                        p
-                        div.btn.btn-group
-                            button.btn.btn-outline-inverse
-                                span.glyphicon.glyphicon-cloud-upload
-                                | &nbsp;File Upload
-                            button.btn.btn-outline-inverse
-                                span.glyphicon.glyphicon-list
-                                | &nbsp;File List
-                            button.btn.btn-outline-inverse
-                                span.glyphicon.glyphicon-list
-                                | &nbsp;File List
-                -if(logined === false)
-                    div.col-sm-6(align='right')
-                        p
-                        div.btn.btn-group
-                            button.btn.btn-outline-inverse
-                                span.glyphicon.glyphicon-pencil
-                                | &nbsp;Sign Up
-                            button.btn.btn-outline-inverse
-                                span.glyphicon.glyphicon-log-in
-                                | &nbsp;&nbsp;Sign In
+        script(src="http://code.jquery.com/jquery-latest.min.js")
+        script(src="http://code.jquery.com/ui/1.10.2/jquery-ui.js")
 
-        div.container
-            ul.nav.navbar-nav
-                li
-                    a Kmeans
-                li
-                    a EM
-                li
-                    a Tokenizer
-                li
-                    a String Distance
-                li
-                    a NaiveBayes Classifier
-                li
-                    a Phonetics
-                li
-                    a Noun Inflectors
-                li
-                    a N-Grams
-                li
-                    a TF-IDF
+        //link(rel='stylesheet', href='/dist/css/docs.min.css')
+        link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.min.css')
+        link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+        link(rel='stylesheet', href='/stylesheets/index.css')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(src='/dist/js/bootstrap.js')
+        script(src='/javascripts/javascripts/script.js')
+        script(src='http://d3js.org/d3.v3.min.js')
+        script(src='http://dl.dropbox.com/u/17949100/jsnetworkx.js')
 
 
     body
+        div.container
+        div.navbar.navbar-static-top.affix-top(data-spy='affix', data-offset-top='1')
+            div.navbar-inner
+                ul.nav
+                    li
+                        a(href='index.html') Home
+                    li
+                        a(href='getting_started.html') Getting started
+                    li
+                        a(href='examples.html') Examples
+                    li.active
+                        a(href='documentation.html') Documentation
+                    li.active
+                        a(href='api_progress.html') API progress
+                p.navbar-text.pull-right
+                    a(href='https://github.com/')
+                        | Fork me on
+                        strong GitHub
 
-    block content
-    script(src='dist/js/bootstrap.js')
-    script(src='javascripts/script.js')
-    script(src="http://code.jquery.com/jquery-latest.min.js")
-    script(src="http://code.jquery.com/ui/1.10.2/jquery-ui.js")
+        div(id='header')
+            div.container.text-center asdfs
+                div.text-center
+                    p asdfasdf
+
+
+
+    //div.container
+        div.row
+
+            div.col-sm-2
+                h5.small(align='left')
+                    span.label.label-primary
+                        strong Data Verify
+                nav.navbar.navbar-default
+                    div.collapse.navbar-collapse
+                        ul.nav.navbar-nav
+
+                            li(role='presentation')
+                                a(href='#')
+                                    strong Kmeans
+                            li
+                                a.
+                                    EC
+                            //li
+                                a Tokenizer
+                            //li
+                                a NaiveBayes Classifier
+                            //li
+                                a Phonetics
+                            //li
+                                a Noun Inflectors
+                            li
+                                a.
+                                    N-Grams
+                            li
+                                a.
+                                     TF-IDF
+                legend
+                h5.small(align='left')
+                    span.label.label-success
+                        strong Visualization
+                nav.navbar.navbar-default
+                    div.collapse.navbar-collapse
+                        ul.nav.navbar-nav
+                            li(role='presentation')
+                                a(href='#')
+                                    strong Network
+            div.col-sm-10
+                body
+
+                block content
+
 
 
