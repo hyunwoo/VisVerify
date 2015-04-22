@@ -10,7 +10,7 @@ var fs = require('fs-extra');       //File System - for file manipulation
 
 // network Test
 
-var nx = require('../public/javascripts/javascripts/jsnetworkx');
+var nx = require('../../public/javascripts/javascripts/jsnetworkx');
 var G=nx.complete_graph(5)
 
 console.log(nx.clustering(G,0));
@@ -18,7 +18,7 @@ console.log(nx.clustering(G));
 
 
 
-var csvparse = require('../functions/CsvToJson');
+var csvparse = require('../../functions/CsvToJson');
 
 
 var test_data = [
@@ -52,7 +52,7 @@ csvparse.Parse('./exampleData/sentimental_tfidf_normalize_csv.csv', function(dat
         else {
 
             for(var i = 0 ; i < res.length ; i ++) {
-                console.log('================');
+                //console.log('================');
                 //console.log(data[0][key_name]);
                 for(var j = 0 ; j < res[i].clusterInd.length ; j ++){
                  //   console.log(data[res[i].clusterInd[j]][key_name]);

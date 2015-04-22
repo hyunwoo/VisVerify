@@ -1,4 +1,7 @@
 /**
+ * Created by hyunwoo on 2015-04-23.
+ */
+/**
  * Created by hyunwoo on 2015-04-21.
  */
 /**
@@ -18,9 +21,10 @@ module.exports = router;
 
 
 router.get('/', function(req, res) {
-
-
-    res.render('visualization_jade/visual_network');
+    var default_data = fs.readFileSync('./exampleData/nvd3/stackedAreaData.json');
+    var deliver = {};
+    deliver.default_data = default_data;
+    res.render('visualization_jade/visual_streamgraph', deliver);
 });
 
 

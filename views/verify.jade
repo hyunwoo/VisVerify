@@ -1,0 +1,35 @@
+//
+   Created by hyunwoo on 2015-04-22.
+
+extends layout
+block content
+    head
+        link(rel='stylesheet', href='/stylesheets/style.css')
+    body.sub
+        div(id='header')
+            div.container
+                h1 Data Verify
+
+        legend
+
+        div.row
+            div.container
+                div.span3.sidebar
+                    ul.nav.nav-list.sidenav.affix-top(data-spy='affix', data-offset-top='140')
+                        li.active
+                            a(href='#install') Verify
+                        legend
+                        li
+                            a(href='#install') K-Means
+                        li
+                            a(href='#create') EM Algorism
+                        li
+                            a(href='#nodes_edges') TF-IDF
+                        li
+                            a(href='#attributes') Attributes
+                        li
+                            a(href='#analysis') Analyzing graphs
+                        li
+                            a(href='#drawing') Drawing
+                div.span9
+                    div.bs-callout

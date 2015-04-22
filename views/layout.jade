@@ -5,89 +5,42 @@ html
         script(src="http://code.jquery.com/jquery-latest.min.js")
         script(src="http://code.jquery.com/ui/1.10.2/jquery-ui.js")
 
-        //link(rel='stylesheet', href='/dist/css/docs.min.css')
-        link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.min.css')
+        //link(rel='stylesheet', href='/dist/css/docs.min.css'
+        link(rel='stylesheet', href='/stylesheets/style.css', media='screen')
         link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-        link(rel='stylesheet', href='/stylesheets/index.css')
-        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.min.css')
+        link(rel='stylesheet', href='http://nvd3.org/assets/css/nv.d3.css')
+
         script(src='/dist/js/bootstrap.js')
         script(src='/javascripts/javascripts/script.js')
         script(src='http://d3js.org/d3.v3.min.js')
-        script(src='http://dl.dropbox.com/u/17949100/jsnetworkx.js')
+        script(src='http://felix-kling.de/JSNetworkX/javascripts/jsnetworkx.js')
+        script(src='http://nvd3.org//assets/js/nv.d3.js')
 
 
     body
-        div.container
-        div.navbar.navbar-static-top.affix-top(data-spy='affix', data-offset-top='1')
+        div.navbar.navbar-fixed-top.affix-top(data-spy='affix', data-offset-top='1')
             div.navbar-inner
-                ul.nav
-                    li
-                        a(href='index.html') Home
-                    li
-                        a(href='getting_started.html') Getting started
-                    li
-                        a(href='examples.html') Examples
-                    li.active
-                        a(href='documentation.html') Documentation
-                    li.active
-                        a(href='api_progress.html') API progress
-                p.navbar-text.pull-right
-                    a(href='https://github.com/')
-                        | Fork me on
-                        strong GitHub
+                div.container
+                    ul.nav
+                        li.active
+                            a(href='/') Home
+                        li
+                            a(href='/verify') Verify
+                        li
+                            a(href='/visualization') Visualization
 
-        div(id='header')
-            div.container.text-center asdfs
-                div.text-center
-                    p asdfasdf
-
-
-
-    //div.container
-        div.row
-
-            div.col-sm-2
-                h5.small(align='left')
-                    span.label.label-primary
-                        strong Data Verify
-                nav.navbar.navbar-default
-                    div.collapse.navbar-collapse
-                        ul.nav.navbar-nav
-
-                            li(role='presentation')
-                                a(href='#')
-                                    strong Kmeans
+                    div.navbar-text.pull-right
+                        ul.nav.pull-right
                             li
-                                a.
-                                    EC
-                            //li
-                                a Tokenizer
-                            //li
-                                a NaiveBayes Classifier
-                            //li
-                                a Phonetics
-                            //li
-                                a Noun Inflectors
+                                a Sign In
                             li
-                                a.
-                                    N-Grams
+                                a Sign Up
                             li
-                                a.
-                                     TF-IDF
-                legend
-                h5.small(align='left')
-                    span.label.label-success
-                        strong Visualization
-                nav.navbar.navbar-default
-                    div.collapse.navbar-collapse
-                        ul.nav.navbar-nav
-                            li(role='presentation')
-                                a(href='#')
-                                    strong Network
-            div.col-sm-10
-                body
+                                a(href='https://github.com/')
+                                    | Fork me on
+                                    strong GitHub
 
-                block content
-
+    block content
 
 
