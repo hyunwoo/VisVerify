@@ -9,8 +9,7 @@ var routes = require('./routes/index');
 var route_kmeans = require('./routes/Verify/kmeans');
 var route_verify = require('./routes/verify');
 var route_visualization = require('./routes/visualization');
-var route_visual_network = require('./routes/visualization/visual_network');
-var route_visual_stream = require('./routes/visualization/visual_streamgraph');
+var route_projects = require('./routes/projects');
 var users = require('./routes/users');
 
 
@@ -51,10 +50,11 @@ app.use(cookieParser());
 app.use('/', routes);
 app.use('/kmeans', route_kmeans);
 app.use('/users', users);
-app.use('/visualization/network', route_visual_network);
-app.use('/visualization/streamgraph', route_visual_stream);
+//app.use('/visualization/network', route_visual_network);
+//app.use('/visualization/streamgraph', route_visual_stream);
 app.use('/verify', route_verify);
 app.use('/visualization', route_visualization);
+app.use('/projects', route_projects);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

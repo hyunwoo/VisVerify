@@ -13,16 +13,9 @@ var fs = require('fs-extra');       //File System - for file manipulation
 
 
 module.exports = router;
-
-
-
-
 router.get('/', function(req, res) {
-
-
     res.render('visualization_jade/visual_network');
 });
-
 
 router.post('/', function(req, res) {
     console.log(req.body)

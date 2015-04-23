@@ -5,33 +5,44 @@ html
         script(src="http://code.jquery.com/jquery-latest.min.js")
         script(src="http://code.jquery.com/ui/1.10.2/jquery-ui.js")
 
-        //link(rel='stylesheet', href='/dist/css/docs.min.css'
+        link(rel='stylesheet', href='/dist/css/docs.min.css')
+        link(rel='stylesheet', href='/stylesheets/node-tooltip.css')
         link(rel='stylesheet', href='/stylesheets/style.css', media='screen')
         link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-        link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.min.css')
+        //link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.min.css')
+        link(rel='stylesheet', href='/stylesheets/CodeMirror/codemirror.css')
+        link(rel='stylesheet', href='/stylesheets/CodeMirror/3024-day.css')
         link(rel='stylesheet', href='http://nvd3.org/assets/css/nv.d3.css')
 
-        script(src='/dist/js/bootstrap.js')
+
+
+
+        script(src='/javascripts/bootstrap.min.js')
         script(src='/javascripts/javascripts/script.js')
+        script(src='/javascripts/codemirror.js')
         script(src='http://d3js.org/d3.v3.min.js')
         script(src='http://felix-kling.de/JSNetworkX/javascripts/jsnetworkx.js')
         script(src='http://nvd3.org//assets/js/nv.d3.js')
+        script(src='/javascripts/nodejs/node-tooltip.js')
 
 
     body
-        div.navbar.navbar-fixed-top.affix-top(data-spy='affix', data-offset-top='1')
-            div.navbar-inner
-                div.container
-                    ul.nav
-                        li.active
-                            a(href='/') Home
-                        li
-                            a(href='/verify') Verify
-                        li
-                            a(href='/visualization') Visualization
 
-                    div.navbar-text.pull-right
-                        ul.nav.pull-right
+        nav.navbar.navbar-inverse.navbar-static-top(style='border-radius:0px; padding:0px; margin:0px;')
+            div.container
+                div.row
+                    div.col-lg-8
+                        ul.nav.navbar-nav
+                            li.active
+                                a(href='/') Home
+                            li
+                                a(href='/verify') Verify
+                            li
+                                a(href='/visualization') Visualization
+                            li
+                                a(href='/projects') Projects
+                    div.col-lg-4
+                        ul.nav.navbar-nav.pull-right
                             li
                                 a Sign In
                             li

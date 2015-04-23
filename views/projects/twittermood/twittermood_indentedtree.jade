@@ -1,0 +1,131 @@
+//
+   Created by hyunwoo on 2015-04-23.
+extends ../../projects_layout
+block body
+    div.container-fluid
+        h1
+            div.row
+                div.col-lg-6
+                    div
+                        h1
+                        |  #. GlobalData
+                div.col-lg-6
+                    div.dropdown(align='right')
+                        div.btn.btn-primary.dropdown-toggle(type='button',id='dropdowncountry',data-toggle='dropdown',aria-expanded=true , style='width:100%;padding-right:3px', align='right')
+                            div.row
+                                div.col-xs-8(align='left')
+                                    span.badge(style='margin-left:10px') #{count}
+                                    strong(style='font-family=Hevetica;margin-right:10px;padding-left:15px') #{select}
+                                div.col-xs-4(align='right')
+                                    span.caret(style='margin-left:10px;margin-right:10px')
+
+
+
+
+                        ul.dropdown-menu(role='menu', aria-labelledby='dropdowncountry',style='width:100%')
+                            li.dropdown-header countries
+
+                            -for(var i = 0 ; i < countries.length ; i ++){
+                                li(role='presentation')
+                                    a(role='menuitem', tabindex='-1', href='twits?country=' + countries[i].name)
+                                        div.row(style='margin-top:15px')
+                                            div.col-sm-7
+                                                p(style='margin-left:35px') #{countries[i].name}
+                                            div.col-sm-5(align='right')
+                                                span.badge(style='width:50px') #{countries[i].value}
+
+                            -}
+
+
+
+
+                    - if(pagecount > 1) {
+                        h5
+                            nav(align='right', style='width:100%')
+                                ul.pagination
+                                    li
+                                        a(aria-label='Previous')
+                                            span(aria-hidden='true') &laquo;
+                                    - var beforeCount = currentpage - 4 < 0 ? 0 : currentpage - 4;
+                                    -for(var i = beforeCount; i < beforeCount + 8; i ++){
+                                    -   if( i >= pagecount) break;
+                                    -   var page = i * 1;
+                                    -   if(page == (currentpage)){
+                                            li.active
+                                                a(href='twits?country=' + select + '&page=' + page) #{page}
+                                    -   } else {
+                                            li
+                                                a(href='twits?country=' + select + '&page=' + page) #{page}
+                                    -   }
+                                    -}
+                                    li
+                                        a(aria-label='Previous')
+                                            span(aria-hidden='true') &raquo;
+                    - }
+        div.alert.alert-warning(role="alert")
+            span.glyphicon.glyphicon-info-sign
+            span.sr-only Warning:
+            strong WARNING!
+            |  Page loading may be slower
+
+        //div.progress
+            div.class.progress-bar.progress-bar.progress-bar-info(role='progressbar', aria-valuenow='20', aria-valuemin='0', aria-valuemax='0',style='width:35%')
+
+
+        div(id='chart', style='margin:0;width:100%; height:auto; border:1px solid')
+
+        legend
+
+    div.container-fluid
+        textarea(id='text',style='display:none') #{twits}
+        legend
+        div(align='right')
+            a # Update
+        script.
+            var G_DATA;
+
+            $(function onLoad() {
+                console.log("!");
+                nv.addGraph(function () {
+                    var chart = nv.models.indentedTree()
+                            .tableClass('table table-striped') //for bootstrap styling
+                            .columns([
+                                {
+                                    key: 'Date',
+                                    label: 'Date',
+                                    width: '35%',
+                                    type: 'text'
+                                },
+                                {
+                                    key: 'Text',
+                                    label: 'Text',
+                                    showCount: true,
+                                    width: '70%',
+                                    text:'bold',
+                                    type: 'text',
+                                    classes: function (d) {
+                                        return d.url ? 'clickable name' : 'name'
+                                    },
+                                    click: function (d) {
+                                        if (d.url) window.location.href = d.url;
+                                    }
+                                },
+                                {
+                                    key: 'User',
+                                    label: 'User',
+                                    width: '15%',
+                                    type: 'text'
+                                },
+
+                            ]);
+                    d3.select('#chart')
+                            .datum(testData())
+                            .call(chart);
+                    console.log("!!");
+                    return chart;
+                });
+            })
+            function testData() {
+                G_DATA = document.getElementById("text").value;
+                return JSON.parse(G_DATA);
+            }

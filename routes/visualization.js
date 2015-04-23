@@ -14,6 +14,28 @@ router.get('/', function(req, res) {
     res.render('visualization');
 });
 
+router.get('/network', function(req, res) {
+    res.render('visualization_jade/visual_network');
+});
+
+router.get('/streamgraph', function(req, res) {
+    var default_data = fs.readFileSync('./exampleData/nvd3/stackedAreaData.json');
+    var deliver = {};
+
+    deliver.default_data = JSON.stringify(JSON.parse(default_data), null, 4)
+    res.render('visualization_jade/visual_streamgraph', deliver);
+});
+
+router.get('/forcedirectedgraph', function(req, res) {
+    var default_data = fs.readFileSync('./exampleData/d3js/miserables.json');
+    var deliver = {};
+    deliver.default_data = JSON.stringify(JSON.parse(default_data), null, 4)
+    console.log(deliver);
+    res.render('visualization_jade/visual_forcedirectedgraph', deliver);
+});
+
+
+
 router.post('/', function(req, res) {
     var fstream;
     console.log('in upload');

@@ -1,20 +1,17 @@
 //
    Created by hyunwoo on 2015-04-23.
 
-//
-   Created by hyunwoo on 2015-04-22.
 extends layout
 block content
-   head
-      link(rel='stylesheet', href='/stylesheets/style.css')
-   body.sub
-      div(id='header')
-         div.container
-            h1 Data Visualization
-      legend
+   div(id='header', style=' padding-top:25px; margin-bottom:50px')
+      div.container
+         h1 Data Visulization
+         h3(style='color:#aaaaaa') asdfasdf
+
+   body
       div.container
          div.row
-            div.span3.sidebar
+            div.col-sm-3.sidebar
                ul.nav.nav-list.sidenav.affix-top(data-spy='affix', data-offset-top='140')
                   li.active
                      a(href='/visualization/') Visualization
@@ -24,12 +21,12 @@ block content
                   li
                      a(href='/visualization/streamgraph') StreamGraph
                   li
-                     a(href='#nodes_edges') TF-IDF
+                     a(href='/visualization/forcedirectedgraph') Force Directed Graph
                   li
                      a(href='#attributes') Attributes
                   li
                      a(href='#analysis') Analyzing graphs
                   li
                      a(href='#drawing') Drawing
-            div.span9
+            div.col-sm-9
                block body
