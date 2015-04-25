@@ -9,12 +9,10 @@ var router = express.Router();
 var busboy = require('connect-busboy');
 var path = require('path');
 var fs = require('fs-extra');
-var eachpagetwitcount = 250;
+var eachpagetwitcount = 500;
 module.exports = router;
 
-var db = require('redis').createClient(13000, '202.30.24.167', function(err){
-    console.log(err);
-});
+var db = require('redis').createClient(13000, '202.30.24.167');
 
 db.select(2);
 
@@ -22,6 +20,15 @@ router.get('/', function (req, res) {
     res.render('projects_layout');
 });
 
+
+router.get('/logonetwork', function (req, res) {
+    res.render('projects_layout');
+});
+
+router.get('/logonetwork/multicamera', function(req,res){
+    var result = {};
+    res.render('projects/logonetwork/logonetwork_multicamera', result);
+})
 
 router.get('/twittermood/twits', function (req, res) {
     try {
@@ -140,14 +147,39 @@ function parseTwitDate(date){
         return ' ';
     }
 }
+router.get('/streamgraph', function (req, res) {
+    var default_data = fs.readFileSync('./exampleData/nvd3/stackedAreaData.json');
+    var deliver = {};
 
-router.get('/twittermood/weatherdata', function (req, res){
-    res.render('twittermood/twittermood_worldmap');
+    deliver.default_data = JSON.stringify(JSON.parse(default_data), null, 4)
+    res.render('visualization_jade/visual_streamgraph', deliver);
 });
 
+router.get('/forcedirectedgraph', function (req, res) {
+    var default_data = fs.readFileSync('./exampleData/d3js/miserables.json');
+    var deliver = {};
+    deliver.default_data = JSON.stringify(JSON.parse(default_data), null, 4)
+    console.log(deliver);
+    res.render('visualization_jade/visual_forcedirectedgraph', deliver);
+});
 
-router.get('/twittermood/worldmap', function (req, res){
-    res.render('projects/twittermood/twittermood_worldmap');
+router.post('/', function (req, res) {
+    var fstream;
+    console.log('in upload');
+    req.pipe(req.busboy);
+    req.busboy.on('file', function (fieldname, file, filename) {
+        console.log("Uploading: " + filename);
+        //Path where image will be uploaded
+        fstream = fs.createWriteStream(__dirname + '/../trash/' + filename);
+        file.pipe(fstream);
+        fstream.on('close', function () {
+            console.log("Upload Finished of " + filename);
+            res.redirect('back');           //where to go next
+        });
+        fstream.on('error', function (e) {
+            console.log(e);
+        })
+    });
 });
 
 
