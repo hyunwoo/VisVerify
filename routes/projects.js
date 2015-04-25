@@ -12,7 +12,7 @@ var fs = require('fs-extra');
 var eachpagetwitcount = 500;
 module.exports = router;
 
-var db = require('redis').createClient(6379, '202.30.24.169');
+var db = require('redis').createClient(13000, '202.30.24.167');
 
 db.select(2);
 
@@ -20,6 +20,15 @@ router.get('/', function (req, res) {
     res.render('projects_layout');
 });
 
+
+router.get('/logonetwork', function (req, res) {
+    res.render('projects_layout');
+});
+
+router.get('/logonetwork/multicamera', function(req,res){
+    var result = {};
+    res.render('projects/logonetwork/logonetwork_multicamera', result);
+})
 
 router.get('/twittermood/twits', function (req, res) {
     try {
@@ -153,7 +162,6 @@ router.get('/forcedirectedgraph', function (req, res) {
     console.log(deliver);
     res.render('visualization_jade/visual_forcedirectedgraph', deliver);
 });
-
 
 router.post('/', function (req, res) {
     var fstream;
