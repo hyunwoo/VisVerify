@@ -10,6 +10,10 @@ var busboy = require('connect-busboy');
 var path = require('path');
 var fs = require('fs-extra');
 var eachpagetwitcount = 500;
+
+
+var csvParser = require('../functions/CsvToJson');
+
 module.exports = router;
 
 var db = require('redis').createClient(13000, '202.30.24.167');
@@ -25,10 +29,62 @@ router.get('/logonetwork', function (req, res) {
     res.render('projects_layout');
 });
 
-router.get('/logonetwork/multicamera', function(req,res){
+router.get('/logonetwork/multicamera', function (req, res) {
     var result = {};
     res.render('projects/logonetwork/logonetwork_multicamera', result);
 })
+
+router.get('/logonetwork/filterednetwork', function (req, res) {
+    var result = {};
+    res.render('projects/logonetwork/logonetwork_filtered', result);
+})
+
+router.get('/logonetwork/prototype01', function (req, res) {
+    var result = {};
+
+    try {
+        csvParser.Parse('./ProjectData/Logo/logo_data01.csv', function (object) {
+            var data = require('../functions/CsvtoNetworkJSON').CsvToD3JSJSON(object, function(same,max){
+                var result = Math.pow((same / max) , 0.5);
+                if(result > 0.46) return result
+                else return 0;
+            });
+            result.default_data = JSON.stringify(data, null, 4);
+            res.render('projects/logonetwork/logonetwork_prototype', result);
+        })
+
+
+    } catch (e) {
+        console.log(e);
+        res.redirect('projects');
+    }
+
+})
+
+router.get('/logonetwork/prototype02', function (req, res) {
+    var result = {};
+    try {
+        csvParser.Parse('./ProjectData/Logo/logo_data01.csv', function (object) {
+            var data = require('../functions/CsvtoNetworkJSON').CsvToSigmaJSON(object, function(same,max){
+                var result = Math.pow((same / max) , 0.5);
+                if(result < 0.5) return 0;
+                return result;
+            });
+            result.default_data = JSON.stringify(data, null, 4);
+            res.render('projects/logonetwork/logonetwork_prototype02', result);
+        })
+
+
+    } catch (e) {
+        console.log(e);
+        res.redirect('projects');
+    }
+
+})
+
+router.get('/twittermood/worldmap', function (req, res) {
+    res.render('projects/twittermood/twittermood_worldmap');
+});
 
 router.get('/twittermood/twits', function (req, res) {
     try {
@@ -82,7 +138,7 @@ router.get('/twittermood/twits', function (req, res) {
                         multi.hgetall(key);
                     }
                     multi.exec(function (err, rep) {
-                        if (err ) {
+                        if (err) {
                             console.log(err);
                             res.redirect('/');
                         }
@@ -94,7 +150,6 @@ router.get('/twittermood/twits', function (req, res) {
                             User: 'System',
                             values: [],
                         }];
-
 
 
                         for (var j = 1; j < rep.length; j++) {
@@ -134,16 +189,16 @@ router.get('/twittermood/twits', function (req, res) {
 
 
             })
-    } catch(e){
+    } catch (e) {
         console.log(e);
         res.redirect('/');
     }
 });
-function parseTwitDate(date){
+function parseTwitDate(date) {
     try {
         var eachs = date.split(' ');
         return eachs[eachs.length - 1] + '.' + eachs[1] + '.' + eachs[2] + ' ' + eachs[3].split(':')[0];
-    }catch (e){
+    } catch (e) {
         return ' ';
     }
 }

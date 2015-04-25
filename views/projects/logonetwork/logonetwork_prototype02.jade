@@ -1,9 +1,9 @@
 //
-   Created by Luan on 15. 4. 7..
-
+   Created by hyunwoo on 2015-04-26.
 extends ../../projects_layout
 block body
     head
+        // START SIGMA IMPORTS
         script(src='../sigmajs/core/sigma.core.js')
         script(src='../sigmajs/core/conrad.js')
         script(src='../sigmajs/core/utils/sigma.utils.js')
@@ -51,120 +51,130 @@ block body
         script(src='../sigmajs/core/misc/sigma.misc.bindDOMEvents.js')
         script(src='../sigmajs/core/misc/sigma.misc.drawHovers.js')
         // END SIGMA IMPORTS
-        script(src='../sigmajs/plugins/sigma.layout.forceAtlas2/worker.js')
+        script(src='../sigmajs/plugins/sigma.plugins.neighborhoods/sigma.plugins.neighborhoods.js')
         script(src='../sigmajs/plugins/sigma.layout.forceAtlas2/supervisor.js')
+        script(src='../sigmajs/plugins/sigma.layout.forceAtlas2/worker.js')
+        script(src='http://code.jquery.com/jquery-2.1.1.min.js')
+
     body
+        h2
+            div.container-fluid
+                a #
+                | Connect Link Prototype
+
         div.container-fluid
-            h2 Multicamera Example
-            div.row(style='width:100%; height:500px; padding:0px; margin:0px')
-                div.col-sm-6(style='padding:0px; margin:0px')
-                    div(id = 'webgl',style='width:100%; height:250px; border:1px solid')
-                    div(id = 'canvas2',style='width:100%; height:250px; border:1px solid')
-                div.col-sm-6(style='padding:0px; margin:0px')
-                    #canvas1(style='width:100%; height:500px; border:1px solid')
-
-            //div(id='canvas', style='width:100%; height:500px; border:1px solid')
-        // START SIGMA IMPORTS
-        div
             style.
-                #webgl {
-                    color: #fff;
-                    background: #000;
+                #graph-container {
+                    background-color: #dddddd;
                 }
 
-                #canvas2 {
-                    color: #000;
-                    background: #eee;
+                .sigma-edge {
+                    stroke: #14191C;
                 }
 
-                #canvas1 {
-                    color: #000;
-                    background: #fff;
+                .sigma-node {
+                    fill: #acbb03;
+                    stroke: #14191C;
+                    stroke-width: 2px;
                 }
 
-                .label {
-                    position: absolute;
-                    top: 10px;
-                    left: 10px;
-                    z-index: 1;
-                    font-family: sans-serif;
+                .sigma-node:hover {
+                    fill: blue;
                 }
 
+                .muted {
+                    fill-opacity: 0.1;
+                    stroke-opacity: 0.1;
+                }
+            div(id='graph-container',style='margin:0;width:100%; height:500px; border:1px solid')
+            legend
+            h4
+                a #Data :
+                |  JSON Data
+            textarea(id='text',style='resize:none; width:100%; border:1px solid') #{default_data}
         script.
-            var i, s, o, N = 100, E = 200, C = 5, d = 0.5, cs = [],
+            // TextArea Reformat
+            var G_DATA = document.getElementById("text").value;
+            var myTextArea = document.getElementById("text");
+            var myCodeMirror = CodeMirror(function (elt) {
+                        console.log(elt);
+                        myTextArea.parentNode.replaceChild(elt, myTextArea);
+                    },
+                    {
+                        value: myTextArea.value,
+                        lineNumbers: true,
+                        lineWrapping: true,
+                        theme: '3024-day',
+                    }
+            );
+            //End
+            var i,
+                    s,
+                    N = 100,
+                    E = 500,
                     g = {
                         nodes: [],
                         edges: []
                     };
-            for (i = 0; i < C; i++)
-                cs.push({
-                    id: i,
-                    nodes: [],
-                    color: '#' + (
-                    Math.floor(Math.random() * 16777215).toString(16) + '000000'
-                    ).substr(0, 6)
-                });
-            for (i = 0; i < N; i++) {
-                o = cs[(Math.random() * C) | 0];
+            // Generate a random graph:
+            for (i = 0; i < N; i++)
                 g.nodes.push({
                     id: 'n' + i,
-                    label: 'Node' + i,
-                    x: Math.cos(2 * i * Math.PI / N),
-                    y: Math.sin(2 * i * Math.PI / N),
-                    size: 0.5 + 4.5 * Math.random(),
-                    color: o.color
+                    label: 'Node ' + i,
+                    x: Math.random(),
+                    y: Math.random(),
+                    size: Math.random(),
+                    color: '#666'
                 });
-                o.nodes.push('n' + i);
-            }
-            for (i = 0; i < E; i++) {
-                if (Math.random() < 1 - d)
-                    g.edges.push({
-                        id: 'e' + i,
-                        size: 1,
-                        source: 'n' + ((Math.random() * N) | 0),
-                        target: 'n' + ((Math.random() * N) | 0)
-                    });
-                else {
-                    o = cs[(Math.random() * C) | 0]
-                    g.edges.push({
-                        id: 'e' + i,
-                        size:2,
-                        source: o.nodes[(Math.random() * o.nodes.length) | 0],
-                        target: o.nodes[(Math.random() * o.nodes.length) | 0]
-                    });
-                }
-            }
-            console.log(g);
+            for (i = 0; i < E; i++)
+                g.edges.push({
+                    id: 'e' + i,
+                    source: 'n' + (Math.random() * N | 0),
+                    target: 'n' + (Math.random() * N | 0),
+                    size: Math.random(),
+                    color: '#ccc'
+                });
+            var g = JSON.parse(G_DATA);
+            // Instantiate sigma:
             s = new sigma({
                 graph: g,
                 settings: {
-                    skipErrors: true
-                }
-            });
-            // Initialize cameras:
-            s.addCamera('cam1'),
-                    s.addCamera('cam2');
-            // Initialize the three renderers:
-            s.addRenderer({
-                container: document.getElementById('webgl'),
-                type: 'webgl',
-                camera: 'cam1',
-                settings: {
-                    defaultLabelColor: '#fff'
+                    enableHovering: false
                 }
             });
             s.addRenderer({
-                container: document.getElementById('canvas2'),
-                type: 'canvas',
-                camera: 'cam1',
-                settings: {
-                    drawEdges: false
-                }
+                id: 'main',
+                type: 'svg',
+                container: document.getElementById('graph-container'),
+                freeStyle: true
             });
-            s.addRenderer({
-                container: document.getElementById('canvas1'),
-                type: 'canvas',
-                camera: 'cam2'
+            s.refresh();
+            // Binding silly interactions
+            function mute(node) {
+                if (!~node.getAttribute('class').search(/muted/))
+                    node.setAttributeNS(null, 'class', node.getAttribute('class') + ' muted');
+            }
+            function unmute(node) {
+                node.setAttributeNS(null, 'class', node.getAttribute('class').replace(/(\s|^)muted(\s|$)/g, '$2'));
+
+            }
+            $('.sigma-node').click(function () {
+                // Muting
+                $('.sigma-node, .sigma-edge').each(function () {
+                    mute(this);
+                });
+                // Unmuting neighbors
+                var neighbors = s.graph.neighborhood($(this).attr('data-node-id'));
+                neighbors.nodes.forEach(function (node) {
+                    unmute($('[data-node-id="' + node.id + '"]')[0]);
+                });
+                neighbors.edges.forEach(function (edge) {
+                    unmute($('[data-edge-id="' + edge.id + '"]')[0]);
+                });
             });
-            // Start the layout algorithm:
+            s.bind('clickStage', function () {
+                $('.sigma-node, .sigma-edge').each(function () {
+                    unmute(this);
+                });
+            });
             s.startForceAtlas2();

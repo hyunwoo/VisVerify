@@ -1,0 +1,179 @@
+extends ../../projects_layout
+block body
+    div.container-fluid
+        h2
+            a #
+            |  FreeNetwork Prototype
+        svg(id='chart', style='margin:0;width:100%; height:500px; border:1px solid')
+        legend
+        h4
+            a #Data :
+            |  JSON Data
+    style.
+        .node {
+            stroke: #fff;
+            stroke-width: 1.5px;
+        }
+
+        .link {
+            stroke: #999;
+            stroke-opacity: .6;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .bar {
+            fill: orange;
+        }
+
+        .bar:hover {
+            fill: orangered;
+        }
+
+        .x.axis path {
+            display: none;
+        }
+
+        .d3-tip {
+            line-height: 1;
+            font-weight: bold;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            border-radius: 2px;
+        }
+
+        /* Creates a small triangle extender for the tooltip */
+        .d3-tip:after {
+            box-sizing: border-box;
+            display: inline;
+            font-size: 10px;
+            width: 100%;
+            line-height: 1;
+            color: rgba(0, 0, 0, 0.8);
+            content: "\25BC";
+            position: absolute;
+            text-align: center;
+        }
+
+        /* Style northward tooltips differently */
+        .d3-tip.n:after {
+            margin: -1px 0 0 0;
+            top: 100%;
+            left: 0;
+        }
+
+
+    div.container-fluid
+        textarea(id='text',style='resize:none; width:100%; border:1px solid') #{default_data}
+        legend
+        div(align='right')
+            a # Update
+        script.
+
+            var G_DATA;
+            $(function onLoad() {
+                G_DATA = document.getElementById("text").value;
+                var myTextArea = document.getElementById("text");
+                var myCodeMirror = CodeMirror(function (elt) {
+                            console.log(elt);
+                            myTextArea.parentNode.replaceChild(elt, myTextArea);
+                        },
+                        {
+                            value: myTextArea.value,
+                            lineNumbers: true,
+                            lineWrapping: true,
+                            theme: '3024-day',
+                        }
+                );
+
+
+                var width = document.getElementById('chart').offsetWidth,
+                        height = document.getElementById('chart').offsetHeight;
+                var color = d3.scale.category20();
+                var force = d3.layout.force()
+                        .charge(-120)
+                        .linkDistance(60)
+                        .size([width, height]);
+                var svg = d3.select("#chart").append("svg")
+                        .attr("width", width)
+                        .attr("height", height);
+                var tip = d3.tip()
+                        .attr('class', 'd3-tip')
+                        .offset([-10, 0])
+                        .html(function (d) {
+                            return "<p><strong>N:</strong> <span style='color:lightgray'>" + d.name + "</span></p>" +
+                                    "<p><strong>G:</strong> <span style='color:" + color(d.group) +"'>" + d.group + "</span></p>";
+                        })
+
+
+                svg.call(tip);
+
+                var graph = JSON.parse(G_DATA);
+                force
+                        .nodes(graph.nodes)
+                        .links(graph.links)
+                        .start();
+                var link = svg.selectAll(".link")
+                        .data(graph.links)
+                        .enter().append("line")
+                        .attr("class", "link")
+                        .style("stroke-width", function (d) {
+                            return d.value;
+                        });
+                var node = svg.selectAll(".node")
+                        .data(graph.nodes)
+                        .enter().append("circle")
+                        .attr("class", "node")
+                        .attr("r", 5)
+                        .style("fill", function (d) {
+                            return color(d.group);
+                        })
+                        .call(force.drag);
+
+                node.append("title")
+                        .text(function (d) {
+                            return d.name;
+                        });
+                node.on('mouseover', tip.show)
+                        .on('mouseout', tip.hide);
+                function mouseOver() {
+                    tip.show();
+                    d3.select(this).select("circle").transition()
+                            .duration(750)
+                            .attr("r", 16);
+                }
+
+                function mouseOut() {
+                    tip.hide();
+                    d3.select(this).select("circle").transition()
+                            .duration(750)
+                            .attr("r", 5);
+                }
+
+                force.on("tick", function () {
+                    link.attr("x1", function (d) {
+                        return d.source.x;
+                    })
+                            .attr("y1", function (d) {
+                                return d.source.y;
+                            })
+                            .attr("x2", function (d) {
+                                return d.target.x;
+                            })
+                            .attr("y2", function (d) {
+                                return d.target.y;
+                            });
+                    node.attr("cx", function (d) {
+                        return d.x;
+                    })
+                            .attr("cy", function (d) {
+                                return d.y;
+                            });
+                });
+            });

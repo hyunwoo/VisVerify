@@ -16,7 +16,7 @@ var G=nx.complete_graph(5)
 console.log(nx.clustering(G,0));
 console.log(nx.clustering(G));
 
-
+/*
 
 var csvparse = require('../../functions/CsvToJson');
 
@@ -63,7 +63,7 @@ csvparse.Parse('./exampleData/sentimental_tfidf_normalize_csv.csv', function(dat
     });
 
 })
-
+*/
 var kmeans = require('node-kmeans');
 /* GET home page. */
 
