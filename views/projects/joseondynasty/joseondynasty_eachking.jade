@@ -1,0 +1,113 @@
+//
+   Created by hyunwoo on 2015-04-27.
+extends ../../projects_layout
+block body
+    div.container-fluid
+        div
+            h2(style='margin-top:0px')
+                a #
+                |  King's Tendency
+        legend
+        div.dropdown(align='right')
+            div.btn.btn-primary.dropdown-toggle(type='button',id='dropdowncountry',data-toggle='dropdown',aria-expanded=true ,style='width:100%;padding-right:3px', align='right')
+                div.row
+                    div.col-xs-8(align='left')
+                        span.badge(style='margin-left:10px') #{count}
+                        strong(style='margin-right:10px;padding-left:15px') #{select}
+                    div.col-xs-4(align='right')
+                        span.caret(style='margin-left:10px;margin-right:10px')
+            ul.dropdown-menu(role='menu', aria-labelledby='dropdowncountry',style='width:100%')
+                li.dropdown-header Kings
+                -for(var i = 0 ; i < kings.length ; i ++){
+                li(role='presentation')
+                    a(role='menuitem', tabindex='-1', href='eachking?king=' + kings[i].name)
+                        div.row(style='margin-top:15px')
+                            div.col-sm-7
+                                p(style='margin-left:35px') #{kings[i].name}
+                            div.col-sm-5(align='right')
+                                span.badge(style='width:50px') #{kings[i].value}
+                -}
+        legend
+        svg(id='chart', style='margin:0;width:100%; height:800px; border:1px solid')
+        legend
+        h4
+            a #Data :
+            |  JSON Data
+    div.container-fluid
+        textarea(id='text',style='resize:none; width:100%; border:1px solid') #{default_data}
+        legend
+        div(align='right')
+            a # Update
+
+    script.
+        var G_DATA = document.getElementById("text").value;
+        G_DATA = JSON.parse(G_DATA)
+        var myTextArea = document.getElementById("text");
+        var myCodeMirror = CodeMirror(function (elt) {
+                    console.log(elt);
+                    myTextArea.parentNode.replaceChild(elt, myTextArea);
+                },
+                {
+                    value: myTextArea.value,
+                    lineNumbers: true,
+                    lineWrapping: true,
+                    theme: '3024-day',
+                }
+        );
+        nv.addGraph(function () {
+            var chart = nv.models.pieChart()
+                    .x(function (d) {
+                        return d.label
+                    })
+                    .y(function (d) {
+                        return d.value
+                    })
+                    .showLabels(true)
+                    .labelThreshold(.05)
+                    .labelType("percent")
+                    .donut(true)
+                    .donutRatio(0.65)
+            d3.select("#chart")
+                    .datum(G_DATA)
+                    .transition().duration(350)
+                    .call(chart);
+            return chart;
+        });
+        function exampleData() {
+            return [
+                {
+                    "label": "One",
+                    "value": 29.765957771107
+                },
+                {
+                    "label": "Two",
+                    "value": 0
+                },
+                {
+                    "label": "Three",
+                    "value": 32.807804682612
+                },
+                {
+                    "label": "Four",
+                    "value": 196.45946739256
+                },
+                {
+                    "label": "Five",
+                    "value": 0.19434030906893
+                },
+                {
+                    "label": "Six",
+                    "value": 98.079782601442
+                },
+                {
+                    "label": "Seven",
+                    "value": 13.925743130903
+                },
+                {
+                    "label": "Eight",
+                    "value": 5.1387322875705
+                }
+            ];
+        }
+
+

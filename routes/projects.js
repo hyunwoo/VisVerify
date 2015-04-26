@@ -9,14 +9,19 @@ var router = express.Router();
 var busboy = require('connect-busboy');
 var path = require('path');
 var fs = require('fs-extra');
+var iconv = require('iconv-lite');
+iconv.extendNodeEncodings();
 var eachpagetwitcount = 500;
-
+var joseondynasity_eachcount = 100;
+var utf8 = require('utf8');
 
 var csvParser = require('../functions/CsvToJson');
 
 module.exports = router;
 
+
 var db = require('redis').createClient(13000, '202.30.24.167');
+var joseon_dynasty_db = require('redis').createClient(13001, '202.30.24.167');
 
 db.select(2);
 
@@ -24,29 +29,301 @@ router.get('/', function (req, res) {
     res.render('projects_layout');
 });
 
+var kingsName = {};
+csvParser.Parse('./ProjectData/joseondynasty/kingsname.csv', function (data) {
+    for (var i = 0; i < data.length; i++) {
+        kingsName[data[i].key] = data[i].name;
+        kingsName[data[i].name] = data[i].key;
+    }
+});
+
+router.get('/joseondynasty', function (req, res) {
+    var result = {};
+    result.tab='projects';
+    res.render('projects_layout',result);
+});
+
+router.get('/joseondynasty/data', function (req, res) {
+    var multi = joseon_dynasty_db.multi();
+
+    var input_kingname = req.query.king;
+    var input_page = req.query.page;
+
+    if (input_kingname === undefined) input_kingname = 'a';
+    else input_kingname = kingsName[input_kingname];
+    if (input_page === undefined) input_page = 0;
+    console.log(input_kingname);
+    var result = {};
+    result.select = kingsName[input_kingname];
+    result.count = 0;
+    result.kings = [];
+    result.pagecount = 0;
+    result.currentpage = input_page;
+    result.tab='project';
+
+    multi.select(2);
+    multi.smembers('King:' + input_kingname);
+    multi.select(0);
+    multi.hgetall('Kings');
+    multi.exec(function (err, rep) {
+        if (err) res.redirect('projects');
+        var multi = joseon_dynasty_db.multi();
+        var kings = Object.keys(rep[3]);
+        for (var i = 0; i < kings.length; i++) {
+            console.log(kingsName[kings[i]])
+            result.kings.push({
+                name: kingsName[kings[i]],
+                value: rep[3][kings[i]]
+            })
+        }
+        console.log(rep[1].length);
+        multi.select(2);
+        for (var i = input_page * joseondynasity_eachcount; i < (input_page * 1 + 1) * joseondynasity_eachcount; i++) {
+            if (rep[1][i] !== undefined)
+                multi.hgetall('Doc:' + rep[1][i]);
+        }
+        result.count = rep[1].length;
+        result.pagecount = Math.ceil(( rep[1].length * 1) / joseondynasity_eachcount);
+        multi.exec(function (err, rep) {
+            console.log(rep[3].sector.toString("utf-8"));
+            var twits = [{
+                Sector: '-',
+                Text: result.select,
+                Date: 'a',
+                User: 'System',
+                values: [],
+            }];
+
+            var string = JSON.stringify(rep, "utf-8");
+            for (var i = 1; i < rep.length; i++) {
+                var isPush = false;
+                var sectors = rep[i].sector.split('/');
+                for (var k = 0; k < sectors.length; k++) {
+                    sectors[k] = sectors[k].replace(/ /gi, '');
+                }
+                for (var j = 0; j < twits[0].values.length; j++) {
+                    for (var k = 0; k < sectors.length; k++) {
+                        if (twits[0].values[j].Sector == sectors[k]) {
+                            isPush = true;
+                            twits[0].values[j].values.push({
+                                Sector: '',
+                                Text: rep[i].body,
+                                Date: '-',
+                                User: 'System',
+                            })
+                        }
+                    }
+
+                }
+                if (!isPush) {
+                    for (var k = 0; k < sectors.length; k++) {
+                        twits[0].values.push({
+                            Sector: sectors[k],
+                            Text: sectors[k],
+                            Date: '-',
+                            User: 'System',
+                            values: [{
+                                Sector: '',
+                                Text: rep[i].body,
+                                Date: '-',
+                                User: 'System',
+                            }]
+                        })
+                    }
+
+                }
+
+            }
+            console.log(string);
+            result.twits = JSON.stringify(twits, encoding = 'utf8').replace(/&middot;/gi, '').replace(/&lsquo;/gi, '<').replace(/&rsquo;/gi, '>');
+            res.render('projects/joseondynasty/joseondynasty_data', result);
+        })
+    })
+});
+
+router.get('/joseondynasty/eachkingStackGraph', function (req, res) {
+
+    var input_kingname = req.query.king;
+
+    if (input_kingname === undefined) input_kingname = 'a';
+    else input_kingname = kingsName[input_kingname];
+    var result = {};
+    result.default_data = '';
+    var multi = joseon_dynasty_db.multi();
+
+    result.select = kingsName[input_kingname];
+    result.count = 0;
+    result.kings = [];
+    result.tab='projects';
+
+    multi.select(1);
+    var key = "KingTendency:" + input_kingname;
+    multi.zrevrange(key, 0, -1, 'withscores');
+    multi.select(0);
+    multi.hgetall('Kings');
+    multi.exec(function (err, rep) {
+        if (err) {
+            res.redirect('/');
+            return;
+        }
+
+        var total = 0;
+        var keys = Object.keys(rep[3]);
+        for (var i = 0; i < keys.length; i++) {
+            result.kings.push({
+                name: kingsName[keys[i]],
+                value: rep[3][keys[i]],
+            })
+        }
+
+
+        for (var i = 0; i < rep[1].length; i += 2) total += rep[1][i + 1] * 1;
+
+
+        var default_data = {
+            name: result.select,
+            children: [],
+        };
+
+        var index =0 ;
+        for (var i = 0; i < rep[1].length; i += 2) {
+            var key = rep[1][i].split('(')[0];
+            var keys = key.split('-');
+            var firstkey = keys[0].replace('*','');
+            var secondkey = undefined;
+            if (keys.length > 1)  secondkey = keys[1];
+
+
+            if (secondkey === undefined) secondkey = 'ETC';
+            var isPush = true;
+            for (var j = 0; j < default_data.children.length; j++) {
+
+                if (default_data.children[j].name == firstkey) {
+                    isPush = false;
+                    default_data.children[j].children.push({
+                        name: secondkey,
+                        size: rep[1][i + 1]
+                    });
+                    break;
+                }
+            }
+            // generate
+            index++;
+            if (isPush) {
+                default_data.children.push({
+                    name: firstkey,
+                    index : index,
+                    children: [{
+                        name: secondkey,
+                        size: rep[1][i+1]
+                    }]
+                });
+            }
+
+        }
+        result.count = total;
+        result.default_data = JSON.stringify(default_data, null, 4);
+        res.render('projects/joseondynasty/joseondynasty_stack', result);
+    })
+
+});
+
+router.get('/joseondynasty/eachking', function (req, res) {
+
+    var input_kingname = req.query.king;
+
+    if (input_kingname === undefined) input_kingname = 'a';
+    else input_kingname = kingsName[input_kingname];
+
+    var result = {};
+    result.default_data = '';
+    var multi = joseon_dynasty_db.multi();
+
+    result.select = kingsName[input_kingname];
+    result.count = 0;
+    result.kings = [];
+    result.tab='projects';
+    multi.select(1);
+    var key = "KingTendency:" + input_kingname;
+    console.log(key);
+    multi.zrevrange(key, 0, -1, 'withscores');
+    multi.select(0);
+    multi.hgetall('Kings');
+    multi.exec(function (err, rep) {
+        if (err) {
+            res.redirect('/');
+            return;
+        }
+        console.log(rep[3]);
+        var default_data = [];
+        var total = 0;
+        var keys = Object.keys(rep[3]);
+        for (var i = 0; i < keys.length; i++) {
+            console.log(kingsName[keys[i]]);
+            result.kings.push({
+                name: kingsName[keys[i]],
+                value: rep[3][keys[i]],
+            })
+        }
+
+
+        for (var i = 0; i < rep[1].length; i += 2) total += rep[1][i + 1] * 1;
+
+        for (var i = 0; i < rep[1].length; i += 2) {
+            if (rep[1][i + 1] * 1 > total * 0.025) {
+                default_data.push({
+                    label: rep[1][i].replace(/\*/gi, ''),
+                    value: rep[1][i + 1],
+                    percent: rep[1][i + 1] / total * 100
+                })
+            }
+        }
+        result.count = total;
+        result.default_data = JSON.stringify(default_data, null, 4);
+        res.render('projects/joseondynasty/joseondynasty_eachking', result);
+    })
+
+});
+
+router.get('/joseondynasty/graph', function (req, res) {
+    var result = {};
+    result.tab='projects';
+    res.render('projects/joseondynasty/joseondynasty_graph', result);
+});
+
+router.get('/joseondynasty/network', function (req, res) {
+    var result = {};
+    result.tab='projects';
+    res.render('projects/joseondynasty/joseondynasty_network');
+});
 
 router.get('/logonetwork', function (req, res) {
-    res.render('projects_layout');
+    var result = {};
+    result.tab='projects';
+    res.render('projects_layout', result);
 });
 
 router.get('/logonetwork/multicamera', function (req, res) {
     var result = {};
+    result.tab='projects';
     res.render('projects/logonetwork/logonetwork_multicamera', result);
 })
 
 router.get('/logonetwork/filterednetwork', function (req, res) {
     var result = {};
+    result.tab='projects';
     res.render('projects/logonetwork/logonetwork_filtered', result);
 })
 
 router.get('/logonetwork/prototype01', function (req, res) {
     var result = {};
+    result.tab='projects';
 
     try {
         csvParser.Parse('./ProjectData/Logo/logo_data01.csv', function (object) {
-            var data = require('../functions/CsvtoNetworkJSON').CsvToD3JSJSON(object, function(same,max){
-                var result = Math.pow((same / max) , 0.5);
-                if(result > 0.46) return result
+            var data = require('../functions/CsvtoNetworkJSON').CsvToD3JSJSON(object, function (same, max) {
+                var result = Math.pow((same / max), 0.5);
+                if (result > 0.46) return result
                 else return 0;
             });
             result.default_data = JSON.stringify(data, null, 4);
@@ -63,11 +340,12 @@ router.get('/logonetwork/prototype01', function (req, res) {
 
 router.get('/logonetwork/prototype02', function (req, res) {
     var result = {};
+    result.tab='projects';
     try {
         csvParser.Parse('./ProjectData/Logo/logo_data01.csv', function (object) {
-            var data = require('../functions/CsvtoNetworkJSON').CsvToSigmaJSON(object, function(same,max){
-                var result = Math.pow((same / max) , 0.5);
-                if(result < 0.5) return 0;
+            var data = require('../functions/CsvtoNetworkJSON').CsvToSigmaJSON(object, function (same, max) {
+                var result = Math.pow((same / max), 0.5);
+                if (result < 0.5) return 0;
                 return result;
             });
             result.default_data = JSON.stringify(data, null, 4);
@@ -83,10 +361,13 @@ router.get('/logonetwork/prototype02', function (req, res) {
 })
 
 router.get('/twittermood/worldmap', function (req, res) {
-    res.render('projects/twittermood/twittermood_worldmap');
+    var result = {};
+    result.tab='projects';
+    res.render('projects/twittermood/twittermood_worldmap', result);
 });
 
 router.get('/twittermood/twits', function (req, res) {
+
     try {
         console.log();
         var selectCountry = req.query.country;
@@ -100,6 +381,7 @@ router.get('/twittermood/twits', function (req, res) {
         result.countries = [];
         result.pagecount = 0;
         result.currentpage = page;
+        result.tab='projects';
         multi.select(2)
             .hgetall('infos')
             .hget('infos', selectCountry)
@@ -203,8 +485,10 @@ function parseTwitDate(date) {
     }
 }
 router.get('/streamgraph', function (req, res) {
+
     var default_data = fs.readFileSync('./exampleData/nvd3/stackedAreaData.json');
     var deliver = {};
+    deliver.tab='projects';
 
     deliver.default_data = JSON.stringify(JSON.parse(default_data), null, 4)
     res.render('visualization_jade/visual_streamgraph', deliver);
@@ -213,6 +497,7 @@ router.get('/streamgraph', function (req, res) {
 router.get('/forcedirectedgraph', function (req, res) {
     var default_data = fs.readFileSync('./exampleData/d3js/miserables.json');
     var deliver = {};
+    deliver.tab='projects';
     deliver.default_data = JSON.stringify(JSON.parse(default_data), null, 4)
     console.log(deliver);
     res.render('visualization_jade/visual_forcedirectedgraph', deliver);

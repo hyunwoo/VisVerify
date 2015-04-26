@@ -1,46 +1,38 @@
 //
-   Created by hyunwoo on 2015-04-23.
+   Created by hyunwoo on 2015-04-27.
 extends ../../projects_layout
 block body
     div.container-fluid
         div
             h2(style='margin-top:0px')
                 a #
-                |  GlobalData
+                |  Annals of the Joseon Dynasty's Data
             legend
             h5
                 div.row
                     div.col-lg-6
                         p
                         div.dropdown(align='right', style='margin-top:0px')
-                            div.btn.btn-primary.dropdown-toggle(type='button',id='dropdowncountry',data-toggle='dropdown',aria-expanded=true , style='width:100%;padding-right:3px', align='right')
+                            div.btn.btn-primary.dropdown-toggle(type='button',id='dropdowncountry',data-toggle='dropdown',aria-expanded=true ,style='width:100%;padding-right:3px', align='right')
                                 div.row
                                     div.col-xs-8(align='left')
                                         span.badge(style='margin-left:10px') #{count}
-                                        strong(style='font-family=Hevetica;margin-right:10px;padding-left:15px') #{select}
+                                        strong(style='margin-right:10px;padding-left:15px') #{select}
                                     div.col-xs-4(align='right')
                                         span.caret(style='margin-left:10px;margin-right:10px')
-
-
-
-
                             ul.dropdown-menu(role='menu', aria-labelledby='dropdowncountry',style='width:100%')
-                                li.dropdown-header countries
-
-                                -for(var i = 0 ; i < countries.length ; i ++){
-                                    li(role='presentation')
-                                        a(role='menuitem', tabindex='-1', href='twits?country=' + countries[i].name)
-                                            div.row(style='margin-top:15px')
-                                                div.col-sm-7
-                                                    p(style='margin-left:35px') #{countries[i].name}
-                                                div.col-sm-5(align='right')
-                                                    span.badge(style='width:50px') #{countries[i].value}
-
+                                li.dropdown-header Kings
+                                -for(var i = 0 ; i < kings.length ; i ++){
+                                li(role='presentation')
+                                    a(role='menuitem', tabindex='-1', href='../data?king=' + kings[i].name)
+                                        div.row(style='margin-top:15px')
+                                            div.col-sm-7
+                                                p(style='margin-left:35px') #{kings[i].name}
+                                            div.col-sm-5(align='right')
+                                                span.badge(style='width:50px') #{kings[i].value}
                                 -}
 
-
-
-                    div.col-lg-6
+                    div.col-lg-6(align='right')
                         p
                         - if(pagecount > 1) {
                             ul.pagination(style='margin-top:0px;padding-top:0px')
@@ -52,11 +44,11 @@ block body
                                 -   if( i >= pagecount) break;
                                 -   var page = i * 1;
                                 -   if(page == (currentpage)){
-                                        li.active
-                                            a(href='twits?country=' + select + '&page=' + page) #{page}
+                                li.active
+                                    a(href='../data?king=' + select + '&page=' + page) #{page}
                                 -   } else {
-                                        li
-                                            a(href='twits?country=' + select + '&page=' + page) #{page}
+                                li
+                                    a(href='../data?king=' + select + '&page=' + page) #{page}
                                 -   }
                                 -}
                                 li
@@ -68,23 +60,14 @@ block body
             span.sr-only Warning:
             strong WARNING!
             |  Page loading may be slower
-
         //div.progress
             div.class.progress-bar.progress-bar.progress-bar-info(role='progressbar', aria-valuenow='20', aria-valuemin='0', aria-valuemax='0',style='width:35%')
-
-
         div(id='chart', style='margin:0;width:100%; height:auto; border:1px solid')
-
         legend
-
     div.container-fluid
         textarea(id='text',style='display:none') #{twits}
-        legend
-        div(align='right')
-            a # Update
         script.
             var G_DATA;
-
             $(function onLoad() {
                 console.log("!");
                 nv.addGraph(function () {
@@ -94,7 +77,13 @@ block body
                                 {
                                     key: 'Date',
                                     label: 'Date',
-                                    width: '35%',
+                                    width: '15%',
+                                    type: 'text'
+                                },
+                                {
+                                    key: 'Sector',
+                                    label: 'Sector',
+                                    width: '15%',
                                     type: 'text'
                                 },
                                 {
@@ -102,31 +91,18 @@ block body
                                     label: 'Text',
                                     showCount: true,
                                     width: '70%',
-                                    text:'bold',
-                                    type: 'text',
-                                    classes: function (d) {
-                                        return d.url ? 'clickable name' : 'name'
-                                    },
-                                    click: function (d) {
-                                        if (d.url) window.location.href = d.url;
-                                    }
-                                },
-                                {
-                                    key: 'User',
-                                    label: 'User',
-                                    width: '15%',
+                                    text: 'bold',
                                     type: 'text'
                                 },
 
                             ]);
                     d3.select('#chart')
-                            .datum(testData())
+                            .datum(makeData())
                             .call(chart);
-                    console.log("!!");
                     return chart;
                 });
             })
-            function testData() {
+            function makeData() {
                 G_DATA = document.getElementById("text").value;
                 return JSON.parse(G_DATA);
             }

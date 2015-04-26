@@ -1,0 +1,18 @@
+//
+   Created by hyunwoo on 2015-04-27.
+extends ../../projects_layout
+block body
+    div.container-fluid
+        h2
+            a #
+            |  Network of Kings
+        svg(id='chart', style='margin:0;width:100%; height:500px; border:1px solid')
+        legend
+        h4
+            a #Data :
+            |  JSON Data
+    div.container-fluid
+        textarea(id='text',style='resize:none; width:100%; border:1px solid') #{default_data}
+        legend
+        div(align='right')
+            a # Update

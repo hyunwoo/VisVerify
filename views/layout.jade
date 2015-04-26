@@ -1,6 +1,7 @@
 doctype html
 html
     head
+        meta(charset='utf-8')
         title IDLAB Verify
         script(src="http://code.jquery.com/jquery-latest.min.js")
         script(src="http://code.jquery.com/ui/1.10.2/jquery-ui.js")
@@ -13,7 +14,7 @@ html
         link(rel='stylesheet', href='/stylesheets/CodeMirror/codemirror.css')
         link(rel='stylesheet', href='/stylesheets/CodeMirror/3024-day.css')
         link(rel='stylesheet', href='http://nvd3.org/assets/css/nv.d3.css')
-        link(href='http://fonts.googleapis.com/css?family=Lato:300,700', rel='stylesheet', type='text/css')
+        //link(href='http://fonts.googleapis.com/css?family=Lato:300,700', rel='stylesheet', type='text/css')
 
 
         script(src='/javascripts/bootstrap.min.js')
@@ -32,14 +33,35 @@ html
                 div.row
                     div.col-lg-8
                         ul.nav.navbar-nav
+                            - if(tab !== undefined && tab === 'home') {
                             li.active
                                 a(href='/') Home
+                            - } else {
+                            li
+                                a(href='/') Home
+                            - }
+                            - if(tab !== undefined && tab === 'verify') {
+                            li.active
+                                a(href='/verify') Verify
+                            - } else {
                             li
                                 a(href='/verify') Verify
+                            - }
+                            - if(tab !== undefined && tab === 'visualization') {
+                            li.active
+                                a(href='/visualization') Visualization
+                            - } else {
                             li
                                 a(href='/visualization') Visualization
+                            - }
+                            - if(tab !== undefined && tab === 'projects') {
+                            li.active
+                                a(href='/projects') Projects
+                            - } else {
                             li
                                 a(href='/projects') Projects
+                            - }
+
                     div.col-lg-4
                         ul.nav.navbar-nav.pull-right
                             li
