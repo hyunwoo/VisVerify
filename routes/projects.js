@@ -52,7 +52,6 @@ router.get('/joseondynasty/data', function (req, res) {
     if (input_kingname === undefined) input_kingname = 'a';
     else input_kingname = kingsName[input_kingname];
     if (input_page === undefined) input_page = 0;
-    console.log(input_kingname);
     var result = {};
     result.select = kingsName[input_kingname];
     result.count = 0;
@@ -82,10 +81,9 @@ router.get('/joseondynasty/data', function (req, res) {
             if (rep[1][i] !== undefined)
                 multi.hgetall('Doc:' + rep[1][i]);
         }
-        result.count = rep[1].length;
+        result.count = rep[1].length * 1;
         result.pagecount = Math.ceil(( rep[1].length * 1) / joseondynasity_eachcount);
         multi.exec(function (err, rep) {
-            console.log(rep[3].sector.toString("utf-8"));
             var twits = [{
                 Sector: '-',
                 Text: result.select,
