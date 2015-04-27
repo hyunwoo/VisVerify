@@ -20,8 +20,8 @@ var csvParser = require('../functions/CsvToJson');
 module.exports = router;
 
 
-var db = require('redis').createClient(13000, '202.30.24.167');
-var joseon_dynasty_db = require('redis').createClient(13001, '202.30.24.167');
+var db = require('redis').createClient(13000, '202.30.24.169');
+var joseon_dynasty_db = require('redis').createClient(13001, '202.30.24.169');
 
 db.select(2);
 
@@ -343,6 +343,7 @@ router.get('/logonetwork/prototype02', function (req, res) {
         csvParser.Parse('./ProjectData/Logo/logo_data01.csv', function (object) {
             var data = require('../functions/CsvtoNetworkJSON').CsvToSigmaJSON(object, function (same, max) {
                 var result = Math.pow((same / max), 0.5);
+
                 if (result < 0.5) return 0;
                 return result;
             });
