@@ -39,8 +39,8 @@ csvParser.Parse('./ProjectData/joseondynasty/kingsname.csv', function (data) {
 
 router.get('/joseondynasty', function (req, res) {
     var result = {};
-    result.tab='projects';
-    res.render('projects_layout',result);
+    result.tab = 'projects';
+    res.render('projects_layout', result);
 });
 
 router.get('/joseondynasty/data', function (req, res) {
@@ -58,7 +58,7 @@ router.get('/joseondynasty/data', function (req, res) {
     result.kings = [];
     result.pagecount = 0;
     result.currentpage = input_page;
-    result.tab='project';
+    result.tab = 'project';
 
     multi.select(2);
     multi.smembers('King:' + input_kingname);
@@ -152,7 +152,7 @@ router.get('/joseondynasty/eachkingStackGraph', function (req, res) {
     result.select = kingsName[input_kingname];
     result.count = 0;
     result.kings = [];
-    result.tab='projects';
+    result.tab = 'projects';
 
     multi.select(1);
     var key = "KingTendency:" + input_kingname;
@@ -183,11 +183,11 @@ router.get('/joseondynasty/eachkingStackGraph', function (req, res) {
             children: [],
         };
 
-        var index =0 ;
+        var index = 0;
         for (var i = 0; i < rep[1].length; i += 2) {
             var key = rep[1][i].split('(')[0];
             var keys = key.split('-');
-            var firstkey = keys[0].replace('*','');
+            var firstkey = keys[0].replace('*', '');
             var secondkey = undefined;
             if (keys.length > 1)  secondkey = keys[1];
 
@@ -210,10 +210,10 @@ router.get('/joseondynasty/eachkingStackGraph', function (req, res) {
             if (isPush) {
                 default_data.children.push({
                     name: firstkey,
-                    index : index,
+                    index: index,
                     children: [{
                         name: secondkey,
-                        size: rep[1][i+1]
+                        size: rep[1][i + 1]
                     }]
                 });
             }
@@ -240,7 +240,7 @@ router.get('/joseondynasty/eachking', function (req, res) {
     result.select = kingsName[input_kingname];
     result.count = 0;
     result.kings = [];
-    result.tab='projects';
+    result.tab = 'projects';
     multi.select(1);
     var key = "KingTendency:" + input_kingname;
     console.log(key);
@@ -285,37 +285,37 @@ router.get('/joseondynasty/eachking', function (req, res) {
 
 router.get('/joseondynasty/graph', function (req, res) {
     var result = {};
-    result.tab='projects';
+    result.tab = 'projects';
     res.render('projects/joseondynasty/joseondynasty_graph', result);
 });
 
 router.get('/joseondynasty/network', function (req, res) {
     var result = {};
-    result.tab='projects';
+    result.tab = 'projects';
     res.render('projects/joseondynasty/joseondynasty_network');
 });
 
 router.get('/logonetwork', function (req, res) {
     var result = {};
-    result.tab='projects';
+    result.tab = 'projects';
     res.render('projects_layout', result);
 });
 
 router.get('/logonetwork/multicamera', function (req, res) {
     var result = {};
-    result.tab='projects';
+    result.tab = 'projects';
     res.render('projects/logonetwork/logonetwork_multicamera', result);
 })
 
 router.get('/logonetwork/filterednetwork', function (req, res) {
     var result = {};
-    result.tab='projects';
+    result.tab = 'projects';
     res.render('projects/logonetwork/logonetwork_filtered', result);
 })
 
 router.get('/logonetwork/prototype01', function (req, res) {
     var result = {};
-    result.tab='projects';
+    result.tab = 'projects';
 
     try {
         csvParser.Parse('./ProjectData/Logo/logo_data01.csv', function (object) {
@@ -338,7 +338,7 @@ router.get('/logonetwork/prototype01', function (req, res) {
 
 router.get('/logonetwork/prototype02', function (req, res) {
     var result = {};
-    result.tab='projects';
+    result.tab = 'projects';
     try {
         csvParser.Parse('./ProjectData/Logo/logo_data01.csv', function (object) {
             var data = require('../functions/CsvtoNetworkJSON').CsvToSigmaJSON(object, function (same, max) {
@@ -361,7 +361,7 @@ router.get('/logonetwork/prototype02', function (req, res) {
 
 router.get('/twittermood/worldmap', function (req, res) {
     var result = {};
-    result.tab='projects';
+    result.tab = 'projects';
     res.render('projects/twittermood/twittermood_worldmap', result);
 });
 
@@ -380,7 +380,7 @@ router.get('/twittermood/twits', function (req, res) {
         result.countries = [];
         result.pagecount = 0;
         result.currentpage = page;
-        result.tab='projects';
+        result.tab = 'projects';
         multi.select(2)
             .hgetall('infos')
             .hget('infos', selectCountry)
@@ -487,7 +487,7 @@ router.get('/streamgraph', function (req, res) {
 
     var default_data = fs.readFileSync('./exampleData/nvd3/stackedAreaData.json');
     var deliver = {};
-    deliver.tab='projects';
+    deliver.tab = 'projects';
 
     deliver.default_data = JSON.stringify(JSON.parse(default_data), null, 4)
     res.render('visualization_jade/visual_streamgraph', deliver);
@@ -496,7 +496,7 @@ router.get('/streamgraph', function (req, res) {
 router.get('/forcedirectedgraph', function (req, res) {
     var default_data = fs.readFileSync('./exampleData/d3js/miserables.json');
     var deliver = {};
-    deliver.tab='projects';
+    deliver.tab = 'projects';
     deliver.default_data = JSON.stringify(JSON.parse(default_data), null, 4)
     console.log(deliver);
     res.render('visualization_jade/visual_forcedirectedgraph', deliver);

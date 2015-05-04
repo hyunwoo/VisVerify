@@ -31,7 +31,7 @@ html
         nav.navbar.navbar-inverse.navbar-static-top(style='border-radius:0px; padding:0px; margin:0px;')
             div.container
                 div.row
-                    div.col-lg-8
+                    div.col-lg-6
                         ul.nav.navbar-nav
                             - if(tab !== undefined && tab === 'home') {
                             li.active
@@ -62,12 +62,16 @@ html
                                 a(href='/projects') Projects
                             - }
 
-                    div.col-lg-4
+                    div.col-lg-6
                         ul.nav.navbar-nav.pull-right
+                            li
+                                a(href='/apis') Apis
+
                             li
                                 a Sign In
                             li
                                 a Sign Up
+
                             li
                                 a(href='https://github.com/')
                                     | Fork me on

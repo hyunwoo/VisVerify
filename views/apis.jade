@@ -1,0 +1,28 @@
+//
+   Created by hyunwoo on 2015-05-04.
+
+extends layout
+block content
+    div(id='header', style=' padding-top:25px; margin-bottom:50px')
+        div.container
+            h1 Apis
+            h3(style='color:#aaaaaa') asdfasdf
+    body
+        div.container
+            div.row
+                div.col-sm-3.sidebar
+                    ul.nav.nav-list.sidenav.affix-top(data-spy='affix', data-offset-top='140')
+                        //li.active(style='margin-bottom:15px')
+                            //a(href='/apis/joseon_dynasty')
+                            a Joseon Dynasty Data
+                        //li
+                            h6(style='margin-top:-10px') #data
+                        li
+                            a(href='/apis/docs/joseondynasty') JoseonDynasty Data
+                        li
+                            //a(href='/projects/twittermood/weatherdata') Twitter
+                            a Twitter Data
+
+
+                div.col-sm-9
+                    block body

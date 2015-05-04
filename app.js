@@ -9,7 +9,12 @@ var routes = require('./routes/index');
 var route_kmeans = require('./routes/Verify/kmeans');
 var route_verify = require('./routes/verify');
 var route_visualization = require('./routes/visualization');
+
+// Project
 var route_projects = require('./routes/projects');
+
+// API
+var route_api = require('./routes/apis');
 var users = require('./routes/users');
 
 
@@ -18,23 +23,6 @@ var busboy = require('connect-busboy'); //middleware for form/file upload
 var path = require('path');     //used for file path
 var fs = require('fs-extra');       //File System - for file manipulation
 
-/*
-var natural = require('natural');
-var wordnet = new natural.WordNet();
-
-wordnet.lookup('node', function (results) {
-    results.forEach(function (result) {
-
-         console.log('------------------------------------');
-         console.log(result.synsetOffset);
-         console.log(result.pos);
-         console.log(result.lemma);
-         console.log(result.synonyms);
-         console.log(result.pos);
-         console.log(result.gloss);
-    });
-});
-*/
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -55,6 +43,7 @@ app.use('/users', users);
 app.use('/verify', route_verify);
 app.use('/visualization', route_visualization);
 app.use('/projects', route_projects);
+app.use('/apis', route_api);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
@@ -86,3 +75,21 @@ app.use(function (err, req, res, next) {
 
 
 
+
+/*
+ var natural = require('natural');
+ var wordnet = new natural.WordNet();
+
+ wordnet.lookup('node', function (results) {
+ results.forEach(function (result) {
+
+ console.log('------------------------------------');
+ console.log(result.synsetOffset);
+ console.log(result.pos);
+ console.log(result.lemma);
+ console.log(result.synonyms);
+ console.log(result.pos);
+ console.log(result.gloss);
+ });
+ });
+ */
