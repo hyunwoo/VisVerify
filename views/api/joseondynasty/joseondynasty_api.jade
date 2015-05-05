@@ -3,3 +3,69 @@
 
 extends ../../apis
 block body
+
+
+    div.container-fluid
+        h2 JoseonDynasty Data </strong>
+        div(style='padding-top:30px;')
+            div.alert.alert-warning.
+                host is <strong>202.30.24.169</strong><br>
+                then, request to <strong>http://202.30.24.169/apis/joseondynasty</strong>
+
+
+
+        h4(style='padding-top:30px;margin-left:5px') URL
+        pre
+            a(href='/apis/joseondynasty') /apis/joseondynasty
+        p
+        h4(style='padding-top:30px;margin-left:5px') Parmameters
+        pre
+            p <strong>kingName </strong> : input the king name (example = '태조')
+            p <strong>page </strong> : input the page (eaxmple = '1')
+        p
+        h4(style='padding-top:30px;margin-left:5px') Result
+        pre
+            p.
+                {
+                    totalCount :
+                    currentStart :
+                    currentEnd :
+                    currentCount :
+                    pageCount :
+                    body : [
+                        ...
+                        {
+                            where : Document Location
+                            body : content
+                            sector : category
+                            number : page
+                        },
+                        ...
+                    ]
+                }
+
+        h4(style='padding-top:30px;margin-left:5px') Example
+            h5 URL
+                pre
+                    a(href='/apis/joseondynasty?kingName=정조&page=1') /apis/joseondynasty?kingName=정조&page=1
+            h5 Result
+                pre.
+                    {
+                        "totalCount":2180,
+                        "currentStart":100,
+                        "currentEnd":200,
+                        "currentCount":100,
+                        "pageCount":22,
+                        "body":
+                            [
+                                {
+                                    "where":" ... location",
+                                    "body":" ... text",
+                                    "sector":" ... category",
+                                    "number":" ... document's page"
+                                }
+                                ....
+                            ]
+                    }
+
+

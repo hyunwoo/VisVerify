@@ -65,6 +65,9 @@ router.get('/joseondynasty', function(req,res){
                 totalCount : rep[1].length,
                 currentStart :page_start,
                 currentEnd : page_end,
+                currentCount : page_end - page_start,
+                pageCount : Math.ceil(rep[1].length / each_page_data_count),
+
                 body : [],
             }
             multi.exec(function(err,rep){
