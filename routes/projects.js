@@ -15,15 +15,46 @@ var eachpagetwitcount = 500;
 var joseondynasity_eachcount = 100;
 var utf8 = require('utf8');
 
+
 var csvParser = require('../functions/CsvToJson');
 
+var sentiment = require('../functions/SentimenAnalsys')
+var defaultFunc = require('../functions/defaultFunctions');
+
+
+
 module.exports = router;
+
+
 
 
 var db = require('redis').createClient(13000, '202.30.24.169');
 var joseon_dynasty_db = require('redis').createClient(13001, '202.30.24.169');
 
 db.select(2);
+
+
+var multi = db.multi();
+
+multi.select(2);
+multi.zrevrange('location:London', 0 , -1);
+multi.exec(function(err,rep){
+    var multi = db.multi();
+    multi.select(1);
+    for(var i = 0 ; i < rep[1].length ; i ++){
+        multi.hgetall(rep[1][i]);
+    }
+    multi.exec(function(err,rep){
+        for(var i = 1 ; i < rep.length ; i ++) {
+            defaultFunc.twitDataToNormalDate(rep[i].date)
+            //console.log(rep[i].date)
+            //sentiment.sentiment(rep[i].text);
+        }
+        //console.log(rep);
+    })
+})
+
+
 
 router.get('/', function (req, res) {
     res.render('projects_layout');
