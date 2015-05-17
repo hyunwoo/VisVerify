@@ -17,20 +17,17 @@ block body
                            .th-inner Score
                            .fht-cell(style='width: 50px;')
                         th(style='')
-                           .th-inner Item Name
+                           .th-inner Text
                            .fht-cell(style='width: 50px;')
-                        th(style='')
-                           .th-inner Item Price
-                           .fht-cell(style='width: 15px;')
                         th(style='')
                            .th-inner Item Price
                            .fht-cell(style='width: 15px;')
                   tbody
                      -for(var i = 0 ; i < tweets.length ; i ++){
-                        tr(data-index=i)
+                        tr(data-index = i )
                            td(align='center', style='align:center') #{tweets[i].value}
-                           td(style='') #{tweets[i].token}
                            td(style='') #{tweets[i].text}
+                           td(style='') asdf
 
                      - }
 
