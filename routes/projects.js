@@ -18,7 +18,7 @@ var utf8 = require('utf8');
 
 var csvParser = require('../functions/CsvToJson');
 
-var sentiment = require('../functions/SentimenAnalsys')
+var sentiment = require('../functions/SentimenAnalsys');
 var defaultFunc = require('../functions/defaultFunctions');
 
 
@@ -34,25 +34,7 @@ var joseon_dynasty_db = require('redis').createClient(13001, '202.30.24.169');
 db.select(2);
 
 
-var multi = db.multi();
 
-multi.select(2);
-multi.zrevrange('location:London', 0 , -1);
-multi.exec(function(err,rep){
-    var multi = db.multi();
-    multi.select(1);
-    for(var i = 0 ; i < rep[1].length ; i ++){
-        multi.hgetall(rep[1][i]);
-    }
-    multi.exec(function(err,rep){
-        for(var i = 1 ; i < rep.length ; i ++) {
-            defaultFunc.twitDataToNormalDate(rep[i].date)
-            //console.log(rep[i].date)
-            //sentiment.sentiment(rep[i].text);
-        }
-        //console.log(rep);
-    })
-})
 
 
 
@@ -396,6 +378,54 @@ router.get('/twittermood/worldmap', function (req, res) {
     res.render('projects/twittermood/twittermood_worldmap', result);
 });
 
+router.get('/twittermood/sentiment', function(req,res){
+    var result = {};
+    result.tab = 'projects';
+    result.tweets = [];
+
+
+    var multi = db.multi();
+
+    multi.select(2);
+    multi.zrevrange('location:USA', 0 , 1);
+    multi.exec(function(err,rep){
+        var multi = db.multi();
+        multi.select(1);
+        for(var i = 0 ; i < rep[1].length ; i ++){
+            multi.hgetall(rep[1][i]);
+        }
+        multi.exec(function(err,rep){
+            for(var i = 1 ; i < rep.length ; i ++) {
+                var convert_date = defaultFunc.twitDataToNormalDate(rep[i].date)
+                //console.log(rep[i].date)
+                var senti = sentiment.sentiment(rep[i].text);
+                console.log(senti);
+
+                var token = '';
+                try {
+                    if(senti.tokens != null) {
+                        token = senti.tokens.toString().replace(/,/gi,'\n');
+
+                    }
+                    result.tweets.push({
+                        user: rep[i].user,
+                        text: rep[i].text,
+                        value: senti.score,
+
+                        date: convert_date,
+
+                    })
+                }catch(e){
+                    console.log(e);
+                }
+
+            }
+            res.render('projects/twittermood/twittermood_sentiment', result);
+            //console.log(rep);
+        })
+    })
+
+})
 router.get('/twittermood/twits', function (req, res) {
 
     try {
