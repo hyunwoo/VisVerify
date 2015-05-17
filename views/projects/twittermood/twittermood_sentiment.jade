@@ -2,36 +2,36 @@
    Created by hyunwoo on 2015-05-12.
 extends ../../projects_layout
 block body
-   div.container-fluid
+    div.container-fluid
 
-      h4 aa
+        h4 aa
 
-      div
-         bs-example
-            .bootstrap-table
-               .fixed-table-loading(style='top: 37px; display: none;') Loading, please wait…
-               table.table.table-hover(data-toggle='table', data-url='data1.json', data-cache='false', data-height='299')
-                  thead
-                     tr
-                        th(style='')
-                           .th-inner Score
-                           .fht-cell(style='width: 50px;')
-                        th(style='')
-                           .th-inner Text
-                           .fht-cell(style='width: 50px;')
-                        th(style='')
-                           .th-inner Item Price
-                           .fht-cell(style='width: 15px;')
-                  tbody
-                     -for(var i = 0 ; i < tweets.length ; i ++){
-                        tr(data-index = i )
-                           td(align='center', style='align:center') #{tweets[i].value}
-                           td(style='') #{tweets[i].text}
-                           td(style='') asdf
+        div
+            bs-example
+                .bootstrap-table
+                    .fixed-table-loading(style='top: 37px; display: none;') Loading, please wait…
+                    table.table.table-hover(data-toggle='table', data-url='data1.json', data-cache='false', data-height='299')
+                        thead
+                            tr
+                                th(style='')
+                                    .th-inner Score
+                                    .fht-cell(style='width: 50px;')
+                                th(style='')
+                                    .th-inner Text
+                                    .fht-cell(style='width: 50px;')
+                                th(style='')
+                                    .th-inner Item Price
+                                    .fht-cell(style='width: 15px;')
+                        tbody
+                            -for(var i = 0 ; i < tweets.length ; i ++){
+                            tr(data-index = i )
+                                td(align='center', style='align:center') #{tweets[i].value}
+                                td(style='') #{tweets[i].text}
+                                td(style='') asdf
 
-                     - }
+                            - }
 
-            .fixed-table-pagination
-      .clearfix
+                .fixed-table-pagination
+        .clearfix
 
 
