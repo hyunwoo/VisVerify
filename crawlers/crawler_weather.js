@@ -91,7 +91,7 @@ function recursiveGetWeather(idx) {
         var message = require('util').inspect(ResultPerTime);
         multi = db.multi();
         multi.select(4);
-        multi.hmset("Progress", per, ResultPerTime.toString());
+        multi.hmset("Progress", per, require('util').inspect(ResultPerTime));
         multi.exec(function(err,rep){
 
         });
@@ -120,7 +120,7 @@ function recursiveGetWeather(idx) {
                     wind_deg: undefined,
                     wind_gust: undefined,
                     rain: undefined,
-                    snow: undefined,
+                    snow: undefined
                 }
                 if (input.rain != undefined) {
                     result.rain = input.rain["3h"];
@@ -138,7 +138,7 @@ function recursiveGetWeather(idx) {
                 multi.hmset('weather:' + cities[idx].Name + ":" + per, result);
                 multi.exec(function (err, rep) {
                     if (err == null) {
-                        ResultPerTime[cities[idx].Name] = result;
+                        ResultPerTime[cities[idx].Name] = "SUCCESS";
                     } else {
                         ResultPerTime[cities[idx].Name] = "DB_ERROR";
                     }
