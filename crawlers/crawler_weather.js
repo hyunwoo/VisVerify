@@ -89,64 +89,70 @@ function recursiveGetWeather(idx) {
     if (idx >= cities.length) {
         logging('End Crawler Weather Set');
         var message = require('util').inspect(ResultPerTime);
-        func.sendEmail("Weather Cralwer Activated", "Result : \n" +message);
+        multi = db.multi();
+        multi.select(4);
+        multi.hmset("Progress", per, ResultPerTime.toString());
+        multi.exec(function(err,rep){
+
+        });
         return;
     }
-    console.log(cities[idx].Name);
-    http.get("http://api.openweathermap.org/data/2.5/weather?id=" + cities[idx].ID + "&APPID=" + APPID, function (res) {
-        var data = '';
+    try {
+        http.get("http://api.openweathermap.org/data/2.5/weather?id=" + cities[idx].ID + "&APPID=" + APPID, function (res) {
+            var data = '';
 
-        res.on("data", function (d) {
-            data += d
-        });
-        res.on("end", function () {
-            //console.log(data);
-            //var data = JSON.parse(data);
-            //console.log(data);
-            var input = JSON.parse(data);
-            //console.log(input);
+            res.on("data", function (d) {
+                data += d
+            });
+            res.on("end", function () {
+                var input = JSON.parse(data);
 
-            var result = {
-                lon: input.coord.lon,
-                lat: input.coord.lat,
-                weatherId: input.weather[0].id,
-                weather: input.weather[0].main,
-                desc: input.weather[0].description,
-                temp: Math.floor((input.main.temp * 1 - 273.15)),
-                humidity: input.main.humidity,
-                pressure: input.main.pressure,
-                wind_speed: undefined,
-                wind_deg: undefined,
-                wind_gust: undefined,
-                rain: undefined,
-                snow: undefined,
-            }
-            if (input.rain != undefined) {
-                result.rain = input.rain["3h"];
-            }
-            if (input.snow != undefined) {
-                result.snow = input.snow["3h"];
-            }
-            if (input.wind != undefined) {
-                result.wind_speed = input.wind.speed;
-                result.wind_deg = input.wind.deg;
-                result.wind_gust = input.wind.gust;
-            }
-            console.log(result);
-            var multi = db.multi();
-            multi.select(4);
-            multi.hmset('weather:' + cities[idx].Name + ":" + per , result);
-            multi.exec(function (err, rep) {
-                if (err == null) {
-                    ResultPerTime[cities[idx].Name] = result;
-                } else {
-                    ResultPerTime[cities[idx].Name] = "DB_ERROR";
+                var result = {
+                    lon: input.coord.lon,
+                    lat: input.coord.lat,
+                    weatherId: input.weather[0].id,
+                    weather: input.weather[0].main,
+                    desc: input.weather[0].description,
+                    temp: Math.floor((input.main.temp * 1 - 273.15)),
+                    humidity: input.main.humidity,
+                    pressure: input.main.pressure,
+                    wind_speed: undefined,
+                    wind_deg: undefined,
+                    wind_gust: undefined,
+                    rain: undefined,
+                    snow: undefined,
                 }
-                recursiveGetWeather(idx + 1);
+                if (input.rain != undefined) {
+                    result.rain = input.rain["3h"];
+                }
+                if (input.snow != undefined) {
+                    result.snow = input.snow["3h"];
+                }
+                if (input.wind != undefined) {
+                    result.wind_speed = input.wind.speed;
+                    result.wind_deg = input.wind.deg;
+                    result.wind_gust = input.wind.gust;
+                }
+                var multi = db.multi();
+                multi.select(4);
+                multi.hmset('weather:' + cities[idx].Name + ":" + per, result);
+                multi.exec(function (err, rep) {
+                    if (err == null) {
+                        ResultPerTime[cities[idx].Name] = result;
+                    } else {
+                        ResultPerTime[cities[idx].Name] = "DB_ERROR";
+                    }
+                    recursiveGetWeather(idx + 1);
 
+                })
             })
         })
-    })
+    } catch(e){
+        logging('ERROR : ' + e);
+        setTimeout(function(){
+            recuresiveGetWeather(0);
+        }, 1800000);
+    }
 }
 
 
