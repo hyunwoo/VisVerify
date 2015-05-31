@@ -1,0 +1,82 @@
+//
+   Created by hyunwoo on 2015-05-31.
+
+
+extends ../visualization
+block body
+    div.container-fluid
+        h2
+            a #2
+            |  StreamGraph Example
+        svg(id='chart', style='width:100%; height:500px; border:1px solid')
+
+        legend
+        h4
+            a #Data :
+            |  JSON Data
+
+
+    div.container-fluid
+        textarea(id='text',style='resize:none; width:100%; border:1px solid') #{default_data}
+        legend
+        div(align='right')
+            a # Update
+
+        script.
+            nv.addGraph(function () {
+                var chart = nv.models.lineWithFocusChart();
+                chart.xAxis
+                        .tickFormat(d3.format(',f'));
+                chart.yAxis
+                        .tickFormat(d3.format(',.2f'));
+                chart.y2Axis
+                        .tickFormat(d3.format(',.2f'));
+                d3.select('#chart')
+                        .datum(testData())
+                        .transition().duration(500)
+                        .call(chart);
+                nv.utils.windowResize(chart.update);
+                return chart;
+            });
+            /**************************************
+             * Simple test data generator
+             */
+            function testData() {
+                return [
+                    {
+                        key: "North America",
+                        values: [
+                            {
+                                x: 0,
+                                y: 23.041422681023
+                            },
+                            {
+                                x: 1,
+                                y: 23.041422681023
+                            },
+                            {
+                                x: 2,
+                                y: 23.041422681023
+                            },
+                        ]
+                    },
+                    {
+
+                        key: "South Korea",
+                        values: [
+                            {
+                                x: 0,
+                                y: 23.041422681023
+                            },
+                            {
+                                x: 1,
+                                y: 23.041422681023
+                            },
+                            {
+                                x: 2,
+                                y: 23.041422681023
+                            },
+                        ]
+                    }
+                ]
+            }

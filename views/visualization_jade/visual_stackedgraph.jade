@@ -1,0 +1,82 @@
+//
+   Created by hyunwoo on 2015-05-31.
+
+
+extends ../visualization
+block body
+    div.container-fluid
+        h2
+            a #2
+            |  StreamGraph Example
+        svg(id='chart', style='width:100%; height:500px; border:1px solid')
+
+        legend
+        h4
+            a #Data :
+            |  JSON Data
+
+
+    div.container-fluid
+        textarea(id='text',style='resize:none; width:100%; border:1px solid') #{default_data}
+        legend
+        div(align='right')
+            a # Update
+
+        script.
+            nv.addGraph(function () {
+                var chart = nv.models.multiBarChart()
+                                .transitionDuration(350)
+                                .reduceXTicks(true)   //If 'false', every single x-axis tick label will be rendered.
+                                .rotateLabels(0)      //Angle to rotate x-axis labels.
+                                .showControls(true)   //Allow user to switch between 'Grouped' and 'Stacked' mode.
+                                .groupSpacing(0.1)    //Distance between each group of bars.
+                        ;
+                chart.xAxis
+                        .tickFormat(d3.format(',f'));
+                chart.yAxis
+                        .tickFormat(d3.format(',.1f'));
+                d3.select('#chart')
+                        .datum(exampleData())
+                        .call(chart);
+                nv.utils.windowResize(chart.update);
+                return chart;
+            });
+            function exampleData() {
+                return [
+                    {
+                        key: "North America",
+                        values: [
+                            {
+                                x: 0,
+                                y: 23.041422681023
+                            },
+                            {
+                                x: 1,
+                                y: 23.041422681023
+                            },
+                            {
+                                x: 2,
+                                y: 23.041422681023
+                            },
+                        ]
+                    },
+                    {
+
+                        key: "South Korea",
+                        values: [
+                            {
+                                x: 0,
+                                y: 23.041422681023
+                            },
+                            {
+                                x: 1,
+                                y: 23.041422681023
+                            },
+                            {
+                                x: 2,
+                                y: 23.041422681023
+                            },
+                        ]
+                    }
+                ]
+            }

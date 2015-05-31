@@ -1,0 +1,57 @@
+//
+   Created by hyunwoo on 2015-04-24.
+
+extends ../../projects_layout
+block body
+   div.container-fluid
+      h2
+         a #2
+         |  StreamGraph Example
+      svg(id='chart', style='width:100%; height:500px; border:1px solid')
+
+      legend
+      h4
+         a #Data :
+         |  JSON Data
+
+
+   div.container-fluid
+      textarea(id='text',style='resize:none; width:100%; border:1px solid') #{default_data}
+      legend
+      div(align='right')
+         a # Update
+
+      script.
+         var G_DATA;
+         $(function onLoad() {
+            G_DATA = document.getElementById("text").value;
+            var myTextArea = document.getElementById("text");
+            var myCodeMirror = CodeMirror(function (elt) {
+                       console.log(elt);
+                       myTextArea.parentNode.replaceChild(elt, myTextArea);
+                    },
+                    {
+                       value: myTextArea.value,
+                       lineNumbers: true,
+                       lineWrapping: true,
+                       theme: '3024-day',
+                    }
+            );
+         });
+
+         nv.addGraph(function () {
+            var chart = nv.models.lineWithFocusChart();
+
+            d3.select('#chart')
+                    .datum(testData())
+                    .transition().duration(1000)
+                    .call(chart);
+            nv.utils.windowResize(chart.update);
+            return chart;
+         });
+         /**************************************
+          * Simple test data generator
+          */
+         function testData() {
+            return JSON.parse(G_DATA);
+         }

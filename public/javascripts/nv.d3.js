@@ -1,6 +1,11 @@
 /**
  * Created by hyunwoo on 2015-04-23.
  */
+
+function stream_index(d, i) {
+    return {x: i, y: Math.max(0, d)};
+}
+
 (function () {
 
     var nv = window.nv || {};
@@ -4807,7 +4812,7 @@
                 tree.size([height, depth * childIndent]); //TODO: see if this is necessary at all
 
 
-                // Update the nodes¡¦
+                // Update the nodesï¿½ï¿½
                 var node = tbody.selectAll('tr')
                     // .data(function(d) { return d; }, function(d) { return d.id || (d.id == ++i)});
                     .data(function (d) {

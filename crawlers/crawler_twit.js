@@ -239,10 +239,11 @@ function StartStream() {
                                     "location", location,
                                     "text", data.text);
                                 multi.select(2);
-                                multi.zadd('location:' + location, data.id, data_key);
+                                multi.zadd('location:' + location + ":" + per, data.id, data_key);
                                 multi.hincrby('infos', 'total_count', 1);
                                 multi.hincrby('infos:time:' + per, location, 1);
                                 multi.hincrby('infos', location, 1);
+
 
                                 multi.exec(function (err, rep) {
 

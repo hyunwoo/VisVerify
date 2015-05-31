@@ -15,18 +15,20 @@ block content
                ul.nav.nav-list.sidenav.affix-top(data-spy='affix', data-offset-top='140')
                   li.active
                      a(href='/visualization/') Visualization
-                  legend
                   li
                      a(href='/visualization/network') Network
                   li
                      a(href='/visualization/streamgraph') StreamGraph
                   li
                      a(href='/visualization/forcedirectedgraph') Force Directed Graph
+                  legend
+                  li.active
+                     a D3Plus
                   li
-                     a(href='#attributes') Attributes
+                     a(href='/visualization/line_graph') line graph
                   li
-                     a(href='#analysis') Analyzing graphs
+                     a(href='/visualization/stacked_line_graph') stacked line graph
                   li
-                     a(href='#drawing') Drawing
+                     a(href='/visualization/focused_line_graph') focused line graph
             div.col-sm-9
                block body

@@ -35,6 +35,28 @@ router.get('/forcedirectedgraph', function(req, res) {
 });
 
 
+router.get('/line_graph', function(req, res) {
+    var deliver = {};
+    //deliver.default_data = JSON.stringify(JSON.parse(default_data), null, 4)
+    //console.log(deliver);
+    res.render('visualization_jade/visual_linegraph', deliver);
+});
+
+router.get('/stacked_line_graph', function(req, res) {
+    var deliver = {};
+    //deliver.default_data = JSON.stringify(JSON.parse(default_data), null, 4)
+    //console.log(deliver);
+    res.render('visualization_jade/visual_stackedgraph', deliver);
+});
+
+router.get('/focused_line_graph', function(req, res) {
+    var deliver = {};
+    //deliver.default_data = JSON.stringify(JSON.parse(default_data), null, 4)
+    //console.log(deliver);
+    res.render('visualization_jade/visual_focus_line_graph', deliver);
+});
+
+
 
 router.post('/', function(req, res) {
     var fstream;

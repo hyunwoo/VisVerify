@@ -2,36 +2,117 @@
    Created by hyunwoo on 2015-05-12.
 extends ../../projects_layout
 block body
+    script(src='http://www.d3plus.org/js/d3.js')
+    script(src='http://www.d3plus.org/js/d3plus.js')
     div.container-fluid
-
-        h4 aa
-
         div
-            bs-example
-                .bootstrap-table
-                    .fixed-table-loading(style='top: 37px; display: none;') Loading, please wait…
-                    table.table.table-hover(data-toggle='table', data-url='data1.json', data-cache='false', data-height='299')
-                        thead
-                            tr
-                                th(style='')
-                                    .th-inner Score
-                                    .fht-cell(style='width: 50px;')
-                                th(style='')
-                                    .th-inner Text
-                                    .fht-cell(style='width: 50px;')
-                                th(style='')
-                                    .th-inner Item Price
-                                    .fht-cell(style='width: 15px;')
-                        tbody
-                            -for(var i = 0 ; i < tweets.length ; i ++){
-                            tr(data-index = i )
-                                td(align='center', style='align:center') #{tweets[i].value}
-                                td(style='') #{tweets[i].text}
-                                td(style='') asdf
+            h2(style='margin-top:0px')
+                a #
+                |  GlobalData
+            legend
+            h5
 
-                            - }
+                p
+                div.dropdown(align='right', style='margin-top:0px')
+                    div.btn.btn-primary.dropdown-toggle(type='button',id='dropdowncountry',data-toggle='dropdown',aria-expanded=true , style='width:100%;padding-right:3px', align='right')
+                        div.row
+                            div.col-xs-8(align='left')
+                                span.badge(style='margin-left:10px') #{count}
+                                strong(style='font-family=Hevetica;margin-right:10px;padding-left:15px') #{select}
+                            div.col-xs-4(align='right')
+                                span.caret(style='margin-left:10px;margin-right:10px')
 
-                .fixed-table-pagination
-        .clearfix
+
+
+
+                    ul.dropdown-menu(role='menu', aria-labelledby='dropdowncountry',style='width:100%')
+                        li.dropdown-header countries
+
+                        -for(var i = 0 ; i < countries.length ; i ++){
+                        li(role='presentation')
+                            a(role='menuitem', tabindex='-1', href='twits?country=' + countries[i])
+                                div.row(style='margin-top:15px')
+                                    div.col-sm-7
+                                        p(style='margin-left:35px') #{countries[i]}
+
+                        -}
+
+
+
+                    div.col-lg-6
+                        p
+                        - if(pagecount > 1) {
+                        ul.pagination(style='margin-top:0px;padding-top:0px')
+                            li
+                                a(aria-label='Previous')
+                                    span(aria-hidden='true') &laquo;
+                        - var beforeCount = currentpage - 4 < 0 ? 0 : currentpage - 4;
+                        -for(var i = beforeCount; i < beforeCount + 8; i ++){
+                        -   if( i >= pagecount) break;
+                        -   var page = i * 1;
+                        -   if(page == (currentpage)){
+                        li.active
+                            a(href='twits?country=' + select + '&page=' + page) #{page}
+                        -   } else {
+                        li
+                            a(href='twits?country=' + select + '&page=' + page) #{page}
+                        -   }
+                        -}
+                        li
+                            a(aria-label='Previous')
+                                span(aria-hidden='true') &raquo;
+                        - }
+        div.alert.alert-warning(role="alert")
+            span.glyphicon.glyphicon-info-sign
+            span.sr-only Warning:
+            strong WARNING!
+            |  Page loading may be slower
+
+        //div.progress
+            div.class.progress-bar.progress-bar.progress-bar-info(role='progressbar', aria-valuenow='20', aria-valuemin='0', aria-valuemax='0',style='width:35%')
+
+
+        div(id='chart', style='margin:0;width:100%; height:500px; border:1px solid')
+
+        legend
+
+    div.container-fluid
+        textarea(id='text',style='display:none') #{twits}
+        legend
+        div(align='right')
+            a # Update
+        script.
+            var data = [
+                {"time": 1991, "name": "alpha", "value": 15},
+                {"time": 1992, "name": "alpha", "value": 34},
+                {"time": 1991, "name": "alpha2", "value": 17},
+                {"time": 1992, "name": "alpha2", "value": 65},
+                {"time": 1991, "name": "beta", "value": 10},
+                {"time": 1992, "name": "beta", "value": 10},
+                {"time": 1991, "name": "beta2", "value": 40},
+                {"time": 1992, "name": "beta2", "value": 38},
+                {"time": 1991, "name": "gamma", "value": 5},
+                {"time": 1992, "name": "gamma", "value": 10},
+                {"time": 1991, "name": "gamma2", "value": 20},
+                {"time": 1992, "name": "gamma2", "value": 34},
+                {"time": 1991, "name": "delta", "value": 50},
+                {"time": 1992, "name": "delta", "value": 43},
+                {"time": 1991, "name": "delta2", "value": 17},
+                {"time": 1992, "name": "delta2", "value": 35}
+            ]
+            var visualization = d3plus.viz()
+                .container("#chart")
+                .data(data)
+                .type("box")
+                .id("name")
+                .x("time")
+                .y("value")
+                .time("time")
+                .ui([{
+                    "label": "Visualization Type",
+                    "method": "type",
+                    "value": ["scatter", "box"]
+                }])
+                .draw()
 
 

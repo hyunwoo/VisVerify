@@ -14,6 +14,8 @@ iconv.extendNodeEncodings();
 var eachpagetwitcount = 500;
 var joseondynasity_eachcount = 100;
 var utf8 = require('utf8');
+var sort = require('javascript-natural-sort');
+
 
 
 var csvParser = require('../functions/CsvToJson');
@@ -55,7 +57,6 @@ router.get('/joseondynasty', function (req, res) {
     result.tab = 'projects';
     res.render('projects_layout', result);
 });
-
 router.get('/joseondynasty/data', function (req, res) {
     var multi = joseon_dynasty_db.multi();
 
@@ -238,7 +239,6 @@ router.get('/joseondynasty/eachkingStackGraph', function (req, res) {
     })
 
 });
-
 router.get('/joseondynasty/eachking', function (req, res) {
 
     var input_kingname = req.query.king;
@@ -295,37 +295,33 @@ router.get('/joseondynasty/eachking', function (req, res) {
     })
 
 });
-
 router.get('/joseondynasty/graph', function (req, res) {
     var result = {};
     result.tab = 'projects';
     res.render('projects/joseondynasty/joseondynasty_graph', result);
 });
-
 router.get('/joseondynasty/network', function (req, res) {
     var result = {};
     result.tab = 'projects';
     res.render('projects/joseondynasty/joseondynasty_network');
 });
 
+
 router.get('/logonetwork', function (req, res) {
     var result = {};
     result.tab = 'projects';
     res.render('projects_layout', result);
 });
-
 router.get('/logonetwork/multicamera', function (req, res) {
     var result = {};
     result.tab = 'projects';
     res.render('projects/logonetwork/logonetwork_multicamera', result);
 })
-
 router.get('/logonetwork/filterednetwork', function (req, res) {
     var result = {};
     result.tab = 'projects';
     res.render('projects/logonetwork/logonetwork_filtered', result);
 })
-
 router.get('/logonetwork/prototype01', function (req, res) {
     var result = {};
     result.tab = 'projects';
@@ -348,7 +344,6 @@ router.get('/logonetwork/prototype01', function (req, res) {
     }
 
 })
-
 router.get('/logonetwork/prototype02', function (req, res) {
     var result = {};
     result.tab = 'projects';
@@ -372,57 +367,113 @@ router.get('/logonetwork/prototype02', function (req, res) {
 
 })
 
+router.get('/twittermood/weatherdata', function(req,res){
+    var result = {};
+    result.tab = 'projects';
+
+    var multi = db.multi();
+    multi.select(4);
+    multi.hkeys("Progress");
+    multi.exec(function(err,rep){
+        if(err != null){
+            res.render('projects/twittermood/twittermood_weatherdata', result);
+            return;
+        }
+        var keys = rep[1].sort(sort);
+        multi = db.multi();
+        multi.select(4);
+        for(var i = 0 ; i < keys.length ; i ++){
+            multi.hgetall("weather:New York:"+ keys[i]);
+        }
+        multi.exec(function(err,rep){
+            if(err != null){
+                res.render('projects/twittermood/twittermood_weatherdata', result);
+                return;
+            }
+            console.log(rep);
+            var default_data = [];
+
+            var temperature = {
+                key :"temperature",
+                values : []
+            };
+            var humidity = {
+                key :"humidity",
+                values : []
+            };
+            var pressure = {
+                key :"pressure",
+                values : []
+            };
+            var wind = {
+                key :"wind",
+                values : []
+            };
+            var rain = {
+                key :"rain",
+                values : []
+            };
+
+            var max = 0;
+            for(var j = 1; j < rep.length ; j ++){
+                temperature.values.push({
+                    x : Math.floor(keys[j - 1] / 10000) ,
+                    y : rep[j].temp
+                })
+                humidity.values.push({
+                    x : Math.floor(keys[j - 1] / 10000) ,
+                    y : rep[j].humidity / 2
+                })
+                pressure.values.push({
+                    x : Math.floor(keys[j - 1] / 10000) ,
+                    y : rep[j].pressure - 1000
+                })
+                wind.values.push({
+                    x : Math.floor(keys[j - 1] / 10000) ,
+                    y : rep[j].wind
+                })
+                rain.values.push({
+                    x : Math.floor(keys[j - 1] / 10000) ,
+                    y : rep[j].rain == 'undefined' ? 0 : rep[j].rain * 10
+                })
+            }
+
+            default_data.push(temperature);
+            default_data.push(pressure);
+            default_data.push(humidity);
+            console.log(rain);
+            //default_data.push(wind);
+            default_data.push(rain);
+            result.default_data = JSON.stringify(default_data);
+
+
+
+            res.render('projects/twittermood/twittermood_weatherdata', result);
+        })
+    })
+
+})
 router.get('/twittermood/worldmap', function (req, res) {
     var result = {};
     result.tab = 'projects';
     res.render('projects/twittermood/twittermood_worldmap', result);
 });
-
 router.get('/twittermood/sentiment', function(req,res){
     var result = {};
     result.tab = 'projects';
-    result.tweets = [];
+    result.countries = [];
 
 
     var multi = db.multi();
 
-    multi.select(2);
-    multi.zrevrange('location:USA', 0 , 1);
+    multi.select(4);
+    multi.hkeys('Cities');
     multi.exec(function(err,rep){
-        var multi = db.multi();
-        multi.select(1);
-        for(var i = 0 ; i < rep[1].length ; i ++){
-            multi.hgetall(rep[1][i]);
-        }
-        multi.exec(function(err,rep){
-            for(var i = 1 ; i < rep.length ; i ++) {
-                var convert_date = defaultFunc.twitDataToNormalDate(rep[i].date)
-                //console.log(rep[i].date)
-                var senti = sentiment.sentiment(rep[i].text);
-                console.log(senti);
+        result.countries = rep[1];
+        result.select = rep[1][0];
+        console.log(rep[1]);
+        res.render('projects/twittermood/twittermood_sentiment', result);
 
-                var token = '';
-                try {
-                    if(senti.tokens != null) {
-                        token = senti.tokens.toString().replace(/,/gi,'\n');
-
-                    }
-                    result.tweets.push({
-                        user: rep[i].user,
-                        text: rep[i].text,
-                        value: senti.score,
-
-                        date: convert_date,
-
-                    })
-                }catch(e){
-                    console.log(e);
-                }
-
-            }
-            res.render('projects/twittermood/twittermood_sentiment', result);
-            //console.log(rep);
-        })
     })
 
 })
@@ -536,6 +587,8 @@ router.get('/twittermood/twits', function (req, res) {
         res.redirect('/');
     }
 });
+
+
 function parseTwitDate(date) {
     try {
         var eachs = date.split(' ');
@@ -553,7 +606,6 @@ router.get('/streamgraph', function (req, res) {
     deliver.default_data = JSON.stringify(JSON.parse(default_data), null, 4)
     res.render('visualization_jade/visual_streamgraph', deliver);
 });
-
 router.get('/forcedirectedgraph', function (req, res) {
     var default_data = fs.readFileSync('./exampleData/d3js/miserables.json');
     var deliver = {};
@@ -562,7 +614,6 @@ router.get('/forcedirectedgraph', function (req, res) {
     console.log(deliver);
     res.render('visualization_jade/visual_forcedirectedgraph', deliver);
 });
-
 router.post('/', function (req, res) {
     var fstream;
     console.log('in upload');
