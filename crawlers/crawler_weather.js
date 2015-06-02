@@ -79,7 +79,7 @@ var ResultPerTime = {};
 
 
 setInterval(function () {
-    recuresiveGetWeather(0);
+    recursiveGetWeather(0);
 
 }, 10800000);
 
@@ -92,7 +92,7 @@ function recursiveGetWeather(idx) {
         multi = db.multi();
         multi.select(4);
         multi.hmset("Progress", per, require('util').inspect(ResultPerTime));
-        multi.exec(function(err,rep){
+        multi.exec(function (err, rep) {
 
         });
         return;
@@ -100,7 +100,6 @@ function recursiveGetWeather(idx) {
     try {
         http.get("http://api.openweathermap.org/data/2.5/weather?id=" + cities[idx].ID + "&APPID=" + APPID, function (res) {
             var data = '';
-
             res.on("data", function (d) {
                 data += d
             });
@@ -147,10 +146,10 @@ function recursiveGetWeather(idx) {
                 })
             })
         })
-    } catch(e){
+    } catch (e) {
         logging('ERROR : ' + e);
-        setTimeout(function(){
-            recuresiveGetWeather(0);
+        setTimeout(function () {
+            recursiveGetWeather(0);
         }, 1800000);
     }
 }
