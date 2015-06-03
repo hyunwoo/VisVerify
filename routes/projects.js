@@ -29,7 +29,7 @@ module.exports = router;
 
 
 
-
+var lda = require('../functions/LDA');
 var db = require('redis').createClient(13000, '202.30.24.169');
 var joseon_dynasty_db = require('redis').createClient(13001, '202.30.24.169');
 
@@ -43,6 +43,124 @@ db.select(2);
 router.get('/', function (req, res) {
     res.render('projects_layout');
 });
+
+
+router.get('/topicnetwork/lda', function(req,res){
+    res.render('projects/topicnetwork/topicnetwork_lda')
+})
+
+router.post('/topicnetwork/lda', function(req,res) {
+    console.log(req.body);
+    var category_count = req.body.category;
+    var topic_count = req.body.topic;
+    var document = req.body.document;
+
+
+
+
+    if(category_count === '') category_count = 2;
+    else category_count *= 1;
+    if(topic_count === '') topic_count = 5;
+    else topic_count *= 1;
+
+    var result = {
+        error : "OK",
+        output : {
+            topics: [],
+        },
+        data : document,
+        topic_count : topic_count,
+        category_count : category_count,
+        default_data : '',
+        network_data : '',
+        network_connection : ''
+
+    };
+    if(document === undefined || document === '') {
+        result.error = 'NODATA';
+        res.render('projects/topicnetwork/topicnetwork_lda', result)
+        return;
+    } else {
+        var lda_output = lda.topics(document, topic_count, category_count);
+        if(lda_output == null){
+            result.error = 'NODATA';
+            res.render('projects/topicnetwork/topicnetwork_lda', result)
+            return;
+        }
+
+
+        var data = [];
+        var network_data_origin = []
+        var network_data = [];
+        var network_connection = [];
+
+        for (var i in lda_output) {
+            var row = lda_output[i];
+            var str = '';
+            var group ='Topic ' + (parseInt(i) + 1) ;
+            str += group + '\n';
+
+
+            // For each term.
+            var saved_term = '';
+            for (var j in row) {
+                console.log(j);
+                var term = row[j];
+                var value = ((term.probability*10).toFixed(2));
+                str += term.term + ' (' + value + ')\n';
+
+
+                data.push({
+                    value : value  * 200,
+                    name : term.term,
+                    group : group,
+                })
+                if( network_data_origin[term.term] == null){
+                    network_data_origin[term.term] = value * 100;
+                } else network_data_origin[term.term] += value * 100;
+
+
+                if(j * 1 != 0) {
+                    network_connection.push({
+                        source: term.term,
+                        target: saved_term
+                    })
+                } else {
+                    saved_term = term.term;
+                }
+
+
+            }
+            result.output.topics.push(str);
+
+        }
+
+
+        var keys = Object.keys(network_data_origin);
+        for(var i = 0 ; i < keys.length ; i ++){
+            network_data.push({
+                name : keys[i],
+                size : network_data_origin[keys[i]],
+            })
+        }
+
+        console.log("NETWORK : " , network_data);
+        console.log("NETWORK CONNECTION: " , network_connection);
+        result.default_data = JSON.stringify(data);
+        result.network_data = JSON.stringify(network_data);
+        result.network_connection = JSON.stringify(network_connection);
+        console.log(result.output.topics);
+
+
+
+
+        res.render('projects/topicnetwork/topicnetwork_lda', result)
+    }
+
+
+
+
+})
 
 var kingsName = {};
 csvParser.Parse('./ProjectData/joseondynasty/kingsname.csv', function (data) {
