@@ -3,55 +3,118 @@
 
 extends ../../projects_layout
 block body
-   div.container-fluid
-      h2
-         a #2
-         |  StreamGraph Example
-      svg(id='chart', style='width:100%; height:500px; border:1px solid')
+    script(src='http://www.d3plus.org/js/d3.js')
+    script(src='http://www.d3plus.org/js/d3plus.js')
+    div.container-fluid
+        h2
+            a #2
+            |  StreamGraph Example
+        svg(id='viz', style='width:100%; height:500px; border:1px solid')
 
-      legend
-      h4
-         a #Data :
-         |  JSON Data
+        legend
+        h4
+            a #Data :
+            |  JSON Data
 
 
-   div.container-fluid
-      textarea(id='text',style='resize:none; width:100%; border:1px solid') #{default_data}
-      legend
-      div(align='right')
-         a # Update
+    div.container-fluid
+        textarea(id='text',style='resize:none; width:100%; border:1px solid') #{default_data}
+        legend
+        div(align='right')
+            a # Update
 
-      script.
-         var G_DATA;
-         $(function onLoad() {
-            G_DATA = document.getElementById("text").value;
-            var myTextArea = document.getElementById("text");
-            var myCodeMirror = CodeMirror(function (elt) {
-                       console.log(elt);
-                       myTextArea.parentNode.replaceChild(elt, myTextArea);
-                    },
-                    {
-                       value: myTextArea.value,
-                       lineNumbers: true,
-                       lineWrapping: true,
-                       theme: '3024-day',
-                    }
-            );
-         });
+        script.
+            var G_DATA;
+            $(function onLoad() {
+                G_DATA = document.getElementById("text").value;
+                var myTextArea = document.getElementById("text");
+                var myCodeMirror = CodeMirror(function (elt) {
+                            console.log(elt);
+                            myTextArea.parentNode.replaceChild(elt, myTextArea);
+                        },
+                        {
+                            value: myTextArea.value,
+                            lineNumbers: true,
+                            lineWrapping: true,
+                            theme: '3024-day',
+                        }
+                );
+                var sample_data = [{"num": 1, "name": "temperature", "value": "9"}, {
+                    "num": 1,
+                    "name": "humidity",
+                    "value": "81"
+                }, {"num": 1, "name": "pressure", "value": "1020"}, {"num": 1, "name": "wind"}, {
+                    "num": 1,
+                    "name": "rain",
+                    "value": 0
+                }, {"num": 2, "name": "temperature", "value": "10"}, {
+                    "num": 2,
+                    "name": "humidity",
+                    "value": "81"
+                }, {"num": 2, "name": "pressure", "value": "1020"}, {"num": 2, "name": "wind"}, {
+                    "num": 2,
+                    "name": "rain",
+                    "value": 0
+                }, {"num": 3, "name": "temperature", "value": "11"}, {
+                    "num": 3,
+                    "name": "humidity",
+                    "value": "87"
+                }, {"num": 3, "name": "pressure", "value": "1021"}, {"num": 3, "name": "wind"}, {
+                    "num": 3,
+                    "name": "rain",
+                    "value": 0
+                }, {"num": 4, "name": "temperature", "value": "12"}, {
+                    "num": 4,
+                    "name": "humidity",
+                    "value": "87"
+                }, {"num": 4, "name": "pressure", "value": "1020"}, {"num": 4, "name": "wind"}, {
+                    "num": 4,
+                    "name": "rain",
+                    "value": 0
+                }, {"num": 5, "name": "temperature", "value": "12"}, {
+                    "num": 5,
+                    "name": "humidity",
+                    "value": "93"
+                }, {"num": 5, "name": "pressure", "value": "1021"}, {"num": 5, "name": "wind"}, {
+                    "num": 5,
+                    "name": "rain",
+                    "value": 0
+                }, {"num": 6, "name": "temperature", "value": "11"}, {
+                    "num": 6,
+                    "name": "humidity",
+                    "value": "93"
+                }, {"num": 6, "name": "pressure", "value": "1022"}, {"num": 6, "name": "wind"}, {
+                    "num": 6,
+                    "name": "rain",
+                    "value": 0
+                }]
 
-         nv.addGraph(function () {
-            var chart = nv.models.lineWithFocusChart();
+                var attributes = [
+                    {"name": "alpha", "hex": "#CC0000"},
+                    {"name": "beta", "hex": "#00CC00"}
+                ]
+                /*
+                 var attributes = [
+                 {"name": "temperature", "hex": "#CC0000"},
+                 {"name": "humidity", "hex": "#00CC00"},
+                 {"name": "pressure", "hex": "#00CC00"},
+                 {"name": "wind", "hex": "#00CC00"},
+                 {"name": "rain", "hex": "#00CC00"}
+                 ]*/
 
-            d3.select('#chart')
-                    .datum(testData())
-                    .transition().duration(1000)
-                    .call(chart);
-            nv.utils.windowResize(chart.update);
-            return chart;
-         });
-         /**************************************
-          * Simple test data generator
-          */
-         function testData() {
-            return JSON.parse(G_DATA);
-         }
+                var visualization = d3plus.viz()
+                        .container("#viz")
+                        .data(sample_data)
+                        .type("line")
+                        .id("name")
+                        .y("value")
+                        .x("num")
+                        .attrs(attributes)
+                        .color("hex")
+                        .draw()
+            });
+
+
+            function testData() {
+                return JSON.parse(G_DATA);
+            }

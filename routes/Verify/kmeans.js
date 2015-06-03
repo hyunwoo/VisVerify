@@ -25,7 +25,7 @@ var test_data = [
     {'company': 'Yahoo!', 'size': 14000, 'revenue': 6426},
     {'company': 'eBay', 'size': 15000, 'revenue': 8700},
 ];
-
+/*
 
 csvparse.Parse('./exampleData/sentimental_tfidf_normalize_csv.csv', function (data) {
     var centro = 13;
@@ -83,7 +83,7 @@ csvparse.Parse('./exampleData/sentimental_tfidf_normalize_csv.csv', function (da
     });
 
 
-})
+})*/
 
 var kmeans = require('node-kmeans');
 /* GET home page. */

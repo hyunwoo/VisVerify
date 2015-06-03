@@ -508,60 +508,46 @@ router.get('/twittermood/weatherdata', function(req,res){
                 res.render('projects/twittermood/twittermood_weatherdata', result);
                 return;
             }
-            console.log(rep);
             var default_data = [];
 
-            var temperature = {
-                key :"temperature",
-                values : []
-            };
-            var humidity = {
-                key :"humidity",
-                values : []
-            };
-            var pressure = {
-                key :"pressure",
-                values : []
-            };
-            var wind = {
-                key :"wind",
-                values : []
-            };
-            var rain = {
-                key :"rain",
-                values : []
-            };
+
 
             var max = 0;
             for(var j = 1; j < rep.length ; j ++){
-                temperature.values.push({
-                    x : Math.floor(keys[j - 1] / 10000) ,
-                    y : rep[j].temp
-                })
-                humidity.values.push({
-                    x : Math.floor(keys[j - 1] / 10000) ,
-                    y : rep[j].humidity / 2
-                })
-                pressure.values.push({
-                    x : Math.floor(keys[j - 1] / 10000) ,
-                    y : rep[j].pressure - 1000
-                })
-                wind.values.push({
-                    x : Math.floor(keys[j - 1] / 10000) ,
-                    y : rep[j].wind
-                })
-                rain.values.push({
-                    x : Math.floor(keys[j - 1] / 10000) ,
-                    y : rep[j].rain == 'undefined' ? 0 : rep[j].rain * 10
-                })
+                //var key = Math.floor(keys[j - 1] / 10000);
+                var key = j;
+                default_data.push({
+                    num : key,
+                    name : "temperature",
+                    value : rep[j].temp
+                });
+
+                default_data.push({
+                    num : key,
+                    name : "humidity",
+                    value : rep[j].humidity
+                });
+
+                default_data.push({
+                    num : key,
+                    name : "pressure",
+                    value : rep[j].pressure
+                });
+
+                default_data.push({
+                    num : key,
+                    name : "wind",
+                    value : rep[j].wind
+                });
+
+                default_data.push({
+                    num : key,
+                    name : "rain",
+                    value : rep[j].rain == 'undefined' ? 0 : rep[j].rain * 10
+                });
             }
 
-            default_data.push(temperature);
-            default_data.push(pressure);
-            default_data.push(humidity);
-            console.log(rain);
-            //default_data.push(wind);
-            default_data.push(rain);
+            console.log(default_data)
             result.default_data = JSON.stringify(default_data);
 
 
