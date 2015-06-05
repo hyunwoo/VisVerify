@@ -17,16 +17,13 @@ var utf8 = require('utf8');
 var sort = require('javascript-natural-sort');
 
 
-
 var csvParser = require('../functions/CsvToJson');
 
 var sentiment = require('../functions/SentimenAnalsys');
 var defaultFunc = require('../functions/defaultFunctions');
 
 
-
 module.exports = router;
-
 
 
 var lda = require('../functions/LDA');
@@ -36,53 +33,47 @@ var joseon_dynasty_db = require('redis').createClient(13001, '202.30.24.169');
 db.select(2);
 
 
-
-
-
-
 router.get('/', function (req, res) {
     res.render('projects_layout');
 });
 
 
-router.get('/topicnetwork/lda', function(req,res){
+router.get('/topicnetwork/lda', function (req, res) {
     res.render('projects/topicnetwork/topicnetwork_lda')
 })
 
-router.post('/topicnetwork/lda', function(req,res) {
+router.post('/topicnetwork/lda', function (req, res) {
     console.log(req.body);
     var category_count = req.body.category;
     var topic_count = req.body.topic;
     var document = req.body.document;
 
 
-
-
-    if(category_count === '') category_count = 2;
+    if (category_count === '') category_count = 2;
     else category_count *= 1;
-    if(topic_count === '') topic_count = 5;
+    if (topic_count === '') topic_count = 5;
     else topic_count *= 1;
 
     var result = {
-        error : "OK",
-        output : {
+        error: "OK",
+        output: {
             topics: [],
         },
-        data : document,
-        topic_count : topic_count,
-        category_count : category_count,
-        default_data : '',
-        network_data : '',
-        network_connection : ''
+        data: document,
+        topic_count: topic_count,
+        category_count: category_count,
+        default_data: '',
+        network_data: '',
+        network_connection: ''
 
     };
-    if(document === undefined || document === '') {
+    if (document === undefined || document === '') {
         result.error = 'NODATA';
         res.render('projects/topicnetwork/topicnetwork_lda', result)
         return;
     } else {
         var lda_output = lda.topics(document, topic_count, category_count);
-        if(lda_output == null){
+        if (lda_output == null) {
             result.error = 'NODATA';
             res.render('projects/topicnetwork/topicnetwork_lda', result)
             return;
@@ -97,7 +88,7 @@ router.post('/topicnetwork/lda', function(req,res) {
         for (var i in lda_output) {
             var row = lda_output[i];
             var str = '';
-            var group ='Topic ' + (parseInt(i) + 1) ;
+            var group = 'Topic ' + (parseInt(i) + 1);
             str += group + '\n';
 
 
@@ -106,21 +97,21 @@ router.post('/topicnetwork/lda', function(req,res) {
             for (var j in row) {
                 console.log(j);
                 var term = row[j];
-                var value = ((term.probability*10).toFixed(2));
+                var value = ((term.probability * 10).toFixed(2));
                 str += term.term + ' (' + value + ')\n';
 
 
                 data.push({
-                    value : value  * 200,
-                    name : term.term,
-                    group : group,
+                    value: value * 200,
+                    name: term.term,
+                    group: group,
                 })
-                if( network_data_origin[term.term] == null){
+                if (network_data_origin[term.term] == null) {
                     network_data_origin[term.term] = value * 100;
                 } else network_data_origin[term.term] += value * 100;
 
 
-                if(j * 1 != 0) {
+                if (j * 1 != 0) {
                     network_connection.push({
                         source: term.term,
                         target: saved_term
@@ -137,27 +128,23 @@ router.post('/topicnetwork/lda', function(req,res) {
 
 
         var keys = Object.keys(network_data_origin);
-        for(var i = 0 ; i < keys.length ; i ++){
+        for (var i = 0; i < keys.length; i++) {
             network_data.push({
-                name : keys[i],
-                size : network_data_origin[keys[i]],
+                name: keys[i],
+                size: network_data_origin[keys[i]],
             })
         }
 
-        console.log("NETWORK : " , network_data);
-        console.log("NETWORK CONNECTION: " , network_connection);
+        console.log("NETWORK : ", network_data);
+        console.log("NETWORK CONNECTION: ", network_connection);
         result.default_data = JSON.stringify(data);
         result.network_data = JSON.stringify(network_data);
         result.network_connection = JSON.stringify(network_connection);
         console.log(result.output.topics);
 
 
-
-
         res.render('projects/topicnetwork/topicnetwork_lda', result)
     }
-
-
 
 
 })
@@ -485,74 +472,175 @@ router.get('/logonetwork/prototype02', function (req, res) {
 
 })
 
-router.get('/twittermood/weatherdata', function(req,res){
+router.get('/twittermood/graphs', function (req, res) {
     var result = {};
     result.tab = 'projects';
 
+    var input_city = req.query.city;
+
+    if(input_city === undefined || input_city == null)
+        var city = "Singapore";
+    else city = input_city;
+
+    console.log(city);
     var multi = db.multi();
     multi.select(4);
     multi.hkeys("Progress");
-    multi.exec(function(err,rep){
-        if(err != null){
+    multi.hkeys("Cities");
+
+
+    result.select = city;
+    multi.exec(function (err, rep) {
+        if (err != null) {
             res.render('projects/twittermood/twittermood_weatherdata', result);
             return;
         }
         var keys = rep[1].sort(sort);
+        result.cities = rep[2];
         multi = db.multi();
         multi.select(4);
-        for(var i = 0 ; i < keys.length ; i ++){
-            multi.hgetall("weather:New York:"+ keys[i]);
+        for (var i = 0; i < keys.length; i++) {
+            multi.hgetall("weather:" + city + ":" + keys[i]);
         }
-        multi.exec(function(err,rep){
-            if(err != null){
+
+
+
+        multi.exec(function (err, rep) {
+            if (err != null) {
                 res.render('projects/twittermood/twittermood_weatherdata', result);
                 return;
             }
             var default_data = [];
-
+            var second_data = [];
 
 
             var max = 0;
-            for(var j = 1; j < rep.length ; j ++){
-                //var key = Math.floor(keys[j - 1] / 10000);
-                var key = j;
-                default_data.push({
-                    num : key,
-                    name : "temperature",
-                    value : rep[j].temp
-                });
-
-                default_data.push({
-                    num : key,
-                    name : "humidity",
-                    value : rep[j].humidity
-                });
-
-                default_data.push({
-                    num : key,
-                    name : "pressure",
-                    value : rep[j].pressure
-                });
-
-                default_data.push({
-                    num : key,
-                    name : "wind",
-                    value : rep[j].wind
-                });
-
-                default_data.push({
-                    num : key,
-                    name : "rain",
-                    value : rep[j].rain == 'undefined' ? 0 : rep[j].rain * 10
-                });
+            /** for nvd3 */
+            var temperature = {
+                values: [],
+                key: "temp",
+                color: "#2ca0ff"
+            };
+            var humidity = {
+                values: [],
+                key: "humidity",
+                color: '#2ca02c'
             }
 
-            console.log(default_data)
-            result.default_data = JSON.stringify(default_data);
+            var wind = {
+                values: [],
+                key: "wind",
+                color: '#7777ff',
+            }
+
+            var rain = {
+                values: [],
+                key: "rain",
+                color: "#ff8f0e"
+            }
+            var snow = {
+                values: [],
+                key: "snow",
+                color: "#ff0000"
+            }
+
+
+            for (var j = 1; j < rep.length; j++) {
+                temperature.values.push({x: j, y: rep[j].temp * 1});
+                humidity.values.push({x: j, y: rep[j].humidity * 1});
+                wind.values.push({x: j, y: rep[j].wind_speed * 1});
+                rain.values.push({x: j, y: rep[j].rain == 'undefined' ? 0 : rep[j].rain  * 1});
+
+            }
 
 
 
-            res.render('projects/twittermood/twittermood_weatherdata', result);
+
+            default_data.push(temperature);
+            default_data.push(humidity);
+            default_data.push(wind);
+            default_data.push(rain);
+            multi = db.multi();
+            multi.select(5);
+            for (var i = 0; i < keys.length; i++) {
+                multi.hgetall("sentiment:" + city  + ":" + keys[i]);
+            }
+            multi.exec(function(err,rep){
+
+                var sentivalues = {
+                    values: [],
+                    key: "sentiment",
+                    color: "#ff8f0e",
+                    area:true,
+                }
+
+                for(var j = 1 ; j < rep.length; j ++){
+                    //console.log(rep[j]);
+                    if(rep[j] == null) continue;
+                    sentivalues.values.push({x:j , y : rep[j].aver * 10});
+
+                    var jump_count = 50;
+                    for(var i = -100 ; i < 100 ; i +=jump_count){
+                        var val = 0;
+                        for(var k = i ; k < i + jump_count ; k ++){
+                            if(k == 0) continue;
+
+                            val += rep[j][k + ''] == undefined ? 0 : rep[j][k + ''] * 1;
+                        }
+                        var data = {
+                            idx:j,
+                            name:i + ' ~ ' + (i * 1+ jump_count),
+                            value : val,
+                        }
+                        second_data.push(data);
+                    }
+                }
+                default_data.push(sentivalues);
+                result.default_data = JSON.stringify(default_data);
+                result.second_data = JSON.stringify(second_data);
+                res.render('projects/twittermood/twittermood_weatherdata', result);
+
+
+
+            })
+            /** for d3plus */
+            /*
+             for(var j = 1; j < rep.length ; j ++){
+             //var key = Math.floor(keys[j - 1] / 10000);
+             var key = j;
+             default_data.push({
+             num : key,
+             name : "temperature",
+             value : rep[j].temp * 1
+             });
+
+             default_data.push({
+             num : key,
+             name : "humidity",
+             value : rep[j].humidity * 1
+             });
+
+             //default_data.push({
+             //    num : key,
+             //    name : "pressure",
+             //    value : rep[j].pressure * 1
+             //});
+
+             default_data.push({
+             num : key,
+             name : "wind",
+             value : rep[j].wind * 1
+             });
+
+             default_data.push({
+             num : key,
+             name : "rain",
+             value : rep[j].rain == 'undefined' ? 0 : rep[j].rain  * 1
+             });
+             }
+
+             */
+
         })
     })
 
@@ -562,21 +650,64 @@ router.get('/twittermood/worldmap', function (req, res) {
     result.tab = 'projects';
     res.render('projects/twittermood/twittermood_worldmap', result);
 });
-router.get('/twittermood/sentiment', function(req,res){
+router.get('/twittermood/sentiment', function (req, res) {
     var result = {};
     result.tab = 'projects';
     result.countries = [];
+    var select = req.params.country;
+    var page = req.params.page;
 
+    console.log("param page : " + page);
 
     var multi = db.multi();
 
     multi.select(4);
     multi.hkeys('Cities');
-    multi.exec(function(err,rep){
+    multi.exec(function (err, rep) {
         result.countries = rep[1];
-        result.select = rep[1][0];
-        console.log(rep[1]);
-        res.render('projects/twittermood/twittermood_sentiment', result);
+        if(select === undefined || select == '')
+            result.select = rep[1][0];
+        else result.select = select;
+
+        multi = db.multi();
+        multi.select(4);
+        multi.hkeys('Progress');
+        var city = result.select;
+        multi.exec(function(err,rep){
+            multi = db.multi();
+            multi.select(2);
+            if(page === undefined || page == '')
+                result.currentpage = 0;
+            else result.currentpage = page;
+            console.log("Cur PAge : " + result.currentpage);
+
+            multi.zrange("location:" + city + ":" + rep[1][result.currentpage], 0, -1);
+            console.log('pageLength : ' + rep[1].length);
+            result.pagecount = rep[1].length;
+
+            multi.exec(function(err,rep){
+                multi = db.multi();
+                multi.select(1);
+                for(var i =0 ;  i < rep[1].length ; i ++){
+                    multi.hgetall(rep[1][i]);
+                }
+                result.tweets = [];
+                multi.exec(function(err,rep){
+                    for(var i = 1 ; i < rep.length ; i ++){
+                        var sent = sentiment.sentiment(rep[i].text);
+                        result.tweets.push({
+                            id : rep[i].user_scr_name,
+                            text : rep[i].text,
+                            sentiment : Math.floor(sent.comparative * 100) / 10,
+                        });
+
+                    }
+
+                    res.render('projects/twittermood/twittermood_sentiment', result);
+                })
+            })
+        })
+
 
     })
 
