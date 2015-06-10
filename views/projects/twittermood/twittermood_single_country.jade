@@ -1,0 +1,194 @@
+//
+   Created by hyunwoo on 2015-04-24.
+
+extends ../../projects_layout
+block body
+    script(src='http://www.d3plus.org/js/d3.js')
+    script(src='http://www.d3plus.org/js/d3plus.js')
+
+    div.container-fluid
+        h2
+            a #2
+            | &nbsp;Weather And Sentimental Graph
+        legend
+
+        div.row
+            div.col-sm-12
+                div.dropdown(align='right', style='margin-top:0px')
+                    div.btn.btn-primary.dropdown-toggle(type='button',id='dropdowncountry',data-toggle='dropdown',aria-expanded=true , style='width:100%;padding-right:3px', align='right')
+                        div.row
+                            div.col-xs-8(align='left')
+                                strong(style='font-family=Hevetica;margin-right:10px;padding-left:15px') #{select1}
+                            div.col-xs-4(align='right')
+                                span.caret(style='margin-left:10px;margin-right:10px')
+
+                    ul.dropdown-menu(role='menu', aria-labelledby='dropdowncountry',style='width:100%')
+                        li.dropdown-header countries
+
+                        -for(var i = 0 ; i < cities.length ; i ++){
+                        li(role='presentation')
+                            a(role='menuitem', tabindex='-1', href='graphs?city1=' + cities[i] )
+                                div.row(style='margin-top:15px')
+                                    div.col-sm-7
+                                        p(style='margin-left:35px') #{cities[i]}
+
+                        -}
+        p
+        h4
+            a #.1
+            | &nbsp;Weather + Sentiment Analsys Result Graph
+        svg(id='viz', style='width:100%; height:500px; border:1px solid')
+        legend
+        h4
+            a #.2
+            | &nbsp;Sentiment Score bargraph
+        svg(id='viz2', style='width:100%; height:500px; border:1px solid')
+        legend
+        h4
+            a #.3
+            | &nbsp;Sentiment Line bargraph
+        svg(id='viz3', style='width:100%; height:500px; border:1px solid')
+
+        legend
+        h4
+            a #Data :
+            |  JSON Data
+
+
+    div.container-fluid
+        textarea(id='text',style='resize:none; width:100%; border:1px solid') #{default_data}
+        legend
+        textarea(id='second',style='resize:none; width:100%; border:1px solid') #{second_data}
+        legend
+        div(align='right')
+            a # Update
+
+        script.
+            var G_DATA;
+            var G_DATA2;
+
+            $(function onLoad() {
+                G_DATA = document.getElementById("text").value;
+                G_DATA2 = document.getElementById("second").value;
+                var myTextArea = document.getElementById("text");
+                var myCodeMirror = CodeMirror(function (elt) {
+                            console.log(elt);
+                            myTextArea.parentNode.replaceChild(elt, myTextArea);
+                        },
+                        {
+                            value: myTextArea.value,
+                            lineNumbers: true,
+                            lineWrapping: true,
+                            theme: '3024-day',
+                        }
+                )
+
+
+                nv.addGraph(function () {
+                    var chart = nv.models.lineChart()
+                                    .margin({left: 60})  //Adjust chart margins to give the x-axis some breathing room.
+                                    .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
+                                    .transitionDuration(350)  //how fast do you want the lines to transition?
+                                    .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
+                                    .showYAxis(true)        //Show the y-axis
+                                    .showXAxis(true)        //Show the x-axis
+                            ;
+                    chart.xAxis     //Chart x-axis settings
+                            .axisLabel('Time (3hours)')
+                            .tickFormat(d3.format(',r'));
+                    chart.yAxis     //Chart y-axis settings
+                            .axisLabel('Numeric Values')
+                            .tickFormat(d3.format('.1f'));
+                    /* Done setting the chart up? Time to render it!*/
+                    d3.select('#viz')    //Select the <svg> element you want to render the chart in.
+                            .datum(defaultData)         //Populate the <svg> element with chart data...
+                            .call(chart);          //Finally, render the chart!
+                    //Update the chart when window resizes.
+                    nv.utils.windowResize(function () {
+                        chart.update()
+                    });
+                    return chart;
+                });
+
+
+                setTimeout(function () {
+                    var data = JSON.parse(G_DATA2);
+                    var visualization = d3plus.viz()
+                            .container("#viz2")
+                            .data(data)
+                            .type("bar")
+                            .id("name")
+                            .x("idx")
+                            .y("value")
+                            .draw()
+
+                    d3plus.viz()
+                            .container("#viz3")
+                            .data(data)
+                            .type("line")
+                            .id("name")
+                            .x("idx")
+                            .y("value")
+                            .draw()
+                }, 1000)
+
+
+            });
+
+
+
+            // instantiate d3plus
+
+            function defaultData() {
+                return JSON.parse(G_DATA);
+
+            }
+            /*
+             var sample_data2 = [
+             {"num": 1, "name": "temperature", "value": 29},
+             {"num": 2, "name": "temperature", "value": 18},
+             {"num": 1, "name": "wind", "value": 2},
+             {"num": 2, "name": "wind", "value": 7},
+             {"num": 1, "name": "humidity", "value": 11},
+             {"num": 2, "name": "humidity", "value": 15},
+             {"num": 1, "name": "rain", "value": 37},
+             {"num": 2, "name": "rain", "value": 54}
+             ]
+
+             var sample_data = [
+             {"num": 1, "name": "temperature", "value": "9"}, {
+             "num": 1,
+             "name": "humidity",
+             "value": "81"
+             }, ]
+
+             var attributes1 = [
+             {"name": "alpha", "hex": "#00CC00"},
+             {"name": "beta", "hex": "#00CC00"}
+             ]
+
+             var attributes2 = [
+             {"name": "temperature", "hex": "#CC0000"},
+             {"name": "humidity", "hex": "#00CC00"},
+             //{"name": "pressure", "hex": "#0000CC"},
+             {"name": "wind", "hex": "#CC00CC"},
+             {"name": "rain", "hex": "#00CCCC"}
+             ]
+
+             var visualization = d3plus.viz()
+             .container("#viz")
+             .data(testData())
+             .type("line")
+             .id("name")
+             .y("value")
+             .x("num")
+             .attrs(attributes2)
+             .color("hex")
+             .draw()
+             });
+
+
+             function testData() {
+             return JSON.parse(G_DATA);
+             }
+             */

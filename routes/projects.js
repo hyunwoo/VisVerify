@@ -157,6 +157,8 @@ csvParser.Parse('./ProjectData/joseondynasty/kingsname.csv', function (data) {
     }
 });
 
+
+
 router.get('/joseondynasty', function (req, res) {
     var result = {};
     result.tab = 'projects';
@@ -411,6 +413,11 @@ router.get('/joseondynasty/network', function (req, res) {
     res.render('projects/joseondynasty/joseondynasty_network');
 });
 
+router.get('/logonetwork/circularParellar', function(req,res){
+    var result = {};
+    result.tab = 'projects';
+    res.render('projects/logonetwork/logonetwork_circularParellar');
+})
 
 router.get('/logonetwork', function (req, res) {
     var result = {};
@@ -472,24 +479,272 @@ router.get('/logonetwork/prototype02', function (req, res) {
 
 })
 
-router.get('/twittermood/graphs', function (req, res) {
+router.get('/twittermood/multi_country', function (req, res) {
     var result = {};
     result.tab = 'projects';
 
-    var input_city = req.query.city;
-
+    var input_city = req.query.city1;
+    var input_city_2 = req.query.city2;
+    var city = 'Singapore';
     if(input_city === undefined || input_city == null)
-        var city = "Singapore";
+        city = "Singapore";
     else city = input_city;
 
-    console.log(city);
+    var city2 = "New York";
+    if(input_city_2 === undefined || input_city_2 == null)
+        city2 = "New York";
+    else city2 = input_city_2;
+
+
     var multi = db.multi();
     multi.select(4);
     multi.hkeys("Progress");
     multi.hkeys("Cities");
 
 
-    result.select = city;
+    result.select1 = city;
+    result.select2 = city2;
+
+    multi.exec(function (err, rep) {
+        if (err != null) {
+            res.render('projects/twittermood/twittermood_weatherdata', result);
+            return;
+        }
+        var keys = rep[1].sort(sort);
+        result.cities = rep[2];
+        multi = db.multi();
+        multi.select(4);
+        for (var i = 0; i < keys.length; i++) {
+            multi.hgetall("weather:" + city + ":" + keys[i]);
+        }
+
+        for (var i = 0; i < keys.length; i++) {
+            multi.hgetall("weather:" + city2 + ":" + keys[i]);
+        }
+
+        multi.exec(function (err, rep) {
+            if (err != null) {
+                res.render('projects/twittermood/twittermood_multi_country', result);
+                return;
+            }
+            var default_data = [];
+            var second_data = [];
+
+
+            var max = 0;
+            /** for nvd3 */
+            var temperature = {
+                values: [],
+                key: "temp " + city,
+                color: "#2ca0ff"
+            };
+            var humidity = {
+                values: [],
+                key: "humidity " + city,
+                color: '#2ca02c'
+            }
+
+            var wind = {
+                values: [],
+                key: "wind " + city,
+                color: '#7777ff',
+            }
+
+            var rain = {
+                values: [],
+                key: "rain " + city,
+                color: "#ff8f0e"
+            }
+            var uncomf = {
+                values: [],
+                key: "uncomf " + city,
+                color: "#ff0000"
+            }
+
+
+            // 2
+            var temperature2 = {
+                values: [],
+                key: "temp " + city2,
+                color: "#2ca0ff"
+            };
+            var humidity2 = {
+                values: [],
+                key: "humidity " + city2,
+                color: '#2ca02c'
+            }
+
+            var wind2 = {
+                values: [],
+                key: "wind " + city2,
+                color: '#7777ff',
+            }
+
+            var rain2 = {
+                values: [],
+                key: "rain " + city2,
+                color: "#ff8f0e"
+            }
+            var uncomf2 = {
+                values: [],
+                key: "uncomf " + city2,
+                color: "#ff0000"
+            }
+
+
+
+            var group1_length = (rep.length - 1) / 2 + 1;
+            var group2_length = rep.length;
+
+            for (var j = 1; j < group1_length; j++) {
+                temperature.values.push({x: j, y: rep[j].temp * 1});
+                humidity.values.push({x: j, y: rep[j].humidity * 1});
+                wind.values.push({x: j, y: rep[j].wind_speed * 1});
+                rain.values.push({x: j, y: rep[j].rain == 'undefined' ? 0 : rep[j].rain  * 1});
+
+                var uncomf_value = 9 * 0.2 * rep[j].temp - 0.55 * ( 1 - rep[j].humidity * 0.01) * (9 * 0.2 * rep[j].temp - 26) + 32;
+                uncomf.values.push({x: j, y: uncomf_value * 1});
+
+
+            }
+
+            for (var j = group1_length; j < group2_length; j++) {
+                var index = j - group1_length;
+                temperature2.values.push({x: index, y: rep[j].temp * 1});
+                humidity2.values.push({x: index, y: rep[j].humidity * 1});
+                wind2.values.push({x: index, y: rep[j].wind_speed * 1});
+                rain2.values.push({x: index, y: rep[j].rain == 'undefined' ? 0 : rep[j].rain  * 1});
+                var uncomf_value = 9 * 0.2 * rep[j].temp - 0.55 * ( 1 - rep[j].humidity * 0.01) * (9 * 0.2 * rep[j].temp - 26) + 32;
+                uncomf2.values.push({x: index, y: uncomf_value * 1});
+
+            }
+
+            default_data.push(temperature);
+            default_data.push(humidity);
+            default_data.push(wind);
+            default_data.push(rain);
+            default_data.push(uncomf);
+
+            default_data.push(temperature2);
+            default_data.push(humidity2);
+            default_data.push(wind2);
+            default_data.push(rain2);
+            default_data.push(uncomf2);
+
+
+            multi = db.multi();
+            multi.select(5);
+            for (var i = 0; i < keys.length; i++) {
+                multi.hgetall("sentiment:" + city  + ":" + keys[i]);
+            }
+
+            for (var i = 0; i < keys.length; i++) {
+                multi.hgetall("sentiment:" + city2  + ":" + keys[i]);
+            }
+
+
+            multi.exec(function(err,rep){
+
+                var sentivalues = {
+                    values: [],
+                    key: "sentiment " + city,
+                    color: "#ff8f0e",
+                }
+
+                var sentivalues2 = {
+                    values: [],
+                    key: "sentiment " + city2,
+                    width : 3,
+                    color: "#8fff0e",
+                }
+
+                var group1_length = (rep.length - 1) / 2 + 1;
+                var group2_length = rep.length;
+                for(var j = 1 ; j < group1_length; j ++){
+                    //console.log(rep[j]);
+                    var idx = j - 1;
+                    if(rep[j] == null) continue;
+                    sentivalues.values.push({x:idx , y : rep[j].aver * 10});
+
+                    var jump_count = 50;
+                    for(var i = -100 ; i < 100 ; i +=jump_count){
+                        var val = 0;
+                        for(var k = i ; k < i + jump_count ; k ++){
+                            if(k == 0) continue;
+
+                            val += rep[j][k + ''] == undefined ? 0 : rep[j][k + ''] * 1;
+                        }
+                        var data = {
+                            idx:j,
+                            name:i + ' ~ ' + (i * 1+ jump_count),
+                            value : val,
+                        }
+                        second_data.push(data);
+                    }
+                }
+
+                for(var j = group1_length ; j < group2_length; j ++){
+                    //console.log(rep[j]);
+
+                    if(rep[j] == null) continue;
+                    var idx = j - group1_length ;
+                    sentivalues2.values.push({x:idx , y : rep[j].aver * 10});
+
+
+                    var jump_count = 50;
+                    for(var i = -100 ; i < 100 ; i +=jump_count){
+                        var val = 0;
+                        for(var k = i ; k < i + jump_count ; k ++){
+                            if(k == 0) continue;
+
+                            val += rep[j][k + ''] == undefined ? 0 : rep[j][k + ''] * 1;
+                        }
+                        var data = {
+                            idx:j,
+                            name:i + ' ~ ' + (i * 1+ jump_count),
+                            value : val,
+                        }
+                        second_data.push(data);
+                    }
+                }
+                default_data.push(sentivalues2);
+                default_data.push(sentivalues);
+                result.default_data = JSON.stringify(default_data);
+                //result.second_data = JSON.stringify(second_data);
+                res.render('projects/twittermood/twittermood_multi_country', result);
+
+
+
+            })
+            /** for d3plus */
+
+
+        })
+    })
+
+})
+
+
+router.get('/twittermood/graphs', function (req, res) {
+    var result = {};
+    result.tab = 'projects';
+
+    var input_city = req.query.city1;
+    var city = 'Singapore';
+    if(input_city === undefined || input_city == null)
+        city = "Singapore";
+    else city = input_city;
+
+
+
+    var multi = db.multi();
+    multi.select(4);
+    multi.hkeys("Progress");
+    multi.hkeys("Cities");
+
+
+    result.select1 = city;
+
     multi.exec(function (err, rep) {
         if (err != null) {
             res.render('projects/twittermood/twittermood_weatherdata', result);
@@ -552,6 +807,7 @@ router.get('/twittermood/graphs', function (req, res) {
                 rain.values.push({x: j, y: rep[j].rain == 'undefined' ? 0 : rep[j].rain  * 1});
 
             }
+            console.log(rep);
 
 
 
@@ -598,48 +854,13 @@ router.get('/twittermood/graphs', function (req, res) {
                 default_data.push(sentivalues);
                 result.default_data = JSON.stringify(default_data);
                 result.second_data = JSON.stringify(second_data);
-                res.render('projects/twittermood/twittermood_weatherdata', result);
+                res.render('projects/twittermood/twittermood_single_country', result);
 
 
 
             })
             /** for d3plus */
-            /*
-             for(var j = 1; j < rep.length ; j ++){
-             //var key = Math.floor(keys[j - 1] / 10000);
-             var key = j;
-             default_data.push({
-             num : key,
-             name : "temperature",
-             value : rep[j].temp * 1
-             });
 
-             default_data.push({
-             num : key,
-             name : "humidity",
-             value : rep[j].humidity * 1
-             });
-
-             //default_data.push({
-             //    num : key,
-             //    name : "pressure",
-             //    value : rep[j].pressure * 1
-             //});
-
-             default_data.push({
-             num : key,
-             name : "wind",
-             value : rep[j].wind * 1
-             });
-
-             default_data.push({
-             num : key,
-             name : "rain",
-             value : rep[j].rain == 'undefined' ? 0 : rep[j].rain  * 1
-             });
-             }
-
-             */
 
         })
     })
@@ -823,7 +1044,6 @@ router.get('/twittermood/twits', function (req, res) {
     }
 });
 
-
 function parseTwitDate(date) {
     try {
         var eachs = date.split(' ');
@@ -832,6 +1052,8 @@ function parseTwitDate(date) {
         return ' ';
     }
 }
+
+
 router.get('/streamgraph', function (req, res) {
 
     var default_data = fs.readFileSync('./exampleData/nvd3/stackedAreaData.json');

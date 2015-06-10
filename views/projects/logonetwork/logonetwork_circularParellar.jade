@@ -1,0 +1,46 @@
+extends ../../projects_layout
+block body
+    div.container-fluid
+        h2
+            a #
+            |  FreeNetwork Prototype
+        svg(id='chart', style='margin:0;width:100%; height:500px; border:1px solid')
+        legend
+        h4
+            a #Data :
+            |  JSON Data
+    div.container-fluid
+        textarea(id='text',style='resize:none; width:100%; border:1px solid') #{default_data}
+        legend
+        div(align='right')
+            a # Update
+        script.
+            var sampleSVG = d3.select("#chart")
+                .append("svg")
+                .attr("width", 500)
+                .attr("height", 500);
+
+
+
+            sampleSVG.appendline()
+                    .x(100)
+                    .y(300);
+
+
+            sampleSVG.append("circle")
+                .style("stroke", "gray")
+                .style("fill", "white")
+                .attr("r", 150)
+                .attr("cx", 250)
+                .attr("cy", 250)
+                .on("mousedown", animate);
+            function animate() {
+                d3.select(this).transition()
+                        .duration(1000)
+                        .attr("r", 10)
+                        .transition()
+                        .delay(1000)
+                        .attr("r", 40);
+            };
+
+

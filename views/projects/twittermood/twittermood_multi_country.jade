@@ -11,29 +11,48 @@ block body
             a #2
             | &nbsp;Weather And Sentimental Graph
         legend
-        div.dropdown(align='right', style='margin-top:0px')
-            div.btn.btn-primary.dropdown-toggle(type='button',id='dropdowncountry',data-toggle='dropdown',aria-expanded=true , style='width:100%;padding-right:3px', align='right')
-                div.row
-                    div.col-xs-8(align='left')
-                        strong(style='font-family=Hevetica;margin-right:10px;padding-left:15px') #{select}
-                    div.col-xs-4(align='right')
-                        span.caret(style='margin-left:10px;margin-right:10px')
 
+        div.row
+            div.col-sm-6
+                div.dropdown(align='right', style='margin-top:0px')
+                    div.btn.btn-primary.dropdown-toggle(type='button',id='dropdowncountry',data-toggle='dropdown',aria-expanded=true , style='width:100%;padding-right:3px', align='right')
+                        div.row
+                            div.col-xs-8(align='left')
+                                strong(style='font-family=Hevetica;margin-right:10px;padding-left:15px') #{select1}
+                            div.col-xs-4(align='right')
+                                span.caret(style='margin-left:10px;margin-right:10px')
 
+                    ul.dropdown-menu(role='menu', aria-labelledby='dropdowncountry',style='width:100%')
+                        li.dropdown-header countries
 
+                        -for(var i = 0 ; i < cities.length ; i ++){
+                        li(role='presentation')
+                            a(role='menuitem', tabindex='-1', href='multi_country?city1=' + cities[i] + '&city2=' + select2 )
+                                div.row(style='margin-top:15px')
+                                    div.col-sm-7
+                                        p(style='margin-left:35px') #{cities[i]}
 
-            ul.dropdown-menu(role='menu', aria-labelledby='dropdowncountry',style='width:100%')
-                li.dropdown-header countries
+                        -}
+            div.col-sm-6
+                div.dropdown(align='right', style='margin-top:0px')
+                    div.btn.btn-primary.dropdown-toggle(type='button',id='dropdowncountry',data-toggle='dropdown',aria-expanded=true , style='width:100%;padding-right:3px', align='right')
+                        div.row
+                            div.col-xs-8(align='left')
+                                strong(style='font-family=Hevetica;margin-right:10px;padding-left:15px') #{select2}
+                            div.col-xs-4(align='right')
+                                span.caret(style='margin-left:10px;margin-right:10px')
 
-                -for(var i = 0 ; i < cities.length ; i ++){
-                li(role='presentation')
-                    a(role='menuitem', tabindex='-1', href='graphs?city=' + cities[i])
-                        div.row(style='margin-top:15px')
-                            div.col-sm-7
-                                p(style='margin-left:35px') #{cities[i]}
+                    ul.dropdown-menu(role='menu', aria-labelledby='dropdowncountry',style='width:100%')
+                        li.dropdown-header countries
 
-                -}
-        legend
+                        -for(var i = 0 ; i < cities.length ; i ++){
+                        li(role='presentation')
+                            a(role='menuitem', tabindex='-1', href='multi_country?city1=' + select1 + '&city2=' + cities[i] )
+                                div.row(style='margin-top:15px')
+                                    div.col-sm-7
+                                        p(style='margin-left:35px') #{cities[i]}
+
+                        -}
         p
         h4
             a #.1
