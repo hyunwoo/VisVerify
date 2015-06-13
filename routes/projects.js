@@ -602,6 +602,7 @@ router.get('/twittermood/multi_country', function (req, res) {
                 wind.values.push({x: j, y: rep[j].wind_speed * 1});
                 rain.values.push({x: j, y: rep[j].rain == 'undefined' ? 0 : rep[j].rain  * 1});
 
+//                9/5Ta-0.55(1-RH)(9/5Ta-26)+32
                 var uncomf_value = 9 * 0.2 * rep[j].temp - 0.55 * ( 1 - rep[j].humidity * 0.01) * (9 * 0.2 * rep[j].temp - 26) + 32;
                 uncomf.values.push({x: j, y: uncomf_value * 1});
 
