@@ -1,10 +1,10 @@
-extends ../../projects_layout
-block body
+extends ../../layout
+block content
     div.container-fluid
         h2
             a #
             |  FreeNetwork Prototype
-        svg(id='chart', style='margin:0;width:100%; height:500px; border:1px solid')
+        svg(id='chart', style='margin:0;width:1200px; height:800px; border:1px solid')
         legend
         h4
             a #Data :
@@ -15,42 +15,190 @@ block body
         div(align='right')
             a # Update
         script.
-            var sampleSVG = d3.select("#chart")
-                .append("svg")
-                .attr("width", 500)
-                .attr("height", 500);
+
+            var datas = [];
+            var circle_line_data = [];
+            var data_count = 1;
+            var category_length = 30;
+            var circle_length = 60;
+            var category_line_height = 100;
 
 
-
-            var lineData = [{"x": 1, "y": 5}, {"x": 20, "y": 20},
-                                 {"x": 40, "y": 10}, {"x": 60, "y": 40},
-                                 {"x": 80, "y": 5}, {"x": 100, "y": 60}];
-            var lineFunction = d3.svg.line()
-            .x(function (d) {
-                console.log(d.x);
-                return d.x;
-            })
-            .y(function (d) {
-                return d.y;
-            })
-            .interpolate("linear");
-
-            var svgContainer = sampleSVG;
-
-            var lineGraph = svgContainer.append("path")
-            .attr("d", lineFunction(lineData))
-            .attr("stroke", "blue")
-            .attr("stroke-width", 2)
-            .attr("fill", "none")
-            .on('mousedown', lineDown);
-
-            function lineDown(){
-                lineGraph
-                    .attr('stroke', "red")
-                    .transition()
-                    .delay(1000)
-                    .attr('stroke', "blue")
+            for(var i = 0 ; i < circle_length + 1 ; i ++) {
+                circle_line_data.push([i,0])
             }
+            for(var idx = 0 ; idx < data_count ; idx ++){
+
+                var data = {
+                    color : '#ff00ff',
+                    values : [],
+                    connect : [[10, 1] , [7,0.3], [5,0.15]],
+                    connect_color : '#ff0000',
+                };
+
+                for(var i = 0 ; i < category_length; i ++) {
+                    data.values.push([i, Math.floor(Math.random() * 5) * category_line_height / 5]);
+                }
+                data.values.push([category_length, data.values[0][1]]);
+                datas.push(data);
+            }
+
+
+            var width = 1200, height = 800, cx = width/2, cy = height/2;
+            var angle = d3.scale.linear()
+                    .domain([0, circle_length])
+                    .range([0, Math.PI * 2]);
+            var angle_data = d3.scale.linear()
+                    .domain([0, category_length])
+                    .range([0, Math.PI * 2]);
+            var r = 250;
+            var h = 200;
+            var chart = d3.select("#chart").append('svg')
+                    .attr("width", width)
+                    .attr("height", height);
+
+
+
+
+
+
+
+            var gridGen = d3.svg.line()
+                    .x(function (d) {
+                        var x = Math.sin(angle(d[0])) * (r + category_line_height * d[1]);
+                        return cx + x;
+                    })
+                    .y(function (d) {
+                        var y = Math.cos(angle(d[0])) * (r + category_line_height * d[1]);
+                        return cy + y;
+                    });
+
+            var dataLineGen = d3.svg.line()
+                    .x(function (d) {
+                        var sin = Math.sin(angle_data(d[0]));
+                        var x = sin * (r + d[1]);
+                        return cx + x;
+                    })
+                    .y(function (d) {
+                        var cos = Math.cos(angle_data(d[0])) ;
+                        var y = cos * (r + d[1]) ;
+                        return cy + y;
+                    });
+
+
+            var gridLineGen = d3.svg.line()
+                    .x(function (d) {
+                        var sin = Math.sin(angle(d[0]));
+                        var x = sin * (r + d[1]);
+                        return cx + x;
+                    })
+                    .y(function (d) {
+                        var cos = Math.cos(angle(d[0])) ;
+                        var y = cos * (r + d[1]) ;
+                        return cy + y;
+                    });
+
+
+
+            function drawNode(d){
+                chart.append('svg:path')
+                    .attr('d', dataLineGen(d.values))
+                    .attr('stroke', d.color)
+                    .attr('stroke-width', 1.0)
+                    .attr('fill', 'none');
+
+
+
+                var saved = 0;
+                var x = 0, y = 0;
+                for(var i = 0 ; i < d.connect.length; i ++){
+                    x += Math.sin(angle_data(d.connect[i][0])) * r * d.connect[i][1] ;
+                    y += Math.cos(angle_data(d.connect[i][0])) * r * d.connect[i][1] ;
+                    saved += d.connect[i][1];
+                }
+                console.log(saved);
+                x /= saved;
+                y /= saved;
+                x += cx;
+                y += cy;
+
+                chart.append("circle").
+                        attr('cx', x).
+                        attr('cy', y).
+                        attr('r', 5).
+                        attr('fill', d.color);
+
+
+                for(var i = 0 ; i < d.connect.length; i ++){
+
+
+                    var sin = Math.sin(angle_data(d.connect[i][0]));
+                    var cos = Math.cos(angle_data(d.connect[i][0]));
+                    chart.append("line").style("stroke", d.connect_color)
+                            .attr("x1", x)
+                            .attr("y1", y)
+                            .attr("x2", sin * r + cx)
+                            .attr("y2", cos * r + cy);
+                }
+            }
+
+
+            for(var i = 0 , max = datas.length; i < max ; i ++){
+                drawNode(datas[i]);
+            }
+
+
+            /** draw grids **/
+            var nodeGen = {};
+            for (var i = 0; i < category_length; i++) {
+                chart.append('svg:path')
+                        .attr('d', gridGen([[i * circle_length / category_length, 0], [i * circle_length / category_length, 1]]))
+                        .attr('stroke', 'black')
+                        .attr('stroke-width', 1.0)
+                        .attr('fill', 'none');
+            }
+            chart.append('svg:path')
+                    .attr('d', gridLineGen(circle_line_data))
+                    .attr('stroke', 'black')
+                    .attr('stroke-width', 1)
+                    .attr('fill', 'none');
+            /** draw grids end **/
+            // default functions
+
+
+
+
+
+
+//            var lineData = [{"x": 1, "y": 5}, {"x": 20, "y": 20},
+//                                 {"x": 40, "y": 10}, {"x": 60, "y": 40},
+//                                 {"x": 80, "y": 5}, {"x": 100, "y": 60}];
+//            var lineFunction = d3.svg.line()
+//            .x(function (d) {
+//                console.log(d.x);
+//                return d.x;
+//            })
+//            .y(function (d) {
+//                return d.y;
+//            })
+//            .interpolate("linear");
+//
+//            var svgContainer = sampleSVG;
+//
+//            var lineGraph = svgContainer.append("path")
+//            .attr("d", lineFunction(lineData))
+//            .attr("stroke", "blue")
+//            .attr("stroke-width", 2)
+//            .attr("fill", "none")
+//            .on('mousedown', lineDown);
+//
+//            function lineDown(){
+//                lineGraph
+//                    .attr('stroke', "red")
+//                    .transition()
+//                    .delay(1000)
+//                    .attr('stroke', "blue")
+//            }
             /*
             sampleSVG.append("circle")
                 .style("stroke", "gray")
