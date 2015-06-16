@@ -4,7 +4,7 @@ block content
         h2
             a #
             |  FreeNetwork Prototype
-        svg(id='chart', style='margin:0;width:1200px; height:800px; border:1px solid')
+        svg(id='chart', style='margin:0;width:1200px; height:1200px; border:1px solid')
         legend
         h4
             a #Data :
@@ -15,53 +15,106 @@ block content
         div(align='right')
             a # Update
         script.
-
+            var gridsdata = [];
             var datas = [];
+            var G_DATA = JSON.parse(document.getElementById("text").value);
             var circle_line_data = [];
-            var data_count = 1;
-            var category_length = 30;
-            var circle_length = 60;
-            var category_line_height = 100;
+            var data_count = 75;
+            var category_length = G_DATA['max'].arg1;
+            var circle_length = category_length * 2;
+            var category_line_height = 130;
+            var gridwidth = 40;
+            var default_circle_size = 6;
+            var cat_tfidf = [];
+            var grid_color = '#cccccc';
+            var tf_idf_mul_value = 1.7;
+            var maxs = [];
 
+            var grid_colors = {};
+            grid_colors['A'] = '#ffaaaa';
+            grid_colors['B'] = '#ccffaa';
+            grid_colors['C'] = '#aaaaff';
+            grid_colors['D'] = '#ffaaff';
 
-            for(var i = 0 ; i < circle_length + 1 ; i ++) {
-                circle_line_data.push([i,0])
+            for(var i = 0 ; i < category_length ; i ++){
+                maxs.push(G_DATA['max'][i]);
+                cat_tfidf.push(G_DATA['cat_names'][i]);
             }
-            for(var idx = 0 ; idx < data_count ; idx ++){
+
+            var myTextArea = document.getElementById("text");
+
+            var myCodeMirror = CodeMirror(function (elt) {
+                        myTextArea.parentNode.replaceChild(elt, myTextArea);
+                    },
+                    {
+                        value: myTextArea.value,
+                        lineNumbers: true,
+                        lineWrapping: true,
+                        theme: '3024-day',
+                    }
+            )
+
+            for (var i = 0; i < circle_length + 1; i++) {
+                circle_line_data.push([i, 0])
+            }
+            for (var idx = 0; idx < data_count; idx++) {
+                var value =G_DATA[G_DATA.keys[idx]];
 
                 var data = {
-                    color : '#ff00ff',
-                    values : [],
-                    connect : [[10, 1] , [7,0.3], [5,0.15]],
-                    connect_color : '#ff0000',
+                    logo: G_DATA[G_DATA.keys[idx]].name,
+                    color: G_DATA[G_DATA.keys[idx]].arg1 == 0 ? '#cccccc' : G_DATA[G_DATA.keys[idx]].arg1,
+                    values: [],
+                    connect: [],
+                    connect_color: '#cccccc',
                 };
 
-                for(var i = 0 ; i < category_length; i ++) {
-                    data.values.push([i, Math.floor(Math.random() * 5) * category_line_height / 5]);
+                var mul_idf_value = 0;
+                for (var i = 0; i < category_length; i++) {
+                    data.values.push([i, value[i] * category_line_height / maxs[i]]);
+                    if(value[i] != 0){
+                        if(value.cat == cat_tfidf[i]) {
+                            mul_idf_value += tf_idf_mul_value;
+                        }
+                    }
                 }
+                for (var i = 0; i < category_length; i++) {
+                    if(value[i] != 0){
+                        var idf = 0.5;
+                        if(value.cat == cat_tfidf[i])
+                            data.connect.push([i, mul_idf_value, cat_tfidf[i], 'true']);
+                        else
+                            data.connect.push([i, idf, cat_tfidf[i], 'false']);
+                    }
+                }
+
+                data.name = 'idx : ' + idx;
                 data.values.push([category_length, data.values[0][1]]);
                 datas.push(data);
             }
 
-
-            var width = 1200, height = 800, cx = width/2, cy = height/2;
+            var width = 1200, height = 1200, cx = width / 2, cy = height / 2;
             var angle = d3.scale.linear()
                     .domain([0, circle_length])
                     .range([0, Math.PI * 2]);
             var angle_data = d3.scale.linear()
                     .domain([0, category_length])
                     .range([0, Math.PI * 2]);
-            var r = 250;
+            var r = 350;
             var h = 200;
             var chart = d3.select("#chart").append('svg')
                     .attr("width", width)
                     .attr("height", height);
 
 
-
-
-
-
+            var gridVerticalGen = d3.svg.line()
+                    .x(function (d) {
+                        var x = Math.sin(angle(d[0])) * (r + category_line_height * d[1] +  d[1] * gridwidth + 25);
+                        return cx + x;
+                    })
+                    .y(function (d) {
+                        var y = Math.cos(angle(d[0])) * (r + category_line_height * d[1] + d[1] * gridwidth + 25 );
+                        return cy + y;
+                    });
 
             var gridGen = d3.svg.line()
                     .x(function (d) {
@@ -76,145 +129,209 @@ block content
             var dataLineGen = d3.svg.line()
                     .x(function (d) {
                         var sin = Math.sin(angle_data(d[0]));
-                        var x = sin * (r + d[1]);
+                        var x = sin * (r + d[1] + gridwidth  + 10);
                         return cx + x;
                     })
                     .y(function (d) {
-                        var cos = Math.cos(angle_data(d[0])) ;
-                        var y = cos * (r + d[1]) ;
+                        var cos = Math.cos(angle_data(d[0]));
+                        var y = cos * (r + d[1] + gridwidth + 10  );
                         return cy + y;
                     });
-
 
             var gridLineGen = d3.svg.line()
                     .x(function (d) {
-                        var sin = Math.sin(angle(d[0]));
-                        var x = sin * (r + d[1]);
+                        var sin = Math.sin(angle(d[0] + d[2] * 0.1));
+                        var x = sin * (r + d[1] + gridwidth / 2);
                         return cx + x;
                     })
                     .y(function (d) {
-                        var cos = Math.cos(angle(d[0])) ;
-                        var y = cos * (r + d[1]) ;
+                        var cos = Math.cos(angle(d[0] + d[2] * 0.1));
+                        var y = cos * (r + d[1] + gridwidth / 2);
                         return cy + y;
                     });
-
-
-
-            function drawNode(d){
-                chart.append('svg:path')
-                    .attr('d', dataLineGen(d.values))
-                    .attr('stroke', d.color)
-                    .attr('stroke-width', 1.0)
-                    .attr('fill', 'none');
-
-
-
-                var saved = 0;
-                var x = 0, y = 0;
-                for(var i = 0 ; i < d.connect.length; i ++){
-                    x += Math.sin(angle_data(d.connect[i][0])) * r * d.connect[i][1] ;
-                    y += Math.cos(angle_data(d.connect[i][0])) * r * d.connect[i][1] ;
-                    saved += d.connect[i][1];
-                }
-                console.log(saved);
-                x /= saved;
-                y /= saved;
-                x += cx;
-                y += cy;
-
-                chart.append("circle").
-                        attr('cx', x).
-                        attr('cy', y).
-                        attr('r', 5).
-                        attr('fill', d.color);
-
-
-                for(var i = 0 ; i < d.connect.length; i ++){
-
-
-                    var sin = Math.sin(angle_data(d.connect[i][0]));
-                    var cos = Math.cos(angle_data(d.connect[i][0]));
-                    chart.append("line").style("stroke", d.connect_color)
-                            .attr("x1", x)
-                            .attr("y1", y)
-                            .attr("x2", sin * r + cx)
-                            .attr("y2", cos * r + cy);
-                }
-            }
-
-
-            for(var i = 0 , max = datas.length; i < max ; i ++){
-                drawNode(datas[i]);
-            }
-
 
             /** draw grids **/
             var nodeGen = {};
             for (var i = 0; i < category_length; i++) {
                 chart.append('svg:path')
-                        .attr('d', gridGen([[i * circle_length / category_length, 0], [i * circle_length / category_length, 1]]))
-                        .attr('stroke', 'black')
-                        .attr('stroke-width', 1.0)
+                        .attr('d', gridVerticalGen([[i * circle_length / category_length, 0], [i * circle_length / category_length, 1]]))
+                        .attr('stroke', grid_color)
+                        .attr('stroke-width',2.0)
                         .attr('fill', 'none');
             }
-            chart.append('svg:path')
-                    .attr('d', gridLineGen(circle_line_data))
-                    .attr('stroke', 'black')
-                    .attr('stroke-width', 1)
-                    .attr('fill', 'none');
-            /** draw grids end **/
-            // default functions
+
+
+            for (var i = 0; i < circle_length; i += 2) {
+                chart.append('svg:path')
+                        .attr('d', gridLineGen([[i-1, 0, -1], [i , 0 , 0], [i + 1, 0 , 1]]))
+                        .attr('stroke', grid_colors[cat_tfidf[i/2]])
+                        .attr('stroke-width', gridwidth)
+                        .attr('fill', 'none');
+            }
+            var drawings = [];
+
+            function drawNode(d) {
+                var graph = chart.append('svg:path')
+                        .attr('d', dataLineGen(d.values))
+                        .attr('stroke', d.color)
+                        .attr('stroke-width', 1.0)
+                        .attr('fill', 'none')
+                        .attr('deactive', '#cccccc')
+                        .attr('active', d.color)
+                        .attr('flag', 'normal')
+                        .attr('before_flag', 'normal')
+
+                var saved = 0;
+                var x = 0, y = 0;
+                for (var i = 0; i < d.connect.length; i++) {
+                    x += Math.sin(angle_data(d.connect[i][0])) * r * d.connect[i][1];
+                    y += Math.cos(angle_data(d.connect[i][0])) * r * d.connect[i][1];
+                    saved += d.connect[i][1];
+                }
+                x /= saved;
+                y /= saved;
+                x += cx;
+                y += cy;
+
+                var connections = [];
+                for (var i = 0; i < d.connect.length; i++) {
+                    var sin = Math.sin(angle_data(d.connect[i][0]));
+                    var cos = Math.cos(angle_data(d.connect[i][0]));
+                    var connection = chart.append("line")
+                            .style("stroke", d.connect_color)
+                            .style('stroke-width', 0.1)
+                            .attr("x1", x)
+                            .attr("y1", y)
+                            .attr("x2", sin * r + cx)
+                            .attr("y2", cos * r + cy)
+                            .attr('flag', 'normal')
+                            .attr('before_flag', 'normal')
+                            .attr('active',grid_colors[d.connect[i][2]])
+                            .attr('deactive', '#cccccc')
+                            .attr('isCat', d.connect[i][3])
+                    connections.push(connection);
+                }
+
+                var circle = chart.append("circle")
+                        .attr('cx', x)
+                        .attr('cy', y)
+                        .attr('r', default_circle_size)
+                        .attr('fill', d.color)
+                        .attr('deactive', '#cccccc')
+                        .attr('active', d.color)
+                        .attr('flag', 'normal')
+                        .attr('before_flag', 'normal')
+
+                var text = chart.append('text')
+
+                        .text("( " + d.logo + " )")
+                        .attr("font-family", "serif")
+                        .attr("font-size", "20px")
+                        .attr("text-anchor", "middle")
+                        .attr("fill", d.color)
+                        .attr('flag', 'normal')
+                        .attr('before_flag', 'normal')
+                        .attr("transform", "translate(" + x  + "," + (y + 30) + ") rotate(0)")
 
 
 
 
+                graph.on('mouseover', function () {
+                    setAll(false, graph, circle);
+                    circle.transition().attr('r', 15)
+                            .attr('fill', circle.attr('active'))
+                    graph.transition().attr('stroke', graph.attr('active'))
+                            .attr('stroke-width', 2.0);
+                    text.transition()
+                            .attr("fill", d.color)
+                    for(var i = 0 ; i < connections.length ; i ++){
+                        connections[i].transition().style('stroke-width', 6.5)
+                    }
+                })
+
+                circle.on('mouseover', function(){
+                    setAll(false, graph, circle);
+                    circle.transition().attr('r', default_circle_size * 2)
+                            .attr('fill', circle.attr('active'))
+                    graph.transition().attr('stroke', graph.attr('active'))
+                            .attr('stroke-width', 5.0);
+                    text.transition()
+                            .attr("fill", d.color)
+                    for(var i = 0 ; i < connections.length ; i ++){
+                        connections[i].transition()
+                                .style('stroke-width', connections[i].attr('isCat') == 'true' ? 5 : 2.5)
+                                .style('stroke', connections[i].attr('active'))
+                    }
+
+                })
+
+                circle.on('mouseleave', function(){
+                    setAll(true, graph, circle);
+                })
+                graph.on('mouseleave', function(){
+                    setAll(true, graph, circle);
+
+                })
 
 
-//            var lineData = [{"x": 1, "y": 5}, {"x": 20, "y": 20},
-//                                 {"x": 40, "y": 10}, {"x": 60, "y": 40},
-//                                 {"x": 80, "y": 5}, {"x": 100, "y": 60}];
-//            var lineFunction = d3.svg.line()
-//            .x(function (d) {
-//                console.log(d.x);
-//                return d.x;
-//            })
-//            .y(function (d) {
-//                return d.y;
-//            })
-//            .interpolate("linear");
-//
-//            var svgContainer = sampleSVG;
-//
-//            var lineGraph = svgContainer.append("path")
-//            .attr("d", lineFunction(lineData))
-//            .attr("stroke", "blue")
-//            .attr("stroke-width", 2)
-//            .attr("fill", "none")
-//            .on('mousedown', lineDown);
-//
-//            function lineDown(){
-//                lineGraph
-//                    .attr('stroke', "red")
-//                    .transition()
-//                    .delay(1000)
-//                    .attr('stroke', "blue")
-//            }
-            /*
-            sampleSVG.append("circle")
-                .style("stroke", "gray")
-                .style("fill", "white")
-                .attr("r", 150)
-                .attr("cx", 250)
-                .attr("cy", 250)
-                .on("mousedown", animate);
-            function animate() {
-                d3.select(this).transition()
-                        .duration(1000)
-                        .attr("r", 10)
-                        .transition()
-                        .delay(1000)
-                        .attr("r", 150);
-            };
-            */
+                var drawing = {
+                    graph: graph,
+                    circle: circle,
+                    text: text,
+                    connections: connections,
+                }
+                drawings.push(drawing);
+            }
+
+
+
+
+            for (var i = 0, max = datas.length; i < max; i++) {
+                drawNode(datas[i]);
+            }
+
+            function selectCircle(){
+
+            }
+
+            function deselectCircle(){
+
+            }
+            function setAll(b, graph, circle) {
+                for (var j = 0; j < drawings.length; j++) {
+                    var graph = drawings[j].graph;
+                    var circle = drawings[j].circle;
+                    var text = drawings[j].text;
+                    var connections = drawings[j].connections;
+                    if (!b) {
+                        graph.transition().attr('stroke', graph.attr('deactive'))
+                                .attr('stroke-width', 0.1)
+                        circle.transition().attr('fill', circle.attr('deactive'))
+                            .attr('r', 6);
+                        text.transition()
+                                .attr("fill", '#cccccc')
+                        for (var i = 0; i < connections.length; i++) {
+                            connections[i].transition().style('stroke-width', 0.1)
+                        }
+
+                    } else {
+                        graph.transition().attr('stroke', graph.attr('active'))
+                                .attr('stroke-width', 0.5)
+                        circle.transition().attr('fill', circle.attr('active'))
+                                .attr('r', default_circle_size);
+                        text.transition()
+                                .attr("fill", graph.attr('active'))
+                        for (var i = 0; i < connections.length; i++) {
+                            connections[i].transition().style('stroke-width', 0.1)
+                        }
+                    }
+
+
+                }
+
+            }
+
+
+
 
 

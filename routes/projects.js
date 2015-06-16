@@ -416,7 +416,24 @@ router.get('/joseondynasty/network', function (req, res) {
 router.get('/logonetwork/circularParellar', function(req,res){
     var result = {};
     result.tab = 'projects';
-    res.render('projects/logonetwork/logonetwork_circularParellar');
+
+    var total_data = { keys : []};
+    var result = {};
+    csvParser.Parse('./ProjectData/Logo/logo_data2.csv', function (object) {
+
+        for(var i = 0 ; i < object.length ; i ++){
+            total_data[object[i].name] = object[i];
+            if(object[i].name != 'max' && object[i].name != 'node_color' && object[i].name != 'cat_names')
+            total_data.keys.push(object[i].name);
+        }
+        console.log(total_data.keys);
+        console.log(total_data['max'].arg1)
+
+
+        result.default_data = JSON.stringify(total_data);
+        res.render('projects/logonetwork/logonetwork_circularParellar',result);
+    });
+
 })
 
 router.get('/logonetwork', function (req, res) {
