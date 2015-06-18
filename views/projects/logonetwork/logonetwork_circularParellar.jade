@@ -4,7 +4,7 @@ block content
         h2
             a #
             |  FreeNetwork Prototype
-        svg(id='chart', style='margin:0;width:1600px; height:1400px; border:1px solid')
+        div(id='chart', style='margin:0;width:100%; height:1400px; border:1px solid')
         legend
         div.row
             div.col-sm-8
@@ -15,31 +15,42 @@ block content
                 div(align='right')
                     a # Update
     div.container-fluid
-        textarea(id='text',style='resize:none; width:100%; border:1px solid') #{default_data}
+        textarea(id='text',style='display:hidden;') #{default_data}
 
         legend
-
         script.
             var gridsdata = [];
             var datas = [];
             var G_DATA = JSON.parse(document.getElementById("text").value);
             var circle_line_data = [];
-            var data_count = 140;
+            var data_count = 195;
             var category_length = G_DATA['max'].arg1;
             var circle_length = category_length * 2;
-            var seem_good_gap = 0.5;
-            var outer_stroke_width = 1;
-            var category_line_height = 80;
+            var seem_good_gap = 0.25;
+            var outer_stroke_width = 0.5;
+            var category_line_height = 180;
             var category_line_abs = category_line_height + seem_good_gap * data_count;
             var gridwidth = 40;
             var default_circle_size = 6;
             var cat_tfidf = [];
             var grid_color = '#dfdfdf';
-            var tf_idf_mul_value = 2.0;
+            var tf_idf_mul_value = 3.0;
             var maxs = [];
             var line_mode = 'linear'; // cardinal  // linear
             var names = [];
             var contents = [];
+            var contents_gap = 25;
+            var click_status = 'true';
+            var clicked = [];
+
+            function removeArray(array, value){
+                for (var i = array.length - 1; i >= 0; i--) {
+                    if (array[i] === value) {
+                        array.splice(i, 1);
+                    }
+                }
+            }
+
 
 
             var grid_colors = {};
@@ -56,7 +67,18 @@ block content
                 var cur_name = G_DATA['idx_name'][i].split('_');
                 names.push(cur_name);
             }
+
             for(var i = 0 ; i < category_length ; i ++){
+                var content = [];
+                for(var j = 0 ; j < maxs[i] + 1 ; j ++){
+                    var e = {
+                        size : 0,
+                        color : '#ffffff',
+                    }
+                    content.push(e);
+                }
+                contents.push(content);
+
             }
 
             var myTextArea = document.getElementById("text");
@@ -75,27 +97,56 @@ block content
             for (var i = 0; i < circle_length + 1; i++) {
                 circle_line_data.push([i, 0])
             }
+
+            var grid_idxs = [];
             for (var idx = 0; idx < data_count; idx++) {
-                var value =G_DATA[G_DATA.keys[idx]];
+                var value = G_DATA[G_DATA.keys[idx]];
+                var grid_idx = [];
+                for (var i = 0; i < category_length; i++) {
+
+                    //console.log(idx + " , " + i + " , " + maxs[i] + " , " + value[i]);
+                    grid_idx.push(contents[i][value[i]].size);
+                    contents[i][value[i]].size += 1;
+                }
+                grid_idxs.push(grid_idx);
+            }
+
+
+            for (var idx = 0; idx < data_count; idx++) {
+                var value = G_DATA[G_DATA.keys[idx]];
                 var data = {
                     logo: G_DATA[G_DATA.keys[idx]].name,
-                    idx : idx,
-                    color: G_DATA[G_DATA.keys[idx]].arg1 == 0 ? '#cccccc' : G_DATA[G_DATA.keys[idx]].arg1,
+                    idx: idx,
+                    color: G_DATA[G_DATA.keys[idx]].arg2 == 0 ? '#cccccc' : G_DATA[G_DATA.keys[idx]].arg2,
                     values: [],
+                    prev_values: [],
                     connect: [],
                     connect_color: '#cccccc',
+                    grid_idx: grid_idxs[idx],
                 };
+
 
                 var mul_idf_value = 0;
                 for (var i = 0; i < category_length; i++) {
-                    data.values.push([i, value[i] * category_line_height / maxs[i] + idx * seem_good_gap]);
+
                     if(value[i] != 0){
                         if(value.cat == cat_tfidf[i]) {
-                            mul_idf_value += tf_idf_mul_value;
+                            mul_idf_value = tf_idf_mul_value;
                         }
                     }
                 }
+
                 for (var i = 0; i < category_length; i++) {
+                    var height = 0;
+                    for(var j = 0 ; j < value[i] ; j ++){
+                        height += contents[i][j].size * seem_good_gap;
+                        height += contents_gap;
+                    }
+
+                    data.prev_values.push([i, idx]);
+                    //data.values.push([i, height + data.grid_idx[i] * 0.5]);
+                    data.values.push([i, height + data.grid_idx[i] * seem_good_gap]);
+
                     if(value[i] != 0){
                         var idf = 0.5;
                         if(value.cat == cat_tfidf[i])
@@ -103,14 +154,19 @@ block content
                         else
                             data.connect.push([i, idf, cat_tfidf[i], 'false']);
                     }
+
+
                 }
+
 
                 data.name = 'idx : ' + idx;
                 data.values.push([category_length, data.values[0][1]]);
                 datas.push(data);
             }
 
-            var width = 1600, height = 1600, cx = width / 2, cy = height / 2;
+            var width = document.getElementById("chart").offsetWidth,
+                height = document.getElementById("chart").offsetHeight;
+            var cx = width/2, cy = height/2;
             var angle = d3.scale.linear()
                     .domain([0, circle_length])
                     .range([0, Math.PI * 2]);
@@ -131,8 +187,6 @@ block content
                     .on("drag", dragged)
                     .on("dragend", dragended);
 
-
-
             var svg = d3.select("#chart").append('svg')
                     .attr("width", width)
                     .attr("height", height)
@@ -149,7 +203,7 @@ block content
 
 
             function zoomed() {
-                console.log("zoomed : " + d3.event.translate);
+                //console.log("zoomed : " + d3.event.translate);
                 svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
             }
             function dragstarted(d) {
@@ -185,8 +239,8 @@ block content
                         return cy + y;
                     });
 
-            var dataLineGen = d3.svg.line()
 
+            var dataLineGen = d3.svg.line()
                     .x(function (d) {
 
                         var sin = Math.sin(angle_data(d[0]));
@@ -222,10 +276,7 @@ block content
                     .attr('stroke', grid_color)
                     .attr('stroke-width',2.0)
                     .attr('fill', 'none');
-
-
             }
-
 
             for (var i = 0; i < circle_length; i += 2) {
                 svg.append('svg:path')
@@ -235,136 +286,188 @@ block content
                     .attr('fill', 'none');
             }
 
-
-
-
             var drawings = [];
 
-            function drawNode(d) {
-                var graph = svg.append('svg:path')
-                        .attr('d', dataLineGen(d.values))
-                        .attr('stroke', d.color)
-                        .attr('stroke-width', 1.0)
-                        .attr('fill', 'none')
-                        .attr('deactive', '#cccccc')
-                        .attr('active', d.color)
-                        .attr('flag', 'normal')
-                        .attr('before_flag', 'normal')
-
-                var saved = 0;
-                var x = 0, y = 0;
-                for (var i = 0; i < d.connect.length; i++) {
-                    x += Math.sin(angle_data(d.connect[i][0])) * r * d.connect[i][1];
-                    y += Math.cos(angle_data(d.connect[i][0])) * r * d.connect[i][1];
-                    saved += d.connect[i][1];
-                }
-                x /= saved;
-                y /= saved;
-                x += cx;
-                y += cy;
-
-                var connections = [];
-                for (var i = 0; i < d.connect.length; i++) {
-                    var sin = Math.sin(angle_data(d.connect[i][0]));
-                    var cos = Math.cos(angle_data(d.connect[i][0]));
-                    var connection = svg.append("line")
-                            .style("stroke", d.connect_color)
-                            .style('stroke-width', 0.1)
-                            .attr("x1", x)
-                            .attr("y1", y)
-                            .attr("x2", sin * r + cx)
-                            .attr("y2", cos * r + cy)
+            function drawInit(d){
+                drawings.push({d:d});
+            }
+            function drawPath(){
+                console.log(drawings.length);
+                for(var i = 0 ; i < drawings.length; i ++) {
+                    var d = drawings[i].d;
+                    var graph = svg.append('svg:path')
+                            .attr('d', dataLineGen(d.values))
+                            .attr('stroke', d.color)
+                            .attr('stroke-width', 1.0)
+                            .attr('fill', 'none')
+                            .attr('deactive', '#cccccc')
+                            .attr('active', d.color)
                             .attr('flag', 'normal')
                             .attr('before_flag', 'normal')
-                            .attr('active',grid_colors[d.connect[i][2]])
+                            .attr('logo', d.logo);
+
+                    drawings[i].graph = graph;
+                }
+
+            }
+            function drawCircle(){
+                console.log(drawings.length);
+                for(var i = 0 ; i < drawings.length; i ++) {
+                    var d = drawings[i].d;
+                    var saved = 0;
+                    var x = 0, y = 0;
+                    for (var j = 0; j < d.connect.length; j++) {
+                        x += Math.sin(angle_data(d.connect[j][0])) * r * d.connect[j][1];
+                        y += Math.cos(angle_data(d.connect[j][0])) * r * d.connect[j][1];
+                        saved += d.connect[j][1];
+                    }
+                    x /= saved;
+                    y /= saved;
+                    x += cx;
+                    y += cy;
+
+                    var circle = svg.append("circle")
+                            .attr('cx', x)
+                            .attr('cy', y)
+                            .attr('r', default_circle_size)
+                            .attr('fill', d.color)
                             .attr('deactive', '#cccccc')
-                            .attr('isCat', d.connect[i][3])
-                    connections.push(connection);
+                            .attr('active', d.color)
+                            .attr('flag', 'normal')
+                            .attr('before_flag', 'normal')
+                            .attr('logo', d.logo);
+                    drawings[i].circle = circle;
                 }
 
-                var circle = svg.append("circle")
-                        .attr('cx', x)
-                        .attr('cy', y)
-                        .attr('r', default_circle_size)
-                        .attr('fill', d.color)
-                        .attr('deactive', '#cccccc')
-                        .attr('active', d.color)
-                        .attr('flag', 'normal')
-                        .attr('before_flag', 'normal');
-
-
-                var text = svg.append('text')
-                        .text( d.logo )
-                        .style("font-family", "Geneva")
-                        .style("font-size", "12px")
-                        .attr("text-anchor", "middle")
-                        .attr("fill", d.color)
-                        .attr('flag', 'normal')
-                        .attr('before_flag', 'normal')
-                        .attr("transform", "translate(" + x  + "," + (y + 30) + ") rotate(0)")
-
-
-                graph.on('mouseover', function () {
-                    setAll(false, graph, circle);
-                    circle.transition().attr('r', 15)
-                            .attr('fill', circle.attr('active'))
-                    graph.transition().attr('stroke', graph.attr('active'))
-                            .attr('stroke-width', 2.0);
-                    text.transition()
-                            .attr("fill", d.color)
-                    for(var i = 0 ; i < connections.length ; i ++){
-                        connections[i].transition()
-                                .style('stroke-width', connections[i].attr('isCat') == 'true' ? 3.0 : 1.0)
-                                .style('stroke', connections[i].attr('active'))
+            }
+            function drawText(){
+                for(var i = 0 ; i < drawings.length; i ++) {
+                    var d = drawings[i].d;
+                    var saved = 0;
+                    var x = 0, y = 0;
+                    for (var j = 0; j < d.connect.length; j++) {
+                        x += Math.sin(angle_data(d.connect[j][0])) * r * d.connect[j][1];
+                        y += Math.cos(angle_data(d.connect[j][0])) * r * d.connect[j][1];
+                        saved += d.connect[j][1];
                     }
-                })
-
-                circle.on('mouseover', function(){
-                    setAll(false, graph, circle);
-                    circle.transition().attr('r', default_circle_size * 2)
-                            .attr('fill', circle.attr('active'))
-                    graph.transition().attr('stroke', graph.attr('active'))
-                            .attr('stroke-width', 2.0);
-                    text.transition()
-                            .attr("fill", d.color)
-                    for(var i = 0 ; i < connections.length ; i ++){
-                        connections[i].transition()
-                                .style('stroke-width', connections[i].attr('isCat') == 'true' ? 3.0 : 1.0)
-                                .style('stroke', connections[i].attr('active'))
-                    }
-                })
-
-                circle.on('mouseleave', function(){
-                    setAll(true, graph, circle);
-                })
-                graph.on('mouseleave', function(){
-                    setAll(true, graph, circle);
-
-                })
-
-
-                var drawing = {
-                    graph: graph,
-                    circle: circle,
-                    text: text,
-                    connections: connections,
+                    x /= saved;
+                    y /= saved;
+                    x += cx;
+                    y += cy;
+                    var text = svg.append('text')
+                            .text(d.logo)
+                            .style("font-family", "Geneva")
+                            .style("font-size", "12px")
+                            .attr("text-anchor", "middle")
+                            .attr("fill", '#666666')
+                            .attr('flag', 'normal')
+                            .attr('before_flag', 'normal')
+                            .attr("transform", "translate(" + x + "," + (y + 30) + ") rotate(0)")
+                            .attr('logo', d.logo);
+                    drawings[i].text = text;
                 }
-                drawings.push(drawing);
+            }
+            function drawConnection(d){
+                for(var i = 0 ; i < drawings.length; i ++) {
+                    var d = drawings[i].d;
+                    var saved = 0;
+                    var x = 0, y = 0;
+                    for (var j = 0; j < d.connect.length; j++) {
+                        x += Math.sin(angle_data(d.connect[j][0])) * r * d.connect[j][1];
+                        y += Math.cos(angle_data(d.connect[j][0])) * r * d.connect[j][1];
+                        saved += d.connect[j][1];
+                    }
+                    x /= saved;
+                    y /= saved;
+                    x += cx;
+                    y += cy;
+                    console.log(drawings.length + " , " + d + " , " + x + " , " + y) ;
+                    var connections = [];
+                    for (var j = 0; j < d.connect.length; j++) {
+                        var sin = Math.sin(angle_data(d.connect[j][0]));
+                        var cos = Math.cos(angle_data(d.connect[j][0]));
+                        var connection = svg.append("line")
+                                .style("stroke", d.connect_color)
+                                .style('stroke-width', 0.1)
+                                .attr("x1", x)
+                                .attr("y1", y)
+                                .attr("x2", sin * r + cx)
+                                .attr("y2", cos * r + cy)
+                                .attr('flag', 'normal')
+                                .attr('before_flag', 'normal')
+                                .attr('active', grid_colors[d.connect[j][2]])
+                                .attr('deactive', '#cccccc')
+                                .attr('isCat', d.connect[j][3])
+                                .attr('logo', d.logo);
+                        connections.push(connection);
+                    }
+                    drawings[i].connections = connections;
+                }
             }
 
 
+            function setEvents(i, d){
+                var d = d;
+                var circle = drawings[i].circle;
+                var graph = drawings[i].graph;
+                var text = drawings[i].text;
+                var connections = drawings[i].connections;
+
+                circle.on('mouseover', function(){
+                    setClear('invisible');
+                    adJustAll();
+                    graph.attr('flag','preserve')
+                    circle.attr('flag','preserve')
+                    setAll();
+                })
+                function click(){
+                    var add = true;
+                    for(var i = 0 ; i < clicked.length ; i++){
+                        if(clicked[i] === d.logo){
+                            removeArray(clicked, d.logo);
+                            add = false;
+                            break;
+                        }
+                    }
+                    if(add){
+                        clicked.push(d.logo);
+                    }
+
+                    setClear('invisible');
+                    adJustAll();
+                    setAll();
+                }
+
+                circle.on('click', function(){
+                    console.log('f');
+                });
+
+            }
 
 
             for (var i = 0, max = datas.length; i < max; i++) {
-                drawNode(datas[i]);
+                drawInit(datas[i]);
             }
 
+
+            console.log('init end');
+            drawPath();
+            console.log('path end');
+            drawText();
+            console.log('drawtext end');
+            drawConnection();
+            console.log('connection end');
+            drawCircle();
+            console.log('circle end');
+            setEvents();
+            console.log('event end');
+
+            for (var i = 0, max = datas.length; i < max; i++) {
+                setEvents(i,datas[i]);
+            }
+
+
             for (var i = 0; i < category_length; i++) {
-
-
-                if(angle < - 90) angle -= 180;
-                if(angle < - 440) angle += 180;
-
                 // header
                 var sin = Math.sin(angle_data(i));
                 var x = sin * (r + 25 ) + cx;
@@ -372,37 +475,109 @@ block content
                 var y = cos * (r + 25 ) + cy;
                 var angle = -i / category_length * 360;
 
-                svg.append('text')
-                        .text(names[i][0])
-                        .style("font-weight", "bold")
-                        .style("font-family", 'Geneva')
-                        .style("font-size", "12px")
-                        .attr("text-anchor", "middle")
-                        .attr("fill", 'black')
-                        .attr('flag', 'normal')
-                        .attr('before_flag', 'normal')
-                        .attr("transform", "translate(" + x + "," + y + ") rotate(" + angle + ")")
+                var mode = 0;
+                if(angle < - 90) {
+                    angle -= 180;
+                    mode = 1;
+                }
+                if(angle < - 445) {
+                    mode = 0;
+                    angle += 180;
+                }
+
+                if(mode == 0) convert_height = 0;
+                else convert_height = -7;
+                if(mode == 1){
+                    y = cos * (r + 25 + convert_height ) + cy;
+                    x = sin * (r + 25 + convert_height ) + cx;
+                }
+
+                if(names[i][0].indexOf('<br>') != -1){
+                    var strs = names[i][0].split('<br>')
+                    for(var j = 0 ; j < strs.length ; j ++) {
+                        var x = sin * (r + 16 + j * 14 + convert_height ) + cx;
+                        var y = cos * (r + 16 + j * 14 + convert_height) + cy;
+                        svg.append('text')
+                            .text(strs[j])
+                            .style("font-weight", "bold")
+                            .style("font-family", 'Geneva')
+                            .style("font-size", "12px")
+                            .attr("text-anchor", "middle")
+                            .attr("fill", 'black')
+                            .attr('flag', 'normal')
+                            .attr('before_flag', 'normal')
+                            .attr("transform", "translate(" + x + "," + y + ") rotate(" + angle + ")")
+                    }
+                } else {
+                    svg.append('text')
+                            .text(names[i][0])
+                            .style("font-weight", "bold")
+                            .style("font-family", 'Geneva')
+                            .style("font-size", "12px")
+                            .attr("text-anchor", "middle")
+                            .attr("fill", 'black')
+                            .attr('flag', 'normal')
+                            .attr('before_flag', 'normal')
+                            .attr("transform", "translate(" + x + "," + y + ") rotate(" + angle + ")")
+                }
+
                 // content
+                var value = G_DATA[G_DATA.keys[idx]];
+                var height = 0;
+
                 for(var j = 0 , max = maxs[i] + 1; j <max ; j ++) {
+
+
+                    if( j != 0) height += contents_gap;
+                    else height += 44;
+
                     var sin = Math.sin(angle_data(i));
-                    var x = sin * (r + 47 + (j ) * category_line_abs / maxs[i]) + cx;
                     var cos = Math.cos(angle_data(i));
-                    var y = cos * (r + 47 + (j ) * category_line_abs / maxs[i]) + cy;
+
+                    var h = (r + height);
+                    var x = sin * h + cx;
+                    var y = cos * h + cy;
+
                     var angle = -i / category_length * 360;
+
+                    h = r + height + 7;
+                    var x1 = sin * h + cx;
+                    var y1 = cos * h + cy;
+
+                    h = r + height + 7+ contents[i][j].size * seem_good_gap;
+                    var x2 = sin * h + cx;
+                    var y2 = cos * h + cy;
+
+
+
+                    if(angle < - 90) angle -= 180;
+                    if(angle < - 445) angle += 180;
+
+                    height += contents[i][j].size * seem_good_gap;
 
                     svg.append('text')
                             .text(names[i][j + 1])
                             .style("font-family", "Geneva")
-                            .style("font-size", "14px")
+                            .style("font-size", "12px")
                             .attr("text-anchor", "middle")
                             .attr("fill", 'black')
                             .attr('flag', 'normal')
                             .attr('before_flag', 'normal')
                             .attr("transform", "translate(" + x + "," + y + ") rotate(" + angle + ")")
 
+                    svg.append("line")
+                            .style("stroke", '#666666')
+                            .style('stroke-width', 8.1)
+                            .style("stroke-opacity", 0.35)
+                            .attr("x1", x1)
+                            .attr("y1", y1)
+                            .attr("x2", x2)
+                            .attr("y2", y2)
+
 
                 }
             }
+
 
             function selectCircle(){
 
@@ -411,39 +586,132 @@ block content
             function deselectCircle(){
 
             }
-            function setAll(b, graph, circle) {
+            function setClear(state){
+                for (var j = 0; j < drawings.length; j++) {
+                    var graph = drawings[j].graph;
+                    var circle = drawings[j].circle;
+                    var text = drawings[j].text;
+                    graph.attr('flag',state);
+                    circle.attr('flag',state);
+                    text.attr('flag',state);
+                }
+            }
+
+            function adJustAll(){
+                for (var j = 0; j < drawings.length; j++) {
+                    var graph = drawings[j].graph;
+                    var circle = drawings[j].circle;
+                    var text = drawings[j].text;
+
+                    var ex = false;
+                    for(var i = 0 ; i < clicked.length ; i ++){
+                        if(graph.attr('logo') === clicked[i]){
+                            ex = true;
+                            break;
+                        }
+
+                    }
+                    if(ex){
+                        graph.attr('flag', 'select');
+                        circle.attr('flag', 'select');
+                        text.attr('flag', 'select');
+                    } else {
+                        graph.attr('flag', 'invisible');
+                        circle.attr('flag', 'invisible');
+                        text.attr('flag', 'invisible');
+                    }
+                }
+            }
+            function setAll() {
                 for (var j = 0; j < drawings.length; j++) {
                     var graph = drawings[j].graph;
                     var circle = drawings[j].circle;
                     var text = drawings[j].text;
                     var connections = drawings[j].connections;
-                    if (!b) {
+
+                    var status = 'select';
+                    if(graph.attr('flag') == status){
+                        graph.transition().attr('stroke', graph.attr('active'))
+                                .attr('stroke-width', 2.0)
+                    }
+
+                    if(circle.attr('flag') == status){
+                        circle.transition().attr('fill', circle.attr('active'))
+                                .attr('r', 10);
+                    }
+
+                    if(text.attr('flag') == status){
+                        text.transition()
+                                .attr("fill", '#555555')
+                    }
+
+                    status = 'invisible';
+                    if(graph.attr('flag') == status){
                         graph.transition().attr('stroke', graph.attr('deactive'))
                                 .attr('stroke-width', 0.1)
-                        circle.transition().attr('fill', circle.attr('deactive'))
-                            .attr('r', 6);
-                        text.transition()
-                                .attr("fill", '#cccccc')
-                        for (var i = 0; i < connections.length; i++) {
-                            connections[i].transition().style('stroke-width', 0.1)
-                        }
+                    }
 
-                    } else {
-                        graph.transition().attr('stroke', graph.attr('active'))
-                                .attr('stroke-width', outer_stroke_width)
+                    if(circle.attr('flag') == status){
                         circle.transition().attr('fill', circle.attr('active'))
-                                .attr('r', default_circle_size);
-                        text.transition()
-                                .attr("fill", graph.attr('active'))
+                            .attr('r', 6);
                         for (var i = 0; i < connections.length; i++) {
-                            connections[i].transition().style('stroke-width', 0.1)
+                            connections[i].transition()
+                                    .style('stroke-width', 0.1)
+                                    .style('stroke', connections[i].attr('deactive'))
                         }
                     }
 
+                    if(text.attr('flag') == status){
+                        text.transition()
+                                .attr("fill", '#dddddd')
+                    }
+
+                    status = 'normal';
+                    if(graph.attr('flag') == status){
+                        graph.transition().attr('stroke', graph.attr('active'))
+                                .attr('stroke-width', outer_stroke_width)
+                    }
+
+                    if(circle.attr('flag') == status){
+                        circle.transition().attr('fill', circle.attr('active'))
+                                .attr('r', default_circle_size);
+                    }
+
+                    if(text.attr('flag') == status){
+                        text.transition()
+                                .attr("fill", '#666666')
+                    }
+
+                    status = 'preserve';
+                    if(graph.attr('flag') == status){
+                        graph.transition().attr('stroke', graph.attr('active'))
+                                .attr('stroke-width', outer_stroke_width)
+                    }
+
+                    if(circle.attr('flag') == status){
+                        circle.transition().attr('fill', circle.attr('active'))
+                                .attr('r', default_circle_size);
+
+                        for (var i = 0; i < connections.length; i++) {
+                            if(connections[i].attr('isCat') == 'true')
+                                connections[i].transition().style('stroke-width', 3.1)
+                                    .style('stroke', connections[i].attr('active'))
+                            else
+                                connections[i].transition()
+                                    .style('stroke-width', 1)
+                                    .style('stroke', connections[i].attr('active'))
+                        }
+                    }
+
+                    if(text.attr('flag') == status){
+                        text.transition()
+                                .attr("fill", '#555555')
+                    }
 
                 }
 
             }
+            console.log('end');
 
 
 
