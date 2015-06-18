@@ -24,7 +24,7 @@ block content
             var datas = [];
             var G_DATA = JSON.parse(document.getElementById("text").value);
             var circle_line_data = [];
-            var data_count = 75;
+            var data_count = 140;
             var category_length = G_DATA['max'].arg1;
             var circle_length = category_length * 2;
             var seem_good_gap = 0.5;
@@ -37,7 +37,7 @@ block content
             var grid_color = '#dfdfdf';
             var tf_idf_mul_value = 2.0;
             var maxs = [];
-            var line_mode = 'cardinal'; // cardinal  // linear
+            var line_mode = 'linear'; // cardinal  // linear
             var names = [];
 
 
@@ -52,11 +52,9 @@ block content
                 maxs.push(G_DATA['max'][i]);
                 cat_tfidf.push(G_DATA['cat'][i]);
 
-                console.log(G_DATA['idx_name']);
                 var cur_name = G_DATA['idx_name'][i].split('_');
                 names.push(cur_name);
             }
-            console.log(names);
             for(var i = 0 ; i < category_length ; i ++){
             }
 
@@ -78,7 +76,6 @@ block content
             }
             for (var idx = 0; idx < data_count; idx++) {
                 var value =G_DATA[G_DATA.keys[idx]];
-
                 var data = {
                     logo: G_DATA[G_DATA.keys[idx]].name,
                     idx : idx,
@@ -147,7 +144,9 @@ block content
                     });
 
             var dataLineGen = d3.svg.line()
+
                     .x(function (d) {
+
                         var sin = Math.sin(angle_data(d[0]));
                         var x = sin * (r + d[1] + gridwidth  + 10);
                         return cx + x;
@@ -334,14 +333,13 @@ block content
 
                 chart.append('text')
                         .text(names[i][0])
-                        .attr("font-family", "serif")
-                        .attr("font-size", "20px")
+                        .style("font-family", 'Geneva')
+                        .style("font-size", "12px")
                         .attr("text-anchor", "middle")
                         .attr("fill", 'black')
                         .attr('flag', 'normal')
                         .attr('before_flag', 'normal')
                         .attr("transform", "translate(" + x + "," + y + ") rotate(" + angle + ")")
-
                 // content
                 for(var j = 0 , max = maxs[i] + 1; j <max ; j ++) {
                     var sin = Math.sin(angle_data(i));
@@ -351,9 +349,9 @@ block content
                     var angle = -i / category_length * 360;
 
                     chart.append('text')
-                            .text(j == 0 ? "no" : names[i][j])
-                            .attr("font-family", "serif")
-                            .attr("font-size", "20px")
+                            .text(names[i][j + 1])
+                            .style("font-family", "Geneva")
+                            .style("font-size", "14px")
                             .attr("text-anchor", "middle")
                             .attr("fill", 'black')
                             .attr('flag', 'normal')
