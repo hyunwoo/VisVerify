@@ -4,16 +4,21 @@ block content
         h2
             a #
             |  FreeNetwork Prototype
-        svg(id='chart', style='margin:0;width:1200px; height:1200px; border:1px solid')
+        svg(id='chart', style='margin:0;width:1600px; height:1400px; border:1px solid')
         legend
-        h4
-            a #Data :
-            |  JSON Data
+        div.row
+            div.col-sm-8
+                h4
+                    a #Data :
+                    |  CSV Data
+            div.col-sm-4
+                div(align='right')
+                    a # Update
     div.container-fluid
         textarea(id='text',style='resize:none; width:100%; border:1px solid') #{default_data}
+
         legend
-        div(align='right')
-            a # Update
+
         script.
             var gridsdata = [];
             var datas = [];
@@ -22,13 +27,19 @@ block content
             var data_count = 75;
             var category_length = G_DATA['max'].arg1;
             var circle_length = category_length * 2;
-            var category_line_height = 130;
+            var seem_good_gap = 0.5;
+            var outer_stroke_width = 1;
+            var category_line_height = 80;
+            var category_line_abs = category_line_height + seem_good_gap * data_count;
             var gridwidth = 40;
             var default_circle_size = 6;
             var cat_tfidf = [];
-            var grid_color = '#cccccc';
-            var tf_idf_mul_value = 1.7;
+            var grid_color = '#dfdfdf';
+            var tf_idf_mul_value = 2.0;
             var maxs = [];
+            var line_mode = 'cardinal'; // cardinal  // linear
+            var names = [];
+
 
             var grid_colors = {};
             grid_colors['A'] = '#ffaaaa';
@@ -37,8 +48,16 @@ block content
             grid_colors['D'] = '#ffaaff';
 
             for(var i = 0 ; i < category_length ; i ++){
+                var max_val = G_DATA['max'][i];
                 maxs.push(G_DATA['max'][i]);
-                cat_tfidf.push(G_DATA['cat_names'][i]);
+                cat_tfidf.push(G_DATA['cat'][i]);
+
+                console.log(G_DATA['idx_name']);
+                var cur_name = G_DATA['idx_name'][i].split('_');
+                names.push(cur_name);
+            }
+            console.log(names);
+            for(var i = 0 ; i < category_length ; i ++){
             }
 
             var myTextArea = document.getElementById("text");
@@ -62,6 +81,7 @@ block content
 
                 var data = {
                     logo: G_DATA[G_DATA.keys[idx]].name,
+                    idx : idx,
                     color: G_DATA[G_DATA.keys[idx]].arg1 == 0 ? '#cccccc' : G_DATA[G_DATA.keys[idx]].arg1,
                     values: [],
                     connect: [],
@@ -70,7 +90,7 @@ block content
 
                 var mul_idf_value = 0;
                 for (var i = 0; i < category_length; i++) {
-                    data.values.push([i, value[i] * category_line_height / maxs[i]]);
+                    data.values.push([i, value[i] * category_line_height / maxs[i] + idx * seem_good_gap]);
                     if(value[i] != 0){
                         if(value.cat == cat_tfidf[i]) {
                             mul_idf_value += tf_idf_mul_value;
@@ -92,7 +112,7 @@ block content
                 datas.push(data);
             }
 
-            var width = 1200, height = 1200, cx = width / 2, cy = height / 2;
+            var width = 1600, height = 1400, cx = width / 2, cy = height / 2;
             var angle = d3.scale.linear()
                     .domain([0, circle_length])
                     .range([0, Math.PI * 2]);
@@ -108,11 +128,11 @@ block content
 
             var gridVerticalGen = d3.svg.line()
                     .x(function (d) {
-                        var x = Math.sin(angle(d[0])) * (r + category_line_height * d[1] +  d[1] * gridwidth + 25);
+                        var x = Math.sin(angle(d[0])) * (r + category_line_abs * d[1] +  d[1] * gridwidth + 25);
                         return cx + x;
                     })
                     .y(function (d) {
-                        var y = Math.cos(angle(d[0])) * (r + category_line_height * d[1] + d[1] * gridwidth + 25 );
+                        var y = Math.cos(angle(d[0])) * (r + category_line_abs * d[1] + d[1] * gridwidth + 25 );
                         return cy + y;
                     });
 
@@ -136,7 +156,8 @@ block content
                         var cos = Math.cos(angle_data(d[0]));
                         var y = cos * (r + d[1] + gridwidth + 10  );
                         return cy + y;
-                    });
+                    })
+                    .interpolate(line_mode);
 
             var gridLineGen = d3.svg.line()
                     .x(function (d) {
@@ -152,26 +173,35 @@ block content
 
             /** draw grids **/
             var nodeGen = {};
+
+
             for (var i = 0; i < category_length; i++) {
                 chart.append('svg:path')
-                        .attr('d', gridVerticalGen([[i * circle_length / category_length, 0], [i * circle_length / category_length, 1]]))
-                        .attr('stroke', grid_color)
-                        .attr('stroke-width',2.0)
-                        .attr('fill', 'none');
+                    .attr('d', gridVerticalGen([[i * circle_length / category_length, 0], [i * circle_length / category_length, 1]]))
+                    .attr('stroke', grid_color)
+                    .attr('stroke-width',2.0)
+                    .attr('fill', 'none');
+
+
             }
 
 
             for (var i = 0; i < circle_length; i += 2) {
                 chart.append('svg:path')
-                        .attr('d', gridLineGen([[i-1, 0, -1], [i , 0 , 0], [i + 1, 0 , 1]]))
-                        .attr('stroke', grid_colors[cat_tfidf[i/2]])
-                        .attr('stroke-width', gridwidth)
-                        .attr('fill', 'none');
+                    .attr('d', gridLineGen([[i-1, 0, -1], [i , 0 , 0], [i + 1, 0 , 1]]))
+                    .attr('stroke', grid_colors[cat_tfidf[i/2]])
+                    .attr('stroke-width', gridwidth)
+                    .attr('fill', 'none');
             }
+
+
+
+
             var drawings = [];
 
             function drawNode(d) {
                 var graph = chart.append('svg:path')
+                        .style('font-family', 'Helvetica')
                         .attr('d', dataLineGen(d.values))
                         .attr('stroke', d.color)
                         .attr('stroke-width', 1.0)
@@ -222,8 +252,8 @@ block content
                         .attr('flag', 'normal')
                         .attr('before_flag', 'normal')
 
-                var text = chart.append('text')
 
+                var text = chart.append('text')
                         .text("( " + d.logo + " )")
                         .attr("font-family", "serif")
                         .attr("font-size", "20px")
@@ -232,8 +262,6 @@ block content
                         .attr('flag', 'normal')
                         .attr('before_flag', 'normal')
                         .attr("transform", "translate(" + x  + "," + (y + 30) + ") rotate(0)")
-
-
 
 
                 graph.on('mouseover', function () {
@@ -245,7 +273,9 @@ block content
                     text.transition()
                             .attr("fill", d.color)
                     for(var i = 0 ; i < connections.length ; i ++){
-                        connections[i].transition().style('stroke-width', 6.5)
+                        connections[i].transition()
+                                .style('stroke-width', connections[i].attr('isCat') == 'true' ? 3.0 : 1.0)
+                                .style('stroke', connections[i].attr('active'))
                     }
                 })
 
@@ -254,15 +284,14 @@ block content
                     circle.transition().attr('r', default_circle_size * 2)
                             .attr('fill', circle.attr('active'))
                     graph.transition().attr('stroke', graph.attr('active'))
-                            .attr('stroke-width', 5.0);
+                            .attr('stroke-width', 2.0);
                     text.transition()
                             .attr("fill", d.color)
                     for(var i = 0 ; i < connections.length ; i ++){
                         connections[i].transition()
-                                .style('stroke-width', connections[i].attr('isCat') == 'true' ? 5 : 2.5)
+                                .style('stroke-width', connections[i].attr('isCat') == 'true' ? 3.0 : 1.0)
                                 .style('stroke', connections[i].attr('active'))
                     }
-
                 })
 
                 circle.on('mouseleave', function(){
@@ -288,6 +317,51 @@ block content
 
             for (var i = 0, max = datas.length; i < max; i++) {
                 drawNode(datas[i]);
+            }
+
+            for (var i = 0; i < category_length; i++) {
+
+
+                if(angle < - 90) angle -= 180;
+                if(angle < - 440) angle += 180;
+
+                // header
+                var sin = Math.sin(angle_data(i));
+                var x = sin * (r + 25 ) + cx;
+                var cos = Math.cos(angle_data(i));
+                var y = cos * (r + 25 ) + cy;
+                var angle = -i / category_length * 360;
+
+                chart.append('text')
+                        .text(names[i][0])
+                        .attr("font-family", "serif")
+                        .attr("font-size", "20px")
+                        .attr("text-anchor", "middle")
+                        .attr("fill", 'black')
+                        .attr('flag', 'normal')
+                        .attr('before_flag', 'normal')
+                        .attr("transform", "translate(" + x + "," + y + ") rotate(" + angle + ")")
+
+                // content
+                for(var j = 0 , max = maxs[i] + 1; j <max ; j ++) {
+                    var sin = Math.sin(angle_data(i));
+                    var x = sin * (r + 47 + (j ) * category_line_abs / maxs[i]) + cx;
+                    var cos = Math.cos(angle_data(i));
+                    var y = cos * (r + 47 + (j ) * category_line_abs / maxs[i]) + cy;
+                    var angle = -i / category_length * 360;
+
+                    chart.append('text')
+                            .text(j == 0 ? "no" : names[i][j])
+                            .attr("font-family", "serif")
+                            .attr("font-size", "20px")
+                            .attr("text-anchor", "middle")
+                            .attr("fill", 'black')
+                            .attr('flag', 'normal')
+                            .attr('before_flag', 'normal')
+                            .attr("transform", "translate(" + x + "," + y + ") rotate(" + angle + ")")
+
+
+                }
             }
 
             function selectCircle(){
@@ -316,7 +390,7 @@ block content
 
                     } else {
                         graph.transition().attr('stroke', graph.attr('active'))
-                                .attr('stroke-width', 0.5)
+                                .attr('stroke-width', outer_stroke_width)
                         circle.transition().attr('fill', circle.attr('active'))
                                 .attr('r', default_circle_size);
                         text.transition()

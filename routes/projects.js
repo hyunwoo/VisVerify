@@ -419,11 +419,12 @@ router.get('/logonetwork/circularParellar', function(req,res){
 
     var total_data = { keys : []};
     var result = {};
-    csvParser.Parse('./ProjectData/Logo/logo_data2.csv', function (object) {
+    csvParser.Parse('./ProjectData/Logo/logo_data2_2.csv', function (object) {
 
         for(var i = 0 ; i < object.length ; i ++){
             total_data[object[i].name] = object[i];
-            if(object[i].name != 'max' && object[i].name != 'node_color' && object[i].name != 'cat_names')
+            if(object[i].name != 'max' && object[i].name != 'node_color' &&
+                object[i].name != 'cat' && object[i].name != 'idx_name')
             total_data.keys.push(object[i].name);
         }
         console.log(total_data.keys);
