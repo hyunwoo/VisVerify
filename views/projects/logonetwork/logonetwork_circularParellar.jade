@@ -41,7 +41,7 @@ block content
             var default_circle_size = 6;
             var cat_tfidf = [];
             var grid_color = '#dfdfdf';
-            var tf_idf_mul_value = 3.0;
+            var tf_idf_mul_value = 1.0;
             var maxs = [];
             var line_mode = 'linear'; // cardinal  // linear
             var names = [];
@@ -127,20 +127,24 @@ block content
                     idx: idx,
                     color: G_DATA[G_DATA.keys[idx]].arg2 == 0 ? '#cccccc' : G_DATA[G_DATA.keys[idx]].arg2,
                     values: [],
-                    prev_values: [],
                     connect: [],
                     connect_color: '#cccccc',
                     grid_idx: grid_idxs[idx],
                 };
 
 
+                var max_idf_value = 0;
                 var mul_idf_value = 0;
                 for (var i = 0; i < category_length; i++) {
 
                     if (value[i] != 0) {
                         if (value.cat == cat_tfidf[i]) {
                             mul_idf_value += tf_idf_mul_value;
+                            max_idf_value += tf_idf_mul_value;
+                        } else {
+                            max_idf_value += 1;
                         }
+
                     }
                 }
 
@@ -151,16 +155,16 @@ block content
                         height += contents_gap;
                     }
 
-                    data.prev_values.push([i, idx]);
-                    //data.values.push([i, height + data.grid_idx[i] * 0.5]);
                     data.values.push([i, height + data.grid_idx[i] * seem_good_gap]);
 
                     if (value[i] != 0) {
                         var idf = 0.5;
-                        if (value.cat == cat_tfidf[i])
-                            data.connect.push([i, mul_idf_value, cat_tfidf[i], 'true']);
+                        if (value.cat == cat_tfidf[i]) {
+                            console.log('push : ' + mul_idf_value + " , " + max_idf_value);
+                            data.connect.push([i, mul_idf_value, cat_tfidf[i], max_idf_value, 'true']);
+                        }
                         else
-                            data.connect.push([i, idf, cat_tfidf[i], 'false']);
+                            data.connect.push([i, idf, cat_tfidf[i], max_idf_value,  'false']);
                     }
 
 
@@ -326,9 +330,10 @@ block content
                     var d = drawings[i].d;
                     var saved = 0;
                     var x = 0, y = 0;
+                    console.log(d.connect);
                     for (var j = 0; j < d.connect.length; j++) {
-                        x += Math.sin(angle_data(d.connect[j][0])) * r * d.connect[j][1];
-                        y += Math.cos(angle_data(d.connect[j][0])) * r * d.connect[j][1];
+                        x += Math.sin(angle_data(d.connect[j][0])) * r * d.connect[j][1] ;
+                        y += Math.cos(angle_data(d.connect[j][0])) * r * d.connect[j][1] ;
                         saved += d.connect[j][1];
                     }
                     x /= saved;

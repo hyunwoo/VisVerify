@@ -158,7 +158,6 @@ csvParser.Parse('./ProjectData/joseondynasty/kingsname.csv', function (data) {
 });
 
 
-
 router.get('/joseondynasty', function (req, res) {
     var result = {};
     result.tab = 'projects';
@@ -413,18 +412,18 @@ router.get('/joseondynasty/network', function (req, res) {
     res.render('projects/joseondynasty/joseondynasty_network');
 });
 
-router.get('/logonetwork/circularParellar', function(req,res){
+router.get('/logonetwork/circularParellar', function (req, res) {
     var result = {};
     result.tab = 'projects';
 
-    var total_data = { keys : []};
+    var total_data = {keys: []};
     var result = {};
     csvParser.Parse('./ProjectData/Logo/logo_data2_6.csv', function (object) {
 
-        for(var i = 0 ; i < object.length ; i ++){
+        for (var i = 0; i < object.length; i++) {
             total_data[object[i].name] = object[i];
-            if(object[i].name != 'max' && object[i].name != 'node_color' &&
-                object[i].name != 'cat' && object[i].name != 'idx_name' && object[i].name != 'idx_name_korean' )
+            if (object[i].name != 'max' && object[i].name != 'node_color' &&
+                object[i].name != 'cat' && object[i].name != 'idx_name' && object[i].name != 'idx_name_korean')
                 total_data.keys.push(object[i].name);
         }
         console.log(total_data.keys);
@@ -432,28 +431,54 @@ router.get('/logonetwork/circularParellar', function(req,res){
 
 
         result.default_data = JSON.stringify(total_data);
-        res.render('projects/logonetwork/logonetwork_circularParellar',result);
+        res.render('projects/logonetwork/logonetwork_circularParellar', result);
     });
 
 })
 
-router.post('/logonetwork/circularParellar', function(req,res){
-    var result = {};
-    result.tab = 'projects';
-    var total_data = { keys : []};
-    console.log(req.body.data);
+router.post('/logonetwork/circularParellar', function (req, res) {
+    try {
+        var result = {};
+        result.tab = 'projects';
+        var total_data = {keys: []};
+        console.log(req.body.data);
 
-    csvParser.ParseString(req.body.data,  function (object) {
-        console.log(object);
-        for(var i = 0 ; i < object.length ; i ++){
-            total_data[object[i].name] = object[i];
-            if(object[i].name != 'max' && object[i].name != 'node_color' &&
-                object[i].name != 'cat' && object[i].name != 'idx_name' && object[i].name != 'idx_name_korean' )
-                total_data.keys.push(object[i].name);
-        }
-        result.default_data = JSON.stringify(total_data);
-        res.render('projects/logonetwork/logonetwork_circularParellar',result);
-    });
+        csvParser.ParseString(req.body.data, function (object) {
+            console.log(object);
+            for (var i = 0; i < object.length; i++) {
+                total_data[object[i].name] = object[i];
+                if (object[i].name != 'max' && object[i].name != 'node_color' &&
+                    object[i].name != 'cat' && object[i].name != 'idx_name' && object[i].name != 'idx_name_korean')
+                    total_data.keys.push(object[i].name);
+            }
+            result.default_data = JSON.stringify(total_data);
+            result.success = true;
+            res.render('projects/logonetwork/logonetwork_circularParellar', result);
+        });
+    } catch (e) {
+
+        var result = {};
+        result.tab = 'projects';
+
+        var total_data = {keys: []};
+        var result = {};
+        csvParser.Parse('./ProjectData/Logo/logo_data2_6.csv', function (object) {
+
+            for (var i = 0; i < object.length; i++) {
+                total_data[object[i].name] = object[i];
+                if (object[i].name != 'max' && object[i].name != 'node_color' &&
+                    object[i].name != 'cat' && object[i].name != 'idx_name' && object[i].name != 'idx_name_korean')
+                    total_data.keys.push(object[i].name);
+            }
+            console.log(total_data.keys);
+            console.log(total_data['max'].arg1)
+
+
+            result.default_data = JSON.stringify(total_data);
+            result.success = false;
+            res.render('projects/logonetwork/logonetwork_circularParellar', result);
+        });
+    }
 
 })
 
@@ -524,12 +549,12 @@ router.get('/twittermood/multi_country', function (req, res) {
     var input_city = req.query.city1;
     var input_city_2 = req.query.city2;
     var city = 'Singapore';
-    if(input_city === undefined || input_city == null)
+    if (input_city === undefined || input_city == null)
         city = "Singapore";
     else city = input_city;
 
     var city2 = "New York";
-    if(input_city_2 === undefined || input_city_2 == null)
+    if (input_city_2 === undefined || input_city_2 == null)
         city2 = "New York";
     else city2 = input_city_2;
 
@@ -630,7 +655,6 @@ router.get('/twittermood/multi_country', function (req, res) {
             }
 
 
-
             var group1_length = (rep.length - 1) / 2 + 1;
             var group2_length = rep.length;
 
@@ -638,7 +662,7 @@ router.get('/twittermood/multi_country', function (req, res) {
                 temperature.values.push({x: j, y: rep[j].temp * 1});
                 humidity.values.push({x: j, y: rep[j].humidity * 1});
                 wind.values.push({x: j, y: rep[j].wind_speed * 1});
-                rain.values.push({x: j, y: rep[j].rain == 'undefined' ? 0 : rep[j].rain  * 1});
+                rain.values.push({x: j, y: rep[j].rain == 'undefined' ? 0 : rep[j].rain * 1});
 
 //                9/5Ta-0.55(1-RH)(9/5Ta-26)+32
                 var uncomf_value = 9 * 0.2 * rep[j].temp - 0.55 * ( 1 - rep[j].humidity * 0.01) * (9 * 0.2 * rep[j].temp - 26) + 32;
@@ -652,7 +676,7 @@ router.get('/twittermood/multi_country', function (req, res) {
                 temperature2.values.push({x: index, y: rep[j].temp * 1});
                 humidity2.values.push({x: index, y: rep[j].humidity * 1});
                 wind2.values.push({x: index, y: rep[j].wind_speed * 1});
-                rain2.values.push({x: index, y: rep[j].rain == 'undefined' ? 0 : rep[j].rain  * 1});
+                rain2.values.push({x: index, y: rep[j].rain == 'undefined' ? 0 : rep[j].rain * 1});
                 var uncomf_value = 9 * 0.2 * rep[j].temp - 0.55 * ( 1 - rep[j].humidity * 0.01) * (9 * 0.2 * rep[j].temp - 26) + 32;
                 uncomf2.values.push({x: index, y: uncomf_value * 1});
 
@@ -674,15 +698,15 @@ router.get('/twittermood/multi_country', function (req, res) {
             multi = db.multi();
             multi.select(5);
             for (var i = 0; i < keys.length; i++) {
-                multi.hgetall("sentiment:" + city  + ":" + keys[i]);
+                multi.hgetall("sentiment:" + city + ":" + keys[i]);
             }
 
             for (var i = 0; i < keys.length; i++) {
-                multi.hgetall("sentiment:" + city2  + ":" + keys[i]);
+                multi.hgetall("sentiment:" + city2 + ":" + keys[i]);
             }
 
 
-            multi.exec(function(err,rep){
+            multi.exec(function (err, rep) {
 
                 var sentivalues = {
                     values: [],
@@ -693,55 +717,55 @@ router.get('/twittermood/multi_country', function (req, res) {
                 var sentivalues2 = {
                     values: [],
                     key: "sentiment " + city2,
-                    width : 3,
+                    width: 3,
                     color: "#8fff0e",
                 }
 
                 var group1_length = (rep.length - 1) / 2 + 1;
                 var group2_length = rep.length;
-                for(var j = 1 ; j < group1_length; j ++){
+                for (var j = 1; j < group1_length; j++) {
                     //console.log(rep[j]);
                     var idx = j - 1;
-                    if(rep[j] == null) continue;
-                    sentivalues.values.push({x:idx , y : rep[j].aver * 10});
+                    if (rep[j] == null) continue;
+                    sentivalues.values.push({x: idx, y: rep[j].aver * 10});
 
                     var jump_count = 50;
-                    for(var i = -100 ; i < 100 ; i +=jump_count){
+                    for (var i = -100; i < 100; i += jump_count) {
                         var val = 0;
-                        for(var k = i ; k < i + jump_count ; k ++){
-                            if(k == 0) continue;
+                        for (var k = i; k < i + jump_count; k++) {
+                            if (k == 0) continue;
 
                             val += rep[j][k + ''] == undefined ? 0 : rep[j][k + ''] * 1;
                         }
                         var data = {
-                            idx:j,
-                            name:i + ' ~ ' + (i * 1+ jump_count),
-                            value : val,
+                            idx: j,
+                            name: i + ' ~ ' + (i * 1 + jump_count),
+                            value: val,
                         }
                         second_data.push(data);
                     }
                 }
 
-                for(var j = group1_length ; j < group2_length; j ++){
+                for (var j = group1_length; j < group2_length; j++) {
                     //console.log(rep[j]);
 
-                    if(rep[j] == null) continue;
-                    var idx = j - group1_length ;
-                    sentivalues2.values.push({x:idx , y : rep[j].aver * 10});
+                    if (rep[j] == null) continue;
+                    var idx = j - group1_length;
+                    sentivalues2.values.push({x: idx, y: rep[j].aver * 10});
 
 
                     var jump_count = 50;
-                    for(var i = -100 ; i < 100 ; i +=jump_count){
+                    for (var i = -100; i < 100; i += jump_count) {
                         var val = 0;
-                        for(var k = i ; k < i + jump_count ; k ++){
-                            if(k == 0) continue;
+                        for (var k = i; k < i + jump_count; k++) {
+                            if (k == 0) continue;
 
                             val += rep[j][k + ''] == undefined ? 0 : rep[j][k + ''] * 1;
                         }
                         var data = {
-                            idx:j,
-                            name:i + ' ~ ' + (i * 1+ jump_count),
-                            value : val,
+                            idx: j,
+                            name: i + ' ~ ' + (i * 1 + jump_count),
+                            value: val,
                         }
                         second_data.push(data);
                     }
@@ -751,7 +775,6 @@ router.get('/twittermood/multi_country', function (req, res) {
                 result.default_data = JSON.stringify(default_data);
                 //result.second_data = JSON.stringify(second_data);
                 res.render('projects/twittermood/twittermood_multi_country', result);
-
 
 
             })
@@ -770,10 +793,9 @@ router.get('/twittermood/graphs', function (req, res) {
 
     var input_city = req.query.city1;
     var city = 'Singapore';
-    if(input_city === undefined || input_city == null)
+    if (input_city === undefined || input_city == null)
         city = "Singapore";
     else city = input_city;
-
 
 
     var multi = db.multi();
@@ -796,7 +818,6 @@ router.get('/twittermood/graphs', function (req, res) {
         for (var i = 0; i < keys.length; i++) {
             multi.hgetall("weather:" + city + ":" + keys[i]);
         }
-
 
 
         multi.exec(function (err, rep) {
@@ -843,12 +864,10 @@ router.get('/twittermood/graphs', function (req, res) {
                 temperature.values.push({x: j, y: rep[j].temp * 1});
                 humidity.values.push({x: j, y: rep[j].humidity * 1});
                 wind.values.push({x: j, y: rep[j].wind_speed * 1});
-                rain.values.push({x: j, y: rep[j].rain == 'undefined' ? 0 : rep[j].rain  * 1});
+                rain.values.push({x: j, y: rep[j].rain == 'undefined' ? 0 : rep[j].rain * 1});
 
             }
             console.log(rep);
-
-
 
 
             default_data.push(temperature);
@@ -858,34 +877,34 @@ router.get('/twittermood/graphs', function (req, res) {
             multi = db.multi();
             multi.select(5);
             for (var i = 0; i < keys.length; i++) {
-                multi.hgetall("sentiment:" + city  + ":" + keys[i]);
+                multi.hgetall("sentiment:" + city + ":" + keys[i]);
             }
-            multi.exec(function(err,rep){
+            multi.exec(function (err, rep) {
 
                 var sentivalues = {
                     values: [],
                     key: "sentiment",
                     color: "#ff8f0e",
-                    area:true,
+                    area: true,
                 }
 
-                for(var j = 1 ; j < rep.length; j ++){
+                for (var j = 1; j < rep.length; j++) {
                     //console.log(rep[j]);
-                    if(rep[j] == null) continue;
-                    sentivalues.values.push({x:j , y : rep[j].aver * 10});
+                    if (rep[j] == null) continue;
+                    sentivalues.values.push({x: j, y: rep[j].aver * 10});
 
                     var jump_count = 50;
-                    for(var i = -100 ; i < 100 ; i +=jump_count){
+                    for (var i = -100; i < 100; i += jump_count) {
                         var val = 0;
-                        for(var k = i ; k < i + jump_count ; k ++){
-                            if(k == 0) continue;
+                        for (var k = i; k < i + jump_count; k++) {
+                            if (k == 0) continue;
 
                             val += rep[j][k + ''] == undefined ? 0 : rep[j][k + ''] * 1;
                         }
                         var data = {
-                            idx:j,
-                            name:i + ' ~ ' + (i * 1+ jump_count),
-                            value : val,
+                            idx: j,
+                            name: i + ' ~ ' + (i * 1 + jump_count),
+                            value: val,
                         }
                         second_data.push(data);
                     }
@@ -894,7 +913,6 @@ router.get('/twittermood/graphs', function (req, res) {
                 result.default_data = JSON.stringify(default_data);
                 result.second_data = JSON.stringify(second_data);
                 res.render('projects/twittermood/twittermood_single_country', result);
-
 
 
             })
@@ -925,7 +943,7 @@ router.get('/twittermood/sentiment', function (req, res) {
     multi.hkeys('Cities');
     multi.exec(function (err, rep) {
         result.countries = rep[1];
-        if(select === undefined || select == '')
+        if (select === undefined || select == '')
             result.select = rep[1][0];
         else result.select = select;
 
@@ -933,10 +951,10 @@ router.get('/twittermood/sentiment', function (req, res) {
         multi.select(4);
         multi.hkeys('Progress');
         var city = result.select;
-        multi.exec(function(err,rep){
+        multi.exec(function (err, rep) {
             multi = db.multi();
             multi.select(2);
-            if(page === undefined || page == '')
+            if (page === undefined || page == '')
                 result.currentpage = 0;
             else result.currentpage = page;
             console.log("Cur PAge : " + result.currentpage);
@@ -945,20 +963,20 @@ router.get('/twittermood/sentiment', function (req, res) {
             console.log('pageLength : ' + rep[1].length);
             result.pagecount = rep[1].length;
 
-            multi.exec(function(err,rep){
+            multi.exec(function (err, rep) {
                 multi = db.multi();
                 multi.select(1);
-                for(var i =0 ;  i < rep[1].length ; i ++){
+                for (var i = 0; i < rep[1].length; i++) {
                     multi.hgetall(rep[1][i]);
                 }
                 result.tweets = [];
-                multi.exec(function(err,rep){
-                    for(var i = 1 ; i < rep.length ; i ++){
+                multi.exec(function (err, rep) {
+                    for (var i = 1; i < rep.length; i++) {
                         var sent = sentiment.sentiment(rep[i].text);
                         result.tweets.push({
-                            id : rep[i].user_scr_name,
-                            text : rep[i].text,
-                            sentiment : Math.floor(sent.comparative * 100) / 10,
+                            id: rep[i].user_scr_name,
+                            text: rep[i].text,
+                            sentiment: Math.floor(sent.comparative * 100) / 10,
                         });
 
                     }
