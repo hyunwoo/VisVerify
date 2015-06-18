@@ -39,6 +39,7 @@ block content
             var maxs = [];
             var line_mode = 'linear'; // cardinal  // linear
             var names = [];
+            var contents = [];
 
 
             var grid_colors = {};
@@ -109,7 +110,7 @@ block content
                 datas.push(data);
             }
 
-            var width = 1600, height = 1400, cx = width / 2, cy = height / 2;
+            var width = 1600, height = 1600, cx = width / 2, cy = height / 2;
             var angle = d3.scale.linear()
                     .domain([0, circle_length])
                     .range([0, Math.PI * 2]);
@@ -118,9 +119,50 @@ block content
                     .range([0, Math.PI * 2]);
             var r = 350;
             var h = 200;
-            var chart = d3.select("#chart").append('svg')
+            var zoom = d3.behavior.zoom()
+                    .scaleExtent([1, 10])
+                    .on("zoom", zoomed);
+
+            var drag = d3.behavior.drag()
+                    .origin(function (d) {
+                        return d;
+                    })
+                    .on("dragstart", dragstarted)
+                    .on("drag", dragged)
+                    .on("dragend", dragended);
+
+
+
+            var svg = d3.select("#chart").append('svg')
                     .attr("width", width)
-                    .attr("height", height);
+                    .attr("height", height)
+                    .append("g")
+                        .attr("transform", "translate( 0, 0)")
+                        .call(zoom);
+
+            var rect = svg.append("rect")
+                .attr("width", width)
+                .attr("height", height)
+                .style("fill", "none")
+                .style("pointer-events", "all");
+
+
+
+            function zoomed() {
+                console.log("zoomed : " + d3.event.translate);
+                svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+            }
+            function dragstarted(d) {
+                d3.event.sourceEvent.stopPropagation();
+                d3.select(this).classed("dragging", true);
+            }
+            function dragged(d) {
+                d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+            }
+            function dragended(d) {
+                d3.select(this).classed("dragging", false);
+            }
+
 
 
             var gridVerticalGen = d3.svg.line()
@@ -175,7 +217,7 @@ block content
 
 
             for (var i = 0; i < category_length; i++) {
-                chart.append('svg:path')
+                svg.append('svg:path')
                     .attr('d', gridVerticalGen([[i * circle_length / category_length, 0], [i * circle_length / category_length, 1]]))
                     .attr('stroke', grid_color)
                     .attr('stroke-width',2.0)
@@ -186,7 +228,7 @@ block content
 
 
             for (var i = 0; i < circle_length; i += 2) {
-                chart.append('svg:path')
+                svg.append('svg:path')
                     .attr('d', gridLineGen([[i-1, 0, -1], [i , 0 , 0], [i + 1, 0 , 1]]))
                     .attr('stroke', grid_colors[cat_tfidf[i/2]])
                     .attr('stroke-width', gridwidth)
@@ -199,8 +241,7 @@ block content
             var drawings = [];
 
             function drawNode(d) {
-                var graph = chart.append('svg:path')
-                        .style('font-family', 'Helvetica')
+                var graph = svg.append('svg:path')
                         .attr('d', dataLineGen(d.values))
                         .attr('stroke', d.color)
                         .attr('stroke-width', 1.0)
@@ -226,7 +267,7 @@ block content
                 for (var i = 0; i < d.connect.length; i++) {
                     var sin = Math.sin(angle_data(d.connect[i][0]));
                     var cos = Math.cos(angle_data(d.connect[i][0]));
-                    var connection = chart.append("line")
+                    var connection = svg.append("line")
                             .style("stroke", d.connect_color)
                             .style('stroke-width', 0.1)
                             .attr("x1", x)
@@ -241,7 +282,7 @@ block content
                     connections.push(connection);
                 }
 
-                var circle = chart.append("circle")
+                var circle = svg.append("circle")
                         .attr('cx', x)
                         .attr('cy', y)
                         .attr('r', default_circle_size)
@@ -249,13 +290,13 @@ block content
                         .attr('deactive', '#cccccc')
                         .attr('active', d.color)
                         .attr('flag', 'normal')
-                        .attr('before_flag', 'normal')
+                        .attr('before_flag', 'normal');
 
 
-                var text = chart.append('text')
-                        .text("( " + d.logo + " )")
-                        .attr("font-family", "serif")
-                        .attr("font-size", "20px")
+                var text = svg.append('text')
+                        .text( d.logo )
+                        .style("font-family", "Geneva")
+                        .style("font-size", "12px")
                         .attr("text-anchor", "middle")
                         .attr("fill", d.color)
                         .attr('flag', 'normal')
@@ -331,8 +372,9 @@ block content
                 var y = cos * (r + 25 ) + cy;
                 var angle = -i / category_length * 360;
 
-                chart.append('text')
+                svg.append('text')
                         .text(names[i][0])
+                        .style("font-weight", "bold")
                         .style("font-family", 'Geneva')
                         .style("font-size", "12px")
                         .attr("text-anchor", "middle")
@@ -348,7 +390,7 @@ block content
                     var y = cos * (r + 47 + (j ) * category_line_abs / maxs[i]) + cy;
                     var angle = -i / category_length * 360;
 
-                    chart.append('text')
+                    svg.append('text')
                             .text(names[i][j + 1])
                             .style("font-family", "Geneva")
                             .style("font-size", "14px")
@@ -402,6 +444,8 @@ block content
                 }
 
             }
+
+
 
 
 
