@@ -6,16 +6,23 @@ block content
             |  FreeNetwork Prototype
         div(id='chart', style='margin:0;width:100%; height:1400px; border:1px solid')
         legend
-        div.row
-            div.col-sm-8
-                h4
-                    a #Data :
-                    |  CSV Data
-            div.col-sm-4
-                div(align='right')
-                    a # Update
-    div.container-fluid
-        textarea(id='text',style='display:hidden;') #{default_data}
+        form(action='./circularParellar',method='post')
+
+            div.row
+                div.col-sm-8
+                    h4
+                        a #Data :
+                        |  CSV Data
+                div.col-sm-4(align='right')
+                    button.btn.btn-success(align='right', type='submit') Update
+
+            div.container-fluid
+                textarea(name = 'data', id='data',style='width:100%; height:1400px;')
+
+            div.container-fluid
+                textarea.hidden(name = 'text', id='text') #{default_data}
+
+
 
         legend
         script.
@@ -26,7 +33,7 @@ block content
             var data_count = 195;
             var category_length = G_DATA['max'].arg1;
             var circle_length = category_length * 2;
-            var seem_good_gap = 0.25;
+            var seem_good_gap = 0.5;
             var outer_stroke_width = 0.5;
             var category_line_height = 180;
             var category_line_abs = category_line_height + seem_good_gap * data_count;
@@ -42,8 +49,9 @@ block content
             var contents_gap = 25;
             var click_status = 'true';
             var clicked = [];
+            var defaultdelayTime = 1;
 
-            function removeArray(array, value){
+            function removeArray(array, value) {
                 for (var i = array.length - 1; i >= 0; i--) {
                     if (array[i] === value) {
                         array.splice(i, 1);
@@ -59,7 +67,7 @@ block content
             grid_colors['C'] = '#aaaaff';
             grid_colors['D'] = '#ffaaff';
 
-            for(var i = 0 ; i < category_length ; i ++){
+            for (var i = 0; i < category_length; i++) {
                 var max_val = G_DATA['max'][i];
                 maxs.push(G_DATA['max'][i]);
                 cat_tfidf.push(G_DATA['cat'][i]);
@@ -68,12 +76,12 @@ block content
                 names.push(cur_name);
             }
 
-            for(var i = 0 ; i < category_length ; i ++){
+            for (var i = 0; i < category_length; i++) {
                 var content = [];
-                for(var j = 0 ; j < maxs[i] + 1 ; j ++){
+                for (var j = 0; j < maxs[i] + 1; j++) {
                     var e = {
-                        size : 0,
-                        color : '#ffffff',
+                        size: 0,
+                        color: '#ffffff',
                     }
                     content.push(e);
                 }
@@ -82,7 +90,7 @@ block content
             }
 
             var myTextArea = document.getElementById("text");
-
+            /*
             var myCodeMirror = CodeMirror(function (elt) {
                         myTextArea.parentNode.replaceChild(elt, myTextArea);
                     },
@@ -92,7 +100,7 @@ block content
                         lineWrapping: true,
                         theme: '3024-day',
                     }
-            )
+            )*/
 
             for (var i = 0; i < circle_length + 1; i++) {
                 circle_line_data.push([i, 0])
@@ -129,16 +137,16 @@ block content
                 var mul_idf_value = 0;
                 for (var i = 0; i < category_length; i++) {
 
-                    if(value[i] != 0){
-                        if(value.cat == cat_tfidf[i]) {
-                            mul_idf_value = tf_idf_mul_value;
+                    if (value[i] != 0) {
+                        if (value.cat == cat_tfidf[i]) {
+                            mul_idf_value += tf_idf_mul_value;
                         }
                     }
                 }
 
                 for (var i = 0; i < category_length; i++) {
                     var height = 0;
-                    for(var j = 0 ; j < value[i] ; j ++){
+                    for (var j = 0; j < value[i]; j++) {
                         height += contents[i][j].size * seem_good_gap;
                         height += contents_gap;
                     }
@@ -147,9 +155,9 @@ block content
                     //data.values.push([i, height + data.grid_idx[i] * 0.5]);
                     data.values.push([i, height + data.grid_idx[i] * seem_good_gap]);
 
-                    if(value[i] != 0){
+                    if (value[i] != 0) {
                         var idf = 0.5;
-                        if(value.cat == cat_tfidf[i])
+                        if (value.cat == cat_tfidf[i])
                             data.connect.push([i, mul_idf_value, cat_tfidf[i], 'true']);
                         else
                             data.connect.push([i, idf, cat_tfidf[i], 'false']);
@@ -165,8 +173,8 @@ block content
             }
 
             var width = document.getElementById("chart").offsetWidth,
-                height = document.getElementById("chart").offsetHeight;
-            var cx = width/2, cy = height/2;
+                    height = document.getElementById("chart").offsetHeight;
+            var cx = width / 2, cy = height / 2;
             var angle = d3.scale.linear()
                     .domain([0, circle_length])
                     .range([0, Math.PI * 2]);
@@ -191,14 +199,18 @@ block content
                     .attr("width", width)
                     .attr("height", height)
                     .append("g")
-                        .attr("transform", "translate( 0, 0)")
-                        .call(zoom);
+                    .attr("transform", "translate( 0, 0)")
+                    .call(zoom);
 
             var rect = svg.append("rect")
-                .attr("width", width)
-                .attr("height", height)
-                .style("fill", "none")
-                .style("pointer-events", "all");
+                    .attr("width", width * 3)
+                    .attr("height", height * 3)
+                    .attr("x", - width)
+                    .attr("y", - height)
+                    .style("fill", "#eeeeee")
+                    .style("pointer-events", "all");
+
+
 
 
 
@@ -221,7 +233,7 @@ block content
 
             var gridVerticalGen = d3.svg.line()
                     .x(function (d) {
-                        var x = Math.sin(angle(d[0])) * (r + category_line_abs * d[1] +  d[1] * gridwidth + 25);
+                        var x = Math.sin(angle(d[0])) * (r + category_line_abs * d[1] + d[1] * gridwidth + 25);
                         return cx + x;
                     })
                     .y(function (d) {
@@ -244,7 +256,7 @@ block content
                     .x(function (d) {
 
                         var sin = Math.sin(angle_data(d[0]));
-                        var x = sin * (r + d[1] + gridwidth  + 10);
+                        var x = sin * (r + d[1] + gridwidth + 10);
                         return cx + x;
                     })
                     .y(function (d) {
@@ -272,47 +284,45 @@ block content
 
             for (var i = 0; i < category_length; i++) {
                 svg.append('svg:path')
-                    .attr('d', gridVerticalGen([[i * circle_length / category_length, 0], [i * circle_length / category_length, 1]]))
-                    .attr('stroke', grid_color)
-                    .attr('stroke-width',2.0)
-                    .attr('fill', 'none');
+                        .attr('d', gridVerticalGen([[i * circle_length / category_length, 0], [i * circle_length / category_length, 1]]))
+                        .attr('stroke', grid_color)
+                        .attr('stroke-width', 2.0)
+                        .attr('fill', 'none');
             }
 
             for (var i = 0; i < circle_length; i += 2) {
                 svg.append('svg:path')
-                    .attr('d', gridLineGen([[i-1, 0, -1], [i , 0 , 0], [i + 1, 0 , 1]]))
-                    .attr('stroke', grid_colors[cat_tfidf[i/2]])
-                    .attr('stroke-width', gridwidth)
-                    .attr('fill', 'none');
+                        .attr('d', gridLineGen([[i - 1, 0, -1], [i, 0, 0], [i + 1, 0, 1]]))
+                        .attr('stroke', grid_colors[cat_tfidf[i / 2]])
+                        .attr('stroke-width', gridwidth)
+                        .attr('fill', 'none');
             }
 
             var drawings = [];
 
-            function drawInit(d){
-                drawings.push({d:d});
+            function drawInit(d) {
+                drawings.push({d: d});
             }
-            function drawPath(){
-                console.log(drawings.length);
-                for(var i = 0 ; i < drawings.length; i ++) {
+            function drawPath() {
+                for (var i = 0; i < drawings.length; i++) {
                     var d = drawings[i].d;
                     var graph = svg.append('svg:path')
                             .attr('d', dataLineGen(d.values))
-                            .attr('stroke', d.color)
-                            .attr('stroke-width', 1.0)
+                        //.attr('stroke', d.color)
+                            .attr('stroke-width', 0)
+                            .attr('stroke-opacity', 1)
                             .attr('fill', 'none')
                             .attr('deactive', '#cccccc')
                             .attr('active', d.color)
                             .attr('flag', 'normal')
                             .attr('before_flag', 'normal')
                             .attr('logo', d.logo);
-
                     drawings[i].graph = graph;
                 }
 
             }
-            function drawCircle(){
-                console.log(drawings.length);
-                for(var i = 0 ; i < drawings.length; i ++) {
+            function drawCircle() {
+                for (var i = 0; i < drawings.length; i++) {
                     var d = drawings[i].d;
                     var saved = 0;
                     var x = 0, y = 0;
@@ -329,8 +339,8 @@ block content
                     var circle = svg.append("circle")
                             .attr('cx', x)
                             .attr('cy', y)
-                            .attr('r', default_circle_size)
-                            .attr('fill', d.color)
+                            .attr('r', 0)
+                        //.attr('fill', d.color)
                             .attr('deactive', '#cccccc')
                             .attr('active', d.color)
                             .attr('flag', 'normal')
@@ -340,8 +350,8 @@ block content
                 }
 
             }
-            function drawText(){
-                for(var i = 0 ; i < drawings.length; i ++) {
+            function drawText() {
+                for (var i = 0; i < drawings.length; i++) {
                     var d = drawings[i].d;
                     var saved = 0;
                     var x = 0, y = 0;
@@ -359,16 +369,16 @@ block content
                             .style("font-family", "Geneva")
                             .style("font-size", "12px")
                             .attr("text-anchor", "middle")
-                            .attr("fill", '#666666')
+                            .attr("fill", '#eeeeee')
                             .attr('flag', 'normal')
                             .attr('before_flag', 'normal')
-                            .attr("transform", "translate(" + x + "," + (y + 30) + ") rotate(0)")
+                            .attr("transform", "translate(" + x + "," + (y + 20) + ") rotate(0)")
                             .attr('logo', d.logo);
                     drawings[i].text = text;
                 }
             }
-            function drawConnection(d){
-                for(var i = 0 ; i < drawings.length; i ++) {
+            function drawConnection(d) {
+                for (var i = 0; i < drawings.length; i++) {
                     var d = drawings[i].d;
                     var saved = 0;
                     var x = 0, y = 0;
@@ -381,14 +391,13 @@ block content
                     y /= saved;
                     x += cx;
                     y += cy;
-                    console.log(drawings.length + " , " + d + " , " + x + " , " + y) ;
                     var connections = [];
                     for (var j = 0; j < d.connect.length; j++) {
                         var sin = Math.sin(angle_data(d.connect[j][0]));
                         var cos = Math.cos(angle_data(d.connect[j][0]));
                         var connection = svg.append("line")
-                                .style("stroke", d.connect_color)
-                                .style('stroke-width', 0.1)
+                                .style("stroke", '#eeeeee')
+                                .style('stroke-width', 0.0)
                                 .attr("x1", x)
                                 .attr("y1", y)
                                 .attr("x2", sin * r + cx)
@@ -406,41 +415,65 @@ block content
             }
 
 
-            function setEvents(i, d){
+
+            function setEvents(i, d) {
                 var d = d;
                 var circle = drawings[i].circle;
                 var graph = drawings[i].graph;
                 var text = drawings[i].text;
                 var connections = drawings[i].connections;
 
-                circle.on('mouseover', function(){
+                circle.on('mouseover', function () {
                     setClear('invisible');
-                    adJustAll();
-                    graph.attr('flag','preserve')
-                    circle.attr('flag','preserve')
+                    adjustAll();
+                    graph.attr('flag', 'preserve')
+                    circle.attr('flag', 'preserve')
+                    text.attr('flag', 'preserve');
                     setAll();
                 })
-                function click(){
+
+                circle.on('mouseout', function () {
+
+
+                    if (clicked.length == 0) {
+                        setClear('normal');
+                        setAll();
+                    } else {
+                        setClear('invisible');
+                        graph.attr('flag', 'invisible')
+                        circle.attr('flag', 'invisible')
+                        text.attr('flag', 'invisible');
+                        adjustAll();
+                        setAll();
+                    }
+
+
+                })
+                function click() {
                     var add = true;
-                    for(var i = 0 ; i < clicked.length ; i++){
-                        if(clicked[i] === d.logo){
+                    for (var i = 0; i < clicked.length; i++) {
+                        if (clicked[i] === d.logo) {
                             removeArray(clicked, d.logo);
                             add = false;
+                            if (clicked.length == 0) {
+                                // good
+                                setClear('normal');
+                                setAll();
+                            }
                             break;
                         }
                     }
-                    if(add){
+                    if (add) {
                         clicked.push(d.logo);
                     }
 
+
                     setClear('invisible');
-                    adJustAll();
+                    adjustAll();
                     setAll();
                 }
 
-                circle.on('click', function(){
-                    console.log('f');
-                });
+                circle.on('click', click);
 
             }
 
@@ -450,22 +483,140 @@ block content
             }
 
 
+
             console.log('init end');
             drawPath();
             console.log('path end');
-            drawText();
-            console.log('drawtext end');
             drawConnection();
             console.log('connection end');
+            drawText();
+            console.log('drawtext end');
             drawCircle();
             console.log('circle end');
-            setEvents();
-            console.log('event end');
+
 
             for (var i = 0, max = datas.length; i < max; i++) {
-                setEvents(i,datas[i]);
+                setEvents(i, datas[i]);
             }
 
+            var btShowCate = svg.append("rect")
+                    .attr('x', 100)
+                    .attr('y', height - 200)
+                    .attr("width", 150)
+                    .attr("height", 60)
+                    .style("fill", "#9999aa")
+                    .style("pointer-events", "all");
+            var btShowYear = svg.append("rect")
+                    .attr('x', 100)
+                    .attr('y', height - 280)
+                    .attr("width", 150)
+                    .attr("height", 60)
+                    .attr('text', "aa")
+                    .attr('text-color', '000000')
+                    .style("fill", "#9999aa")
+                    .style("pointer-events", "all")
+            var btdeSelect = svg.append("rect")
+                    .attr('x', 100)
+                    .attr('y', height - 500)
+                    .attr("width", 150)
+                    .attr("height", 60)
+                    .style("fill", "#9999aa")
+                    .style("pointer-events", "all");
+            var btUndo = svg.append("rect")
+                    .attr('x', 100)
+                    .attr('y', height - 580)
+                    .attr("width", 150)
+                    .attr("height", 60)
+                    .attr('text', "aa")
+                    .attr('text-color', '000000')
+                    .style("fill", "#9999aa")
+                    .style("pointer-events", "all")
+
+            btShowCate.on('mouseover', function () {
+                btShowCate.style("fill", "#bbbbdd")
+            });
+            btShowCate.on('mouseout', function () {
+                btShowCate.style("fill", "#9999aa")
+            });
+            btShowCate.on('click', function () {
+                changeMode('cat');
+            });
+            btShowYear.on('mouseover', function () {
+                btShowYear.style("fill", "#bbbbdd")
+            });
+            btShowYear.on('mouseout', function () {
+                btShowYear.style("fill", "#9999aa")
+            });
+            btShowYear.on('click', function () {
+                changeMode('year');
+            });
+
+            btdeSelect.on('mouseover', function () {
+                btdeSelect.style("fill", "#bbbbdd")
+            });
+            btdeSelect.on('mouseout', function () {
+                btdeSelect.style("fill", "#9999aa")
+            });
+            btdeSelect.on('click', function () {
+                clicked = [];
+                setClear('normal');
+                setAll();
+            });
+            btUndo.on('mouseover', function () {
+                btUndo.style("fill", "#bbbbdd")
+            });
+            btUndo.on('mouseout', function () {
+                btUndo.style("fill", "#9999aa")
+            });
+            btUndo.on('click', function () {
+                if(clicked.length > 0) {
+                    removeArray(clicked, clicked[clicked.length - 1]);
+                    if(clicked.length == 0){
+                        setClear('normal');
+                        setAll();
+                    } else {
+                        adjustAll();
+                        setAll();
+                    }
+                }
+            });
+            svg.append('text')
+                    .text('Category')
+                    .style("font-family", 'Geneva')
+                    .style("font-size", "16px")
+                    .attr("text-anchor", "middle")
+                    .attr("fill", 'black')
+                    .attr('flag', 'normal')
+                    .attr('before_flag', 'normal')
+                    .attr("transform", "translate(" + 175 + "," + (height - 280 + 35) + ") rotate(" + 0 + ")")
+            svg.append('text')
+                    .text('Year')
+                    .style("font-family", 'Geneva')
+                    .style("font-size", "16px")
+                    .attr("text-anchor", "middle")
+                    .attr("fill", 'black')
+                    .attr('flag', 'normal')
+                    .attr('before_flag', 'normal')
+                    .attr("transform", "translate(" + 175 + "," + (height - 200 + 35) + ") rotate(" + 0 + ")")
+            svg.append('text')
+                    .text('deselect All')
+                    .style("font-family", 'Geneva')
+                    .style("font-size", "16px")
+                    .attr("text-anchor", "middle")
+                    .attr("fill", 'black')
+                    .attr('flag', 'normal')
+                    .attr('before_flag', 'normal')
+                    .attr("transform", "translate(" + 175 + "," + (height - 500 + 35) + ") rotate(" + 0 + ")")
+            svg.append('text')
+                    .text('undo Select')
+                    .style("font-family", 'Geneva')
+                    .style("font-size", "16px")
+                    .attr("text-anchor", "middle")
+                    .attr("fill", 'black')
+                    .attr('flag', 'normal')
+                    .attr('before_flag', 'normal')
+                    .attr("transform", "translate(" + 175 + "," + (height - 580 + 35) + ") rotate(" + 0 + ")")
+            setAll(40);
 
             for (var i = 0; i < category_length; i++) {
                 // header
@@ -476,42 +627,40 @@ block content
                 var angle = -i / category_length * 360;
 
                 var mode = 0;
-                if(angle < - 90) {
+                if (angle < -90) {
                     angle -= 180;
                     mode = 1;
                 }
-                if(angle < - 445) {
+                if (angle < -445) {
                     mode = 0;
                     angle += 180;
                 }
 
-                if(mode == 0) convert_height = 0;
+                if (mode == 0) convert_height = 0;
                 else convert_height = -7;
-                if(mode == 1){
+                if (mode == 1) {
                     y = cos * (r + 25 + convert_height ) + cy;
                     x = sin * (r + 25 + convert_height ) + cx;
                 }
 
-                if(names[i][0].indexOf('<br>') != -1){
+                if (names[i][0].indexOf('<br>') != -1) {
                     var strs = names[i][0].split('<br>')
-                    for(var j = 0 ; j < strs.length ; j ++) {
+                    for (var j = 0; j < strs.length; j++) {
                         var x = sin * (r + 16 + j * 14 + convert_height ) + cx;
                         var y = cos * (r + 16 + j * 14 + convert_height) + cy;
                         svg.append('text')
-                            .text(strs[j])
-                            .style("font-weight", "bold")
-                            .style("font-family", 'Geneva')
-                            .style("font-size", "12px")
-                            .attr("text-anchor", "middle")
-                            .attr("fill", 'black')
-                            .attr('flag', 'normal')
-                            .attr('before_flag', 'normal')
-                            .attr("transform", "translate(" + x + "," + y + ") rotate(" + angle + ")")
+                                .text(strs[j])
+                                .style("font-family", 'Geneva')
+                                .style("font-size", "12px")
+                                .attr("text-anchor", "middle")
+                                .attr("fill", 'black')
+                                .attr('flag', 'normal')
+                                .attr('before_flag', 'normal')
+                                .attr("transform", "translate(" + x + "," + y + ") rotate(" + angle + ")")
                     }
                 } else {
                     svg.append('text')
                             .text(names[i][0])
-                            .style("font-weight", "bold")
                             .style("font-family", 'Geneva')
                             .style("font-size", "12px")
                             .attr("text-anchor", "middle")
@@ -525,10 +674,10 @@ block content
                 var value = G_DATA[G_DATA.keys[idx]];
                 var height = 0;
 
-                for(var j = 0 , max = maxs[i] + 1; j <max ; j ++) {
+                for (var j = 0, max = maxs[i] + 1; j < max; j++) {
 
 
-                    if( j != 0) height += contents_gap;
+                    if (j != 0) height += contents_gap;
                     else height += 44;
 
                     var sin = Math.sin(angle_data(i));
@@ -544,14 +693,13 @@ block content
                     var x1 = sin * h + cx;
                     var y1 = cos * h + cy;
 
-                    h = r + height + 7+ contents[i][j].size * seem_good_gap;
+                    h = r + height + 7 + contents[i][j].size * seem_good_gap;
                     var x2 = sin * h + cx;
                     var y2 = cos * h + cy;
 
 
-
-                    if(angle < - 90) angle -= 180;
-                    if(angle < - 445) angle += 180;
+                    if (angle < -90) angle -= 180;
+                    if (angle < -445) angle += 180;
 
                     height += contents[i][j].size * seem_good_gap;
 
@@ -579,39 +727,39 @@ block content
             }
 
 
-            function selectCircle(){
+            function selectCircle() {
 
             }
 
-            function deselectCircle(){
+            function deselectCircle() {
 
             }
-            function setClear(state){
+            function setClear(state) {
                 for (var j = 0; j < drawings.length; j++) {
                     var graph = drawings[j].graph;
                     var circle = drawings[j].circle;
                     var text = drawings[j].text;
-                    graph.attr('flag',state);
-                    circle.attr('flag',state);
-                    text.attr('flag',state);
+                    graph.attr('flag', state);
+                    circle.attr('flag', state);
+                    text.attr('flag', state);
                 }
             }
 
-            function adJustAll(){
+            function adjustAll() {
                 for (var j = 0; j < drawings.length; j++) {
                     var graph = drawings[j].graph;
                     var circle = drawings[j].circle;
                     var text = drawings[j].text;
 
                     var ex = false;
-                    for(var i = 0 ; i < clicked.length ; i ++){
-                        if(graph.attr('logo') === clicked[i]){
+                    for (var i = 0; i < clicked.length; i++) {
+                        if (graph.attr('logo') === clicked[i]) {
                             ex = true;
                             break;
                         }
 
                     }
-                    if(ex){
+                    if (ex) {
                         graph.attr('flag', 'select');
                         circle.attr('flag', 'select');
                         text.attr('flag', 'select');
@@ -622,7 +770,8 @@ block content
                     }
                 }
             }
-            function setAll() {
+            function setAll(delayTime) {
+                if (delayTime == undefined) delayTime = defaultdelayTime;
                 for (var j = 0; j < drawings.length; j++) {
                     var graph = drawings[j].graph;
                     var circle = drawings[j].circle;
@@ -630,86 +779,119 @@ block content
                     var connections = drawings[j].connections;
 
                     var status = 'select';
-                    if(graph.attr('flag') == status){
+                    if (graph.attr('flag') == status) {
                         graph.transition().attr('stroke', graph.attr('active'))
                                 .attr('stroke-width', 2.0)
                     }
 
-                    if(circle.attr('flag') == status){
+                    if (circle.attr('flag') == status) {
                         circle.transition().attr('fill', circle.attr('active'))
                                 .attr('r', 10);
                     }
 
-                    if(text.attr('flag') == status){
+                    if (text.attr('flag') == status) {
                         text.transition()
                                 .attr("fill", '#555555')
                     }
 
                     status = 'invisible';
-                    if(graph.attr('flag') == status){
+                    if (graph.attr('flag') == status) {
                         graph.transition().attr('stroke', graph.attr('deactive'))
-                                .attr('stroke-width', 0.1)
+                                .attr('stroke-width', 0.05)
                     }
 
-                    if(circle.attr('flag') == status){
+                    if (circle.attr('flag') == status) {
                         circle.transition().attr('fill', circle.attr('active'))
-                            .attr('r', 6);
+                                .attr('r', 6);
                         for (var i = 0; i < connections.length; i++) {
-                            connections[i].transition()
-                                    .style('stroke-width', 0.1)
+                            connections[i].transition().delay(j * delayTime)
+                                    .style('stroke-width', 0.0)
                                     .style('stroke', connections[i].attr('deactive'))
                         }
                     }
 
-                    if(text.attr('flag') == status){
+                    if (text.attr('flag') == status) {
                         text.transition()
                                 .attr("fill", '#dddddd')
                     }
 
                     status = 'normal';
-                    if(graph.attr('flag') == status){
-                        graph.transition().attr('stroke', graph.attr('active'))
+                    if (graph.attr('flag') == status) {
+                        graph.transition().delay(j * delayTime)
+                                .attr('stroke', graph.attr('active'))
                                 .attr('stroke-width', outer_stroke_width)
+                        for (var i = 0; i < connections.length; i++) {
+                            connections[i].transition().delay(j * delayTime)
+                                    .style('stroke-width', 0.1)
+                                    .style('stroke', connections[i].attr('deactive'))
+                        }
                     }
 
-                    if(circle.attr('flag') == status){
-                        circle.transition().attr('fill', circle.attr('active'))
+                    if (circle.attr('flag') == status) {
+                        circle.transition().delay(j * delayTime)
+                                .attr('fill', circle.attr('active'))
                                 .attr('r', default_circle_size);
                     }
 
-                    if(text.attr('flag') == status){
+                    if (text.attr('flag') == status) {
                         text.transition()
+                                .delay(j * delayTime)
                                 .attr("fill", '#666666')
                     }
 
                     status = 'preserve';
-                    if(graph.attr('flag') == status){
-                        graph.transition().attr('stroke', graph.attr('active'))
+                    if (graph.attr('flag') == status) {
+                        graph.transition()
+                                .delay(j * delayTime)
+                                .attr('stroke', graph.attr('active'))
                                 .attr('stroke-width', outer_stroke_width)
                     }
 
-                    if(circle.attr('flag') == status){
-                        circle.transition().attr('fill', circle.attr('active'))
+                    if (circle.attr('flag') == status) {
+                        circle.transition().delay(j * delayTime)
+                                .attr('fill', circle.attr('active'))
                                 .attr('r', default_circle_size);
 
                         for (var i = 0; i < connections.length; i++) {
-                            if(connections[i].attr('isCat') == 'true')
-                                connections[i].transition().style('stroke-width', 3.1)
-                                    .style('stroke', connections[i].attr('active'))
+                            if (connections[i].attr('isCat') == 'true')
+                                connections[i].transition().delay(j * delayTime)
+                                        .style('stroke-width', 3)
+                                        .style('stroke', connections[i].attr('active'))
                             else
-                                connections[i].transition()
-                                    .style('stroke-width', 1)
-                                    .style('stroke', connections[i].attr('active'))
+                                connections[i].transition().delay(j * delayTime)
+                                        .style('stroke-width', 1)
+                                        .style('stroke', connections[i].attr('active'))
                         }
                     }
 
-                    if(text.attr('flag') == status){
-                        text.transition()
-                                .attr("fill", '#555555')
+                    if (text.attr('flag') == status) {
+                        text.transition().delay(j * delayTime)
+                                .attr("fill", '#333333')
                     }
 
                 }
 
+            }
+
+            function changeMode(mode) {
+                for (var i = 0, max = datas.length; i < max; i++) {
+                    var circle = drawings[i].circle;
+                    var graph = drawings[i].graph;
+
+
+                    var c = '#cccccc';
+
+                    if (mode === 'cat') {
+                        c = G_DATA[G_DATA.keys[i]].arg2 == 0 ? '#cccccc' : G_DATA[G_DATA.keys[i]].arg2;
+                        circle.attr('active',c)
+                        graph.attr('active',c)
+                    } else if (mode === 'year') {
+                        c = G_DATA[G_DATA.keys[i]].arg1 == 0 ? '#cccccc' : G_DATA[G_DATA.keys[i]].arg1;
+                        circle.attr('active',c)
+                        graph.attr('active',c)
+                    }
+                }
+                setAll(5);
             }
             console.log('end');
 

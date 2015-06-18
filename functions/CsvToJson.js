@@ -13,3 +13,16 @@ exports.Parse = function(location,func){
     });
     fileStream.pipe(csvConverter);
 }
+
+exports.ParseString = function(str, func){
+    var csvConverter = new Converter({constructResult: true});
+
+    csvConverter.on("end_parsed", function (jsonObj) {
+        console.log(jsonObj);
+        func(jsonObj);
+    });
+
+    csvConverter.fromString(str, function (jsonObj) {
+        //func(jsonObj);
+    });
+}

@@ -419,18 +419,38 @@ router.get('/logonetwork/circularParellar', function(req,res){
 
     var total_data = { keys : []};
     var result = {};
-    csvParser.Parse('./ProjectData/Logo/logo_data2_5.csv', function (object) {
+    csvParser.Parse('./ProjectData/Logo/logo_data2_6.csv', function (object) {
 
         for(var i = 0 ; i < object.length ; i ++){
             total_data[object[i].name] = object[i];
             if(object[i].name != 'max' && object[i].name != 'node_color' &&
                 object[i].name != 'cat' && object[i].name != 'idx_name' && object[i].name != 'idx_name_korean' )
-            total_data.keys.push(object[i].name);
+                total_data.keys.push(object[i].name);
         }
         console.log(total_data.keys);
         console.log(total_data['max'].arg1)
 
 
+        result.default_data = JSON.stringify(total_data);
+        res.render('projects/logonetwork/logonetwork_circularParellar',result);
+    });
+
+})
+
+router.post('/logonetwork/circularParellar', function(req,res){
+    var result = {};
+    result.tab = 'projects';
+    var total_data = { keys : []};
+    console.log(req.body.data);
+
+    csvParser.ParseString(req.body.data,  function (object) {
+        console.log(object);
+        for(var i = 0 ; i < object.length ; i ++){
+            total_data[object[i].name] = object[i];
+            if(object[i].name != 'max' && object[i].name != 'node_color' &&
+                object[i].name != 'cat' && object[i].name != 'idx_name' && object[i].name != 'idx_name_korean' )
+                total_data.keys.push(object[i].name);
+        }
         result.default_data = JSON.stringify(total_data);
         res.render('projects/logonetwork/logonetwork_circularParellar',result);
     });
