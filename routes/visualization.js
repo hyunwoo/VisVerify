@@ -34,6 +34,12 @@ router.get('/forcedirectedgraph', function(req, res) {
     res.render('visualization_jade/visual_forcedirectedgraph', deliver);
 });
 
+router.get('/chorddiagram', function(req, res) {
+    var deliver = {};
+    res.render('visualization_jade/visual_chorddiagram', deliver);
+});
+
+
 
 router.get('/line_graph', function(req, res) {
     var deliver = {};
@@ -55,6 +61,9 @@ router.get('/focused_line_graph', function(req, res) {
     //console.log(deliver);
     res.render('visualization_jade/visual_focus_line_graph', deliver);
 });
+
+
+
 
 
 

@@ -1,6 +1,13 @@
 extends ../../layout
 block content
     div.container-fluid
+        p
+        -if(success != undefined && success == false){
+            div.alert.alert-danger
+                h4 <strong> 데이터에 오류가 발생했습니다.</strong>
+                h5 csv 데이터에 오류가 발생했습니다. 데이터를 확인하세요.
+
+        - }
         h2
             a #
             |  FreeNetwork Prototype
