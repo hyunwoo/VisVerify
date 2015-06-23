@@ -65,7 +65,7 @@ block content
                     for(var j = 0 ; j < 5 ; j ++){
                         var val = document.getElementById(j + "_" + i).value * 1;
                         console.log(val);
-                        arr.push(val);
+                        arr.push(val * 500);
                     }
                     matrix.push(arr);
 
@@ -113,6 +113,7 @@ block content
                             return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
                                     + "translate(" + outerRadius + ",0)";
                         });
+                /*
                 ticks.append("line")
                         .attr("x1", 1)
                         .attr("y1", 0)
@@ -131,6 +132,7 @@ block content
                         .text(function (d) {
                             return d.label;
                         });
+                        */
                 svg.append("g")
                         .attr("class", "chord")
                         .selectAll("path")
@@ -147,7 +149,8 @@ block content
                     return d3.range(0, d.value, 1000).map(function (v, i) {
                         return {
                             angle: v * k + d.startAngle,
-                            label: i % 5 ? null : v + "k"
+                            //label: i % 5 ? null : v + "k"
+                            label : ''
                         };
                     });
                 }
