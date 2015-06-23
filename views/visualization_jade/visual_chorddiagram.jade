@@ -9,7 +9,9 @@ block content
         div(id='canvas', style='width:100%; height:1000px; border:1px solid')
         p
         legend
-        div.row
+        div.row(align='center')
+            div.col-sm-1(align='center')
+            div.col-sm-1(align='center')
             div.col-sm-1(align='center')
                 div.label.label-default
             div.col-sm-1(align='center')
@@ -27,6 +29,8 @@ block content
         p
         - for (var i = 0 ; i < 5; i ++) {
         div.row
+            div.col-sm-1(align='center')
+            div.col-sm-1(align='center')
             div.col-sm-1(align='right')
                 div.label.label-default row #{i + 1}
 
