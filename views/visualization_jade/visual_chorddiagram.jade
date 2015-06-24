@@ -4,10 +4,14 @@
 extends ../layout
 block content
     div.container-fluid
-        h2 Network Example
-
-        div(id='canvas', style='width:100%; height:1000px; border:1px solid')
+        div
+            p(style='height:100px')
         p
+
+        div(id='canvas', style='width:100%; height:1000px; border:0px solid')
+        p
+        div
+            p(style='height:100px')
         legend
         div.row(align='center')
             div.col-sm-1(align='center')
@@ -27,34 +31,35 @@ block content
             div.col-sm-1(align='center')
                 div.label.label-default Color
         p
+
         - for (var i = 0 ; i < 5; i ++) {
-        div.row
-            div.col-sm-1(align='center')
-            div.col-sm-1(align='center')
-            div.col-sm-1(align='right')
-                div.label.label-default row #{i + 1}
+            div.row
+                div.col-sm-1(align='center')
+                div.col-sm-1(align='center')
+                div.col-sm-1(align='right')
+                    div.label.label-default row #{i + 1}
 
 
-            div.col-sm-1
-                input(type="number", id="0_" + i , value =Math.floor(Math.random() * 10) + 1, onchange='draw()')
-            div.col-sm-1
-                input(type="number", id="1_" + i, value =Math.floor(Math.random() * 10) + 1, onchange='draw()')
-            div.col-sm-1
-                input(type="number", id="2_" + i, value =Math.floor(Math.random() * 10) + 1, onchange='draw()')
-            div.col-sm-1
-                input(type="number", id="3_" + i, value =Math.floor(Math.random() * 10) + 1, onchange='draw()')
-            div.col-sm-1
-                input(type="number", id="4_" + i, value =Math.floor(Math.random() * 10) + 1, onchange='draw()')
-            div.col-sm-1
-                - var c ;
-                - if(i == 0) c = 'DDAACC'
-                - else if(i == 1) c = 'AACCAA'
-                - else if(i == 2) c = 'DD8899'
-                - else if(i == 3) c = 'BBAA88'
-                - else if(i == 4) c = '88AACC'
+                div.col-sm-1
+                    input(type="number", id="0_" + i , value =Math.floor(Math.random() * 10) + 1, onchange='draw()')
+                div.col-sm-1
+                    input(type="number", id="1_" + i, value =Math.floor(Math.random() * 10) + 1, onchange='draw()')
+                div.col-sm-1
+                    input(type="number", id="2_" + i, value =Math.floor(Math.random() * 10) + 1, onchange='draw()')
+                div.col-sm-1
+                    input(type="number", id="3_" + i, value =Math.floor(Math.random() * 10) + 1, onchange='draw()')
+                div.col-sm-1
+                    input(type="number", id="4_" + i, value =Math.floor(Math.random() * 10) + 1, onchange='draw()')
+                div.col-sm-1
+                    - var c ;
+                    - if(i == 0) c = 'DDAACC'
+                    - else if(i == 1) c = 'AACCAA'
+                    - else if(i == 2) c = 'DD8899'
+                    - else if(i == 3) c = 'BBAA88'
+                    - else if(i == 4) c = '88AACC'
 
-                input(type="text", id="6_" + i, value = c, onchange='draw()')
-        p
+                    input(type="text", id="6_" + i, value = c, onchange='draw()')
+            p
         - }
 
 
