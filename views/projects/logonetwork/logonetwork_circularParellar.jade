@@ -53,7 +53,7 @@ block content
             var line_mode = 'linear'; // cardinal  // linear
             var names = [];
             var contents = [];
-            var contents_gap = 25;
+            var contents_gap = 45;
             var click_status = 'true';
             var clicked = [];
             var defaultdelayTime = 1;
@@ -119,9 +119,9 @@ block content
                 var grid_idx = [];
                 for (var i = 0; i < category_length; i++) {
 
-                    //console.log(idx + " , " + i + " , " + maxs[i] + " , " + value[i]);
                     grid_idx.push(contents[i][value[i]].size);
                     contents[i][value[i]].size += 1;
+                    if(value[i] == 0) contents[i][value[i]].size = 0;
                 }
                 grid_idxs.push(grid_idx);
             }
@@ -162,12 +162,14 @@ block content
                         height += contents_gap;
                     }
 
-                    data.values.push([i, height + data.grid_idx[i] * seem_good_gap]);
+                    if(j == 0)
+                        data.values.push([i, height]);
+                    else
+                        data.values.push([i, height + data.grid_idx[i] * seem_good_gap]);
 
                     if (value[i] != 0) {
                         var idf = 0.5;
                         if (value.cat == cat_tfidf[i]) {
-                            console.log('push : ' + mul_idf_value + " , " + max_idf_value);
                             data.connect.push([i, mul_idf_value, cat_tfidf[i], max_idf_value, 'true']);
                         }
                         else
@@ -315,8 +317,11 @@ block content
                 drawings.push({d: d});
             }
             function drawPath() {
+
                 for (var i = 0; i < drawings.length; i++) {
                     var d = drawings[i].d;
+
+
                     var graph = svg.append('svg:path')
                             .attr('d', dataLineGen(d.values))
                         //.attr('stroke', d.color)
@@ -337,7 +342,6 @@ block content
                     var d = drawings[i].d;
                     var saved = 0;
                     var x = 0, y = 0;
-                    console.log(d.connect);
                     for (var j = 0; j < d.connect.length; j++) {
                         x += Math.sin(angle_data(d.connect[j][0])) * r * d.connect[j][1] ;
                         y += Math.cos(angle_data(d.connect[j][0])) * r * d.connect[j][1] ;
@@ -505,6 +509,7 @@ block content
             console.log('drawtext end');
             drawCircle();
             console.log('circle end');
+
 
 
             for (var i = 0, max = datas.length; i < max; i++) {
