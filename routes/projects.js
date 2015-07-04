@@ -418,7 +418,7 @@ router.get('/logonetwork/circularParellar', function (req, res) {
 
     var total_data = {keys: []};
     var result = {};
-    csvParser.Parse('./ProjectData/Logo/logo_data3_1.csv', function (object) {
+    csvParser.Parse('./ProjectData/Logo/logo_data3_2.csv', function (object) {
 
         for (var i = 0; i < object.length; i++) {
             total_data[object[i].name] = object[i];
@@ -462,7 +462,7 @@ router.post('/logonetwork/circularParellar', function (req, res) {
 
         var total_data = {keys: []};
         var result = {};
-        csvParser.Parse('./ProjectData/Logo/logo_data2_6.csv', function (object) {
+        csvParser.Parse('./ProjectData/Logo/logo_data3_2.csv', function (object) {
 
             for (var i = 0; i < object.length; i++) {
                 total_data[object[i].name] = object[i];
