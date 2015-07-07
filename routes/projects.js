@@ -17,6 +17,10 @@ var utf8 = require('utf8');
 var sort = require('javascript-natural-sort');
 
 
+
+
+
+
 var csvParser = require('../functions/CsvToJson');
 
 var sentiment = require('../functions/SentimenAnalsys');
@@ -28,6 +32,16 @@ module.exports = router;
 
 var lda = require('../functions/LDA');
 var db = require('redis').createClient(13000, '202.30.24.169');
+
+/*
+ db 1 : twit
+ db 2 : twit infos
+ db 3 : dictionary
+ db 4 : weather infos
+ db 5 : sentiment analsys
+ db 6 : temp dic
+  */
+
 var joseon_dynasty_db = require('redis').createClient(13001, '202.30.24.169');
 
 db.select(2);
