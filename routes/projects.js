@@ -44,7 +44,6 @@ var db = require('redis').createClient(13000, '202.30.24.169');
 
 var joseon_dynasty_db = require('redis').createClient(13001, '202.30.24.169');
 
-db.select(2);
 
 
 router.get('/', function (req, res) {
@@ -54,6 +53,40 @@ router.get('/', function (req, res) {
 
 router.get('/topicnetwork/lda', function (req, res) {
     res.render('projects/topicnetwork/topicnetwork_lda')
+})
+
+
+router.get('/topicnetwork/twitViewer', function(req,res){
+    db.select(2, function(err){
+        db.keys('infos:time:*',function(err,rep){
+            var keys =rep.sort(sort);
+            var location = 'Philippines';
+            console.log(keys[205]);
+            var time = keys[210].split(':')[2];
+            var key = 'location:' + location + ':' + time;
+            console.log(key);
+            db.zrange(key, 0, -1 , function(err,rep){
+                var multi = db.multi();
+                multi.select(1);
+                for(var i = 0 ; i < rep.length ; i ++){
+                    multi.hgetall(rep[i]);
+                }
+                multi.exec(function(err,rep){
+                    var document = '';
+                    for(var i = 1 ; i < rep.length ; i++) {
+                        document += rep[i].text + '\n';
+                        //console.log(rep[i].text);
+                        //console.log(' --- ');
+                    }
+                    console.log(document);
+                    var lda_output = lda.topics(document, 5, 5);
+                    console.log(lda_output);
+                    var result = {};
+                    res.render('projects/topicnetwork/topicnetwork_twitterTopics', result)
+                })
+            })
+        })
+    });
 })
 
 router.post('/topicnetwork/lda', function (req, res) {
