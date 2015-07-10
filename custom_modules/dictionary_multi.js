@@ -64,6 +64,11 @@ function addDatabaseSynonyms(words, idx) {
                     else key = synonyms[j];
 
                     key = key.replace(' (similar term)','');
+                    key = key.replace(' (related term)','');
+                    key = key.replace(' (antonym)','');
+
+
+
                     var order = j + 1;
                     var values = {
                         A_M: rep[1]["Arousal Mean"],
