@@ -63,6 +63,7 @@ function addDatabaseSynonyms(words, idx) {
                     if (j == -1) key = word;
                     else key = synonyms[j];
 
+
                     key = key.replace(' (similar term)','');
                     key = key.replace(' (related term)','');
                     key = key.replace(' (antonym)','');
