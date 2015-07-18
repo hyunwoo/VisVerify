@@ -11,8 +11,6 @@ var inspect = require('util').inspect;
 // dictionary = 1;
 
 
-
-
 // dic:words <- word list key
 
 

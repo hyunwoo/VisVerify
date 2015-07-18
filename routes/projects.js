@@ -588,7 +588,9 @@ router.get('/logonetwork/prototype02', function (req, res) {
     }
 
 })
-
+router.get('/twittermood/viewer', function(req,res){
+    res.render('projects/twittermood/twittermood_viewer');
+})
 router.get('/twittermood/multi_country', function (req, res) {
     var result = {};
     result.tab = 'projects';

@@ -1,0 +1,202 @@
+//
+   Created by hyunwoo on 2015-07-18.
+
+extends ../../layout
+block content
+    div.container-fluid
+        h2 TwitterMood Viewer
+        div(id='menu', style='height:1000px')
+            #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+                .modal-dialog(role='document')
+                    .modal-content
+                        .modal-header
+                            h4#modalLabel.modal-title LOADING VISUALIZATION....
+                        .modal-body
+                            div.progress
+                                div#progress.progress-bar.progress-bar-striped.active(role='progressbar', aria-valuenow="40", aria-valuemin="0"
+                                ,aria-valuemax="100" ,style="width:40%") 40% Complete (success)
+                        .modal-footer
+                            h5#modelContents asdfasdf
+
+
+
+
+
+
+
+
+    script.
+        // "Clear", "Fog", "Clouds", "Rain", "Thunderstorm", "Mist",
+
+
+        var stop = false;
+        var callTweetMax = 1;
+        function httpGet(url, func) {
+            console.log("Start Load Data : " + url);
+            $.get(url, function (rep) {
+                func(rep);
+            });
+        }
+        function showModal() {
+            $("#myModal").modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+        }
+
+        function hideModal(){
+            $('#myModal').modal('hide');
+        }
+        function setModalText(text){
+            $("#modelContents").text(text);
+        }
+
+        function progressChange(value){
+            $('.progress-bar').css('width', value+'%').attr('aria-valuenow', value).text(value + ' % completed');
+        }
+
+        showModal();
+
+
+        function loadTweets(dataset,locations, times, index, func) {
+            var url = 'http://127.0.0.1:3001/apis/twitter/tweets?location=' + locations[index] + '&time=' + times[index];
+            httpGet(url, function(rep){
+                var progress = index / callTweetMax;
+                for(var i = 1 ; i < rep.length ; i ++){
+                    dataset.push(rep[i]);
+                }
+
+                if(progress < (index + 1) / locations.length)
+                    progress = (index + 1) / locations.length;
+                if(index + 1 == locations.length || index== callTweetMax) {
+                    func(progress,true);
+                    return;
+                } else {
+                    func(progress,false);
+                    loadTweets(dataset, locations, times, ++ index, func);
+                }
+
+            });
+        }
+
+        function loadRussell(dataset, index,func){
+            if(index == dataset.length) {
+                return;
+            }
+
+            var url = "http://127.0.0.1:3001/apis/analysis/russell_model?input=" + dataset[index].text;
+            httpGet(url, function(rep){
+                try {
+                    var count = rep.length - 2;
+                    var c = 0;
+                    if (count > 0) {
+                        var out = {
+                            A_M: 0,
+                            A_SD: 0,
+                            V_M: 0,
+                            V_SD: 0,
+                            Word: [],
+                        }
+
+                        for (var i = 2; i < rep.length; i++) {
+                            out.A_M += rep[i].A_M * 1;
+                            out.A_SD += rep[i].A_SD * 1;
+                            out.V_M += rep[i].V_M * 1;
+                            out.V_SD += rep[i].V_SD * 1;
+                            out.Word.push(rep[i].Word);
+                            console.log(rep[i]);
+                            c += 1;
+                        }
+                    }
+
+                    console.log("Value : " + c);
+                    out.A_M /= c * 1;
+                    out.A_SD /= c * 1;
+                    out.V_M /= c * 1;
+                    out.V_SD /= c * 1;
+
+                    console.log(out);
+                    //dataset[index].Russell = out;
+                    //console.log("?????");
+                    //console.log(dataset[index]);
+                } catch(e){
+                    console.log(e);
+                }
+                var progress = index + 1 / dataset.length;
+                func(progress, false);
+                loadRussell(dataset,++index, func);
+            })
+
+        }
+
+        function loadData(location, weather, func){
+            var url = 'http://127.0.0.1:3001/apis/weather?location=' + location + '&weather=' + weather;
+            httpGet(url, function(rep){
+                var locations = [];
+                var times = [];
+                var index = 0;
+
+                for(var i = 0 ; i < rep[1].length ; i ++){
+                    var strs = rep[1][i].split(':');
+                    locations.push(strs[1]);
+                    times.push(strs[2]);
+                }
+                func(locations, times);
+            });
+        }
+
+
+        var tweets = [];
+        loadData('Toronto', 'Mist', function(locations, times){
+            console.log(locations, times);
+            loadTweets(tweets, locations, times, 0, function(progress,over){
+                progressChange(progress * 50);
+                if(over){
+                    loadRussell(tweets,0, function(progress,over){
+                        progressChange(progress * 50 + 50);
+                    });
+                }
+            })
+        })
+
+
+
+
+
+
+
+
+
+
+        function Button(svg, x,y,w,h,img,callback){
+            var button = svg.append("rect")
+                    .attr("width", w )
+                    .attr("height", h)
+                    .attr("x", x)
+                    .attr("y", y)
+                    .style("fill", "#eeeeee")
+                    .style("pointer-events", "all");
+
+
+            svg.append('image')
+                    .attr("x",x + 5)
+                    .attr("y",y + 5)
+                    .attr("fill", '#000000')
+                    .attr("xlink:href", "http://127.0.0.1:3001/projects/twittermood/images/" + img + ".png")
+                    .attr("width", w - 10)
+                    .attr("height", h - 10)
+
+            //return btn;
+        }
+        var width = document.getElementById("menu").offsetWidth;
+        var height = document.getElementById("menu").offsetHeight;
+
+
+        console.log(width, height);
+        var menuSvg = d3.select('#menu').append('svg')
+        var buttons = ["Clear", "Mist", "Clouds", "Rain", "Thunderstorm"];
+        var btSize = [60, 60];
+        for(var i = 0 ; i < buttons.length; i ++){
+            Button(menuSvg, 20 + (btSize[0] + 10) * i, 20, btSize[0], btSize[1], buttons[i]);
+        }
+
