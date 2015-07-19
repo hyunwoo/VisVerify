@@ -7,17 +7,18 @@ var db = require('redis').createClient(13000, '202.30.24.169');
 var stemmer = require('stemmer');
 var sentiment = require('../functions/SentimenAnalsys');
 
-function job(keys, index) {
+function job(keys, index, func) {
 
 
     var multi = db.multi();
     var key = keys[index];
 
-    if(keys.length == index) {
+    if (keys.length == index) {
         console.log("JOB END");
+        func();
         return;
     }
-    index ++;
+    index++;
 
     multi.select(1);
     multi.hgetall(key);
@@ -67,15 +68,15 @@ function job(keys, index) {
 
             var AM = 0, ASD = 0, VM = 0, VSD = 0, Word = '';
             var count = 0;
-            for(var i = 2 ; i < result.length ; i++){
+            for (var i = 2; i < result.length; i++) {
                 AM += result[i].A_M * 1;
                 ASD += result[i].A_SD * 1;
                 VM += result[i].V_M * 1;
                 VSD += result[i].V_SD * 1;
                 Word += result[i].Word + " ";
-                count ++;
+                count++;
             }
-            if(count != 0){
+            if (count != 0) {
                 AM /= count;
                 ASD /= count;
                 VM /= count;
@@ -85,21 +86,21 @@ function job(keys, index) {
                 VM = Math.floor(VM * 100) / 100;
                 VSD = Math.floor(VSD * 100) / 100;
                 var obj = {
-                    score : senti.score,
-                    comp : senti.comparative,
-                    AM : AM,
-                    ASD : ASD,
-                    VM : VM,
-                    VSD : VSD,
-                    Word : Word,
+                    score: senti.score,
+                    comp: senti.comparative,
+                    AM: AM,
+                    ASD: ASD,
+                    VM: VM,
+                    VSD: VSD,
+                    Word: Word,
                 }
                 multi.hmset(key, obj);
-                multi.exec(function(err,rep){
+                multi.exec(function (err, rep) {
                     var progress = Math.floor(index / keys.length * 10000) / 100;
-                    if(err == null)
-                        console.log("[ " + rep[1] + " ]\t\t"  + index + " : " + progress + "% ");
+                    if (err == null)
+                        console.log("[ " + rep[1] + " ]\t\t" + index + " : " + progress + "% ");
                     else
-                        console.log("[ Failed ]\t\t" + index + " : " + progress + "%" );
+                        console.log("[ Failed ]\t\t" + index + " : " + progress + "%");
 
                     job(keys, index);
                 })
@@ -107,7 +108,7 @@ function job(keys, index) {
             } else {
                 var progress = Math.floor(index / keys.length * 10000) / 100;
 
-                console.log("[ Pass ]\t\t" + index + " : " + progress + "%" );
+                console.log("[ Pass ]\t\t" + index + " : " + progress + "%");
                 job(keys, index);
             }
         })
@@ -116,9 +117,39 @@ function job(keys, index) {
     })
 }
 
+function loadHeader(headers, index){
+    if(headers.length == index) {
+        console.log("ALL OVER");
+        return;
+    }
+    multi = db.multi();
+    multi.select(2);
+    multi.zrange(headers[index], 0, -1);
+    multi.exec(function (err, rep) {
+        console.log(" complete : " + headers[index]);
+        job(rep[1], 0, function(){
+            // do next
+            loadHeader(++index);
+        })
+    })
+
+
+}
 var multi = db.multi();
-multi.select(1);
-multi.keys('*');
-multi.exec(function(err,rep){
-    job(rep[1], 0);
-})
+multi.select(2);
+multi.keys('location:*');
+multi.exec(function (err, rep) {
+    console.log(rep);
+    var multi = db.multi();
+
+    var headers = rep[1];
+    var idx = 0;
+
+    loadHeader(headers,idx);
+
+});
+
+
+
+
+
