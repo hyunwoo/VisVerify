@@ -156,6 +156,7 @@ block content
     script.
         // "Clear", "Fog", "Clouds", "Rain", "Thunderstorm", "Mist",
 
+        var host = "http://202.30.24.169"
         var width = document.getElementById("menu0").offsetWidth;
         var height = document.getElementById("menu0").offsetHeight;
         var svg = d3.select('#menu0').append('svg').style({
@@ -266,7 +267,7 @@ block content
 
 
         function loadTweets(dataset, locations, times, index, func) {
-            var url = 'http://127.0.0.1:3001/apis/twitter/tweets?location=' + locations[index] + '&time=' + times[index];
+            var url = host + '/apis/twitter/tweets?location=' + locations[index] + '&time=' + times[index];
             httpGet(url, function (rep) {
                 var progress = index / callTweetMax;
                 for (var i = 1; i < rep.length; i++) {
@@ -286,7 +287,7 @@ block content
         }
 
         function loadData(location, weather, func) {
-            var url = 'http://127.0.0.1:3001/apis/weather?location=' + location + '&weather=' + weather;
+            var url = host + '/apis/weather?location=' + location + '&weather=' + weather;
             httpGet(url, function (rep) {
                 var locations = [];
                 var times = [];
@@ -477,7 +478,7 @@ block content
                         .attr("x", x + 5)
                         .attr("y", y + 5)
                         .attr("fill", '#000000')
-                        .attr("xlink:href", "http://127.0.0.1:3001/projects/twittermood/images/" + img + ".png")
+                        .attr("xlink:href", host + "/projects/twittermood/images/" + img + ".png")
                         .attr("width", w - 10)
                         .attr("height", h - 10)
                 controller = img;
