@@ -8,13 +8,10 @@ var stemmer = require('stemmer');
 var sentiment = require('../functions/SentimenAnalsys');
 
 function job(keys, index, func) {
-
-
     var multi = db.multi();
     var key = keys[index];
 
     if (keys.length == index) {
-        console.log("JOB END");
         func();
         return;
     }
@@ -102,14 +99,14 @@ function job(keys, index, func) {
                     else
                         console.log("[ Failed ]\t\t" + index + " : " + progress + "%");
 
-                    job(keys, index);
+                    job(keys, index, func);
                 })
 
             } else {
                 var progress = Math.floor(index / keys.length * 10000) / 100;
 
                 console.log("[ Pass ]\t\t" + index + " : " + progress + "%");
-                job(keys, index);
+                job(keys, index,func);
             }
         })
 
@@ -129,7 +126,7 @@ function loadHeader(headers, index){
         console.log(" complete : " + headers[index]);
         job(rep[1], 0, function(){
             // do next
-            loadHeader(++index);
+            loadHeader(headers, ++index);
         })
     })
 
@@ -139,11 +136,10 @@ var multi = db.multi();
 multi.select(2);
 multi.keys('location:*');
 multi.exec(function (err, rep) {
-    console.log(rep);
     var multi = db.multi();
-
     var headers = rep[1];
     var idx = 0;
+
 
     loadHeader(headers,idx);
 
