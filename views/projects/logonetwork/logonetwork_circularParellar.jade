@@ -57,6 +57,7 @@ block content
             var click_status = 'true';
             var clicked = [];
             var defaultdelayTime = 1;
+            var stroke_height = [];
 
             function removeArray(array, value) {
                 for (var i = array.length - 1; i >= 0; i--) {
@@ -293,7 +294,6 @@ block content
 
             /** draw grids **/
             var nodeGen = {};
-
 
             for (var i = 0; i < category_length; i++) {
                 svg.append('svg:path')
@@ -692,6 +692,7 @@ block content
                 var value = G_DATA[G_DATA.keys[idx]];
                 var height = 0;
 
+                stroke_height.push([]);
                 for (var j = 0, max = maxs[i] + 1; j < max; j++) {
 
 
@@ -715,6 +716,8 @@ block content
                     var x2 = sin * h + cx;
                     var y2 = cos * h + cy;
 
+                    var saved_i = i;
+                    var saved_j = j;
 
                     if (angle < -90) angle -= 180;
                     if (angle < -445) angle += 180;
@@ -722,23 +725,29 @@ block content
                     height += contents[i][j].size * seem_good_gap;
 
                     svg.append('text')
-                            .text(names[i][j + 1])
-                            .style("font-family", "Geneva")
-                            .style("font-size", "12px")
-                            .attr("text-anchor", "middle")
-                            .attr("fill", 'black')
-                            .attr('flag', 'normal')
-                            .attr('before_flag', 'normal')
-                            .attr("transform", "translate(" + x + "," + y + ") rotate(" + angle + ")")
+                        .text(names[i][j + 1])
+                        .style("font-family", "Geneva")
+                        .style("font-size", "12px")
+                        .attr("text-anchor", "middle")
+                        .attr("fill", 'black')
+                        .attr('flag', 'normal')
+                        .attr('before_flag', 'normal')
+                        .attr("transform", "translate(" + x + "," + y + ") rotate(" + angle + ")")
 
-                    svg.append("line")
-                            .style("stroke", '#666666')
-                            .style('stroke-width', 8.1)
-                            .style("stroke-opacity", 0.35)
-                            .attr("x1", x1)
-                            .attr("y1", y1)
-                            .attr("x2", x2)
-                            .attr("y2", y2)
+                    var line = svg.append("line")
+                        .style("stroke", '#666666')
+                        .style('stroke-width', 8.1)
+                        .style("stroke-opacity", 0.35)
+                        .attr("x1", x1)
+                        .attr("y1", y1)
+                        .attr("x2", x2)
+                        .attr("y2", y2)
+                        .attr('i', 'j')
+
+                    line.on('click', function(d){
+                            console.log(line.attr('x1'))
+                            console.log(saved_i + " , " + saved_j)
+                        })
 
 
                 }

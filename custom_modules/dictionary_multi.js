@@ -22,25 +22,57 @@ var inspect = require('util').inspect;
 
 db.select(6);
 var http = require('http');
-
+var fs = require('fs');
 db.smembers('dic:words', function (err, rep) {
     var words = rep;
 
-    //getMoreWordsInfo(words,0);
-
-    //for (var loop = 0; loop = words.length; loop++) {
-    addDatabaseSynonyms(words, 0);
 
 })
 
+exportCsv(0);
+function exportCsv(idx) {
+    if(idx > 10) return;
+    var multi = db.multi();
+    multi.select(3)
+    multi.smembers('order:' + idx)
+    multi.exec(function (err, rep) {
+
+        multi = db.multi();
+        for (var j = 0; j < rep[1].length; j++) {
+            multi.hgetall('word:'+ idx + ':' + rep[1][j]);
+        }
+
+
+        var data = 'word,cat,A_M,A_SD,V_M,V_SD\n';
+
+        multi.exec(function (err, rep) {
+            for (var i = 0; i < rep.length; i++) {
+                data += rep[i].Word + ',' + rep[i].Cat + ',' +
+                    rep[i].A_M + ',' + rep[i].A_SD + ',' +
+                    rep[i].V_M + ',' + rep[i].V_SD + ',' + '\n';
+            }
+            fs.writeFile('./custom_modules/dictionary_csv/dic_' + idx + '.csv', data, function (err) {
+                if (err) {
+                    console.log(err)
+                }
+                console.log('File write completed : Dic ' + idx);
+                exportCsv(++idx);
+            });
+        })
+
+
+    })
+}
+
+
 function addDatabaseSynonyms(words, idx) {
-    if(idx == words.length) {
+    if (idx == words.length) {
         console.log("FINISH");
         return;
     }
     var multi = db.multi();
     var word = words[idx];
-    word = word.replace(' (similar term)','');
+    word = word.replace(' (similar term)', '');
     multi.select(6);
     multi.hgetall(word);
     multi.exec(function (err, rep) {
@@ -50,9 +82,8 @@ function addDatabaseSynonyms(words, idx) {
         multi.select(3)
 
 
-
         var lists = data['response'];
-        if(lists != undefined) {
+        if (lists != undefined) {
             for (var i = 0; i < lists.length; i++) {
                 var each = data['response'][i];
                 var synonyms = each.list.synonyms.split('|');
@@ -62,10 +93,9 @@ function addDatabaseSynonyms(words, idx) {
                     else key = synonyms[j];
 
 
-                    key = key.replace(' (similar term)','');
-                    key = key.replace(' (related term)','');
-                    key = key.replace(' (antonym)','');
-
+                    key = key.replace(' (similar term)', '');
+                    key = key.replace(' (related term)', '');
+                    key = key.replace(' (antonym)', '');
 
 
                     var order = j + 1;
@@ -88,8 +118,8 @@ function addDatabaseSynonyms(words, idx) {
             }
             multi.exec(function (err, rep) {
                 if (err == null) {
-                    console.log('SUCCESS : [' + word + ' , IDX : ' + idx +  '] , Progress : ' + (idx / words.length * 100) + " %");
-                    addDatabaseSynonyms(words , ++ idx);
+                    console.log('SUCCESS : [' + word + ' , IDX : ' + idx + '] , Progress : ' + (idx / words.length * 100) + " %");
+                    addDatabaseSynonyms(words, ++idx);
                 } else {
                     console.log('FAILED : [' + word + '] ');
                 }
@@ -97,10 +127,9 @@ function addDatabaseSynonyms(words, idx) {
             })
 
         } else {
-            console.log('NODATA : [' + word + ' , IDX : ' + idx +  '] , Progress : ' + (idx / words.length * 100) + " %");
-            addDatabaseSynonyms(words , ++ idx);
+            console.log('NODATA : [' + word + ' , IDX : ' + idx + '] , Progress : ' + (idx / words.length * 100) + " %");
+            addDatabaseSynonyms(words, ++idx);
         }
-
 
 
     })
