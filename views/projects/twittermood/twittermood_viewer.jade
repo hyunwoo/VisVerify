@@ -4,8 +4,9 @@
 extends ../../layout
 block content
     div.container-fluid
-        h2 TwitterMood Viewer
-        div(id='menu', style='height:1000px')
+
+
+        div(id='menu0', style='height:1000px')
             #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
                 .modal-dialog(role='document')
                     .modal-content
@@ -23,24 +24,176 @@ block content
 
 
 
+    style.
+        div.message {
+            position: absolute;
+            text-align: center;
+            font-size: 6px;
+            font-family: "Lucida Sans";
+            font-weight: normal;
+            padding: 2px;
+            padding-right: 10px;
+            padding-left: 10px;
+            fill: black;
+            background: antiquewhite;
+            border: 0px;
+            border-radius: 2px;
+            pointer-events: none;
+            stroke: gray;
+            stroke-dasharray: 4px;
+            stroke-opacity: 1.0;
+            z-index: 2;
+        }
+
+        div.message.normal {
+            position: absolute;
+            text-align: left;
+            font-size: 6px;
+            font-weight: bold;
+        }
+
+        rect.button_default {
+            stroke: gray;
+            stroke-dasharray: 4px;
+            stroke-opacity: 1.0;
+            fill: transparent;
+        }
+
+        rect.button_hover {
+            stroke: gray;
+            stroke-dasharray: 4px;
+            stroke-opacity: 1.0;
+            fill: antiquewhite;
+        }
+
+        rect.button_click {
+            stroke: gray;
+            stroke-dasharray: 4px;
+            stroke-opacity: 1.0;
+            fill: #cab48e;
+        }
+
+        rect.button_selected {
+            stroke: gray;
+            stroke-dasharray: 4px;
+            stroke-opacity: 1.0;
+            fill: darkgray;
+        }
+
+        rect.selection {
+            stroke: gray;
+            stroke-dasharray: 4px;
+            stroke-opacity: 1.0;
+            fill: transparent;
+        }
+
+        circle {
+            stroke: gray;
+            fill: transparent;
+        }
+
+        circle.select {
+            stroke: gray;
+            fill: red;
+            radius: 3;
+        }
+
+        circle.outer {
+            stroke: gray;
+            fill: transparent;
+        }
+
+        circle.outer_grid {
+            stroke: lightgray;
+            fill: transparent;
+        }
+
+        line.outer {
+            stroke: lightgray;
+            fill: transparent;
+        }
+
+        g.state circle {
+            stroke: gray;
+            cursor: pointer;
+        }
+
+        g.state circle.inner {
+            fill: white;
+        }
+
+        g.state circle.outer {
+            display: none;
+            stroke-dasharray: 4px;
+            stroke-opacity: 0.5;
+            fill: transparent;
+        }
+
+        g.state.selected circle.outer {
+            display: inline;
+        }
+
+        g.state text {
+            font: 12px sans-serif;
+            font-weight: bold;
+            pointer-events: none;
+        }
+
+        /* disable text selection */
+        svg *::selection {
+            background: transparent;
+        }
+
+        svg *::-moz-selection {
+            background: transparent;
+        }
+
+        svg *::-webkit-selection {
+            background: transparent;
+        }
 
 
     script.
         // "Clear", "Fog", "Clouds", "Rain", "Thunderstorm", "Mist",
 
-        var width = document.getElementById("menu").offsetWidth;
-        var height = document.getElementById("menu").offsetHeight;
-        var svg = d3.select('#menu').append('svg')
+        var width = document.getElementById("menu0").offsetWidth;
+        var height = document.getElementById("menu0").offsetHeight;
+        var svg = d3.select('#menu0').append('svg').style({
+            width: width,
+            height: height,
+
+        })
+        var svg1 = d3.select('#menu1').append('svg').style({
+            width: width,
+            height: height,
+
+        })
+
+        var tooltip = d3.select('body').append("div")
+                .style("position", "absolute")
+                .style("z-index", "10")
+                .style("opacity", "0")
+                .attr('class', 'message')
+        var tooltip_text = tooltip.append('div').attr('class', 'normal');
+        var tooltip_words = tooltip.append('div').attr('class', 'bold');
+
+
+        var selectCountry = '';
+        var selectWeather = '';
+
+
+        var tweetsNodes = [];
 
 
         var stop = false;
-        var callTweetMax = 1;
+        var callTweetMax = 20;
+
         function httpGet(url, func) {
-            console.log("Start Load Data : " + url);
             $.get(url, function (rep) {
                 func(rep);
             });
         }
+
         function showModal() {
             $("#myModal").modal({
                 backdrop: 'static',
@@ -48,51 +201,98 @@ block content
             })
         }
 
-        function hideModal(){
+        function hideModal() {
             $('#myModal').modal('hide');
         }
-        function setModalText(text){
+
+        function setModalText(text) {
             $("#modelContents").text(text);
         }
 
-        function progressChange(value){
-            $('.progress-bar').css('width', value+'%').attr('aria-valuenow', value).text(value + ' %');
+        function progressChange(value) {
+            value = Math.floor(value * 100) / 100;
+            $('.progress-bar').css('width', value + '%').attr('aria-valuenow', value).text(value + ' %');
         }
 
 
+        function getSvgSize(svg) {
+            return {
+                width: svg.style('width').replace('px', '') * 1,
+                height: svg.style('height').replace('px', '') * 1,
+            };
+        }
+
+        function drawRussellsOut(svg) {
+            var size = getSvgSize(svg);
+            var width = size.width;
+            var height = size.height;
+
+            svg.append('circle').attr({
+                cx: width / 2,
+                cy: height / 2,
+                r: height / 3,
+                class: 'outer',
+            })
+
+            for (var i = 1; i < 5; i++) {
+                svg.append('circle').attr({
+                    cx: width / 2,
+                    cy: height / 2,
+                    r: (height / 3 ) / 5 * i,
+                    class: 'outer_grid',
+                })
+            }
 
 
+            svg.append('line').attr({
+                x1: width / 2,
+                y1: 0 + height / 6 - 20,
+                x2: width / 2,
+                y2: 0 + height / 6 * 5 + 20,
+                class: 'outer'
+
+            })
+
+            svg.append('line').attr({
+                x1: width / 2 + height / 6 * 2 + 20,
+                y1: height / 2,
+                x2: width / 2 - height / 6 * 2 - 20,
+                y2: height / 2,
+                class: 'outer'
 
 
+            })
+        }
 
-        function loadTweets(dataset,locations, times, index, func) {
+
+        function loadTweets(dataset, locations, times, index, func) {
             var url = 'http://127.0.0.1:3001/apis/twitter/tweets?location=' + locations[index] + '&time=' + times[index];
-            httpGet(url, function(rep){
+            httpGet(url, function (rep) {
                 var progress = index / callTweetMax;
-                for(var i = 1 ; i < rep.length ; i ++){
+                for (var i = 1; i < rep.length; i++) {
                     dataset.push(rep[i]);
                 }
 
-                if(progress < (index + 1) / locations.length)
+                if (progress < (index + 1) / locations.length)
                     progress = (index + 1) / locations.length;
-                if(index + 1 == locations.length || index== callTweetMax) {
-                    func(progress,true);
+                if (index + 1 == locations.length || index == callTweetMax) {
+                    func(progress, true);
                     return;
                 } else {
-                    func(progress,false);
-                    loadTweets(dataset, locations, times, ++ index, func);
+                    func(progress, false);
+                    loadTweets(dataset, locations, times, ++index, func);
                 }
             });
         }
 
-        function loadData(location, weather, func){
+        function loadData(location, weather, func) {
             var url = 'http://127.0.0.1:3001/apis/weather?location=' + location + '&weather=' + weather;
-            httpGet(url, function(rep){
+            httpGet(url, function (rep) {
                 var locations = [];
                 var times = [];
                 var index = 0;
 
-                for(var i = 0 ; i < rep[1].length ; i ++){
+                for (var i = 0; i < rep[1].length; i++) {
                     var strs = rep[1][i].split(':');
                     locations.push(strs[1]);
                     times.push(strs[2]);
@@ -101,69 +301,331 @@ block content
             });
         }
 
-        function drawNode(svg, x,y){
-            svg.append("circle")
+        var drag = d3.behavior.drag()
+                .on("drag", function (d, i) {
+                    var selection = d3.selectAll('.selected');
+                    if (selection[0].indexOf(this) == -1) {
+                        selection.classed("selected", false);
+                        selection = d3.select(this);
+                        selection.classed("selected", true);
+                    }
+                    selection.attr("transform", function (d, i) {
+                        d.x += d3.event.dx;
+                        d.y += d3.event.dy;
+                        return "translate(" + [d.x, d.y] + ")"
+                    })
+                    // reappend dragged element as last
+                    // so that its stays on top
+                    this.parentNode.appendChild(this);
+                    d3.event.sourceEvent.stopPropagation();
+                });
+
+
+        function drawText(svg, x, y, size, text, color) {
+            if (color == undefined)  color = "#111111";
+            var text = svg.append('g').append('text')
+                    .text(text)
+                    .style("font-family", "Geneva")
+                    .style("font-size", "12px")
+                    .attr("text-anchor", "left")
+                    .attr("fill", color)
+                    .attr("transform", "translate(" + x + "," + (y + 20) + ") rotate(0)");
+        }
+
+
+        function drawRussellNode(svg, a_x, a_y, idx) {
+            var width, height;
+            width = svg.style('width').replace('px', '') * 1;
+            height = svg.style('height').replace('px', '') * 1;
+            var x = (a_x - 5) / 5 * (height / 3) + (width / 2 );
+            var y = (5 - a_y) / 5 * (height / 3) + (height / 2 );
+
+            var circle = svg.append('g').append("circle")
+                    .attr('class', 'default')
+                    .attr('r', 3)
                     .attr('cx', x)
                     .attr('cy', y)
-                    .attr('r', 10)
+                    .attr('opacity', 0)
+                    .attr('idx', idx);
 
+            circle.transition().delay(idx * 0.2)
+                    .attr('opacity', 1);
+
+            tweetsNodes[idx].node = circle;
+
+            circle.on('mouseover', function () {
+                var idx = circle.attr('idx');
+                selectNodes([idx]);
+                tooltip.transition().style("opacity", "1");
+
+                tooltip.style("top", (event.pageY - 30) + "px").style("left", (event.pageX + 20) + "px");
+
+                tooltip_text.text(tweetsNodes[idx].text);
+                tooltip_words.text(tweetsNodes[idx].Word.replace(/ /gi, ',') + " [ " + 'A : ' + tweetsNodes[idx].AM + "  V : " + tweetsNodes[idx].VM + " ]");
+
+
+            })
+
+            circle.on('mouseout', function () {
+                var idx = circle.attr('idx');
+                releaseNode([idx]);
+                tooltip.transition().style("opacity", "0");
+
+            })
 
 
         }
 
 
-        var tweetsNodes = [];
-        loadData('Toronto', 'Mist', function(locations, times){
-            console.log(locations, times);
-            loadTweets(tweetsNodes, locations, times, 0, function(progress,over){
-                progressChange(progress * 100);
+        function selectNodes(idxs) {
+            for (var i = 0; i < idxs.length; i++) {
+                var circle = tweetsNodes[idxs[i]].node;
+                circle.attr('class', 'select');
 
-                if(over){
-                    // add nodes
-                    for(var i = 0 ; i < tweetsNodes.length ; i ++){
-                        console.log(tweetsNodes);
-                        var x = (tweetsNodes[i].AM - 5) / 5 * (width / 2) + (width / 2 );
-                        var y = (tweetsNodes[i].VM - 5) / 5 * (height / 2) + (height / 2 );
-                        console.log(x + " , " + y );
-                        drawNode(svg, x, y);
+            }
+
+        }
+
+        function releaseNode(idxs) {
+            for (var i = 0; i < idxs.length; i++) {
+                var circle = tweetsNodes[idxs[i]].node;
+                circle.attr('class', 'default');
+
+
+            }
+
+        }
+
+        function releaseNodes() {
+            for (var i = 0; i < tweetsNodes.length; i++) {
+                var circle = tweetsNodes[i].node;
+                if (circle == null || circle == undefined) continue;
+                circle.attr('class', 'default');
+            }
+        }
+
+
+        //showModal();
+
+
+        function load(country, weather) {
+            svg.selectAll('g').remove();
+            tweetsNodes = [];
+            showModal();
+            loadData(country, weather, function (locations, times) {
+                setModalText("Load Data : " + country + "'s " + weather);
+                loadTweets(tweetsNodes, locations, times, 0, function (progress, over) {
+                    progressChange(progress * 100);
+                    if (over) {
+                        // add nodes
+                        var aver_am = 0;
+                        var aver_vm = 0;
+                        var drawCount = 0;
+                        var unhaveCount = 0;
+                        var totalCount = 0;
+
+                        for (var i = 0; i < tweetsNodes.length; i++) {
+                            if (tweetsNodes[i].AM == undefined
+                                    || tweetsNodes[i].text.indexOf('http://') != -1
+                                    || tweetsNodes[i].text.indexOf('https://') != -1
+                                    || tweetsNodes[i].text.indexOf('RT @') != -1
+                            ) {
+                                unhaveCount++;
+                                continue;
+                            }
+                            drawRussellNode(svg, tweetsNodes[i].AM, tweetsNodes[i].VM, i);
+                            aver_am += tweetsNodes[i].AM * 1;
+                            aver_vm += tweetsNodes[i].VM * 1;
+                            drawCount++;
+
+                        }
+
+                        aver_am /= drawCount;
+                        aver_vm /= drawCount;
+                        hideModal();
+
+                        drawText(svg, 10, 200, 12, "COUNTRY : " + selectCountry + " , WEATHER : " + selectWeather);
+                        drawText(svg, 10, 250, 12, "DRAW  COUNT : " + drawCount);
+                        drawText(svg, 10, 275, 12, "NULL  COUNT : " + unhaveCount);
+                        drawText(svg, 10, 300, 12, "TOTAL COUNT : " + (drawCount + unhaveCount * 1 ));
+                        drawText(svg, 10, 350, 12, "AM AVG : " + Math.floor(aver_am * 100) / 100);
+                        drawText(svg, 10, 375, 12, "VM AVG : " + Math.floor(aver_vm * 100) / 100);
                     }
-                }
+                })
             })
-        })
+
+        }
 
 
+        var buttons = [];
 
-
-        function Button(svg, x,y,w,h,img,callback){
+        function Button(svg, x, y, w, h, useImg, img, callback) {
             var button = svg.append("rect")
-                    .attr("width", w )
+                    .attr("width", w)
                     .attr("height", h)
                     .attr("x", x)
                     .attr("y", y)
-                    .style("fill", "#eeeeee")
+                    .attr('class', 'button_default')
+                    .attr('t', img)
                     .style("pointer-events", "all");
 
 
-            svg.append('image')
-                    .attr("x",x + 5)
-                    .attr("y",y + 5)
-                    .attr("fill", '#000000')
-                    .attr("xlink:href", "http://127.0.0.1:3001/projects/twittermood/images/" + img + ".png")
-                    .attr("width", w - 10)
-                    .attr("height", h - 10)
+            var controller = button;
+            buttons.push(button);
+            if (useImg) {
+                var img = svg.append('image')
+                        .attr("x", x + 5)
+                        .attr("y", y + 5)
+                        .attr("fill", '#000000')
+                        .attr("xlink:href", "http://127.0.0.1:3001/projects/twittermood/images/" + img + ".png")
+                        .attr("width", w - 10)
+                        .attr("height", h - 10)
+                controller = img;
+
+            } else {
+                svg.append('text').text(img)
+                        .attr("x", x + w / 2)
+                        .attr("y", y + h / 2 + 5)
+                        .style("font-family", "Geneva")
+                        .style("font-size", "16px")
+                        .style("font-weight", 'bold')
+                        .attr("text-anchor", "middle")
+                        .attr("fill", '#3f3f3f')
+
+            }
+            controller.on('mouseover', function () {
+                updateButton();
+                button.attr('class', 'button_hover');
+
+
+            })
+            controller.on('mouseout', function () {
+                button.attr('class', 'button_default');
+                updateButton();
+
+            })
+            controller.on('click', function () {
+                updateButton();
+                button.attr('class', 'button_click');
+                callback(button.attr('t'));
+
+            })
 
             //return btn;
         }
 
-
-
-        console.log(width, height);
-
-        var buttons = ["Clear", "Mist", "Clouds", "Rain", "Thunderstorm"];
-        var btSize = [60, 60];
-        for(var i = 0 ; i < buttons.length; i ++){
-            Button(svg, 20 + (btSize[0] + 10) * i, 20, btSize[0], btSize[1], buttons[i]);
+        function updateButton() {
+            for (var i = 0; i < buttons.length; i++) {
+                var button = buttons[i];
+                if (button.attr('t') == selectWeather || button.attr('t') == selectCountry)
+                    button.attr('class', 'button_selected');
+                else button.attr('class', 'button_default');
+            }
         }
 
-        drawNode(svg);
+
+        drawRussellsOut(svg);
+
+
+        var weather_buttons = ["Clear", "Mist", "Clouds", "Rain", "Thunderstorm"];
+        var country_buttons = ['Toronto', 'Melbourne', 'London', 'Philippines', 'New York', 'Singapore', 'New Delhi']
+        var btWeatherSize = [60, 60];
+        var btCountrySize = [120, 30];
+        for (var i = 0; i < weather_buttons.length; i++) {
+            Button(svg, 20 + (btWeatherSize[0] + 10) * i, 80, btWeatherSize[0], btWeatherSize[1], true, weather_buttons[i], function (t) {
+                selectWeather = t;
+                load(selectCountry, selectWeather);
+            });
+        }
+
+        for (var i = 0; i < country_buttons.length; i++) {
+            Button(svg, 20 + (btCountrySize[0] + 10) * i, 20, btCountrySize[0], btCountrySize[1], false,
+                    country_buttons[i], function (t) {
+                        selectCountry = t;
+                        load(selectCountry, selectWeather);
+                    });
+        }
+
+        updateButton();
+
+
+        // drag setting
+        svg.on("mousedown", function () {
+            if (!d3.event.ctrlKey) {
+                d3.selectAll('g.selected').classed("selected", false);
+            }
+            releaseNodes();
+            var p = d3.mouse(this);
+            svg.append("rect")
+                    .attr({
+                        rx: 6,
+                        ry: 6,
+                        class: "selection",
+                        x: p[0],
+                        y: p[1],
+                        width: 0,
+                        height: 0
+                    })
+        }).on("mousemove", function () {
+            var s = svg.select("rect.selection");
+            if (!s.empty()) {
+                var p = d3.mouse(this);
+                var d = {
+                    x: parseInt(s.attr("x"), 10),
+                    y: parseInt(s.attr("y"), 10),
+                    width: parseInt(s.attr("width"), 10),
+                    height: parseInt(s.attr("height"), 10)
+                };
+                var move = {
+                    x: p[0] - d.x,
+                    y: p[1] - d.y
+                };
+
+                if (move.x < 1 || (move.x * 2 < d.width)) {
+                    d.x = p[0];
+                    d.width -= move.x;
+                } else {
+                    d.width = move.x;
+                }
+                if (move.y < 1 || (move.y * 2 < d.height)) {
+                    d.y = p[1];
+                    d.height -= move.y;
+                } else {
+                    d.height = move.y;
+                }
+                s.attr(d);
+                // deselect all temporary selected state objects
+                var enter_nodes = [];
+                releaseNodes();
+
+                tweetsNodes.forEach(function (tweet) {
+                    var circle = tweet.node;
+                    if (circle == null || circle == undefined) return;
+                    var x = circle.attr('cx');
+                    var y = circle.attr('cy');
+                    if (x > d.x && x < d.x + d.width &&
+                            y > d.y && y < d.y + d.height) {
+                        enter_nodes.push(circle.attr('idx'));
+                    } else {
+
+                    }
+
+                })
+
+                selectNodes(enter_nodes);
+
+
+            }
+        }).on("mouseup", function () {
+            svg.selectAll("rect.selection").remove();
+            d3.selectAll('g.state.selection').classed("selection", false);
+        }).on("mouseout", function () {
+            if (d3.event.relatedTarget.tagName == 'HTML') {
+                svg.selectAll("rect.selection").remove();
+                d3.selectAll('g.state.selection').classed("selection", false);
+            }
+        });
+
+
+
 

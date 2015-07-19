@@ -94,8 +94,10 @@ function job(keys, index, func) {
                 multi.hmset(key, obj);
                 multi.exec(function (err, rep) {
                     var progress = Math.floor(index / keys.length * 10000) / 100;
-                    if (err == null)
-                        console.log("[ " + rep[1] + " ]\t\t" + index + " : " + progress + "% ");
+
+                    if (err == null) {
+                        //console.log("[ " + rep[1] + " ]\t\t" + index + " : " + progress + "% ");
+                    }
                     else
                         console.log("[ Failed ]\t\t" + index + " : " + progress + "%");
 
