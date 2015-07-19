@@ -12,7 +12,6 @@ var route_visualization = require('./routes/visualization');
 var crossdomain = require('crossdomain');
 
 
-
 // Project
 var route_projects = require('./routes/projects');
 
@@ -39,6 +38,7 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
 app.use(cookieParser());
 app.use(cors());
+
 app.use('/', routes);
 app.use('/kmeans', route_kmeans);
 app.use('/users', users);
@@ -50,7 +50,6 @@ app.use('/projects', route_projects);
 app.use('/apis', route_api);
 
 
-
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
@@ -59,8 +58,7 @@ app.use(function (req, res, next) {
 
 app.listen(3001);
 
-var crossdomain_xml = crossdomain({ domain: '*.segment.io' });
-
+var crossdomain_xml = crossdomain({domain: '*.segment.io'});
 
 
 if (app.get('env') === 'development') {
@@ -81,9 +79,6 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
-
-
-
 
 
 /*
