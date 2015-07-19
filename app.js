@@ -25,7 +25,7 @@ var app = express();
 var busboy = require('connect-busboy'); //middleware for form/file upload
 var path = require('path');     //used for file path
 var fs = require('fs-extra');       //File System - for file manipulation
-
+var cors = require('cors');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,6 +38,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
 app.use(cookieParser());
+app.use(cors());
 app.use('/', routes);
 app.use('/kmeans', route_kmeans);
 app.use('/users', users);
@@ -47,6 +48,8 @@ app.use('/verify', route_verify);
 app.use('/visualization', route_visualization);
 app.use('/projects', route_projects);
 app.use('/apis', route_api);
+
+
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
@@ -58,12 +61,7 @@ app.listen(3001);
 
 var crossdomain_xml = crossdomain({ domain: '*.segment.io' });
 
-app.all('*', function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
+
 
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
