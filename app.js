@@ -9,6 +9,8 @@ var routes = require('./routes/index');
 var route_kmeans = require('./routes/Verify/kmeans');
 var route_verify = require('./routes/verify');
 var route_visualization = require('./routes/visualization');
+var crossdomain = require('crossdomain');
+
 
 
 // Project
@@ -53,6 +55,13 @@ app.use(function (req, res, next) {
 });
 
 app.listen(3001);
+
+var crossdomain_xml = crossdomain({ domain: '*.segment.io' });
+
+app.all('/crossdomain.xml', function (req, res, next) {
+    res.set('Content-Type', 'application/xml; charset=utf-8');
+    res.send(crossdomain_xml, 200);
+});
 
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
