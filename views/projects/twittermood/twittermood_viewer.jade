@@ -445,6 +445,8 @@ block content
                         aver_vm /= drawCount;
                         hideModal();
 
+                        progressChange(0);
+
                         drawText(svg, 10, 200, 12, "COUNTRY : " + selectCountry + " , WEATHER : " + selectWeather);
                         drawText(svg, 10, 250, 12, "DRAW  COUNT : " + drawCount);
                         drawText(svg, 10, 275, 12, "NULL  COUNT : " + unhaveCount);
