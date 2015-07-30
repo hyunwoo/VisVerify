@@ -39,6 +39,9 @@ router.get('/chorddiagram', function(req, res) {
     res.render('visualization_jade/visual_chorddiagram', deliver);
 });
 
+router.get('/cosmovis', function(req,res){
+    res.render('visualization_jade/visual_cosmovis');
+})
 
 
 router.get('/line_graph', function(req, res) {
