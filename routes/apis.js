@@ -10,6 +10,7 @@ var utf8 = require('utf8');
 var csvParser = require('../functions/CsvToJson');
 var defaultFunc = require('../functions/defaultFunctions');
 var stemmer = require('stemmer');
+var sentenceSeperator = require('sentence-tokenizer');
 
 module.exports = router;
 
@@ -52,6 +53,10 @@ joseon_dynasty_db.select(2);
 router.get('/', function (req, res) {
     res.render('apis');
 });
+
+router.get('/sentence_seperator', function(req,res){
+
+})
 
 router.get('/docs/joseondynasty', function (req, res) {
     res.render('api/joseondynasty/joseondynasty_api');

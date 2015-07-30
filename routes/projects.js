@@ -55,7 +55,6 @@ router.get('/topicnetwork/lda', function (req, res) {
     res.render('projects/topicnetwork/topicnetwork_lda')
 })
 
-
 router.get('/topicnetwork/twitViewer', function(req,res){
     db.select(2, function(err){
         db.keys('infos:time:*',function(err,rep){
@@ -126,7 +125,6 @@ router.post('/topicnetwork/lda', function (req, res) {
             return;
         }
 
-
         var data = [];
         var network_data_origin = []
         var network_data = [];
@@ -137,7 +135,6 @@ router.post('/topicnetwork/lda', function (req, res) {
             var str = '';
             var group = 'Topic ' + (parseInt(i) + 1);
             str += group + '\n';
-
 
             // For each term.
             var saved_term = '';
