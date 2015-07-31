@@ -116,6 +116,7 @@ block content
 
             var isfirst = true;
             function reset() {
+                console.log(movieBySemantic.length);
                 var svg = d3.select('#chart').append('svg');
                 var width = document.getElementById('chart').offsetWidth;
 
@@ -265,7 +266,7 @@ block content
                 layer_text.attr('opacity', 0);
                 layer_image.transition().duration(2000).delay(4000).attr('opacity', 1);
                 layer_text.transition().duration(2000).delay(2000).attr('opacity', 1);
-                if (width == undefined) width = 1024;
+                if (width == undefined) width = 1600;
                 var ratio = width / 1200;
                 var scale_ratio = width / 2560;
                 document.getElementById("chart").style.height = (800 * ratio) + 'px';
