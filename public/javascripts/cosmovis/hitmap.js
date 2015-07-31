@@ -53,22 +53,71 @@ var rect_size = 5;
 var cx;
 var cy;
 var max = 0;
+var layer_rect;
+var layer_text;
 
 var affect_count = 0;
 
-function drawHeatmap(datas) {
+function drawHeatmap(datas, status) {
     max = 0;
 
+
+    if(!status)layer_text.attr('opacity',0);
+    else layer_text.attr('opacity',1);
     var maxVal = 0;
+    var maxIdx = 0;
     for (var i = 0; i < loadedData.length; i++) {
 
         if (datas[i] == null || datas[i] == undefined) {
             loadedData[i][3] = 0;
         }
-        if (maxVal < datas[i]) maxVal = datas[i];
+        if (maxVal < datas[i]) {
+            maxVal = datas[i];
+            maxIdx = i;
+        }
         loadedData[i][3] = datas[i];
         if (isNaN(loadedData[i][3])) loadedData[i][3] = 0;
     }
+
+    var temp = [];
+    var totalval = 0;
+    for (var i = 0; i < loadedData.length; i++) {
+        temp.push({
+            idx: i,
+            val: loadedData[i][3],
+        });
+        totalval += loadedData[i][3];
+    }
+
+
+
+
+
+    for (var i = 0; i < temp.length; i++) {
+        for (var j = i + 1; j < temp.length; j++) {
+
+            if (temp[i].val < temp[j].val) {
+                var t = {
+                    idx: temp[i].idx,
+                    val: temp[i].val,
+                }
+
+                temp[i].val = temp[j].val;
+                temp[i].idx = temp[j].idx;
+
+                temp[j].val = t.val;
+                temp[j].idx = t.idx;
+            }
+
+        }
+    }
+
+    var result = '';
+    for (var i = 0; i < 3; i++) {
+        result += (i + 1) + ' : ' + loadedData[temp[i].idx][0] + ' (' + Math.floor(loadedData[temp[i].idx][3] / totalval * 100) + '%)' ;
+        if(i != 2) result += ' , ';
+    }
+
 
 
     if (maxVal != 0) {
@@ -90,22 +139,35 @@ function drawHeatmap(datas) {
 
 
     var color = d3.scale.linear()
-        .domain([0, max/3 ,  max/3 * 2 , max])
-        .range(['blue','green','yellow', 'red']);
+        .domain([0, max / 3, max / 3 * 2, max])
+        .range(['blue', 'green', 'yellow', 'red']);
 
-    for (var i = 0; i < cx; i++) {
-        for (var j = 0; j < cy; j++) {
-            var val = rects[i][j].value;
-            var c = color(rects[i][j].value);
-            if (val > 0) {
-                rects[i][j].rect.transition().duration(500).attr('fill', c);
-            } else {
-                //rects[i][j].rect.attr('fill', '#ffffff');
+    if(status){
+        for (var i = 0; i < cx; i++) {
+            for (var j = 0; j < cy; j++) {
+                var val = rects[i][j].value;
+                var c = color(rects[i][j].value);
+                if (val > 0) {
+                    rects[i][j].rect.transition().duration(500).attr('fill', c);
+                } else {
+                    //rects[i][j].rect.attr('fill', '#ffffff');
+                }
+
             }
 
         }
+    } else {
+        for (var i = 0; i < cx; i++) {
+            for (var j = 0; j < cy; j++) {
+                rects[i][j].rect.transition().duration(500).attr('fill', '#aaaaaa');
+            }
 
+        }
     }
+
+
+
+    return result;
 
 }
 
@@ -144,7 +206,7 @@ function affect(x, y, power) {
 
 
 }
-function clearHeatmap(){
+function clearHeatmap() {
     for (var i = 0; i < cx; i++) {
         for (var j = 0; j < cy; j++) {
             rects[i][j].value = 0;
@@ -172,26 +234,25 @@ function initHeatmap(svg, x, y, w, h) {
         rects.push(rect);
     }
 
-    var layer_rect = svg.append('g');
-    var layer_text = svg.append('g');
+    layer_rect = svg.append('g');
+    layer_text = svg.append('g');
 
 
+    for (var i = 0; i < loadedData.length; i++) {
 
-    for(var i = 0 ; i < loadedData.length ; i ++){
-
-        var tx = (loadedData[i][1] * 1) * (x_ratio * 1) + x ;
-        var ty = (loadedData[i][2] * 1) * (x_ratio * 1) + y + 5 * 1 ;
+        var tx = (loadedData[i][1] * 1) * (x_ratio * 1) + x;
+        var ty = (loadedData[i][2] * 1) * (x_ratio * 1) + y + 5 * 1;
 
         layer_text.append('text').attr({
             x: tx,
             y: ty,
-            fill : '#111111',
-            'text-anchor':'middle',
+            fill: '#111111',
+            'text-anchor': 'middle',
 
 
         }).style({
-            'font-size':'10px',
-            'font-weight':'bold',
+            'font-size': '10px',
+            'font-weight': 'bold',
             'font-family': "Helvetica, sans-serif",
         }).text(loadedData[i][0]);
     }
@@ -200,8 +261,8 @@ function initHeatmap(svg, x, y, w, h) {
             rects[i][j].rect = layer_rect.append('rect').attr({
                 x: rects[i][j].x,
                 y: rects[i][j].y,
-                width: rect_size - 0.5,
-                height: rect_size - 0.5,
+                width: rect_size - 1,
+                height: rect_size - 1,
 
                 fill: '#dddddd',
 

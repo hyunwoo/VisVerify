@@ -38,8 +38,6 @@ block content
                 fill: transparent;
             }
 
-
-
             line {
 
             }
@@ -116,7 +114,6 @@ block content
 
             var isfirst = true;
             function reset() {
-                console.log(movieBySemantic.length);
                 var svg = d3.select('#chart').append('svg');
                 var width = document.getElementById('chart').offsetWidth;
 
@@ -139,7 +136,6 @@ block content
                 var layer_popup = svg.append('g');
 
 
-
                 var imgStatus = true;
                 var anchorStatus = true;
                 var hitmapStatus = true;
@@ -148,14 +144,14 @@ block content
                 var popup = layer_popup.append('rect').attr({
                     x: 0,
                     y: 0,
-                    rx : 2,
-                    ry : 2,
+                    rx: 2,
+                    ry: 2,
                     width: 600,
                     height: 308,
-                    class : 'popup',
-                    fill:'#f5f5f5',
-                    stroke:'darkgray',
-                    'stroke-weight':'2px',
+                    class: 'popup',
+                    fill: '#f5f5f5',
+                    stroke: 'darkgray',
+                    'stroke-weight': '2px',
                 })
 
                 layer_popup.style("pointer-events", "none");
@@ -170,7 +166,7 @@ block content
 
                 var text_movieTitle = layer_popup.append('text').attr({
                     x: 15,
-                    y: 28,
+                    y: 27,
                     'text-anchor': 'left',
                 }).style({
                     "font-family": "Trebuchet MS , Helvetica, sans-serif",
@@ -180,18 +176,18 @@ block content
 
                 var text_movieBody = layer_popup.append('text').attr({
                     x: 15,
-                    y: 42,
+                    y: 43,
                     'text-anchor': 'left',
                 }).style({
                     "font-family": "Trebuchet MS , Helvetica, sans-serif",
-                    "font-size": 12 + "px",
+                    "font-size": 11 + "px",
                     "fill": "black",
                 }).text('description for ' + 'Star Trek');
 
 
                 initHeatmap(layer_popup, 190, 50, 390, 240);
 
-                layer_popup.attr('opacity',0);
+                layer_popup.attr('opacity', 0);
 
 
                 function FormatNumberLength(num, length) {
@@ -203,38 +199,52 @@ block content
                 }
 
 
-                function showHeatmap(x,y, idx){
+                function showHeatmap(x, y, idx) {
                     var deliver = [];
-                    for(var i = 1 ; i < movieBySemantic[idx].length - 1 ; i ++)
+                    for (var i = 1; i < movieBySemantic[idx].length - 1; i++)
                         deliver.push(movieBySemantic[idx][i]);
 
-                    var didx = 0;
-                    if(idx < 100){
-                        didx = FormatNumberLength(idx,2);
-                    } else didx = FormatNumberLength(idx,3);
-                    console.log("show : " + didx + " , " + movieBySemantic[idx][0]);
 
-                    img_movie.attr("xlink:href", "/visualization/cosmovis/poster/images/movieposter_" + didx + ".gif")
-                    drawHeatmap(deliver);
+
+
+
+
+
+                    var posteridx = idx;
+                    if (posteridx >= 363) {
+                        posteridx += 3;
+
+                    } else if (posteridx >= 363) {
+                        posteridx += 2;
+                    } else if (posteridx >= 138) {
+                        posteridx++;
+                    }
+
+
+                    posteridx++;
+                    if (idx < 100) {
+                        posteridx = FormatNumberLength(posteridx, 2);
+                    } else posteridx = FormatNumberLength(posteridx, 3);
+
+
+                    img_movie.attr("xlink:href", "/visualization/cosmovis/poster/images/movieposter_" + posteridx + ".gif")
+                    var rank = drawHeatmap(deliver, hitmapStatus);
                     layer_popup.transition().delay(500).attr('opacity', 1);
                     text_movieTitle.text(movieBySemantic[idx][0]);
-                    text_movieBody.text('description for ' + movieBySemantic[idx][0]);
 
-                    if(x > width / 2)
-                        layer_popup.attr('transform','translate(' + (x - 650) + ', ' + (y - 100)  + ')');
+                    text_movieBody.text(rank);
+
+                    if (x > width / 2)
+                        layer_popup.attr('transform', 'translate(' + (x - 650) + ', ' + (y - 100) + ')');
                     else
-                        layer_popup.attr('transform','translate(' + (x + 50) + ', ' + (y - 100) + ')');
+                        layer_popup.attr('transform', 'translate(' + (x + 50) + ', ' + (y - 100) + ')');
 
                 }
-                function hideHeatMap(){
+
+                function hideHeatMap() {
                     clearHeatmap();
                     layer_popup.transition().attr('opacity', 0);
                 }
-
-
-
-
-
 
 
                 button(svg, 10, 10, 90, 30, 'Image').on('click', function () {
@@ -245,7 +255,10 @@ block content
 
                     imgStatus = !imgStatus;
                 });
-                button(svg, 110, 10, 90, 30, 'Hitmap');
+
+                button(svg, 110, 10, 90, 30, 'Hitmap').on('click', function () {
+                    hitmapStatus = !hitmapStatus;
+                });
                 button(svg, 210, 10, 90, 30, 'Text').on('click', function () {
                     if (anchorStatus)
                         layer_text.transition().duration(1300).attr('opacity', 0);
@@ -317,8 +330,7 @@ block content
                                     'stroke-width': '0px',
                                 }
                         );
-                        console.log(data.idx);
-                        showHeatmap(data.posX,data.posY, data.idx);
+                        showHeatmap(data.posX, data.posY, data.idx);
                     })
                     data.circle.on('mouseout', function () {
                         data.circle.transition().duration(500).attr({
@@ -329,7 +341,7 @@ block content
                         hideHeatMap();
                     })
 
-                    data.circle.on('click', function(){
+                    data.circle.on('click', function () {
                         var idx = data.circle.attr('idx');
 
                         //updateHeatmap(idx);
@@ -337,10 +349,11 @@ block content
 
                 }
 
-                function OnPopup(idx){
+                function OnPopup(idx) {
 
                 }
-                function OffPopup(){
+
+                function OffPopup() {
 
                 }
 
@@ -398,10 +411,10 @@ block content
                         nodes[i].cluster = clusterArr[i] + 1;
                         switch (nodes[i].cluster) {
                             case 1:
-                                    if(inverse)
-                                        nodes[i].color = 0xbcbcbc;
-                                    else
-                                        nodes[i].color = 0x050505;
+                                if (inverse)
+                                    nodes[i].color = 0xbcbcbc;
+                                else
+                                    nodes[i].color = 0x050505;
                                 break;
                             case 2:
                                 nodes[i].color = 0x5096D1;
@@ -596,9 +609,6 @@ block content
                 drawNodes();
 
                 drawEdges();
-
-
-
 
 
             }
