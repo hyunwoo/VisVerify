@@ -16,7 +16,7 @@ block content
                             div#progress.progress-bar.progress-bar-striped.active(role='progressbar', aria-valuenow="40", aria-valuemin="0"
                             ,aria-valuemax="100" ,style="width:0%") 0% Complete (success)
                     .modal-footer
-                        h5#modelContents(align='center') asdfasdf
+                        h5#modelContents(align='center') node & image data loading...
         svg(id='chart', style='width:100%; border:1px solid' )
         style.
             circle {
@@ -625,12 +625,12 @@ block content
             }
 
             setTimeout(function () {
-                //hideModal();
-                //reset();
+                hideModal();
+                reset();
             }, 4500)
 
-            hideModal();
-            reset();
+            //hideModal();
+            //reset();
 
 
 
