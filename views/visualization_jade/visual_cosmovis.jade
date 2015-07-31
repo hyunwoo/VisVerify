@@ -39,18 +39,21 @@ block content
 
         script.
 
+
+
             var width = document.getElementById("chart").offsetWidth;
             var height = document.getElementById("chart").offsetHeight;
             var svg = d3.select('#chart').append('svg')
 
             var ratio = width / 1200;
             document.getElementById("chart").style.height = (800 * ratio) + 'px';
-            var absCutValue = 400;
+            var absCutValue = 200;
             var pow_val = 1;
             var absCutPercent = 10;
             var hookCutValue = 0.95;
             var anchors = [];
             var nodes = [];
+
             function drawAnchor() {
                 semanticWords.forEach(function (e) {
                     var anchor = {
@@ -69,12 +72,17 @@ block content
                         x : anchor.x,
                         y : anchor.y,
                         "text-anchor" : 'middle',
+                        
                     }).text(e[0])
                 })
             }
 
 
 
+            function updateNodes(){
+
+
+            }
             function makeNode() {
                 var d_count = movieBySemantic.length;
                 /** calc Total Value */

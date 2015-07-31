@@ -3,9 +3,9 @@ block content
     div.container-fluid
         p
         -if(success != undefined && success == false){
-            div.alert.alert-danger
-                h4 <strong> 데이터에 오류가 발생했습니다.</strong>
-                h5 csv 데이터에 오류가 발생했습니다. 데이터를 확인하세요.
+        div.alert.alert-danger
+            h4 <strong> 데이터에 오류가 발생했습니다.</strong>
+            h5 csv 데이터에 오류가 발생했습니다. 데이터를 확인하세요.
 
         - }
         h2
@@ -99,16 +99,16 @@ block content
 
             var myTextArea = document.getElementById("text");
             /*
-            var myCodeMirror = CodeMirror(function (elt) {
-                        myTextArea.parentNode.replaceChild(elt, myTextArea);
-                    },
-                    {
-                        value: myTextArea.value,
-                        lineNumbers: true,
-                        lineWrapping: true,
-                        theme: '3024-day',
-                    }
-            )*/
+             var myCodeMirror = CodeMirror(function (elt) {
+             myTextArea.parentNode.replaceChild(elt, myTextArea);
+             },
+             {
+             value: myTextArea.value,
+             lineNumbers: true,
+             lineWrapping: true,
+             theme: '3024-day',
+             }
+             )*/
 
             for (var i = 0; i < circle_length + 1; i++) {
                 circle_line_data.push([i, 0])
@@ -122,7 +122,7 @@ block content
 
                     grid_idx.push(contents[i][value[i]].size);
                     contents[i][value[i]].size += 1;
-                    if(value[i] == 0) contents[i][value[i]].size = 0;
+                    if (value[i] == 0) contents[i][value[i]].size = 0;
                 }
                 grid_idxs.push(grid_idx);
             }
@@ -163,7 +163,7 @@ block content
                         height += contents_gap;
                     }
 
-                    if(j == 0)
+                    if (j == 0)
                         data.values.push([i, height]);
                     else
                         data.values.push([i, height + data.grid_idx[i] * seem_good_gap]);
@@ -174,7 +174,7 @@ block content
                             data.connect.push([i, mul_idf_value, cat_tfidf[i], max_idf_value, 'true']);
                         }
                         else
-                            data.connect.push([i, idf, cat_tfidf[i], max_idf_value,  'false']);
+                            data.connect.push([i, idf, cat_tfidf[i], max_idf_value, 'false']);
                     }
 
 
@@ -219,8 +219,8 @@ block content
             var rect = svg.append("rect")
                     .attr("width", width * 3)
                     .attr("height", height * 3)
-                    .attr("x", - width)
-                    .attr("y", - height)
+                    .attr("x", -width)
+                    .attr("y", -height)
                     .style("fill", "#eeeeee")
                     .style("pointer-events", "all");
 
@@ -343,8 +343,8 @@ block content
                     var saved = 0;
                     var x = 0, y = 0;
                     for (var j = 0; j < d.connect.length; j++) {
-                        x += Math.sin(angle_data(d.connect[j][0])) * r * d.connect[j][1] ;
-                        y += Math.cos(angle_data(d.connect[j][0])) * r * d.connect[j][1] ;
+                        x += Math.sin(angle_data(d.connect[j][0])) * r * d.connect[j][1];
+                        y += Math.cos(angle_data(d.connect[j][0])) * r * d.connect[j][1];
                         saved += d.connect[j][1];
                     }
                     x /= saved;
@@ -587,9 +587,9 @@ block content
                 btUndo.style("fill", "#9999aa")
             });
             btUndo.on('click', function () {
-                if(clicked.length > 0) {
+                if (clicked.length > 0) {
                     removeArray(clicked, clicked[clicked.length - 1]);
-                    if(clicked.length == 0){
+                    if (clicked.length == 0) {
                         setClear('normal');
                         setAll();
                     } else {
@@ -725,29 +725,29 @@ block content
                     height += contents[i][j].size * seem_good_gap;
 
                     svg.append('text')
-                        .text(names[i][j + 1])
-                        .style("font-family", "Geneva")
-                        .style("font-size", "12px")
-                        .attr("text-anchor", "middle")
-                        .attr("fill", 'black')
-                        .attr('flag', 'normal')
-                        .attr('before_flag', 'normal')
-                        .attr("transform", "translate(" + x + "," + y + ") rotate(" + angle + ")")
+                            .text(names[i][j + 1])
+                            .style("font-family", "Geneva")
+                            .style("font-size", "12px")
+                            .attr("text-anchor", "middle")
+                            .attr("fill", 'black')
+                            .attr('flag', 'normal')
+                            .attr('before_flag', 'normal')
+                            .attr("transform", "translate(" + x + "," + y + ") rotate(" + angle + ")")
 
                     var line = svg.append("line")
-                        .style("stroke", '#666666')
-                        .style('stroke-width', 8.1)
-                        .style("stroke-opacity", 0.35)
-                        .attr("x1", x1)
-                        .attr("y1", y1)
-                        .attr("x2", x2)
-                        .attr("y2", y2)
-                        .attr('i', 'j')
+                            .style("stroke", '#666666')
+                            .style('stroke-width', 8.1)
+                            .style("stroke-opacity", 0.35)
+                            .attr("x1", x1)
+                            .attr("y1", y1)
+                            .attr("x2", x2)
+                            .attr("y2", y2)
+                            .attr('i', 'j')
 
-                    line.on('click', function(d){
-                            console.log(line.attr('x1'))
-                            console.log(saved_i + " , " + saved_j)
-                        })
+                    line.on('click', function (d) {
+                        console.log(line.attr('x1'))
+                        console.log(saved_i + " , " + saved_j)
+                    })
 
 
                 }
@@ -910,12 +910,12 @@ block content
 
                     if (mode === 'cat') {
                         c = G_DATA[G_DATA.keys[i]].arg2 == 0 ? '#cccccc' : G_DATA[G_DATA.keys[i]].arg2;
-                        circle.attr('active',c)
-                        graph.attr('active',c)
+                        circle.attr('active', c)
+                        graph.attr('active', c)
                     } else if (mode === 'year') {
                         c = G_DATA[G_DATA.keys[i]].arg1 == 0 ? '#cccccc' : G_DATA[G_DATA.keys[i]].arg1;
-                        circle.attr('active',c)
-                        graph.attr('active',c)
+                        circle.attr('active', c)
+                        graph.attr('active', c)
                     }
                 }
                 setAll(5);

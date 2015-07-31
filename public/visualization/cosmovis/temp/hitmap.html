@@ -1,0 +1,326 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>HEATMAP</title>
+	<style>
+		canvas{
+			background-color:white;
+			border:1px solid #000000;
+			float:left;
+		}
+		
+		#movieTitle{
+			float:left;
+			font-size:40px;
+		}
+	</style>
+</head>
+<body>
+
+<canvas id='heatmapCanvas' width=1200 height=800></canvas>
+<div id="movieTitle">Movie Title</div><br/><br/><Br/>
+<div style="position:relative; float:left;">
+<textarea id="textInput"></textarea>
+<button id="genButton" onclick="data_reload()">generate</button>
+<select id="movieSelect" onchange="changeMovie(this.value);"></select>
+</div>
+</body>
+<script>
+//첫번째
+//"rgb(0,25,255)"를 rgb(255,255,255)로 수정하면 흰바탕이 됩니다.
+var colorLevel = ["rgb(255,255,255)","rgb(0,48,254)","rgb(5,130,255)","rgb(1,190,254)","rgb(5,201,255)","rgb(19,253,242)","rgb(122,255,142)","rgb(200,255,112)","rgb(255,255,0)","rgb(255,79,0)","rgb(240,0,1)","rgb(160,0,1)","rgb(125,0,4)"];
+//배경rgb
+var loadedData = [
+    /* happy */
+        ["sweet",1007,383,0],
+        ["excited",895,232,0],
+        ["enjoyable",994,121,0],
+        ["funny",807,281,0],
+        ["pleasant",1010,239,80],
+        ["gratified",770,139,0],
+        ["happy",923,328,0],
+        ["energetic",868,62,0],
+        ["fantastic",853,158,0],
+        /* surprise */
+        ["impressed",874,546,0],
+        ["touched",816,494,0],
+        //["wonderful",861,438,0],
+        ["wonderful",860,440,0],
+        //["awesome",768,430,0],
+        ["awesome",755,420,0],
+        ["surprised",696,224,0],
+        ["great",927,481,0],
+        ["ecstatic",780,367,0],
+
+        /* boring */
+        ["calm",717,560,0],
+        ["drowsy",769,585,0],
+        ["bored",675,595,0],
+
+        /* sad */
+        ["heartbroken",374,511,0],
+        ["mournful",490,608,0],
+        ["sad",418,560,0],
+        //["lonely",571,599,0],
+        ["lonely",565,590,0],
+        ["pitiful",523,561,0],
+        ["unfortunated",261,470,0],
+
+        /* anger */
+        ["furious",190,388,0],
+        ["outraged",112,353,0],
+
+        /* disgust */
+        ["disgusted",278,221,0],
+        ["omnious",231,271,0],
+        ["cruel",304,283,0],
+
+        /* fear */
+        ["terrified",403,150,0],
+        ["chilly",502,104,0],
+        ["scared",424,77,0],
+        ["fearsome",459,208,0],
+        ["horrifyied",600,126,0],
+        ["creepy",535,166,0]
+    ];
+
+var canvas, ctx = null;
+var canvasWidth = 0;
+var canvasHeight = 0;
+var MAXisStastic = false;
+var MAX = 0;
+var MIN = 0;
+var RNG = 0;
+var dataArray = new Array();
+
+function Data(_name,_value,_level){
+	this.name = _name;
+	this.value = _value;
+	this.level = _level;
+	this.fixed = false;
+}
+
+document.body.onload = function(){	
+	"use strict";
+	canvas = document.getElementById('heatmapCanvas');
+	ctx = canvas.getContext('2d');
+	canvasWidth = canvas.width;
+	canvasHeight = canvas.height;
+}
+
+function initData(){
+	"use strict";
+	MAX = 0;
+	MIN = 0;
+	
+	
+	var numofRect = canvasWidth/10 * canvasHeight/10;
+	console.log("number of Rect : "+numofRect);
+	var newdata = null;
+	
+	for(var r = 0; r < canvasHeight/10; r++){
+		dataArray[r] = new Array();
+		for(var i = 0; i < canvasWidth/10; i++){
+			//newdata = new Data("",0,Math.floor(i/((canvasWidth/10)/13)));
+			newdata = new Data("",null,0);
+			dataArray[r].push(newdata);
+		}
+	}
+	loadData();
+}
+const pictureWidth = 1200;
+const pictureHeight = 800;
+function loadData(){
+	/*find MAX*/
+	if(MAXisStastic){
+		MAX = 100;
+		MIN = 0;
+	}else{
+		//MIN = loadedData[0][3];
+		MIN = 0;
+		for(var i =0 ; i < loadedData.length; i++){
+			if(MAX < loadedData[i][3]) MAX = loadedData[i][3];
+			//if(MIN > loadedData[i][3]) MIN = loadedData[i][3];
+		}
+	}
+	
+	/*calc Range of Level*/
+	RNG = (MAX - MIN)/15;//반경크기
+	
+	console.log("MAX value : "+MAX+" / MIN value : "+MIN+" / RNG value : "+RNG);
+
+	var posX, posY = 0;
+	
+	for(var i = 0; i < loadedData.length; i++){
+		
+		/*encoding Position*/
+		posX =  Math.floor((1200*loadedData[i][1] / pictureWidth) / 10);
+		posY = Math.floor((800*loadedData[i][2] / pictureHeight) / 10);
+	
+		dataArray[posY][posX].name = loadedData[i][0];
+		dataArray[posY][posX].value = loadedData[i][3];
+		//dataArray[posY][posX].level = 6;
+		dataArray[posY][posX].fixed = true;
+		//console.log(dataArray[posY][posX].level);
+		calcAdjacentValue(posY,posX,i);
+		
+		/*
+		for(var i = 0; i < dataArray.length; i++){
+			for(var r = 0; r< dataArray[i].length; r++){
+				if(dataArray[i][r].value != 0) console.log('not zero');
+				else console.log('zero');
+			}
+		}*/
+		
+	}
+	calcLevel();
+}
+
+function calcLevel(){
+	"use strict";
+	/* calculate Current position Level */
+	/*for(var i = 0; i < 13; i++){
+		if(loadedData[dataIdx][3] >= MIN+(i*RNG) ) dataArray[Y][X].level = i;
+		else break;
+	}*/
+	//console.log("LEVEL of "+X+","+Y+" : "+dataArray[Y][X].level);
+	
+	/* calculate Adjacent position Level */
+	var cnt = 0;
+	var r = 0; var i  = 0;
+	
+	
+	for(r = 0; r < dataArray.length; r++){
+		for(i=0; i < dataArray[r].length; i++){
+		
+			for(var g = 0; g < 13; g++){
+				if(dataArray[r][i].value >= MIN+(g*RNG) ){ dataArray[r][i].level = g; }
+				else break;
+			}
+		}
+	}
+	draw();
+}
+
+function calcAdjacentValue(Y,X,idx){
+	"use strict";
+	var thisLevel = 0;
+	for(var i = 0; i < 13; i++){
+		if(loadedData[idx][3] >= MIN+(i*RNG) ) thisLevel = i;
+		else break;
+	}
+	
+	var turningPoint = 0;
+	var cnt = 0;
+	var beginPoint_X = 0; var beginPoint_Y = 0;
+	var centre_X = X; var centre_Y = Y;
+	var currPoint_X = 0; var currPoint_Y = 0;
+	var direction_X = 1; var direction_Y = 1;
+	var temp = 0;
+	var i  = 0; var d =0;
+	for(var i = 0; i < thisLevel*2; i++){
+		beginPoint_X = X-(thisLevel-i);
+		for(var r = 0; r < thisLevel*2; r++){
+			beginPoint_Y = Y-(thisLevel-r);
+			if((beginPoint_X >= 0 && beginPoint_Y >= 0)  && (beginPoint_X < canvasWidth/10 && beginPoint_Y < canvasHeight/10)    ){
+			
+				if(dataArray[beginPoint_Y][beginPoint_X].fixed != true){
+					var x = Math.pow(centre_X - beginPoint_X,2) ;
+					var y = Math.pow(centre_Y - beginPoint_Y,2);
+					d = Math.sqrt(x + y);
+					
+					if(dataArray[beginPoint_Y][beginPoint_X].value == null){
+						dataArray[beginPoint_Y][beginPoint_X].value = loadedData[idx][3] -( d*RNG );
+					}else{
+						dataArray[beginPoint_Y][beginPoint_X].value = (dataArray[beginPoint_Y][beginPoint_X].value) + (loadedData[idx][3] -( d*RNG ));
+					}
+				}
+			}
+		}
+	}
+}
+
+
+function draw(){
+	
+	console.log("draw");
+	ctx.fillStyle = "rgb(0,0,0)";
+	var posX,posY = 0;
+	var thisValue = 0;
+	for(var r = 0; r < canvasHeight/10; r++){
+		posX = 0;
+		for(var i = 0; i < canvasWidth/10; i++){
+			ctx.fillStyle = colorLevel[dataArray[r][i].level];
+			ctx.fillRect(posX,posY,9,9);
+			posX += 10;
+		}
+		posY += 10;
+	}
+	ctx.fill();
+	ctx.font = "bold 15px Malgun Gothic";
+	ctx.fontStyle = 2;
+	ctx.linewidth = 3;//선굵기
+	ctx.fillStyle = "black";
+	ctx.strokeStyle = "white";
+	ctx.textAlign = "center";
+	for(var i = 0; i < loadedData.length; i++){
+		
+		ctx.strokeText(loadedData[i][0],loadedData[i][1],loadedData[i][2]);
+		ctx.fillText(loadedData[i][0],loadedData[i][1],loadedData[i][2]);
+	}
+	ctx.fill();
+}
+
+
+var thisTitle = "";
+var inputData = new Array();
+var line = null;
+function data_reload(){
+	var obj = document.getElementById('textInput');
+	var newobj = null;
+	var data = obj.value;
+		obj = document.getElementById('movieSelect');
+		obj.innerHTML = "";
+		
+		
+		line = data.split("\n");
+for(var r = 0; r < line.length-1; r++){
+		data = line[r].split("\t");
+		inputData.push(data);
+		
+		newobj = document.createElement('option');
+				newobj.setAttribute('value',r);
+		newobj.innerHTML = data[0];
+		
+		obj.appendChild(newobj);
+
+	//var i = 0;
+	//for(i in data){
+	//	if(i == 0){ thisTitle = data[i]; continue; }
+	//	console.log("is Done : "+i);
+	//	loadedData[i-1][3] = data[i] * 1;
+	//}
+}
+	//ctx.clearRect(0,0,canvasWidth,canvasHeight);
+	//	obj = document.getElementById('movieTitle');
+	//	obj.innerHTML = "";
+	//	obj.innerHTML = thisTitle+"";
+		
+	//initData();
+}
+
+function changeMovie(value){
+	var thisData = inputData[value];
+	var obj = document.getElementById('movieTitle');
+		obj.innerHTML = thisData[0]+"";
+		for(var i = 1; i < thisData.length; i++){
+			loadedData[i-1][3] = thisData[i] * 1;
+		}
+		
+		ctx.clearRect(0,0,canvasWidth,canvasHeight);
+	
+	initData();
+}
+</script>
+</html>

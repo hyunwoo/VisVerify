@@ -40,7 +40,7 @@ router.get('/chorddiagram', function(req, res) {
 });
 
 router.get('/cosmovis', function(req,res){
-    res.render('visualization_jade/visual_cosmovis');
+    res.render('visualization_jade/visual_cosmovis_new');
 })
 
 
