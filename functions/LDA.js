@@ -1,11 +1,7 @@
 /**
  * Created by Luan on 15. 6. 3..
  */
-
-
 var lda = require('lda');
-
-
 
 exports.topics = function(text, topic_count, category_count){
     try {

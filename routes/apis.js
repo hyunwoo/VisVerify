@@ -70,7 +70,10 @@ router.get('/twitter/search', function (req, res) {
     var page = req.query.page;
     var onlyDate = req.query.oneday;
     if(onlyDate === undefined) onlyDate = false;
-    else onlyDate = true;
+    else {
+        if(onlyDate === false) onlyDate = false;
+        else onlyDate = true;
+    }
 
     var mode = req.query.mode;
     if(mode === undefined){
@@ -81,7 +84,6 @@ router.get('/twitter/search', function (req, res) {
     } else {
         mode = 'recent';
     }
-
     var starttime = defaultFunc.getDateDetailNoDot();
 
     if(page === undefined) page = 1;
@@ -114,9 +116,7 @@ router.get('/twitter/search', function (req, res) {
         count : 0,
         tweets : [],
     }
-
     var recursiveCount = 0;
-
     var error = function (err, response, body) {
         var result = {};
         result.success = false;
@@ -147,9 +147,6 @@ router.get('/twitter/search', function (req, res) {
             }
             result.count ++;
             result.tweets.push(d);
-
-
-
         }
 
         if(recursiveCount == 5){ // finish
@@ -178,11 +175,6 @@ router.get('/twitter/search', function (req, res) {
         'count': 100,
         'result_type': mode
     }, error, success);
-
-
-
-
-
 })
 
 router.get('/twitter/searchDate' , function(req,res){

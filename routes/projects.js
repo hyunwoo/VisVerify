@@ -88,6 +88,8 @@ router.get('/topicnetwork/twitViewer', function(req,res){
     });
 })
 
+
+
 router.post('/topicnetwork/lda', function (req, res) {
     console.log(req.body);
     var category_count = req.body.category;
