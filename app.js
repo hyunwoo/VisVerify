@@ -11,14 +11,12 @@ var route_verify = require('./routes/verify');
 var route_visualization = require('./routes/visualization');
 var crossdomain = require('crossdomain');
 
-
 // Project
 var route_projects = require('./routes/projects');
 
 // API
 var route_api = require('./routes/apis');
 var users = require('./routes/users');
-
 
 var app = express();
 var busboy = require('connect-busboy'); //middleware for form/file upload
@@ -29,7 +27,6 @@ var cors = require('cors');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(busboy());

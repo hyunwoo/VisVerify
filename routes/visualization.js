@@ -21,7 +21,6 @@ router.get('/network', function(req, res) {
 router.get('/streamgraph', function(req, res) {
     var default_data = fs.readFileSync('./exampleData/nvd3/stackedAreaData.json');
     var deliver = {};
-
     deliver.default_data = JSON.stringify(JSON.parse(default_data), null, 4)
     res.render('visualization_jade/visual_streamgraph', deliver);
 });

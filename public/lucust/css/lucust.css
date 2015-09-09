@@ -1,0 +1,37 @@
+
+@import url('https://fonts.googleapis.com/css?family=Poiret+One');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+
+
+h1 {
+    font-weight: 300;
+    line-height: 1.5;
+
+    font-size : 30px;
+    font-family: 'Raleway' !important;
+}
+h3 {
+    font-weight: 300;
+    line-height: 1.5;
+    font-family: 'Raleway' !important;
+}
+h3.bold {
+    font-weight: 700;
+}
+h4 {
+    font-weight: 300;
+    line-height: 1.5;
+    font-family: 'Raleway' !important;
+}
+p {
+    font-family: 'Raleway' !important;
+    font-weight: 100;
+}
+body {
+    font-family: 'Raleway' !important;
+    font-weight: 100;
+
+}
