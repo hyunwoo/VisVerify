@@ -91,8 +91,6 @@ function drawHeatmap(datas, status) {
 
 
 
-
-
     for (var i = 0; i < temp.length; i++) {
         for (var j = i + 1; j < temp.length; j++) {
 
@@ -159,7 +157,7 @@ function drawHeatmap(datas, status) {
     } else {
         for (var i = 0; i < cx; i++) {
             for (var j = 0; j < cy; j++) {
-                rects[i][j].rect.transition().duration(500).attr('fill', '#aaaaaa');
+                rects[i][j].rect.transition().duration(500).attr('fill', '#ffffff');
             }
 
         }
@@ -252,8 +250,6 @@ function initHeatmap(svg, x, y, w, h) {
 
         }).style({
             'font-size': '10px',
-            'font-weight': 'bold',
-            'font-family': "Helvetica, sans-serif",
         }).text(loadedData[i][0]);
     }
     for (var i = 0; i < rects.length; i++) {
