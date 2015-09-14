@@ -1,10 +1,6 @@
 /**
  * Created by hyunwoo on 2015-07-31.
  */
-//첫번째
-//"rgb(0,25,255)"를 rgb(255,255,255)로 수정하면 흰바탕이 됩니다.
-var colorLevel = ["rgb(255,255,255)", "rgb(0,48,254)", "rgb(5,130,255)", "rgb(1,190,254)", "rgb(5,201,255)", "rgb(19,253,242)", "rgb(122,255,142)", "rgb(200,255,112)", "rgb(255,255,0)", "rgb(255,79,0)", "rgb(240,0,1)", "rgb(160,0,1)", "rgb(125,0,4)"];
-//배경rgb
 var loadedData = [
     /* happy */
     ["sweet", 1007, 383, 0],
@@ -49,7 +45,7 @@ var loadedData = [
 var rects = new Array();
 var x_ratio = 0;
 var y_ratio = 0;
-var rect_size = 5;
+var rect_size = 3;
 var cx;
 var cy;
 var max = 0;
@@ -131,24 +127,40 @@ function drawHeatmap(datas, status) {
         var y = Math.floor(loadedData[i][2] * y_ratio / rect_size);
 
 
-        affect(x, y, loadedData[i][3] * 8);
+        affect(x, y, loadedData[i][3] * 18);
 
     }
 
 
-    var color = d3.scale.linear()
-        .domain([0, max / 3, max / 3 * 2, max])
-        .range(['blue', 'green', 'yellow', 'red']);
 
+
+    var colors = ['#ffffff','#465aa6','#5780be','#77baf1','#75b7e4',
+        '#89c5db','#c9d871','#ccc738','#c87c21','#cd4c31','#8b2e22',
+        '#89211a', '#89211a','#89211a','#89211a','#89211a','#89211a'];
+    var domainval = [];
+    for(var i = 0 ; i < colors.length; i ++) {
+        var val = max * i / colors.length;
+        domainval.push(val);
+    }
+
+    var color = d3.scale.linear()
+        .domain(domainval)
+        .range(colors);
     if(status){
         for (var i = 0; i < cx; i++) {
             for (var j = 0; j < cy; j++) {
                 var val = rects[i][j].value;
-                var c = color(rects[i][j].value);
                 if (val > 0) {
+                    //var idx = Math.floor(val * colors.length/max);
+                    //var c = color(val);
+                    var val = Math.floor(val * colors.length / max);
+                    if(val == colors.length)
+                        val -=1;
+                    var c = colors[val];
+                    //console.log(c , idx, colors.length);
                     rects[i][j].rect.transition().duration(500).attr('fill', c);
                 } else {
-                    //rects[i][j].rect.attr('fill', '#ffffff');
+                    rects[i][j].rect.attr('fill', '#ffffff');
                 }
 
             }
@@ -208,7 +220,7 @@ function clearHeatmap() {
     for (var i = 0; i < cx; i++) {
         for (var j = 0; j < cy; j++) {
             rects[i][j].value = 0;
-            rects[i][j].rect.transition().duration(500).attr('fill', '#dddddd');
+            rects[i][j].rect.transition().duration(500).attr('fill', '#ffffff');
         }
     }
 }
@@ -257,10 +269,10 @@ function initHeatmap(svg, x, y, w, h) {
             rects[i][j].rect = layer_rect.append('rect').attr({
                 x: rects[i][j].x,
                 y: rects[i][j].y,
-                width: rect_size - 1,
-                height: rect_size - 1,
+                width: rect_size + 1,
+                height: rect_size + 1,
 
-                fill: '#dddddd',
+                fill: '#ffffff',
 
             })
         }
