@@ -46,6 +46,7 @@ var rects = new Array();
 var x_ratio = 0;
 var y_ratio = 0;
 var rect_size = 3;
+var affect_power = 20;
 var cx;
 var cy;
 var max = 0;
@@ -127,7 +128,7 @@ function drawHeatmap(datas, status) {
         var y = Math.floor(loadedData[i][2] * y_ratio / rect_size);
 
 
-        affect(x, y, loadedData[i][3] * 18);
+        affect(x, y, loadedData[i][3] * affect_power);
 
     }
 
@@ -154,8 +155,8 @@ function drawHeatmap(datas, status) {
                     //var idx = Math.floor(val * colors.length/max);
                     //var c = color(val);
                     var val = Math.floor(val * colors.length / max);
-                    if(val == colors.length)
-                        val -=1;
+                    if(val >= colors.length)
+                        val = colors.length - 1;
                     var c = colors[val];
                     //console.log(c , idx, colors.length);
                     rects[i][j].rect.transition().duration(500).attr('fill', c);
