@@ -34,7 +34,6 @@ block content
             div.col-sm-1(align='right')
                 div.label.label-default row #{i + 1}
 
-
             div.col-sm-1
                 input(type="number", id="0_" + i , value =Math.floor(Math.random() * 10) + 1, onchange='draw()')
             div.col-sm-1
@@ -81,7 +80,7 @@ block content
                         .sortSubgroups(d3.descending)
                         .matrix(matrix);
                 var width = document.getElementById("canvas").offsetWidth,
-                        height = document.getElementById("canvas").offsetHeight,
+                    height = document.getElementById("canvas").offsetHeight,
                         innerRadius = Math.min(width, height) * .41,
                         outerRadius = innerRadius * 1.1;
                 var fill = d3.scale.ordinal()

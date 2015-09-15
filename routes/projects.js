@@ -528,6 +528,20 @@ router.post('/logonetwork/circularParellar', function (req, res) {
 
 })
 
+router.get('/sementicnode', function(req,res){
+    var result = {};
+    result.tab = 'projects';
+    result.unuseHeadImage = true;
+    res.render('projects/SementicNode/sementicnode_intro', result);
+})
+
+router.get('/sementicnode/viewer', function(req,res){
+    var result = {};
+    result.tab = 'projects';
+    result.unuseHeadImage = true;
+    res.render('projects/SementicNode/sementicnode_viewer', result);
+})
+
 router.get('/logonetwork', function (req, res) {
     var result = {};
     result.tab = 'projects';
