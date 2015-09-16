@@ -5,12 +5,16 @@ extends ../../projects_layout
 block body
     script(src='http://www.d3plus.org/js/d3.js')
     script(src='http://www.d3plus.org/js/d3plus.js')
-    script(src='/projects/sementicnode/js/sementicnode_viewer.js')
+
     div.container-fluid
         h2
             a #
             |  Twitter Topics
         legend
         div(id='canvas', style='width:100%; height:1200px; border:1px solid; background:#ffffff')
+    script(src='/javascripts/http_functions.js')
+    script(src='/projects/sementicnode/js/sementicnode_viewer.js')
+
+
 
 
