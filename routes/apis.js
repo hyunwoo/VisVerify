@@ -64,6 +64,30 @@ router.get('/docs/joseondynasty', function (req, res) {
 
 var each_page_data_count = 100;
 
+var lda = require('../functions/LDA');
+
+
+router.post('/textanalysis/lda', function(req,res){
+    console.log('in lda');
+    var document = req.body.input;
+    console.log(req.body);
+    var lda_output = lda.topics(document, 10, 10);
+
+    var outString = '';
+    for (var i in lda_output) {
+        var row = lda_output[i];
+        outString+='Topic ' + (parseInt(i) + 1) +'\n';
+        // For each term.
+        for (var j in row) {
+            var term = row[j];
+            outString+=term.term + ' (' + term.probability + '%)';
+        }
+
+        outString+= '\n';
+    }
+    console.log(outString);
+    res.send(outString);
+})
 router.get('/twitter/search', function (req, res) {
     var q = req.query.q;
     var date = req.query.date;
