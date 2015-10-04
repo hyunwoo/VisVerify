@@ -18,7 +18,6 @@ router.get('/', function (req, res) {
 
 });
 
-
 router.get('/RawData/get', function (req, res) {
     var start = req.query.start;
     var count = req.query.count;
@@ -30,14 +29,15 @@ router.get('/RawData/get', function (req, res) {
     if (format === undefined || format === "") format = "json";
 
     var multi = db.multi();
-    var end = start + count;
+    var end = Number(start) + Number(count);
     multi.select(0);
     multi.hgetall("Text:Header");
 
     multi.exec(function (err, rep) {
         var dataCount = Number(rep[1].count);
         if (dataCount < start) {
-            // return false;
+            res.send("OVER REQUEST INDEX");
+            return;
         } else if (end > dataCount) {
             end = dataCount;
         }
@@ -55,7 +55,7 @@ router.get('/RawData/get', function (req, res) {
                 }
                 if(format === "csv"){
                     var result = "<pre>\n";
-                    result += "id\tnumbers\tbody\n";
+                    result += "id\t\tnumbers\t\t\t\t\t\t\t\t\t\t\t\t\t\tbody\n";
                     for(var i = 0; i < rep.length ; i ++){
                         result += rep[i].id + "\t" + rep[i].numbers + "\t" + rep[i].body + "\n";
                     }
