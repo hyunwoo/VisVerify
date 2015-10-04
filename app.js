@@ -13,6 +13,8 @@ var crossdomain = require('crossdomain');
 
 // Project
 var route_projects = require('./routes/projects');
+var route_sementicnode = require('./routes/Projects/SementicNode/sementicnode');
+
 
 // API
 var route_api = require('./routes/apis');
@@ -44,6 +46,7 @@ app.use('/users', users);
 app.use('/verify', route_verify);
 app.use('/visualization', route_visualization);
 app.use('/projects', route_projects);
+app.use('/projects/sementicnode', route_sementicnode);
 app.use('/apis', route_api);
 
 

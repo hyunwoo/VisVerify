@@ -72,7 +72,7 @@ router.post('/textanalysis/lda', function(req,res){
     console.log('in lda');
     var document = req.body.input;
     console.log(req.body);
-    var lda_output = lda.topics(document, 10, 10);
+    var lda_output = lda.topics(document, 10, 5);
 
     var outString = '';
     for (var i in lda_output) {
@@ -89,6 +89,8 @@ router.post('/textanalysis/lda', function(req,res){
     console.log(outString);
     res.send(outString);
 })
+
+
 router.get('/twitter/search', function (req, res) {
     var q = req.query.q;
     var date = req.query.date;
@@ -151,6 +153,7 @@ router.get('/twitter/search', function (req, res) {
     };
 
     var success = function (data) {
+
         recursiveCount ++;
         var json = JSON.parse(data);
         for(var i = 0 ; i < json.statuses.length ; i ++){
@@ -181,12 +184,12 @@ router.get('/twitter/search', function (req, res) {
 
         try {
             var max_id = json.search_metadata.next_results.split('&')[0].split('=')[1];
-
             twitter.getSearch({
                 'q': query,
                 'max_id': max_id,
                 'count': 100,
-                'result_type': mode
+                'result_type': mode,
+                'lang':'en'
             }, error, success);
         } catch(e){
             res.send(result);
@@ -198,7 +201,8 @@ router.get('/twitter/search', function (req, res) {
         'q': query,
         'max_id':'',
         'count': 100,
-        'result_type': mode
+        'result_type': mode,
+        'lang':'en'
     }, error, success);
 })
 
@@ -310,8 +314,8 @@ router.get('/twitter/tweets', function (req, res) {
     });
 })
 
-router.get('/analysis/russell_model', function (req, res) {
-    var input = req.query.input;
+router.post('/analysis/russell_model', function (req, res) {
+    var input = req.body.input;
     var out = stemmer(input);
     //out = out.replace(/./gi,' ');
     console.log(out);
@@ -339,6 +343,7 @@ router.get('/analysis/russell_model', function (req, res) {
             input: input,
             out: out,
         })
+
         for (var i = 1; i < rep.length; i += 10) {
             var getResult = false;
             for (var j = i; j < i + 10; j++) {
