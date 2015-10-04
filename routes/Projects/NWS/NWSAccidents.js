@@ -43,7 +43,6 @@ router.get('/RawData/get', function (req, res) {
         }
 
         db.zrange("Text:List", start, end, function (err, rep) {
-            console.log(rep);
             multi = db.multi();
             for (var i = 0; i < rep.length; i++) {
                 multi.hgetall(rep[i]);
@@ -66,7 +65,6 @@ router.get('/RawData/get', function (req, res) {
                     var result = "<pre>\n";
                     result += json;
                     result += "\n</pre>";
-                    console.log(result);
                     res.send(result);
                 }
 
