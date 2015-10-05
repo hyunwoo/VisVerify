@@ -23,13 +23,15 @@ router.get('/RawData/get', function (req, res) {
     var count = req.query.count;
     var format = req.query.format;
 
+    console.log(count);
     if (start === undefined || start === "") start = 0;
     if (count === undefined || count === "") count = 100;
-    if (count > 1000) count = 1000;
+    if (count > 10000) count = 10000;
     if (format === undefined || format === "") format = "json";
 
     var multi = db.multi();
     var end = Number(start) + Number(count);
+    console.log("final start : " + start + " , end : " + end);
     multi.select(0);
     multi.hgetall("Text:Header");
 
