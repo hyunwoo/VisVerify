@@ -39,7 +39,11 @@ router.get('/chorddiagram', function(req, res) {
 });
 
 router.get('/cosmovis', function(req,res){
-    res.render('visualization_jade/visual_cosmovis_new');
+    res.render('visualization_jade/visual_cosmovis_eng');
+})
+
+router.get('/cosmovis_kor', function(req,res){
+    res.render('visualization_jade/visual_cosmovis_kor');
 })
 
 

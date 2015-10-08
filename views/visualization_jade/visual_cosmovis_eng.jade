@@ -2,6 +2,7 @@
    Created by hyunwoo on 7/22/15.
 extends ../layout
 block content
+    script(src='/javascripts/cosmovis/SementicNodes_eng.js')
     script(src='/javascripts/cosmovis/cosmovis_data.js')
     script(src='/javascripts/cosmovis/hitmap.js')
     div.container-fluid(style='margin:0px; padding:0px')
@@ -335,13 +336,11 @@ block content
                         );
                         hideHeatMap();
                     })
-
                     data.circle.on('click', function () {
                         var idx = data.circle.attr('idx');
 
                         //updateHeatmap(idx);
                     })
-
                 }
 
                 function OnPopup(idx) {
@@ -356,6 +355,7 @@ block content
                     var ii = 0;
                     for (var i = 0; i < movieBySemantic.length; i++) {
                         var thisMovie = movieBySemantic[i];
+
                         ii = i / 4;
                         //빈도가 높은 감정어 찾기
                         var numOfBest = 2;
@@ -369,7 +369,7 @@ block content
                                     maxIdx = s;
                                 }
                             }
-                            thisMovie[maxIdx + 1] = 0;
+                            //thisMovie[maxIdx + 1] = 0;
                             bestwords.push(maxIdx);
                         }
 
