@@ -43,6 +43,9 @@ block content
 
             }
         script.
+            var imgStatus = true;
+            var anchorStatus = true;
+            var hitmapStatus = true;
             var inverse = !true;
 
             function switchText() {
@@ -137,9 +140,9 @@ block content
                 var layer_popup = svg.append('g');
 
 
-                var imgStatus = true;
-                var anchorStatus = true;
-                var hitmapStatus = true;
+                imgStatus = true;
+                anchorStatus = true;
+                hitmapStatus = true;
 
 
                 var popup = layer_popup.append('rect').attr({
@@ -186,7 +189,7 @@ block content
                 }).text('description for ' + 'Star Trek');
 
 
-                initHeatmap(layer_popup, 190, 50, 390, 240);
+                initHeatmap(layer_popup, 190, 50, 390, 240, anchorStatus);
 
                 layer_popup.attr('opacity', 0);
 

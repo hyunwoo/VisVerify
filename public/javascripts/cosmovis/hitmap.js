@@ -70,9 +70,11 @@ function drawHeatmap(datas, status) {
     }
 
     var result = '';
-    for (var i = 0; i < 3; i++) {
-        result += (i + 1) + ' : ' + loadedData[temp[i].idx][0] + ' (' + Math.floor(loadedData[temp[i].idx][3] / totalval * 100) + '%)' ;
-        if(i != 2) result += ' , ';
+    if(anchorStatus) {
+        for (var i = 0; i < 3; i++) {
+            result += (i + 1) + ' : ' + loadedData[temp[i].idx][0] + ' (' + Math.floor(loadedData[temp[i].idx][3] / totalval * 100) + '%)';
+            if (i != 2) result += ' , ';
+        }
     }
 
 
@@ -190,7 +192,7 @@ function clearHeatmap() {
         }
     }
 }
-function initHeatmap(svg, x, y, w, h) {
+function initHeatmap(svg, x, y, w, h,useText) {
     cx = w / rect_size;
     cy = h / rect_size;
     rects = new Array();
@@ -214,20 +216,22 @@ function initHeatmap(svg, x, y, w, h) {
     layer_text = svg.append('g');
 
 
-    for (var i = 0; i < loadedData.length; i++) {
+    if(useText) {
+        for (var i = 0; i < loadedData.length; i++) {
 
-        var tx = (loadedData[i][1] * 1) * (x_ratio * 1) + x;
-        var ty = (loadedData[i][2] * 1) * (x_ratio * 1) + y + 5 * 1;
+            var tx = (loadedData[i][1] * 1) * (x_ratio * 1) + x;
+            var ty = (loadedData[i][2] * 1) * (x_ratio * 1) + y + 5 * 1;
 
-        layer_text.append('text').attr({
-            x: tx,
-            y: ty,
-            fill: '#111111',
-            'text-anchor': 'middle',
+            layer_text.append('text').attr({
+                x: tx,
+                y: ty,
+                fill: '#111111',
+                'text-anchor': 'middle',
 
-        }).style({
-            'font-size': '9px',
-        }).text(loadedData[i][0]);
+            }).style({
+                'font-size': '9px',
+            }).text(loadedData[i][0]);
+        }
     }
     for (var i = 0; i < rects.length; i++) {
         for (var j = 0; j < rects[i].length; j++) {
