@@ -17,6 +17,7 @@ var layer_text;
 var affect_count = 0;
 
 function drawHeatmap(datas, status) {
+    if(!hitmapStatus) return;
     max = 0;
 
 
@@ -70,7 +71,7 @@ function drawHeatmap(datas, status) {
     }
 
     var result = '';
-    if(anchorStatus) {
+    if(hitmapStatus) {
         for (var i = 0; i < 3; i++) {
             result += (i + 1) + ' : ' + loadedData[temp[i].idx][0] + ' (' + Math.floor(loadedData[temp[i].idx][3] / totalval * 100) + '%)';
             if (i != 2) result += ' , ';
@@ -185,19 +186,32 @@ function affect(x, y, power) {
 
 }
 function clearHeatmap() {
-    for (var i = 0; i < cx; i++) {
-        for (var j = 0; j < cy; j++) {
-            rects[i][j].value = 0;
-            rects[i][j].rect.transition().duration(500).attr('fill', '#ffffff');
+    if(hitmapStatus)
+        for (var i = 0; i < cx; i++) {
+            for (var j = 0; j < cy; j++) {
+                rects[i][j].value = 0;
+                rects[i][j].rect.transition().duration(500).attr('fill', '#ffffff');
+            }
         }
-    }
+
+    layer_rect.attr('opacity',0);
+    layer_text.attr('opacity',0);
 }
-function initHeatmap(svg, x, y, w, h,useText) {
+function initHeatmap(svg, x, y, w, h) {
+    if(!hitmapStatus){
+        console.log('no use heatmap');
+        svg.selectAll('g').remove();
+        hitmap_popup.attr('width',350).attr('height',430);
+        return;
+    }
+    hitmap_popup.attr('width',600).attr('height',300);
+
     cx = w / rect_size;
     cy = h / rect_size;
     rects = new Array();
     x_ratio = w / 1200;
     y_ratio = h / 700;
+
 
     for (var i = 0; i < cx; i++) {
         var rect = [];
@@ -212,26 +226,25 @@ function initHeatmap(svg, x, y, w, h,useText) {
         rects.push(rect);
     }
 
+
+
     layer_rect = svg.append('g');
     layer_text = svg.append('g');
 
 
-    if(useText) {
-        for (var i = 0; i < loadedData.length; i++) {
+    for (var i = 0; i < loadedData.length; i++) {
+        var tx = (loadedData[i][1] * 1) * (x_ratio * 1) + x;
+        var ty = (loadedData[i][2] * 1) * (x_ratio * 1) + y + 5 * 1;
 
-            var tx = (loadedData[i][1] * 1) * (x_ratio * 1) + x;
-            var ty = (loadedData[i][2] * 1) * (x_ratio * 1) + y + 5 * 1;
+        layer_text.append('text').attr({
+            x: tx,
+            y: ty,
+            fill: '#111111',
+            'text-anchor': 'middle',
 
-            layer_text.append('text').attr({
-                x: tx,
-                y: ty,
-                fill: '#111111',
-                'text-anchor': 'middle',
-
-            }).style({
-                'font-size': '9px',
-            }).text(loadedData[i][0]);
-        }
+        }).style({
+            'font-size': '9px',
+        }).text(loadedData[i][0]);
     }
     for (var i = 0; i < rects.length; i++) {
         for (var j = 0; j < rects[i].length; j++) {

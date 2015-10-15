@@ -47,6 +47,7 @@ block content
             var anchorStatus = true;
             var hitmapStatus = true;
             var inverse = !true;
+            var hitmap_popup;
 
             function switchText() {
 
@@ -145,7 +146,7 @@ block content
                 hitmapStatus = true;
 
 
-                var popup = layer_popup.append('rect').attr({
+                hitmap_popup = layer_popup.append('rect').attr({
                     x: 0,
                     y: 0,
                     rx: 2,
@@ -178,6 +179,8 @@ block content
                     "fill": "black",
                 }).text('Star Trek')
 
+
+
                 var text_movieBody = layer_popup.append('text').attr({
                     x: 15,
                     y: 43,
@@ -189,7 +192,7 @@ block content
                 }).text('description for ' + 'Star Trek');
 
 
-                initHeatmap(layer_popup, 190, 50, 390, 240, anchorStatus);
+                initHeatmap(layer_popup, 190, 50, 390, 240);
 
                 layer_popup.attr('opacity', 0);
 
@@ -226,17 +229,42 @@ block content
                     } else posteridx = FormatNumberLength(posteridx, 3);
 
 
+                    if(!hitmapStatus) {
+                        img_movie.attr('width',164 * 1.5 +'px')
+                            .attr('height',238 * 1.5 +'px')
+                            .attr('x',55);
+                        text_movieTitle.attr({
+                            x: 170,
+                            y: 27,
+                            'text-anchor': 'middle'});
+                    } else {
+                        img_movie.attr('width',164 +'px')
+                                .attr('height',238 +'px').attr('x',15);
+                        text_movieTitle.attr({
+                            x: 15,
+                            y: 27,
+                            'text-anchor': 'left'});
+
+                    }
+
                     img_movie.attr("xlink:href", "/visualization/cosmovis/poster/images/movieposter_" + posteridx + ".gif")
+                    initHeatmap(layer_popup, 190, 50, 390, 240);
                     var rank = drawHeatmap(deliver, hitmapStatus);
                     layer_popup.transition().delay(500).attr('opacity', 1);
                     text_movieTitle.text(movieBySemantic[idx][0]);
 
                     text_movieBody.text(rank);
 
-                    if (x > width / 2)
-                        layer_popup.attr('transform', 'translate(' + (x - 650) + ', ' + (y - 100) + ')');
+                    if (x > width / 2){
+                        if(hitmapStatus) {
+                            layer_popup.attr('transform', 'translate(' + (x - 650) + ', ' + (y - 100) + ')');
+                        } else {
+                            layer_popup.attr('transform', 'translate(' + (x - 400) + ', ' + (y - 100) + ')');
+                        }
+                    }
                     else
                         layer_popup.attr('transform', 'translate(' + (x + 50) + ', ' + (y - 100) + ')');
+
 
                 }
 
@@ -257,6 +285,7 @@ block content
 
                 button(svg, 110, 10, 90, 30, 'Heatmap').on('click', function () {
                     hitmapStatus = !hitmapStatus;
+                    initHeatmap(layer_popup, 190, 50, 390, 240);
                 });
                 button(svg, 210, 10, 90, 30, 'Text').on('click', function () {
                     if (anchorStatus)
