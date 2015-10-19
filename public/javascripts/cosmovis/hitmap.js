@@ -198,10 +198,13 @@ function clearHeatmap() {
     layer_text.attr('opacity',0);
 }
 function initHeatmap(svg, x, y, w, h) {
+    var g_s = svg.selectAll('g');
+    g_s.remove();
+
     if(!hitmapStatus){
         console.log('no use heatmap');
-        svg.selectAll('g').remove();
         hitmap_popup.attr('width',350).attr('height',430);
+
         return;
     }
     hitmap_popup.attr('width',600).attr('height',300);
@@ -226,11 +229,8 @@ function initHeatmap(svg, x, y, w, h) {
         rects.push(rect);
     }
 
-
-
     layer_rect = svg.append('g');
     layer_text = svg.append('g');
-
 
     for (var i = 0; i < loadedData.length; i++) {
         var tx = (loadedData[i][1] * 1) * (x_ratio * 1) + x;
