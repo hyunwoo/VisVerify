@@ -292,13 +292,17 @@ router.get('/twitter/tweets', function (req, res) {
 
     var multi = db.multi();
     multi.select(2);
-    multi.zrange('location:' + location + ':' + time, 0, -1);
+    var key = 'location:' + location + ':' + time;
+    multi.zrange(key, 0, -1);
+    console.log(key)
     multi.exec(function (err, rep) {
+        console.log(err);
         if (err != null) {
             sendFailedResult(res);
             return;
         }
         if (rep[1] == null || rep[1].length == 0) {
+            console.log("here")
             sendFailedResult(res);
             return;
         }
