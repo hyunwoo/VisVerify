@@ -23,15 +23,16 @@ var posts;
 fs.readFile('./post.tsv', function (err, data) {
     if (err) throw err;
     posts = data.toString().split('\n');
-    //savePostToDatabase(0);
+    savePostToDatabase(0);
 });
 
 
 function savePostToDatabase(idx) {
-
-    if(idx == posts.length) console.log('over');
-    if(idx > 10)return;
-
+    console.log(" : " + idx);
+    if(idx == posts.length) {
+        console.log(' : over');
+        return;
+    }
     var keys = posts[idx].split('\t');
     var input = {
         '우편번호' : keys[0],
@@ -50,16 +51,11 @@ function savePostToDatabase(idx) {
 
     var total_key = keys[0];
     var sub_key = keys[0]+':'+keys[1];
-
-
-    console.log(input)
-
     var multi = db.multi();
     multi.select(1);
     multi.hmset(sub_key,input);
     multi.sadd(total_key,sub_key);
     multi.exec(function(err,rep){
-
         savePostToDatabase(++idx);
     })
 
