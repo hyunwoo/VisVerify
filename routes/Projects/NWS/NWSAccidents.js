@@ -103,7 +103,7 @@ var countProgress = 0;
 var HighwaydataCount = 0;
 
 var _idx = 0;
-//HighWayAddLocate(_idx,HighWayAddLocateFunc);
+HighWayAddLocate(_idx,HighWayAddLocateFunc);
 function HighWayAddLocateFunc(result){
 
     if(result.out == 'continue'){
@@ -113,6 +113,7 @@ function HighWayAddLocateFunc(result){
 
         HighWayAddLocate(_idx,HighWayAddLocateFunc);
     } else if(result.out == 'end'){
+        console.log('FINISH : [TOTAL - ' + _idx);
     }
 }
 
