@@ -11,8 +11,6 @@ var fs = require('fs'),
 
 var parser = new xml2js.Parser();
 
-console.log("HELLO")
-
 
 router.get('/Prototype/01', function(req,res){
     res.render('projects/Pedigree/Prototype01');
@@ -42,6 +40,7 @@ router.get('/Prototype/06', function(req,res){
 })
 
 
+return;
 fs.readFile(__dirname + '/data/data.xml', function(err, data) {
     parser.parseString(data, function (err, result) {
 
