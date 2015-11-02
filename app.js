@@ -15,7 +15,7 @@ var crossdomain = require('crossdomain');
 var route_projects = require('./routes/projects');
 var route_sementicnode = require('./routes/Projects/SementicNode/sementicnode');
 var route_NWS = require('./routes/Projects/NWS/NWSAccidents');
-
+var route_Pedigree = require('./routes/Projects/Pedigree/Pedigree')
 
 // API
 var route_api = require('./routes/apis');
@@ -26,6 +26,7 @@ var busboy = require('connect-busboy'); //middleware for form/file upload
 var path = require('path');     //used for file path
 var fs = require('fs-extra');       //File System - for file manipulation
 var cors = require('cors');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -49,6 +50,7 @@ app.use('/visualization', route_visualization);
 app.use('/projects', route_projects);
 app.use('/projects/sementicnode', route_sementicnode);
 app.use('/projects/NWS', route_NWS);
+app.use('/projects/Pedigree', route_Pedigree);
 
 
 app.use('/apis', route_api);

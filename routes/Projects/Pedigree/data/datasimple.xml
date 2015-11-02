@@ -1,0 +1,42 @@
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<graphml>
+    <graph edgedefault="undirected" id="">
+        <node id="7853">
+            <data key="name">이효신</data>
+            <data key="title">부정</data>
+            <data key="grade">13</data>
+            <data key="period">11</data>
+            <data key="sex">1</data>
+            <data key="family_origin">전주</data>
+            <data key="depth">17</data>
+            <data key="grade_exam">미상</data>
+            <data key="key">11111111141114411</data>
+            <data key="line">1</data>
+            <data key="son_in_law">1</data>
+        </node>
+        <node id="7854">
+            <data key="name">이효신</data>
+            <data key="title">부정</data>
+            <data key="grade">13</data>
+            <data key="period">11</data>
+            <data key="sex">1</data>
+            <data key="family_origin">전주</data>
+            <data key="depth">17</data>
+            <data key="grade_exam">미상</data>
+            <data key="key">11111111141114411</data>
+            <data key="line">1</data>
+            <data key="son_in_law">1</data>
+        </node>
+        <edge source="7852" target="7853"/>
+        <edge source="7854" target="7855"/>
+    </graph>
+</graphml>
+
+
+
+
+
+

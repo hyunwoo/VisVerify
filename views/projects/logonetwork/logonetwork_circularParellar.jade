@@ -1,6 +1,6 @@
-extends ../../layout
-block content
-    div.container-fluid
+extends ../../projects_layout
+block body
+    div.container
         p
         -if(success != undefined && success == false){
         div.alert.alert-danger
@@ -10,7 +10,7 @@ block content
         - }
         h2
             a #
-            |  FreeNetwork Prototype
+            |  Circular Pallerer Coordinate
         div(id='chart', style='margin:0;width:100%; height:1400px; border:1px solid')
         form(action='./circularParellar',method='post')
             div.container-fluid

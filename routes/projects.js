@@ -55,6 +55,14 @@ router.get('/topicnetwork/lda', function (req, res) {
     res.render('projects/topicnetwork/topicnetwork_lda')
 })
 
+router.get('/cosmovis/visualization/eng', function(req,res){
+    res.render('projects/Cosmovis/cosmovis_eng');
+})
+
+router.get('/cosmovis/visualization/kor', function(req,res){
+    res.render('projects/Cosmovis/cosmovis_kor');
+})
+
 router.get('/topicnetwork/twitViewer', function(req,res){
     db.select(2, function(err){
         db.keys('infos:time:*',function(err,rep){

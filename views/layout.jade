@@ -10,7 +10,6 @@ html
         link(rel='stylesheet', href='/stylesheets/node-tooltip.css')
         link(rel='stylesheet', href='/stylesheets/style.css', media='screen')
         link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-        //link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.min.css')
         link(rel='stylesheet', href='/stylesheets/CodeMirror/codemirror.css')
         link(rel='stylesheet', href='/stylesheets/CodeMirror/3024-day.css')
         link(rel='stylesheet', href='http://nvd3.org/assets/css/nv.d3.css')
@@ -27,7 +26,7 @@ html
 
 
     body
-        nav.navbar.navbar-inverse.navbar-static-top(style='border-radius:0px; padding:0px; margin:0px;')
+        div.navbar.navbar-inverse(style='border-radius:0px; padding:0px; margin:0px;')
             div.container
                 div.row
                     div.col-sm-6
@@ -61,7 +60,7 @@ html
                                 a(href='/projects') Projects
                             - }
 
-                    div.col-sm-5
+                    //div.col-sm-5
                         ul.nav.navbar-nav.pull-right
                             li
                                 a(href='/apis') Apis

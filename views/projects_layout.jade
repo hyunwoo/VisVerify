@@ -3,76 +3,181 @@
 
 extends layout
 block content
-    - if(unuseHeadImage == undefined || !unuseHeadImage){
-    div(style='width:100%; height:230px; background-image: url(/img/visualization/visualization_02.png);margin:-20px; background-size:cover;')
-        div.center
-            h2
-                a(style='margin-top:5cm') #
-                | &nbsp;Data Visulization
-            h4(style='color:#5f5f5f', align='center') asdfasdf
-    - }
+
+    style.
+        .affix {
+            top: 0;
+            width: 100%;
+        }
+
+    nav.navbar.navbar-inverse(style='border-radius:0px; padding:0px; margin:0px; z-index: 10;', data-spy='affix', data-offset-top='50')
+        div.container
+            div.row
+                ul.nav.navbar-nav
+                    li(role='presentation' class='dropdown')
+                        a.dropdown-toggle(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false') #
+                            | &nbsp;Topic Analysis
+                        ul.dropdown-menu
+                            li.dropdown-header # System
+
+                            li.disabled
+                                a
+                                    span(aria-hidden='true').glyphicon.glyphicon-compressed
+                                    | &nbsp;Korean LDA
+                            li.disabled
+                                a
+                                    span(aria-hidden='true').glyphicon.glyphicon-compressed
+                                    | &nbsp;English LDA
+                            li.divider
+                            li.dropdown-header # Visualization
+                            li
+                                a(href='/projects/topicnetwork/lda')
+                                    span(aria-hidden='true').glyphicon.glyphicon-triangle-right
+                                    | &nbsp;English Topic Networking
+
+                    // Cosmovis
+                    li(role='presentation' class='dropdown')
+                        a.dropdown-toggle(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false') #
+                            | &nbsp;Cosmovis
+                        ul.dropdown-menu
+                            li.dropdown-header # Visualization
+                            li
+                                a(href='/projects/Cosmovis/visualization/eng')
+                                    span(aria-hidden='true').glyphicon.glyphicon-triangle-right
+                                    | &nbsp;Cosmovis English
+                                a(href='/projects/Cosmovis/visualization/kor')
+                                    span(aria-hidden='true').glyphicon.glyphicon-triangle-right
+                                    | &nbsp;Cosmovis Korean
+
+                    // Logo
+                    li(role='presentation' class='dropdown')
+                        a.dropdown-toggle(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false') #
+                            | &nbsp;Logo Network
+                        ul.dropdown-menu
+                            li.dropdown-header # Prototype
+                            li
+                                a(href='/projects/logonetwork/filterednetwork')
+                                    span(aria-hidden='true').glyphicon.glyphicon-object-align-left
+                                    | &nbsp;Filtered Network
+                            li.divider
+                            li.dropdown-header # Visualization
+                            li
+                                a(href='/projects/logonetwork/circularParellar')
+                                    span(aria-hidden='true').glyphicon.glyphicon-triangle-right
+                                    | &nbsp;Circle Parellar
+
+                    // NWS
+
+
+                    // Pedigree
+                    li(role='presentation' class='dropdown')
+                        a.dropdown-toggle(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false') #
+                            | &nbsp;Pedigree
+                        ul.dropdown-menu
+                            li.dropdown-header # System
+                            li.divider
+                            li.dropdown-header # Prototype
+                            li
+                                a(href='/projects/Pedigree/Prototype/01')
+                                    span.glyphicon.glyphicon-object-align-left
+                                    | &nbspPrototype : Dendrogram
+                            li
+                                a(href='/projects/Pedigree/Prototype/01-1')
+                                    span.glyphicon.glyphicon-object-align-left
+                                    | &nbspPrototype : Dendrogram(Foldable)
+
+                            li
+                                a(href='/projects/Pedigree/Prototype/02')
+                                    span.glyphicon.glyphicon-object-align-left
+                                    | &nbspPrototype : Circle Packing
+                            li
+                                a(href='/projects/Pedigree/Prototype/03')
+                                    span.glyphicon.glyphicon-object-align-left
+                                    | &nbspPrototype : Circle Dendrogram
+                            li
+                                a(href='/projects/Pedigree/Prototype/04')
+                                    span.glyphicon.glyphicon-object-align-left
+                                    | &nbspPrototype : Forced Network
+                            li
+                                a(href='/projects/Pedigree/Prototype/05')
+                                    span.glyphicon.glyphicon-object-align-left
+                                    | &nbspPrototype : Sunburst
+                            li
+                                a(href='/projects/Pedigree/Prototype/06')
+                                    span.glyphicon.glyphicon-object-align-left
+                                    | &nbspPrototype : Linked Node
+                            li.divider
+                            li.dropdown-header # Visualization
+                    li(role='presentation' class='dropdown')
+                        a.dropdown-toggle(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false') #
+                            | &nbsp;Joseon Dynasty
+                        ul.dropdown-menu
+                            li.dropdown-header # System
+                            li
+                                a(href='/projects/joseondynasty/data')
+                                    span(aria-hidden='true').glyphicon.glyphicon-menu-hamburger
+                                    | &nbsp;Annals of the Joseon Dynasty's Data
+                            li.divider
+                            li.dropdown-header # Visualization
+                            li
+                                a(href='/projects/joseondynasty/eachking')
+                                    span(aria-hidden='true').glyphicon.glyphicon-triangle-right
+                                    | &nbsp;King's Tendency 01
+                            li
+                                a(href='/projects/joseondynasty/eachkingStackGraph')
+                                    span(aria-hidden='true').glyphicon.glyphicon-triangle-right
+                                    | &nbsp;King's Tendency 02
+                    li(role='presentation' class='dropdown')
+                        a.dropdown-toggle(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false') #
+                            | &nbsp;Twitter Mood
+                        ul.dropdown-menu
+                            li.dropdown-header # System
+                            li
+                                a(href='/projects/twittermood/sentiment')
+                                    span(aria-hidden='true').glyphicon.glyphicon-menu-hamburger
+                                    | &nbsp;Sentiment
+                            li.divider
+                            li.dropdown-header # Visualization
+                            li
+                                a(href='/projects/twittermood/multi_country')
+                                    span(aria-hidden='true').glyphicon.glyphicon-triangle-right
+                                    | &nbsp;Dual Country
+                            li
+                                a(href='/projects/twittermood/graphs')
+                                    span(aria-hidden='true').glyphicon.glyphicon-triangle-right
+                                    | &nbsp;Graphs
+
+
+
+                    li(role='presentation' class='dropdown')
+                        a.dropdown-toggle(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false') #
+                            | &nbsp;Lecture
+                        ul.dropdown-menu
+                            li
+                                a(href='/projects/sementicnode') Introduction
+                            li
+                                a(href='/projects/sementicnode/viewer') Tutorial 1
+
+
+                    //! ORIGINAL
+                    //li(role='presentation' class='dropdown')
+                        a.dropdown-toggle(data-toggle='dropdown', href='#', role='button', aria-haspopup='true', aria-expanded='false') #
+                            | &nbsp;Logo Network
+                        ul.dropdown-menu
+                            li.dropdown-header # System
+                            li.divider
+                            li.dropdown-header # Prototype
+                            li.divider
+                            li.dropdown-header # Visualization
+
+                            li
+                                a(href='/projects/logonetwork/circularParellar') Circle Parellar
+                            li
+                                a(href='/projects/logonetwork/filterednetwork') Filtered Network
 
     body
-        div.container
-            //(style='margin-left:30px; margin-right:30px')
-            div.row
-                div.col-lg-2.sidebar
-                    ul.nav.nav-list.sidenav( data-offset-top='140')
-                        h4
-                            a #
-                            | &nbsp;Topic Analysis
-                        li
-                            a(href='/projects/topicnetwork/lda') Topic Networking
-                        //li
-                            a(href='/projects/topicnetwork/twitViewer') Twitter Topics
-                        p(style='margin-bottom:20px')
-                        //
-                            li.active(style='margin-bottom:15px')
-
-                                a(href='/projects/joseondynasty') #1. Annals of the Joseon Dynasty
-                            li
-                                a(href='/projects/joseondynasty/data') Annals of the Joseon Dynasty's Data
-                            li
-                                a(href='/projects/joseondynasty/eachking') King's Tendency 01
-                            li
-                                a(href='/projects/joseondynasty/eachkingStackGraph') King's Tendency 02
-                        p(style='margin-bottom:20px')
-                        h4
-                            a #
-                            | &nbsp;Twitter Mood
-                        li
-                            a(href='/projects/twittermood/multi_country') Dual Country
-                        li
-                            a(href='/projects/twittermood/graphs') Graphs
-                        li
-                            a(href='/projects/twittermood/sentiment') Sentiment
-                        //li
-                        //    a(href='/projects/twittermood/worldmap') WorldMap
-                        p(style='margin-bottom:20px')
-                        h4
-                            a #
-                            | &nbsp;Logo Network
-                        li
-                            a(href='/projects/logonetwork/circularParellar') Circle Parellar
-                        li
-                            a(href='/projects/logonetwork/filterednetwork') Filtered Network
-                        h4
-                            a #
-                            | &nbsp;Cosmovis
-                        li
-                            a(href='/visualization/cosmovis') Viewer
-                        h4
-                            a #
-                            | &nbsp;Lecture
-                        li
-                            a(href='/projects/sementicnode') Introduction
-                        li
-                            a(href='/projects/sementicnode/viewer') Tutorial 1
-
-
-                div.col-lg-10(style='padding-top:40px')
-                    block body
-        p
+        block body
+    p
 
 
 

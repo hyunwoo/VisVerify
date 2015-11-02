@@ -37,6 +37,11 @@ h4 {
     font-size : 20px;
     font-family: 'Raleway' !important;
 }
+.texthead {
+    font-weight: 800;
+    color : #FF6600;
+    border-color:  #FF6600;
+}
 p {
     font-family: 'Raleway' !important;
     font-weight: 100;
