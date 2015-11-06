@@ -13,62 +13,227 @@ html
         link(rel='stylesheet', href='/stylesheets/CodeMirror/codemirror.css')
         link(rel='stylesheet', href='/stylesheets/CodeMirror/3024-day.css')
         link(rel='stylesheet', href='http://nvd3.org/assets/css/nv.d3.css')
-        //link(href='http://fonts.googleapis.com/css?family=Lato:300,700', rel='stylesheet', type='text/css')
+        link(rel='stylesheet', href='/lucust/css/lucust.css')
+        //link(href='/css/bootstrap.min.css', rel='stylesheet')
+        link(href='/css/fancybox/jquery.fancybox.css', rel='stylesheet')
+        //link(href='/css/jcarousel.css', rel='stylesheet')
+        //link(href='/css/flexslider.css', rel='stylesheet')
+        //link(href='/css/style.css', rel='stylesheet')
+        link(href='/skins/default.css', rel='stylesheet')
 
         script(src='/javascripts/bootstrap.min.js')
-        //script(src='/javascripts/javascripts/script.js')
         script(src='/javascripts/codemirror.js')
         script(src='http://d3js.org/d3.v3.min.js')
         script(src='http://felix-kling.de/JSNetworkX/javascripts/jsnetworkx.js')
         script(src='http://nvd3.org/assets/js/nv.d3.js')
         script(src='/javascripts/nodejs/node-tooltip.js')
-        link(rel='stylesheet', href='/lucust/css/lucust.css')
+        script(src='/js/sliiide.js')
+        script(src='/js/validate.js')
 
+
+    style.
+        body, html {
+            height: 100%;
+        }
+
+        nav.sidebar, .main {
+            padding : 0 0 0 0;
+            -webkit-transition: margin 200ms ease-out;
+            -moz-transition: margin 200ms ease-out;
+            -o-transition: margin 200ms ease-out;
+            transition: margin 200ms ease-out;
+        }
+
+        .main {
+            padding: 10px 10px 0 10px;
+        }
+
+        @media (min-width: 765px) {
+            .main {
+                position: relative;
+                width: calc(100% - 40px);
+                margin-left: 40px;
+                float: left;
+            }
+
+            nav.sidebar:hover + .main {
+                margin-left: 100px;
+            }
+
+            nav.sidebar.navbar.sidebar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+                margin-left: 0px;
+            }
+
+            nav.sidebar .navbar-brand, nav.sidebar .navbar-header {
+                text-align: center;
+                width: 100%;
+                margin-left: 0px;
+            }
+
+            nav.sidebar a {
+                padding-right:12px;
+
+            }
+
+            nav.sidebar .navbar-nav > li:first-child {
+                border-top: 1px #e5e5e5 solid;
+            }
+
+            nav.sidebar .navbar-nav > li {
+                border-bottom: 1px #e5e5e5 solid;
+            }
+
+            nav.sidebar .navbar-nav .open .dropdown-menu {
+                position: static;
+                float: none;
+                width: auto;
+                margin-top: 0;
+                background-color: transparent;
+                border: 0;
+                -webkit-box-shadow: none;
+                box-shadow: none;
+            }
+
+            nav.sidebar .navbar-collapse, nav.sidebar .container-fluid {
+                padding: 0 0px 0 0px;
+            }
+
+            .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+                color: #777;
+            }
+
+            nav.sidebar {
+                width: 200px;
+                height: 100%;
+                margin-left: -160px;
+                float: left;
+                margin-bottom: 0px;
+                background: linear-gradient(90deg, #2f2f2f 94%, #202020 100%);
+            }
+
+            nav.sidebar li {
+                width: 100%;
+            }
+
+            nav.sidebar:hover {
+                margin-left: 0px;
+            }
+
+            .forAnimate {
+                opacity: 0;
+            }
+        }
+
+        @media (min-width: 1330px) {
+
+            .main {
+                width: calc(100% - 200px);
+                margin-left: 200px;
+            }
+
+            nav.sidebar {
+                margin-left: 0px;
+                float: left;
+            }
+
+            nav.sidebar .forAnimate {
+                opacity: 1;
+            }
+        }
+
+        nav.sidebar .navbar-nav .open .dropdown-menu > li > a:hover, nav.sidebar .navbar-nav .open .dropdown-menu > li > a:focus {
+            color: #CCC;
+            background-color: transparent;
+        }
+
+        nav:hover .forAnimate {
+            opacity: 1;
+        }
+
+        section {
+            padding-left: 15px;
+        }
+        li.item {
+            margin : 5px 3px 5px 3px;
+            padding : 0px;
+        }
+        li.separator {
+            font-size : 10px;
+            margin-left:15px;
+            font-weight: 300;
+            padding-top: 5px;
+        }
+
+        span.small {
+            padding-top: 2px;
+
+            font-size : 12px;
+        }
 
     body
-        div.navbar.navbar-inverse(style='border-radius:0px; padding:0px; margin:0px;')
-            div.container
-                div.row
-                    div.col-sm-6
-                        ul.nav.navbar-nav
-                            - if(tab !== undefined && tab === 'home') {
-                            li.active
-                                a(href='/') Home
-                            - } else {
-                            li
-                                a(href='/') Home
-                            - }
-                            - if(tab !== undefined && tab === 'verify') {
-                            li.active
-                                a(href='/verify') Verify
-                            - } else {
-                            li
-                                a(href='/verify') Verify
-                            - }
-                            - if(tab !== undefined && tab === 'visualization') {
-                            li.active
-                                a(href='/visualization') Visualization
-                            - } else {
-                            li
-                                a(href='/visualization') Visualization
-                            - }
-                            - if(tab !== undefined && tab === 'projects') {
-                            li.active
-                                a(href='/projects') Projects
-                            - } else {
-                            li
-                                a(href='/projects') Projects
-                            - }
+        nav.navbar.navbar-default.sidebar(role='navigation')
+            .container-fluid
+                .navbar-header
+                    button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-sidebar-navbar-collapse-1')
+                        span.sr-only Toggle navigation
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                #bs-sidebar-navbar-collapse-1.collapse.navbar-collapse
+                    ul.nav.navbar-nav
+                        li
+                            a(href='#')
+                                | Home
+                                span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-home(style='font-size:16px;')
+                        li
+                            a.dropdown-toggle(href='#', data-toggle='dropdown')
+                                | Projects &nbsp;
+                                span.caret
+                                span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-user(style='font-size:16px;')
+                            ul.dropdown-menu.forAnimate(role='menu')
+                                li.item
+                                    a(href="{{URL::to('createusuario')}}") Cosmovis
+                                li.item
+                                    a(href='#') System
+                                li.item
+                                    a(href='#') Project
+                                li.separator Separated link
+                                li.item
+                                    a(href='#') Informes
+                        li
+                            a.dropdown-toggle(href='#', data-toggle='dropdown')
+                                | Researchs &nbsp;
+                                span.caret
+                                span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-th-list(style='font-size:16px;')
+                            ul.dropdown-menu.forAnimate(role='menu')
+                                li.item
+                                    a(href="{{URL::to('createusuario')}}") Cosmovis
+                                li.item
+                                    a(href='#') System
+                                li.item
+                                    a(href='#') Project
+                                li.separator Separated link
+                                li.item
+                                    a(href='#') Informes
+                        li
+                            a.dropdown-toggle(href='#', data-toggle='dropdown')
+                                | Systems &nbsp;
+                                span.caret
+                                span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-th-list(style='font-size:16px;')
 
-                    //div.col-sm-5
-                        ul.nav.navbar-nav.pull-right
-                            li
-                                a(href='/apis') Apis
-
-                            li
-                                a Sign In
-                            li
-                                a Sign Up
+                            ul.dropdown-menu.forAnimate(role='menu')
+                                li.item
+                                    a(href="{{URL::to('createusuario')}}") Cosmovis
+                                li.item
+                                    a(href='#') System
+                                li.item
+                                    a(href='#') Project
+                                li.separator Separated link
+                                li.item
+                                    a(href='#') Informes
+                        li
+                            a(href='#') Message
+                                span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-th-list(style='font-size:16px;')
 
     block content
     include ./footer.jade
