@@ -1,0 +1,107 @@
+//
+   Created by Luan on 15. 11. 10..
+
+extends ../../intro_layout
+//<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+block body
+    div.head
+        div(align='center' , style='margin-left:20px')
+            h4.fit.
+                LDA
+            h5.fit
+                c2.
+                    LDA Topic Modeling
+    div.container-fluid.content
+        p
+        div.center.c2.strike
+            span
+                h3
+                    span.glyphicon.glyphicon-bookmark(style='font-size:17px')
+                    | &nbsp;&nbsp;Overview
+        .space
+        div.row
+            div.col-lg-4
+                a.img-part.hvr-reveal(href='#', style='background-image: url("/img/apis/lda/abstract.png");')
+                    text.space.animated.wow.fadeIn
+                        h4.fit.c5 Overview
+                        h5.fit.c6 Download LDA Topic Modeling Document
+            div.col-lg-8.img-content
+                h4.light(style='line-height: 160%;font-size:15px').
+                    기본적인 LDA알고리즘을 이용하여 텍스트 토픽 마이닝을 진행합니다.
+                    <br>
+                    <br>
+                    형태소 분석과 일차적인 사전 작업 문제로 인하여 현재 한글텍스트만 분석이 가능합니다.
+                    <br>
+                    한글의 구조적 특성상 형태소 분석이 반드시 선행되어야 하므로 해당 기능은 추후 추가될 예정입니다.
+                p.double
+                h4
+                    div.strike.c4
+                        span Description
+                div.row
+                    div.col-lg-6
+                        h4.fit.light(style='line-height: 160%;font-size:15px').
+                            <br><strong> 사용방법 :</strong>
+                            <br>1. CNN, NYTimes, BBC등의 텍스트 데이터를 Example에 입력
+                            <br>2. 추출하고자 하는 토픽의 수를 Topic Count에 입력
+                            <br>3. 추출하고자하는 토픽그룹의 요소 갯수를 Topic Element Count 에 입력
+                    div.col-lg-6
+                        h4.fit.light(style='line-height: 160%;font-size:15px').
+                            <br><strong> 주의사항 : </strong>
+                            <br> 1. 알고리즘 상 기하급수적으로 구동시간이 길어지므로 긴 데이터를 입력시 반응시간이 오래걸릴 수 있음.
+                            <br> 2. 현재 영어 이외의 다른 언어는 사용할 수 없으므로 Lang 은 입력필요가 없음.
+
+        p.double
+        div.center.c3.strike
+            span
+                h3
+                    span.glyphicon.glyphicon-play-circle(style='font-size:17px')
+                    | &nbsp;&nbsp;Example
+        .space
+        div.row
+            h4
+                div.col-lg-9
+                    textarea#TextInput(style='width:100%; height:250px; padding-left : 10px', placeholder="(CNN) -- At least one person was killed as a 6.9-magnitude earthquake struck Monday morning in southern Mexico's Chiapas state near the border with Guatemala, authorities in Chiapas said. The quake happened at 6:23 a.m. (7:23 a.m. ET), about 1 mile from Puerto Madero, Mexico, which is on the country's Pacific coast. Strong shaking was felt in southern Chiapas state and western Guatemala, according to the U.S. Geological Survey. In the Chiapas town of Huixtla, about 30 miles (48 kilometers) to the north of the epicenter, a person died after a wall fell on him, Chiapas' state civil protection system said on Twitter on Monday. The quake damaged part of an airport in Tapachula, a Mexican city of about 300,000 people near the Guatemala border. Lights hung precariously by wires, and debris littered a floor, pictures that the city government posted to Twitter show. The epicenter was about 127 miles (204 kilometers) west of Guatemala's capital, Guatemala City. The depth of the quake was 37 miles, the USGS said. The USGS initially said the magnitude was 7.1. CNN's Jessica King and Jason Hanna contributed to this report.", align='center')
+                div.col-lg-3
+                    h5.fit(style='margin-bottom:5px') : Topic Count
+                    input#TopicCount(placehorder="4",style='width:100%; height : 30px; padding-left:10px;', type="number")
+                    h5.fit(style='margin-bottom:5px; margin-top:10px') : Topic Element Count
+                    input#TopicElementCount(style='width:100%; height : 30px;padding-left:10px', type="number", placehorder = '3')
+                    h5.fit(style='margin-bottom:5px; margin-top:10px;') : Lang (not support)
+                    input#Lang(style='width:100%; height : 30px;padding-left:10px', placeholder = "en",)
+                    p(style='height:10px')
+                    button.btn.btn-info(style='width:100%; height:60px;', onclick='onLDA()') Scrap
+        p.double
+        h4.c4.fit(style='margin-left:15px')
+            span.glyphicon.glyphicon-erase(style='font-size:17px')
+            | &nbsp;&nbsp;LDA Topic Modeling Result
+        div#result(style='margin:15px; ')
+            div.row
+                div.col-lg-8
+                    h5 Visualization :
+                    img(style='width:100%')#newsImage
+                div.col-lg-4
+                    h5 Json Output :
+                    pre
+                        h5.light#JSONOutput
+                p
+    script.
+        function onLDA() {
+            var text = document.getElementById('TextInput').value;
+            if (text == null || text == '')
+                text = document.getElementById('TextInput').placeholder;
+
+            var topic_count = Number(document.getElementById('TopicCount').value);
+            var topic_element_count = Number(document.getElementById('TopicElementCount').value);
+
+            console.log(text);
+            $.post('/apis/lda/topicmodeling', {
+                    text: text,
+                    topic_count: topic_count,
+                    topic_element_count: topic_element_count
+                },
+                function(d){
+                    console.log(d);
+                    document.getElementById('JSONOutput').innerHTML = JSON.stringify(d.topics,null,2);
+                })
+
+        }

@@ -75,21 +75,45 @@ html
                                 span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-cog(style='font-size:16px; margin-right:5px')
 
                             ul.dropdown-menu.forAnimate(role='menu')
+                                li.separator - System being developed
+                                li.item
+                                    a(href='#', style='font-size:14px') News Topic Modeling
+                                li.item
+                                    a(href='#', style='font-size:14px') Sementic Nodes
                                 li.separator - Visualize being developed
                                 li.item
-                                    a(href='#', style='font-size:14px') Network Samples
+                                    a(href='#', style='font-size:14px') Forced Network
                                 li.item
-                                    a(href='#', style='font-size:14px') MDS Samples
-                                li.separator - Functions being developed
+                                    a(href='#', style='font-size:14px') Network
                                 li.item
-                                    a(href='#', style='font-size:14px') Topic Analysis
+                                    a(href='#', style='font-size:14px') MDS
+
+
+                        li
+                            a.dropdown-toggle(href='#', data-toggle='dropdown', style='font-size:15px') APIs &nbsp;
+                                span.caret
+                                span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-object-align-bottom(style='font-size:16px; margin-right:5px')
+
+                            ul.dropdown-menu.forAnimate(role='menu')
+                                li.separator - Data
                                 li.item
-                                    a(href='#', style='font-size:14px') Twitter Crawler
+                                    a(href='/apis/sitescraper', style='font-size:14px') Site Scraper
                                 li.item
-                                    a(href='#', style='font-size:14px') Stemming
+                                    a(href='#', style='font-size:14px') Twitter Cralwer
+                                li.item
+                                    a(href='#', style='font-size:14px') Joseon Dynasty Database
+                                li.separator - Functions
+                                li.item
+                                    a(href='/apis/lda', style='font-size:14px') LDA
+                                li.item
+                                    a(href='#', style='font-size:14px') Korean Stemmer
+                                li.item
+                                    a(href='#', style='font-size:14px') English Stemmer
                         li
                             a(href='#', style='font-size:15px') Message
                                 span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-open(style='font-size:16px; margin-right:5px')
+
+
 
         body
             div(style="min-height:100%; height:100%")

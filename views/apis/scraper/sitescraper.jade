@@ -59,11 +59,67 @@ block body
         div.row
             h4
                 div.col-lg-9
-                    input(style='width:100%; height:100%; padding-left : 10px', placeholder="http://edition.cnn.com/2014/07/07/world/americas/mexico-earthquake/index.html", align='center')
+                    input#inputUrl(style='width:100%; height:100%; padding-left : 10px', placeholder="http://edition.cnn.com/2014/07/07/world/americas/mexico-earthquake/index.html", align='center')
                 div.col-lg-3
-                    button.btn.btn-info(style='width:100%; height:100%;') Scrap
+                    button.btn.btn-info(style='width:100%; height:100%;', onclick='onScrap()') Scrap
 
         p.double
         pre
-            h4.light.
-                Qui ut ceteros comprehensam. Cu eos sale sanctus eligendi, id ius elitr saperet, ocurreret pertinacia pri an. No mei nibh consectetuer, semper laoreet perfecto ad qui, est rebum nulla argumentum ei. Fierent adipisci iracundia est ei, usu timeam persius ea. Usu ea justo malis, pri quando everti electram ei, ex homero omittam salutatus sed.
+            h4.c4.fit(style='margin-left:15px')
+                span.glyphicon.glyphicon-erase(style='font-size:17px')
+                | &nbsp;&nbsp;Page Scrap Result
+            div#result(style='margin:15px; visibility:hidden')
+                div.row
+                    div.col-lg-4
+                        h5 Image :
+                        img(style='width:100%')#newsImage
+                    div.col-lg-8
+                        h5 Title :
+                        h5.light#newsTitle
+                        h5 Body :
+                        h5.light#newsBody
+                        h5 Image :
+                        h5.light#newImages
+                        h5 Video :
+                        h5.light#newsVideo
+
+                    p
+                h4
+                    legend
+                    h4.c4.fit
+                        span.glyphicon.glyphicon-align-left(style='font-size:17px')
+                        | &nbsp;&nbsp;Page Scrap Result
+                    h5.light#rawText(style='margin:15px').
+                        Qui ut ceteros comprehensam. Cu eos sale sanctus eligendi, id ius elitr saperet, ocurreret pertinacia pri an. No mei nibh consectetuer, semper laoreet perfecto ad qui, est rebum nulla argumentum ei. Fierent adipisci iracundia est ei, usu timeam persius ea. Usu ea justo malis, pri quando everti electram ei, ex homero omittam salutatus sed.
+    script.
+        var site = '';
+        function onScrap(){
+            site = document.getElementById('inputUrl').value;
+            if(site == null || site == '')
+                site = document.getElementById('inputUrl').placeholder;
+            console.log(site);
+
+            var url = "/apis/sitescraper/scrap?";
+            url = url + "url=" + site;
+            $.get(url, function(d){
+
+                var result = JSON.parse(d);
+                document.getElementById('result').style.visibility='visible';
+                document.getElementById('newsTitle').innerHTML = result.head;
+                document.getElementById('newsBody').innerHTML = result.body;
+                document.getElementById('newImages').innerHTML = result.images;
+                document.getElementById('newsVideo').innerHTML = result.videos;
+
+                console.log(result.images);
+                if(result.images === undefined){
+
+                } else {
+                    document.getElementById('newsImage').src = result.images;
+                }
+
+
+
+                console.log(result.head);
+                document.getElementById('rawText').innerHTML =  d;
+            })
+        }

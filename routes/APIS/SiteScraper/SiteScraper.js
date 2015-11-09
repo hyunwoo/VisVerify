@@ -34,8 +34,10 @@ router.get('/scrap', function(req,res){
         });
         return;
     } else {
-        site = req.url.split('site?url=')[1];
+        site = req.url.split('scrap?url=')[1];
     }
+
+    console.log(site);
     console.log(site);
     if(site === undefined){
         res.send({
@@ -71,7 +73,7 @@ router.get('/scrap', function(req,res){
                 result.images = data.image();
                 result.videos = data.videos();
                 result.success = true;
-                res.send("<pre>" + JSON.stringify(result,null,4) + "</pre>");
+                res.send( JSON.stringify(result,null,4));
             }
         });
 })

@@ -23,6 +23,7 @@ var route_Logonetwork = require('./routes/Projects/Logonetwork/logonetwork')
 var route_Topicmodeling = require('./routes/Systems/TopicNetwork/topicnetwork')
 // API
 var route_api_crawler = require('./routes/APIS/SiteScraper/SiteScraper')
+var route_api_lda = require('./routes/APIS/LDA/LDA')
 
 
 
@@ -66,6 +67,7 @@ app.use('/systems/topicmodeling', route_Topicmodeling);
 
 app.use('/apis', route_api);
 app.use('/apis/sitescraper', route_api_crawler);
+app.use('/apis/lda', route_api_lda);
 
 
 
