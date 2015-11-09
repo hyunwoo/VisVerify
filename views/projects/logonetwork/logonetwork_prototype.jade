@@ -1,14 +1,18 @@
 extends ../../projects_layout
 block body
+    div.head
+        div(align='center' , style='margin-left:20px')
+            h4.fit.
+                Logonetwork
+            h5.fit
+                c2.
+                    Prototype : Free Force Network
     div.container-fluid
-        h2
-            a #
-            |  FreeNetwork Prototype
-        svg(id='chart', style='margin:0;width:100%; height:500px; border:1px solid')
-        legend
-        h4
-            a #Data :
-            |  JSON Data
+        svg(id='chart', style='margin:0;width:100%; height:800px;' )
+        div(style='margin-left:25px')
+            h4
+                a #Data :
+                |  JSON Data
     style.
         .node {
             stroke: #fff;

@@ -16,10 +16,19 @@ var route_projects = require('./routes/projects');
 var route_sementicnode = require('./routes/Projects/SementicNode/sementicnode');
 var route_NWS = require('./routes/Projects/NWS/NWSAccidents');
 var route_Pedigree = require('./routes/Projects/Pedigree/Pedigree')
+var route_Cosmovis = require('./routes/Projects/Cosmovis/cosmovis')
+var route_Logonetwork = require('./routes/Projects/Logonetwork/logonetwork')
 
+// System
+var route_Topicmodeling = require('./routes/Systems/TopicNetwork/topicnetwork')
 // API
+var route_api_crawler = require('./routes/APIS/SiteScraper/SiteScraper')
+
+
+
 var route_api = require('./routes/apis');
 var users = require('./routes/users');
+
 
 var app = express();
 var busboy = require('connect-busboy'); //middleware for form/file upload
@@ -51,9 +60,15 @@ app.use('/projects', route_projects);
 app.use('/projects/sementicnode', route_sementicnode);
 app.use('/projects/NWS', route_NWS);
 app.use('/projects/Pedigree', route_Pedigree);
-
+app.use('/projects/cosmovis', route_Cosmovis);
+app.use('/projects/logonetwork', route_Logonetwork);
+app.use('/systems/topicmodeling', route_Topicmodeling);
 
 app.use('/apis', route_api);
+app.use('/apis/sitescraper', route_api_crawler);
+
+
+
 
 
 app.use(function (req, res, next) {

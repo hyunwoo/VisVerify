@@ -1,0 +1,69 @@
+extends ../../intro_layout
+//<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+block body
+    div.head
+        div(align='center' , style='margin-left:20px')
+            h4.fit.
+                News Site Scraper
+            h5.fit
+                c2.
+                    웹 사이트 스크래퍼
+    div.container-fluid.content
+        p
+        div.center.c2.strike
+            span
+                h3
+                    span.glyphicon.glyphicon-bookmark(style='font-size:17px')
+                    | &nbsp;&nbsp;Overview
+        .space
+        div.row
+            div.col-lg-4
+                a.img-part.hvr-reveal(href='#', style='background-image: url("/img/apis/sitescraper/abstract.png");')
+                    text.space.animated.wow.fadeIn
+                        h4.fit.c5 Overview
+                        h5.fit.c6 download Cosmovis PDF
+            div.col-lg-8.img-content
+                h4.light(style='line-height: 160%;font-size:15px').
+                    <br>
+                    뉴스 사이트의 헤드라인과 기사문, 사진 그리고 동영상을 스크랩 합니다. 사이트의 url을 입력하면 json 구조체로 데이터를 반환하며 한번에 한 기사에 대해서 스크랩을 진행합니다.
+                    본 기능은 HTML기반의 웹의 데이터를 읽은 이후 HTML의 CLASS와 ID를 이용하여 추출해 냅니다. 따라서 일반적인 구조로 되어있지 않은 사이트는 추가적인 작업을 필요로 합니다.
+                    특히 한국 사이트의 경우 인코딩과 외국사이트와의 뉴스 기사의 HTML구조가 다르고 또한 각 사이트별로 구조가 다르므로 각각 추가적인 작업을 필요로 합니다.
+                    지원 가능 사이트는 주기적으로 업데이트 될 예정입니다.
+                    <br>
+                    <br>
+
+                h4
+                    div.strike.c4
+                        span Description
+                div.row
+                    div.col-lg-6
+                        h4.fit.light(style='line-height: 160%;font-size:15px').
+                            <br><strong> 지원 사이트 :</strong>
+                            <br> CNN, BBC, NAVER, NATE, YAHOO 등은 동작을 보장합니다.
+                            <br> 이외의 사이트는 기본 알고리즘으로 스크랩을 진행합니다. 동작을 보장 할 수 없습니다.
+                            <br>
+                    div.col-lg-6
+                        h4.fit.light(style='line-height: 160%;font-size:15px').
+                            <br><strong> 구동 API : </strong>
+                            <br> <strong>api :</strong> /apis/sitescraper/scrap
+                            <br> <strong>parameter :</strong>
+                            <br> url : web site address
+
+        p.double
+        div.center.c3.strike
+            span
+                h3
+                    span.glyphicon.glyphicon-play-circle(style='font-size:17px')
+                    | &nbsp;&nbsp;Example
+        .space
+        div.row
+            h4
+                div.col-lg-9
+                    input(style='width:100%; height:100%; padding-left : 10px', placeholder="http://edition.cnn.com/2014/07/07/world/americas/mexico-earthquake/index.html", align='center')
+                div.col-lg-3
+                    button.btn.btn-info(style='width:100%; height:100%;') Scrap
+
+        p.double
+        pre
+            h4.light.
+                Qui ut ceteros comprehensam. Cu eos sale sanctus eligendi, id ius elitr saperet, ocurreret pertinacia pri an. No mei nibh consectetuer, semper laoreet perfecto ad qui, est rebum nulla argumentum ei. Fierent adipisci iracundia est ei, usu timeam persius ea. Usu ea justo malis, pri quando everti electram ei, ex homero omittam salutatus sed.

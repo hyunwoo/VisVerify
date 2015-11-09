@@ -5,6 +5,13 @@ block body
     script(src='/javascripts/cosmovis/SementicNodes_eng.js')
     script(src='/javascripts/cosmovis/cosmovis_data.js')
     script(src='/javascripts/cosmovis/hitmap.js')
+    div.head
+        div(align='center' , style='margin-left:20px')
+            h4.fit.
+                Cosmovis
+            h5.fit
+                c2.
+                    영화 감성어휘기반 시각화
     div.container-fluid(style='margin:0px; padding:0px')
         #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
             .modal-dialog(role='document')
@@ -17,7 +24,7 @@ block body
                             ,aria-valuemax="100" ,style="width:0%") 0% Complete (success)
                     .modal-footer
                         h5#modelContents(align='center') node & image data loading...
-        svg(id='chart', style='width:100%; border:1px solid' )
+        svg(id='chart', style='width:100%;' )
         style.
             circle {
 

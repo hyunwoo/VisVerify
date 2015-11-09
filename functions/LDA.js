@@ -12,6 +12,7 @@ exports.topics = function(text, topic_count, category_count){
         return result;
 
     } catch (e){
+        console.log(e);
         return null;
     }
 

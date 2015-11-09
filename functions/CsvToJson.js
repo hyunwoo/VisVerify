@@ -7,7 +7,6 @@ var fs = require("fs");
 exports.Parse = function(location,func){
     var fileStream = fs.createReadStream(location,  { encoding : 'utf-8' } );
     var csvConverter = new Converter({constructResult: true});
-    console.log('in:' + location);
     csvConverter.on("end_parsed", function (jsonObj) {
         func(jsonObj);
     });
@@ -16,9 +15,7 @@ exports.Parse = function(location,func){
 
 exports.ParseString = function(str, func){
     var csvConverter = new Converter({constructResult: true});
-
     csvConverter.on("end_parsed", function (jsonObj) {
-        console.log(jsonObj);
         func(jsonObj);
     });
 

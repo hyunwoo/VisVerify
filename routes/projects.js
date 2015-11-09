@@ -9,8 +9,6 @@ var router = express.Router();
 var busboy = require('connect-busboy');
 var path = require('path');
 var fs = require('fs-extra');
-var iconv = require('iconv-lite');
-iconv.extendNodeEncodings();
 var eachpagetwitcount = 500;
 var joseondynasity_eachcount = 100;
 var utf8 = require('utf8');
@@ -51,15 +49,11 @@ router.get('/', function (req, res) {
 });
 
 
-router.get('/topicnetwork/lda', function (req, res) {
-    res.render('projects/topicnetwork/topicnetwork_lda')
-})
-
-router.get('/cosmovis/visualization/eng', function(req,res){
+router.get('/cosmovis/visualization/old/eng', function(req,res){
     res.render('projects/Cosmovis/cosmovis_eng');
 })
 
-router.get('/cosmovis/visualization/kor', function(req,res){
+router.get('/cosmovis/visualization/old/kor', function(req,res){
     res.render('projects/Cosmovis/cosmovis_kor');
 })
 
@@ -97,111 +91,6 @@ router.get('/topicnetwork/twitViewer', function(req,res){
 })
 
 
-
-router.post('/topicnetwork/lda', function (req, res) {
-    console.log(req.body);
-    var category_count = req.body.category;
-    var topic_count = req.body.topic;
-    var document = req.body.document;
-
-
-    if (category_count === '') category_count = 2;
-    else category_count *= 1;
-    if (topic_count === '') topic_count = 5;
-    else topic_count *= 1;
-
-    var result = {
-        error: "OK",
-        output: {
-            topics: [],
-        },
-        data: document,
-        topic_count: topic_count,
-        category_count: category_count,
-        default_data: '',
-        network_data: '',
-        network_connection: ''
-
-    };
-    if (document === undefined || document === '') {
-        result.error = 'NODATA';
-        res.render('projects/topicnetwork/topicnetwork_lda', result)
-        return;
-    } else {
-        var lda_output = lda.topics(document, topic_count, category_count);
-        if (lda_output == null) {
-            result.error = 'NODATA';
-            res.render('projects/topicnetwork/topicnetwork_lda', result)
-            return;
-        }
-
-        var data = [];
-        var network_data_origin = []
-        var network_data = [];
-        var network_connection = [];
-
-        for (var i in lda_output) {
-            var row = lda_output[i];
-            var str = '';
-            var group = 'Topic ' + (parseInt(i) + 1);
-            str += group + '\n';
-
-            // For each term.
-            var saved_term = '';
-            for (var j in row) {
-                console.log(j);
-                var term = row[j];
-                var value = ((term.probability * 10).toFixed(2));
-                str += term.term + ' (' + value + ')\n';
-
-
-                data.push({
-                    value: value * 200,
-                    name: term.term,
-                    group: group,
-                })
-                if (network_data_origin[term.term] == null) {
-                    network_data_origin[term.term] = value * 100;
-                } else network_data_origin[term.term] += value * 100;
-
-
-                if (j * 1 != 0) {
-                    network_connection.push({
-                        source: term.term,
-                        target: saved_term
-                    })
-                } else {
-                    saved_term = term.term;
-                }
-
-
-            }
-            result.output.topics.push(str);
-
-        }
-
-
-        var keys = Object.keys(network_data_origin);
-        for (var i = 0; i < keys.length; i++) {
-            network_data.push({
-                name: keys[i],
-                size: network_data_origin[keys[i]],
-            })
-        }
-
-        console.log("NETWORK : ", network_data);
-        console.log("NETWORK CONNECTION: ", network_connection);
-        result.default_data = JSON.stringify(data);
-        result.network_data = JSON.stringify(network_data);
-        result.network_connection = JSON.stringify(network_connection);
-        console.log(result.output.topics);
-
-
-        res.render('projects/topicnetwork/topicnetwork_lda', result)
-    }
-
-
-})
 
 var kingsName = {};
 csvParser.Parse('./ProjectData/joseondynasty/kingsname.csv', function (data) {
@@ -466,136 +355,7 @@ router.get('/joseondynasty/network', function (req, res) {
     res.render('projects/joseondynasty/joseondynasty_network');
 });
 
-router.get('/logonetwork/circularParellar', function (req, res) {
-    var result = {};
-    result.tab = 'projects';
 
-    var total_data = {keys: []};
-    var result = {};
-    csvParser.Parse('./ProjectData/Logo/logo_data3_2.csv', function (object) {
-
-        for (var i = 0; i < object.length; i++) {
-            total_data[object[i].name] = object[i];
-            if (object[i].name != 'max' && object[i].name != 'node_color' &&
-                object[i].name != 'cat' && object[i].name != 'idx_name' && object[i].name != 'idx_name_korean')
-                total_data.keys.push(object[i].name);
-        }
-        console.log(total_data.keys);
-        console.log(total_data['max'].arg1)
-
-
-        result.default_data = JSON.stringify(total_data);
-        res.render('projects/logonetwork/logonetwork_circularParellar', result);
-    });
-
-})
-
-router.post('/logonetwork/circularParellar', function (req, res) {
-    try {
-        var result = {};
-        result.tab = 'projects';
-        var total_data = {keys: []};
-        console.log(req.body.data);
-
-        csvParser.ParseString(req.body.data, function (object) {
-            console.log(object);
-            for (var i = 0; i < object.length; i++) {
-                total_data[object[i].name] = object[i];
-                if (object[i].name != 'max' && object[i].name != 'node_color' &&
-                    object[i].name != 'cat' && object[i].name != 'idx_name' && object[i].name != 'idx_name_korean')
-                    total_data.keys.push(object[i].name);
-            }
-            result.default_data = JSON.stringify(total_data);
-            result.success = true;
-            res.render('projects/logonetwork/logonetwork_circularParellar', result);
-        });
-    } catch (e) {
-
-        var result = {};
-        result.tab = 'projects';
-
-        var total_data = {keys: []};
-        var result = {};
-        csvParser.Parse('./ProjectData/Logo/logo_data3_2.csv', function (object) {
-
-            for (var i = 0; i < object.length; i++) {
-                total_data[object[i].name] = object[i];
-                if (object[i].name != 'max' && object[i].name != 'node_color' &&
-                    object[i].name != 'cat' && object[i].name != 'idx_name' && object[i].name != 'idx_name_korean')
-                    total_data.keys.push(object[i].name);
-            }
-            console.log(total_data.keys);
-            console.log(total_data['max'].arg1)
-
-
-            result.default_data = JSON.stringify(total_data);
-            result.success = false;
-            res.render('projects/logonetwork/logonetwork_circularParellar', result);
-        });
-    }
-
-})
-
-
-router.get('/logonetwork', function (req, res) {
-    var result = {};
-    result.tab = 'projects';
-    res.render('projects_layout', result);
-});
-router.get('/logonetwork/multicamera', function (req, res) {
-    var result = {};
-    result.tab = 'projects';
-    res.render('projects/logonetwork/logonetwork_multicamera', result);
-})
-router.get('/logonetwork/filterednetwork', function (req, res) {
-    var result = {};
-    result.tab = 'projects';
-    res.render('projects/logonetwork/logonetwork_filtered', result);
-})
-router.get('/logonetwork/prototype01', function (req, res) {
-    var result = {};
-    result.tab = 'projects';
-
-    try {
-        csvParser.Parse('./ProjectData/Logo/logo_data01.csv', function (object) {
-            var data = require('../functions/CsvtoNetworkJSON').CsvToD3JSJSON(object, function (same, max) {
-                var result = Math.pow((same / max), 0.5);
-                if (result > 0.46) return result
-                else return 0;
-            });
-            result.default_data = JSON.stringify(data, null, 4);
-            res.render('projects/logonetwork/logonetwork_prototype', result);
-        })
-
-
-    } catch (e) {
-        console.log(e);
-        res.redirect('projects');
-    }
-
-})
-router.get('/logonetwork/prototype02', function (req, res) {
-    var result = {};
-    result.tab = 'projects';
-    try {
-        csvParser.Parse('./ProjectData/Logo/logo_data01.csv', function (object) {
-            var data = require('../functions/CsvtoNetworkJSON').CsvToSigmaJSON(object, function (same, max) {
-                var result = Math.pow((same / max), 0.5);
-
-                if (result < 0.5) return 0;
-                return result;
-            });
-            result.default_data = JSON.stringify(data, null, 4);
-            res.render('projects/logonetwork/logonetwork_prototype02', result);
-        })
-
-
-    } catch (e) {
-        console.log(e);
-        res.redirect('projects');
-    }
-
-})
 router.get('/twittermood/russells_model', function(req,res){
     res.render('projects/twittermood/twittermood_viewer');
 })

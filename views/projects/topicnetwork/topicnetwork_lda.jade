@@ -4,39 +4,15 @@ extends ../../projects_layout
 block body
     script(src='http://www.d3plus.org/js/d3.js')
     script(src='http://www.d3plus.org/js/d3plus.js')
+    div.head
+        div(align='center' , style='margin-left:20px')
+            h4.fit.
+                LDA Topic Modeling
+            h5.fit
+                c2.
+                    LDA 기반 토픽 네트워크 분석
     div.container
-        h2
-            a #
-            |  LDA TOPIC MODELING
-        legend
-        div.alert.alert-danger
-            h4
-                strong 영어 문서
-                | 에 대한 분석만 가능합니다.
-            h6.
-                사전적 의미를 통해 토픽모델링을 진행하는데 있어,
-                영어 문서의 경우 <strong> 소문자변환, 복수형제거, 불용어 처리</strong>를 수행하면 LDA 분석이 가능하지만,
-                한글과 같은 문자의 경우 <strong> 형태소 분석 이후 관사 및 조사 처리 </strong>가 선행되어야 하므로
-                해당 시스템에서는 현재 한글 분석을 지원하지 못하고 있습니다.
-                <br><br>
-            p
-            h4
-                strong 입력 문장이 긴 경우
-                | &nbsp;분석이 느려질 수 있습니다.
-            h6.
-                입력 문서 갈아에 따라서 <strong>LDA 연산이 기하급수적</strong>으로 늘어남에 따라, 긴 문서를 분석할 경우
-                분석 시간이 오래걸릴 수 있습니다. <strong>웹 브라우저가 응답 대기중</strong>인 경우, 분석이 진행중이므로 기다려주세요.
-        - if(output == null){
-            div.alert.alert-warning
-                h4
-                    strong 사용법
-                h6.
-                    1. 분석하고자 하는 문서를 아래 <strong>#Document탭의 입력창</strong>에 복사 합니다.<br>
-                    2. <strong>카테고리 수</strong>를 입력합니다.<br>
-                    3. 각 카테고리가 가지는 <strong>토픽의 수</strong>를 입력합니다.<br>
-                    4. <strong>분석 시작</strong> 버튼을 클릭합니다
-        - }
-        - if(error === 'NODATA') {
+        //- if(error === 'NODATA') {
             div.alert.alert-danger
                 h4
                     span.glyphicon.glyphicon-remove-sign
@@ -44,159 +20,72 @@ block body
                 h6
                     strong #Document
                     | 의 데이터가 입력되지 않았습니다.
-
-
-
-        - }
-        form(action='/projects/topicnetwork/lda',method='post')
-            div.bs-callout.bs-callout-info
-                div.row
-                    div.col-sm-3
-                        h5
-                            strong Topic Count
-                        input(type='text',value=topic_count,placeholder='2',name='topic' ,style='width:100%;height:30px;')
-                    div.col-sm-3
-                        h5
-                            strong Word Count
-                        input(type='text',value=category_count,placeholder='5',name='category',style='width:100%;height:30px;')
-                    div.col-sm-6
-                        button.btn.btn-primary(type='submit',style='width:100%;height:50px;margin:10px') 분석시작
-            label
-                a #
-                | &nbsp;Document
-            textarea(id='document',type='text',value=data,placeholder='  input document',name='document' , style='width:100%;height:350px')
-            p
-
-        - if(output != null) {
-            p
-            legend
-
-            label
-                a #
-                | &nbsp;Topics
-        -   for(var i = 0 , max = output.topics.length; i < max ; i += 3){
-            p
-            div.row
-                div.col-sm-4(style='height:250px')
-                    p
-                    h5 ##{i}
-                    pre(style='height:200px')
-                        - if(output.topics[i] != null){
-                            p #{output.topics[i]}
-
-
-                        - }
-                div.col-sm-4(style='height:250px')
-                    p
-                    h5 ##{i + 1}
-                    pre(style='height:200px')
-                        - if(output.topics[i + 1] != null){
-                            p #{output.topics[i + 1]}
-
-
-                        - }
-                div.col-sm-4(style='height:250px')
-                    p
-                    h5 ##{i + 2}
-                    pre(style='height:200px')
-                        - if(output.topics[i + 2] != null){
-                            p #{output.topics[i + 2]}
-
-
-                        - }
-
-        -   }
+        //- }
+        p.double
+        div.center.c.strike
+            span
+                h4
+                    span.glyphicon.glyphicon-tag(style='font-size:17px')
+                    | &nbsp;&nbsp;Notify
         p
-            legend
-            label
-                a #
-                | &nbsp;Topics Group
-            div(id='chart', style='margin:0;width:100%; height:500px; border:1px solid')
+        div.row
+            div.col-lg-6
+                h4.bold.c.
+                    영어문서 에 대한 분석만 가능합니다.
+                h5.
+                    사전적 의미를 통해 토픽모델링을 진행하는데 있어,
+                    영어 문서의 경우  소문자변환, 복수형제거, 불용어 처리를 수행하면 LDA 분석이 가능하지만,
+                    한글과 같은 문자의 경우  형태소 분석 이후 관사 및 조사 처리 가 선행되어야 하므로
+                    해당 시스템에서는 현재 한글 분석을 지원하지 못하고 있습니다.
+                    <br><br>
+                p
+                h4.bold.c.
+                    입력 문장이 긴 경우 분석이 느려질 수 있습니다.
+                h5.
+                    입력 문서 갈아에 따라서 LDA 연산이 기하급수적으로 늘어남에 따라, 긴 문서를 분석할 경우
+                    분석 시간이 오래걸릴 수 있습니다. 웹 브라우저가 응답 대기중인 경우, 분석이 진행중이므로 기다려주세요.
 
-            p
-            legend
-            label
-                a #
-                | &nbsp;Topics Network
-            div(id='viz', style='margin:0;width:100%; height:500px; border:1px solid')
-
-            p
-            legend
-            p
-            label
-                a #
-                | &nbsp;Group Data
-            textarea(id='text',style='resize:none; width:100%; border:1px solid') #{default_data}
-            p
-            label
-                a #
-                | &nbsp;Topics Network Node Data
-            textarea(id='network_data',style='resize:none; width:100%; border:1px solid') #{network_data}
-            p
-            label
-                a #
-                | &nbsp;Topics Network Connection Data
-            textarea(id='network_connection',style='resize:none; width:100%; border:1px solid') #{network_connection}
-            script.
-                var G_DATA;
-                var NetworkData;
-                var NetworkConnection;
-                function codemirror(area) {
-                    return CodeMirror(function (elt) {
-                                area.parentNode.replaceChild(elt, area);
-                            },
-                            {
-                                value: area.value,
-                                lineNumbers: true,
-                                lineWrapping: true,
-                                theme: '3024-day',
-                            });
-
-                }
-                $(function onLoad() {
-
-                    G_DATA = document.getElementById("text").value;
-                    NetworkData = document.getElementById("network_data").value;
-                    NetworkConnection = document.getElementById("network_connection").value;
-                    var myTextArea = document.getElementById("text");
-                    var taNetworkData = document.getElementById("network_data");
-                    var taNetworkConnection = document.getElementById("network_connection");
-                    codemirror(myTextArea);
-                    codemirror(taNetworkData);
-                    codemirror(taNetworkConnection);
-
-
-
-
-                    var sample_data = JSON.parse(G_DATA);
-                    // instantiate d3plus
-                    var visualization = d3plus.viz()
-                            .container("#chart")     // container DIV to hold the visualization
-                            .data(sample_data)     // data to use with the visualization
-                            .type("bubbles")       // visualization type
-                            .id(["group", "name"]) // nesting keys
-                            .depth(1)              // 0-based depth
-                            .size("value")         // key name to size bubbles
-                            .color("group")        // color by each group
-                            .draw()
-                    var network_data = JSON.parse(NetworkData);
-                    var connections =JSON.parse(NetworkConnection);
-
-                    var visualization = d3plus.viz()
-                        .container("#viz")
-                        .type("network")
-                        .data(network_data)
-                        .edges(connections)
-                        .size("size")
-                        .id("name")
-                        .draw()
-                });
-
-
-        - }
-
-
-
+            div.col-lg-6
+                h4
+                    strong 사용법
+                h5.black.
+                    1. 분석하고자 하는 문서를 아래 #Document탭의 입력창에 복사 합니다.<br>
+                    2. 카테고리 수를 입력합니다.<br>
+                    3. 각 카테고리가 가지는 토픽의 수를 입력합니다.<br>
+                    4. 분석 시작 버튼을 클릭합니다
+        p.triple
+        div.center.c4.strike
+            span
+                h4
+                    span.glyphicon.glyphicon-log-in(style='font-size:17px')
+                    | &nbsp;&nbsp;Inputs
+        div
+            form(action='/projects/topicnetwork/lda',method='post')
+                div(style='height:150px')
+                    div.row
+                        div.col-lg-8
+                            div
+                                h5.fit Site
+                                input(type='text',value=topic_count,placeholder='2',name='topic' ,style='width:100%;height:30px;margin-top:5px;margin-bottom:5px;')
+                            div.row
+                                div.col-sm-6
+                                    h5.fit Topic Count
+                                    input(type='text',value=topic_count,placeholder='2',name='topic' ,style='width:100%;height:30px;margin-top:5px;margin-bottom:5px;')
+                                div.col-sm-6
+                                    h5.fit Word Count
+                                    input(type='text',value=category_count,placeholder='5',name='category',style='width:100%;height:30px;margin-top:5px;margin-bottom:5px;')
+                        div.col-lg-4
+                            button.btn.btn-primary(type='submit',style='width:100%;height:85px;margin-top:20px') 분석시작
+        label
+            a #
+            | &nbsp;Document
+        textarea(id='document',type='text',value=data,placeholder='  input document',name='document' , style='width:100%;height:250px')
+        p.double
+        div.center.c4.strike
+            span
+                h4
+                    span.glyphicon.glyphicon-tag(style='font-size:17px')
+                    | &nbsp;&nbsp;Result
 
 
 

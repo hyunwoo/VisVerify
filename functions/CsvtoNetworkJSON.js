@@ -51,7 +51,6 @@ exports.CsvToSigmaJSON = function (inCsv,calc) {
                 }
             }
             var link_value = calc(samely, x_count);
-            console.log(inCsv[i][0] + " - " + inCsv[j][0] + ' : [ ' + link_value + ' ] ');
             if (link_value != 0) {
                 result.edges.push({
                     id : "e"+edgeCount,
@@ -60,7 +59,6 @@ exports.CsvToSigmaJSON = function (inCsv,calc) {
                     size: link_value,
                     color : '#ccc'
                 })
-                console.log(edgeCount);
                 edgeCount ++;
             }
         }
@@ -101,7 +99,6 @@ exports.CsvToD3JSJSON = function (inCsv, calc) {
                 }
             }
             var link_value = calc(samely, x_count);
-            console.log(inCsv[i][0] + " - " + inCsv[j][0] + ' : [ ' + link_value + ' ] ');
             if (link_value != 0) {
                 result.links.push({
                     source: i,
