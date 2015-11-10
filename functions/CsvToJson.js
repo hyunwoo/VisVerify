@@ -20,6 +20,6 @@ exports.ParseString = function(str, func){
     });
 
     csvConverter.fromString(str, function (jsonObj) {
-        //func(jsonObj);
+        func(jsonObj);
     });
 }

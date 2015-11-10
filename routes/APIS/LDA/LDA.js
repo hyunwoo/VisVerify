@@ -1,9 +1,7 @@
 /**
  * Created by Luan on 15. 11. 10..
  */
-/**
- * Created by Luan on 15. 11. 9..
- */
+
 var express = require('express');
 var router = express.Router();
 var request = require('request').defaults({maxRedirects: 25});
@@ -26,8 +24,6 @@ router.get('/', function (req, res) {
     res.render('apis/lda/lda');
 
 });
-
-
 
 
 

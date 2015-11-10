@@ -25,22 +25,16 @@ html
         link(rel='stylesheet', href='/stylesheets/CodeMirror/codemirror.css')
         link(rel='stylesheet', href='/stylesheets/CodeMirror/3024-day.css')
         link(rel='stylesheet', href='http://nvd3.org/assets/css/nv.d3.css')
-        link(rel='stylesheet', href='/lucust/css/lucust.css')
+        link(rel='stylesheet', href='/css/lucust.css')
         link(rel='stylesheet', type='text/css', href='/css/owl.transitions.css')
         link(rel='stylesheet', type='text/css', href='/css/owl.carousel.css')
         link(rel='stylesheet', type='text/css', href='/css/animate.css')
         link(rel='stylesheet', type='text/css', href='/css/hoveranimation.css')
 
+
     body#body
         header
-            nav.navbar.navbar-default.sidebar.desktop( role='navigation', data-spy='affix', data-offset-top='-10' , style='z-index:100')
-                .container-fluid
-                    .navbar-header
-                        button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-sidebar-navbar-collapse-1')
-                            span.sr-only Toggle navigation
-                            span.icon-bar
-                            span.icon-bar
-                            span.icon-bar
+            nav.navbar.navbar-default.sidebar( role='navigation', data-spy='affix', data-offset-top='-10' , style='z-index:100')
                 #bs-sidebar-navbar-collapse-1.collapse.navbar-collapse
                     ul.nav.navbar-nav
                         li

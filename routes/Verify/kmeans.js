@@ -85,7 +85,6 @@ csvparse.Parse('./exampleData/sentimental_tfidf_normalize_csv.csv', function (da
 
 })*/
 
-var kmeans = require('node-kmeans');
 /* GET home page. */
 
 module.exports = router;
