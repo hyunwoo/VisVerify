@@ -66,6 +66,7 @@ router.get('/kmeans', function(req,res){
     res.send(output);
 })
 
+
 router.get('/DBScan', function(req,res){
     console.log("IN DBScan")
     var output = DBScan(dataset,5);
