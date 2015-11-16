@@ -72,9 +72,6 @@ app.use('/apis/lda', route_api_lda);
 app.use('/apis/cluster', route_api_cluster);
 
 
-
-
-
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
@@ -107,6 +104,12 @@ app.use(function (err, req, res, next) {
 
 // here Test
 
+
+
+var regression = require('regression');
+var data = [[0,1,0],[32, 67,3], [12, 79,5]];
+var result = regression('linear', data);
+console.log(result);
 
 return;
 

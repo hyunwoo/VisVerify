@@ -1,7 +1,6 @@
 /**
  * Created by Luan on 15. 11. 10..
  */
-
 var express = require('express');
 var router = express.Router();
 var request = require('request').defaults({maxRedirects: 25});
@@ -14,7 +13,6 @@ var jsdom = require('jsdom');
 var request = require('request');
 var url = require('url');
 
-
 extractor = require('unfluff');
 
 module.exports = router;
@@ -24,8 +22,6 @@ router.get('/', function (req, res) {
     res.render('apis/lda/lda');
 
 });
-
-
 
 function ProcessLDA(text, topic_count, topic_element_count){
     var output = lda.topics(text, topic_count, topic_element_count);
