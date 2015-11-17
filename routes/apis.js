@@ -210,11 +210,8 @@ router.get('/twitter/searchDate' , function(req,res){
 
 })
 router.get('/twitter/infos', function (req, res) {
-
     res.send("asdf");
     res.end();
-
-
 
 })
 

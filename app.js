@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var route_kmeans = require('./routes/Verify/kmeans');
 var route_verify = require('./routes/verify');
 var route_visualization = require('./routes/visualization');
 var crossdomain = require('crossdomain');
@@ -52,7 +51,6 @@ app.use(cookieParser());
 app.use(cors());
 
 app.use('/', routes);
-app.use('/kmeans', route_kmeans);
 app.use('/users', users);
 //app.use('/visualization/network', route_visual_network);
 //app.use('/visualization/streamgraph', route_visual_stream);
@@ -104,12 +102,6 @@ app.use(function (err, req, res, next) {
 
 // here Test
 
-
-
-var regression = require('regression');
-var data = [[0,1,0],[32, 67,3], [12, 79,5]];
-var result = regression('linear', data);
-console.log(result);
 
 return;
 

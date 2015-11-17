@@ -26,6 +26,14 @@ router.get('/', function (req, res) {
 
 });
 
+
+/*
+var regression = require('regression');
+var data = [[0,1,0],[32, 67,3], [12, 79,5]];
+var result = regression('linear', data);
+console.log(result);
+*/
+
 router.get('/scrap', function(req,res){
     var site ;
     if(req.url.indexOf('?url=') == -1){

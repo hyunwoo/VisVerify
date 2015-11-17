@@ -447,6 +447,7 @@ li.separator {
     float: right;
     margin-top: 270px;
     padding-right: 20px;
+    padding-top : 10px;
     color: #3f3f3f;
     text-align: right;
 }
@@ -465,6 +466,25 @@ li.separator {
 
 text.space{
     padding-top: 10px;
+}
+
+
+
+.radio {
+    text-align-all: center;
+    padding : 10px;
+    align : center;
+}
+
+.border {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #7f7f7f;
+
+}
+
+pre {
+    border-radius: 0px;
 }
 
 

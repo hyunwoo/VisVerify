@@ -64,7 +64,6 @@ function ProcessLDA(text, topic_count, topic_element_count){
                 console.log(j + " : " + sentences[i]);
         }
     }
-
 }
 
 router.post('/topicmodeling' , function(req,res){
