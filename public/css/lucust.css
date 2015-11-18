@@ -513,6 +513,9 @@ div.line {
     background-color: #FFFFFF;
 }
 
+html {
+    height : 100%;
+}
 h1 > c,
 h2 > c,
 h3 > c,
@@ -544,6 +547,9 @@ p > c {
 }
 .c6 {
     color: #dfdfdf;
+}
+.c7 {
+    color: #DD0000;
 }
 
 h1 > c2,

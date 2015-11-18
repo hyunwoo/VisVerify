@@ -42,15 +42,11 @@ router.post('/KMeans', function (req, res) {
 
     result.type = "KMeans";
     result.group_count = kmeans_result.means.length;
-    console.log(meanCount + " , " + meanIter);
-    console.log(JSON.stringify(result, null, 4));
     delete kmans_result;
     delete km;
     delete result.index;
     delete result.col_count;
     delete result.data_count;
-
-
     res.send(result);
 })
 
@@ -112,10 +108,6 @@ router.post('/Optics', function (req, res) {
     res.send(result);
 })
 
-
-var data = "Name, val1, val2, val3\nOpt1, -21 , 2,5\nOpt2, 3 , 5,9\nOpt3, 5 , 5,12\nOpt4, 6 , 4,3";
-
-//CsvToData(data);
 function CsvToData(data) {
     var datas = data.split('\n');
     var result = {
@@ -144,37 +136,4 @@ function CsvToData(data) {
 
 
     return result;
-}
-
-
-function DBScan(dataset, neighborRadius, pointsCount) {
-    var dbscan = new clustering.DBSCAN();
-    var clusters = dbscan.run(dataset, 5, 2);
-    console.log(clusters);
-    console.log(dbscan.noise);
-    return {
-        cluster: clusters,
-        plot: dbscan.noise,
-    }
-}
-
-function Optics(dataset, neighborRadius, pointsCount) {
-    var optics = new clustering.OPTICS();
-    // parameters: 6 - neighborhood radius, 2 - number of points in neighborhood to form a cluster
-    var clusters = optics.run(dataset, 6, 2);
-    var plot = optics.getReachabilityPlot();
-    console.log(clusters);
-    console.log(plot);
-    return {
-        cluster: clusters,
-        plot: plot,
-    }
-}
-function Kmeans(dataset, group_count) {
-    var kmeans = new clustering.KMEANS();
-    // parameters: 3 - number of clusters
-    var clusters = kmeans.run(dataset, group_count);
-    return {
-        cluster: clusters,
-    }
 }

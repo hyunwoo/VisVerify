@@ -24,7 +24,7 @@ var route_Topicmodeling = require('./routes/Systems/TopicNetwork/topicnetwork')
 var route_api_crawler = require('./routes/APIS/SiteScraper/SiteScraper')
 var route_api_lda = require('./routes/APIS/LDA/LDA')
 var route_api_cluster = require('./routes/APIS/Cluster/cluster')
-
+var route_CRC = require('./routes/Projects/CRC/crc')
 
 
 var route_api = require('./routes/apis');
@@ -62,6 +62,7 @@ app.use('/projects/NWS', route_NWS);
 app.use('/projects/Pedigree', route_Pedigree);
 app.use('/projects/cosmovis', route_Cosmovis);
 app.use('/projects/logonetwork', route_Logonetwork);
+app.use('/projects/crc', route_CRC);
 app.use('/systems/topicmodeling', route_Topicmodeling);
 
 app.use('/apis', route_api);
