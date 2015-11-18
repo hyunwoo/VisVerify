@@ -8,11 +8,11 @@ module.exports = router;
 
 router.get('/', function(req,res){
     console.log("in");
-    res.render('projects/crc/crc_main');
+    res.render('projects/CRC/crc_main');
 })
 
 router.get('/visualization/prototype01', function(req,res){
-    res.render('projects/crc/crc_proto01');
+    res.render('projects/CRC/crc_proto01');
 })
 
 router.get('/visualization/kor', function(req,res){
