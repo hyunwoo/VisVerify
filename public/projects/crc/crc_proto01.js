@@ -133,6 +133,8 @@ var text = g.selectAll(".text")
     .attr("dy", ".35em")
     .style("font-size", nominal_text_size + "px")
 
+
+
 if (text_center)
     text.text(function (d) {
             return d.id;
