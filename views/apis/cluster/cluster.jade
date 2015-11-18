@@ -131,10 +131,13 @@ block body
 
         // create the chart
         var svg;
+        var data = [];
         function updateGraphic(d) {
             var chart;
-
-            var data = [];
+            if(svg != null)
+                svg.remove();
+            delete data;
+            data = [];
 
             var shapes = ['thin-x', 'circle', 'cross', 'triangle-up', 'triangle-down', 'diamond', 'square'],
                     random = d3.random.normal();
@@ -175,8 +178,6 @@ block body
                     values: []
                 };
 
-
-
                 for (var j = 0; j < d.cluster.noise.length; j++) {
                     var name = d.cluster.noise[j];
 
@@ -201,8 +202,6 @@ block body
 
 
             nv.addGraph(function () {
-                if(svg != null)
-                    svg.remove();
 
                 chart = nv.models.scatterChart()
                         .showDistX(true)

@@ -81,7 +81,6 @@ router.post('/DBScan', function (req, res) {
 
     result.type = "DBScan";
     delete result.index;
-    console.log(JSON.stringify(result));
     res.send(result);
 })
 
@@ -97,14 +96,9 @@ router.post('/Optics', function (req, res) {
     if (radius == 0) radius = 2;
     if (points == 0) points = 1;
 
-    console.log(radius + " , " + points);
     var clusters = optics.run(result.matrix, radius, points);
     var plot = optics.getReachabilityPlot();
-    console.log(clusters);
-    console.log(plot);
-    console.log("output : ", clusters, plot);
     result.cluster.nodes = [];
-    console.log(clusters);
     for (var i = 0; i < clusters.length; i++) {
         var group = [];
         for (var j = 0; j < clusters[i].length; j++) {

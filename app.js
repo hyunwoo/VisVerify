@@ -102,17 +102,127 @@ app.use(function (err, req, res, next) {
 
 // here Test
 
+return;
+var corr = require('matrix-correlation');
 
+var A = [
+    [0,0,0],
+    [54,54,54],
+];
+
+var B = [
+    [0,0,0],
+    [108,108,108],
+];
+
+
+
+var pcorr = require( 'compute-pcorr' );
+
+var x = [ 1, 2, 3, 4, 5 ],
+    y = [ 5, 4, 3, 2, 1 ];
+
+var mat = pcorr( x, y );
+console.log(mat);
+
+function isNumber(s) {
+    s += ''; // 문자열로 변환
+    s = s.replace(/^\s*|\s*$/g, ''); // 좌우 공백 제거
+    if (s == '' || isNaN(s)) return false;
+    return true;
+}
+
+
+var matrix = [];
+var LineByLineReader = require('line-by-line'),
+    lr = new LineByLineReader('./carddata/buydata.csv');
+
+lr.on('error', function (line) {
+
+});
+
+var count = 0 ;
+var rawData = [];
+lr.on('line', function (line) {
+    var datas = line.split(',');
+    if(!isNumber(datas[1])) return;
+    var data = [];
+    for(var i = 4 ; i < 14 ; i ++){
+        data.push(Number(datas[i]));
+    }
+    matrix.push(data);
+    rawData.push(datas);
+    count ++;
+
+});
+
+lr.on('end', function (line) {
+    var out = pcorr(matrix);
+    console.log('total count : ' + count);
+    var outData = '';
+
+    var nodes = [];
+    var links = [];
+
+    for(var i = 0 ; i < 500 ; i ++){
+        nodes.push({
+            name : rawData[i][2] + "_" + i,
+            group : Math.floor(i / 50),
+        })
+    }
+
+    for(var i = 0 ; i < out.length ; i ++){
+        for(var j = 0 ; j < out[i].length ; j ++){
+            outData += ""+ out[i][j];
+            var eff = Math.pow(Number(out[i][j]) , 5) * 5;
+            if( i != j){
+                if( eff > 4.9){
+                    links.push({
+                        source : i,
+                        target : j,
+                        value :Math.random(),
+                    })
+                }
+            }
+            if(j != out[i].length - 1){
+                outData += ',';
+            } else {
+                outData += '\n';
+            }
+        }
+    }
+
+
+
+
+    console.log(links);
+
+
+    var NetworkData = {
+        nodes : nodes,
+        links : links,
+    }
+
+    fs.writeFile('./output/NetworkData_1117.json', JSON.stringify(NetworkData, null, 4), function(err) {
+        if(err) throw err;
+        console.log('File write completed');
+    });
+
+
+    fs.writeFile('./output/correlationcoefficient.csv', outData, function(err) {
+        if(err) throw err;
+        console.log('File write completed');
+    });
+
+
+});
 return;
 
 var iconv = require('iconv-lite');
 iconv.extendNodeEncodings();
 var Iconv  = require('iconv').Iconv;
-
 var euckr2utf8 = new Iconv('EUC-KR', 'UTF-8');
 var utf82euckr = new Iconv('UTF-8', 'EUC-KR');
-
-
 
 var fileName = "DMS_SALES_EST_AGE_201304.TXT";
 var outFile = fileName + "_OUTPUT.json"
@@ -127,7 +237,6 @@ lr.on('error', function (err) {
     // 'err' contains error object
     console.log(err);
 });
-
 
 
 var count = 0;
@@ -188,6 +297,7 @@ lr.on('line', function (line) {
         result[purchase_data.pos][purchase_data.kind].w50 = Number(purchase_data.w50) + Number(result[purchase_data.pos][purchase_data.kind].w20);
         result[purchase_data.pos][purchase_data.kind].w60 = Number(purchase_data.w60) + Number(result[purchase_data.pos][purchase_data.kind].w20);
     }
+
 
 });
 
