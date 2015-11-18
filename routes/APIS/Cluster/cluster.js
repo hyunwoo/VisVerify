@@ -132,6 +132,8 @@ function CsvToData(data) {
             result.data[values[0]][keys[j]] = Number(values[j]);
         }
         result.matrix.push(each);
+
+
     }
 
 

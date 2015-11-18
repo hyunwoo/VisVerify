@@ -12,11 +12,18 @@ block body
                 c2.
                     단백질 유전자의 네트워크 시각화
     div#renderer(style='width:100%;height:80vh')
-    div.row
-        div.col-sm-6
-            div#canvas1
-        div.col-sm-6
-            div#canvas2
+    div(style='position:absolute;right:30px; top:100px; width:100px; background:#3f3f3f;')
+        input#StartIndex(placehorder="4",style='width:100px; height : 30px; padding-left:10px;border-width:2px;border-color:#3f3f3f', type="number")
+        h5.c6.light.fit.center(style='font-size:12px').
+            input 1 ~ 14000
+        p
+        div
+            button.btn.btn-warning(type='button', style='width:100px', onclick='onClick()') 100
+        div
+            button.btn.btn-warning(type='button', style='width:100px', onclick='onClick()') 250
+        div
+            button.btn.btn-warning(type='button', style='width:100px', onclick='onClick()') 1000
+
     style.
         body {
             overflow: hidden;
@@ -29,3 +36,16 @@ block body
         }
     script(src='/projects/crc/tempdata.js')
     script(src='/projects/crc/crc_proto01.js')
+    script.
+        function onClick() {
+            var val = document.getElementById('StartIndex').value;
+            if(val === undefined || val == "") val = 0;
+
+            console.log("on! : " + val);
+
+            $.get('/projects/crc/get', function(d){
+                tempdata = d;
+                render();
+            })
+
+        }
