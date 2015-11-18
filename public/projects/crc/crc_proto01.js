@@ -22,6 +22,7 @@ function render() {
     var min_score = 0;
     var max_score = 1;
 
+
     var color = d3.scale.linear()
         .domain([min_score, (min_score + max_score) / 2, max_score])
         .range(["lime", "yellow", "red"]);
