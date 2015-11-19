@@ -30,7 +30,7 @@ var tempdata = {
         {"size": 10, "score": 0.2, "id": "Chenjesu", "type": "circle"},
         {"size": 60, "score": 0.4, "id": "Ilwrath", "type": "circle"},
         {"size": 10, "score": 0.6, "id": "Mycon", "type": "circle"},
-        {"size": 111, "score": 11.8, "id": "Spathi", "type": "circle"},
+        {"size": 511, "score": 11.8, "id": "Spathi", "type": "circle"},
         {"size": 10, "score": 1, "id": "Umgah", "type": "circle"},
         {"size": 60, "score": 0, "id": "Guardian", "type": "square"},
         {"size": 10, "score": 0.2, "id": "Broodhmome", "type": "square"},

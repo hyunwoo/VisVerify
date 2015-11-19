@@ -10,13 +10,18 @@
  * sigma behaves when instantiated in a weird and heavy configuration.
  */
 
+var noLinkHide = false;
+
+var svg;
+
 function render() {
+    if (svg != null) svg.remove();
     var w = document.getElementById('renderer').offsetWidth;
     var h = document.getElementById('renderer').offsetHeight;
 
     var focus_node = null, highlight_node = null;
 
-    var text_center = false;
+    var text_center = true;
     var outline = false;
 
     var min_score = 0;
@@ -25,9 +30,9 @@ function render() {
 
     var color = d3.scale.linear()
         .domain([min_score, (min_score + max_score) / 2, max_score])
-        .range(["lime", "yellow", "red"]);
+        .range(["#9A3E25", "#E3Ba22", "#156B90"]);
 
-    var highlight_color = "blue";
+    var highlight_color = "#9A3E25";
     var highlight_trans = 0.1;
 
     var size = d3.scale.pow().exponent(1)
@@ -35,24 +40,24 @@ function render() {
         .range([8, 24]);
 
     var force = d3.layout.force()
-        .linkDistance(60)
-        .charge(-300)
+        .linkDistance(130)
+        .charge(-100)
         .size([w, h]);
 
-    var default_node_color = "#ccc";
-//var default_node_color = "rgb(3,190,100)";
-    var default_link_color = "#888";
-    var nominal_base_node_size = 8;
-    var nominal_text_size = 10;
+    var default_node_color = "#bbb";
+    var default_link_color = "#bbb";
+    var nominal_base_node_size = 2;
+    var nominal_text_size = 5;
     var max_text_size = 24;
-    var nominal_stroke = 1.5;
+    var nominal_stroke = 0.5;
     var max_stroke = 4.5;
     var max_base_node_size = 36;
     var min_zoom = 0.1;
     var max_zoom = 7;
-    var svg = d3.select("#renderer").append("svg");
+    svg = d3.select("#renderer").append("svg");
     svg.style('height', h);
-    var zoom = d3.behavior.zoom().scaleExtent([min_zoom, max_zoom])
+    var zoom = d3.behavior.zoom().scaleExtent([min_zoom, max_zoom]).on("zoomend", onZoomEnd)
+
     var g = svg.append("g");
     svg.style("cursor", "move");
 
@@ -75,28 +80,30 @@ function render() {
         .data(tempdata.links)
         .enter().append("line")
         .attr("class", "link")
-        .style("stroke-width", nominal_stroke)
         .style("stroke", function (d) {
             if (isNumber(d.score) && d.score >= 0) return color(d.score);
             else return default_link_color;
         })
+
+    var drag = force.drag()
+        .on("dragstart", dragstart);
 
 
     var node = g.selectAll(".node")
         .data(tempdata.nodes)
         .enter().append("g")
         .attr("class", "node")
-        .call(force.drag)
+        .call(drag)
+        .on("dblclick", dblclick)
 
 
-    node.on("dblclick.zoom", function (d) {
-        d3.event.stopPropagation();
-        var dcx = (window.innerWidth / 2 - d.x * zoom.scale());
-        var dcy = (window.innerHeight / 2 - d.y * zoom.scale());
-        zoom.translate([dcx, dcy]);
-        g.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + zoom.scale() + ")");
+    function dragstart(d) {
+        d3.select(this).classed("fixed", d.fixed = true);
+    }
 
-    });
+    function dblclick(d) {
+        d3.select(this).classed("fixed", d.fixed = false);
+    }
 
 
     var tocolor = "fill";
@@ -105,7 +112,6 @@ function render() {
         tocolor = "stroke"
         towhite = "fill"
     }
-
 
     var circle = node.append("path")
         .attr("d", d3.svg.symbol()
@@ -135,19 +141,18 @@ function render() {
     if (text_center)
         text.text(function (d) {
             return d.id;
-        })
-            .style("text-anchor", "middle");
+        }).style("text-anchor", "middle")
     else
         text.attr("dx", function (d) {
-            return (size(d.size) || nominal_base_node_size);
-        })
+                return (size(d.size) || nominal_base_node_size);
+            })
             .text(function (d) {
                 return '\u2002' + d.id;
             });
 
     node.on("mouseover", function (d) {
-        set_highlight(d);
-    })
+            set_highlight(d);
+        })
         .on("mousedown", function (d) {
             d3.event.stopPropagation();
             focus_node = d;
@@ -155,16 +160,16 @@ function render() {
             if (highlight_node === null) set_highlight(d)
 
         }).on("mouseout", function (d) {
-            exit_highlight();
+        exit_highlight();
 
-        });
+
+    });
 
     d3.select(window).on("mouseup",
         function () {
             if (focus_node !== null) {
                 focus_node = null;
                 if (highlight_trans < 1) {
-
                     circle.style("opacity", 1);
                     text.style("opacity", 1);
                     link.style("opacity", 1);
@@ -172,7 +177,9 @@ function render() {
             }
 
             if (highlight_node === null) exit_highlight();
+
         });
+
 
     function exit_highlight() {
         highlight_node = null;
@@ -187,6 +194,8 @@ function render() {
             }
 
         }
+
+        ;
     }
 
     function set_focus(d) {
@@ -229,14 +238,14 @@ function render() {
 
         var stroke = nominal_stroke;
         if (nominal_stroke * zoom.scale() > max_stroke) stroke = max_stroke / zoom.scale();
-        link.style("stroke-width", stroke);
+        //link.style("stroke-width", stroke);
         circle.style("stroke-width", stroke);
 
         var base_radius = nominal_base_node_size;
         if (nominal_base_node_size * zoom.scale() > max_base_node_size) base_radius = max_base_node_size / zoom.scale();
         circle.attr("d", d3.svg.symbol()
             .size(function (d) {
-                return Math.PI * Math.pow(size(d.size) * base_radius / nominal_base_node_size || base_radius, 2);
+                return Math.PI * Math.pow(size(d.size * 0.5) * base_radius / nominal_base_node_size || base_radius, 2);
             })
             .type(function (d) {
                 return d.type;
@@ -259,7 +268,6 @@ function render() {
     d3.select(window).on("resize", resize);
 
     force.on("tick", function () {
-
         node.attr("transform", function (d) {
             return "translate(" + d.x + "," + d.y + ")";
         });
@@ -268,8 +276,8 @@ function render() {
         });
 
         link.attr("x1", function (d) {
-            return d.source.x;
-        })
+                return d.source.x;
+            })
             .attr("y1", function (d) {
                 return d.source.y;
             })
@@ -281,8 +289,8 @@ function render() {
             });
 
         node.attr("cx", function (d) {
-            return d.x;
-        })
+                return d.x;
+            })
             .attr("cy", function (d) {
                 return d.y;
             });
@@ -298,8 +306,70 @@ function render() {
     }
 
 
+    var zoomBefore = 0;
+
+    function onZoomEnd() {
+        if (zoomBefore < 1.6 && zoom.scale() > 1.6)
+            textHideByZoom();
+        else if (zoomBefore > 1.6 && zoom.scale() < 1.6) {
+            textHideByZoom();
+        }
+        zoomBefore = zoom.scale();
+    }
+
+
+    function textHideByZoom() {
+
+        if (zoom.scale() > 1.6) {
+            text.transition().style('opacity', function (d) {
+                if (!noLinkHide) {
+                    if (d.size == 1) return '0';
+                    else return '1';
+                } else return '1';
+            });
+        } else
+            text.transition().style('opacity', function (d) {
+                return '0';
+            });
+
+    }
+
+
     function isNumber(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
+
+
+    noLinkNodeHideMode();
+    textHideByZoom();
+    function noLinkNodeHideMode() {
+        if (noLinkHide) {
+            node.attr('display', function (d) {
+                if (d.size == 1) return 'none';
+                else return 'visibility';
+            });
+
+            text.attr('display', function (d) {
+                if (d.size == 1) return 'none';
+                else return 'visibility';
+            });
+        } else {
+            node.attr('display', function (d) {
+                if (d.size == 1) return 'visibility';
+                else return 'visibility';
+            });
+
+            text.attr('display', function (d) {
+                if (d.size == 1) return 'visibility';
+                else return 'visibility';
+            });
+        }
+        noLinkHide = !noLinkHide;
+
+    }
+
+    render.noLinkNodeHideMode = noLinkNodeHideMode;
 }
+
+
 

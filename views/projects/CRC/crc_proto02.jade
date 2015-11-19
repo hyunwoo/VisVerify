@@ -23,26 +23,57 @@ block body
             button.btn.btn-warning(type='button', style='width:100px', onclick='onPressGetData2()') 500
         div
             button.btn.btn-warning(type='button', style='width:100px', onclick='onPressGetData3()') 1000
-        div
-            button.btn.btn-danger(type='button', style='width:100px', onclick='onPressNoLink()') NO LINK
 
     style.
-        body {
-            overflow: hidden;
-            margin: 0;
+        .node {
+            font-size: 3px;
+            font-family: inherit;
+
+            fill: #000;
+            opacity : .4;
         }
 
-        text {
-            font-family: inherit;
+        .node:hover {
+            fill: #FF0000;
+            opacity : 1.0;
+            font-weight : 600;
+            font-size : 4px;
+        }
+
+        .link {
+            stroke: #688BAB;
+            stroke-opacity: .5;
+            stroke-width : 0.2px;
+            fill: none;
             pointer-events: none;
         }
-        .link {
-            stroke-width : .45px;
+
+        .node:hover,
+        .node--source,
+        .node--target {
+            font-weight: 600;
+            opacity : 1.0;
         }
 
-    script(src='/projects/crc/tempdata.js')
-    script(src='/projects/crc/crc_proto01.js')
+        .node--source ,
+        .node--target {
+            fill: #EA842A;
+        }
+
+        .link--source,
+        .link--target {
+            stroke-opacity: 1;
+            stroke-width: 0.4px;
+        }
+        .link--target ,
+        .link--source {
+            stroke: #E25A42;
+        }
+
+    script(src='/projects/crc/temp_data_proto2.js')
+    script(src='/projects/crc/crc_proto02.js')
     script.
+        getNetworkData(500);
         function onPressGetData1() {
             getNetworkData(250);
         }
@@ -55,18 +86,15 @@ block body
             getNetworkData(1000);
         }
 
-        function getNetworkData(count){
+        function getNetworkData(count) {
             var val = document.getElementById('StartIndex').value;
             if (val === undefined || val == "") val = 0;
-            var url ='/projects/crc/getOriginNetwork?start=' + val + '&count=' + count;
+            var url = '/projects/crc/getBundleData?start=' + val + '&count=' + count;
             console.log(url);
             $.get(url, function (d) {
-                tempdata = d;
-                render();
+                console.log(JSON.stringify(d,null,4));
+                if(d.success)
+                    render(d.data);
             })
         }
-        function onPressNoLink(){
-            render.noLinkNodeHideMode();
-        }
 
-        getNetworkData(250);
