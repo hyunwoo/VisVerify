@@ -27,7 +27,6 @@ function render() {
     var min_score = 0;
     var max_score = 1;
 
-
     var color = d3.scale.linear()
         .domain([min_score, (min_score + max_score) / 2, max_score])
         .range(["#9A3E25", "#E3Ba22", "#156B90"]);
@@ -69,7 +68,6 @@ function render() {
     function isConnected(a, b) {
         return linkedByIndex[a.index + "," + b.index] || linkedByIndex[b.index + "," + a.index] || a.index == b.index;
     }
-
 
     force
         .nodes(tempdata.nodes)

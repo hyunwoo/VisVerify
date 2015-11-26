@@ -40,17 +40,16 @@ router.get('/Prototype/06', function(req,res){
 })
 
 
+console.log(__dirname);
 return;
 fs.readFile(__dirname + '/data/data.xml', function(err, data) {
     parser.parseString(data, function (err, result) {
-
 
         var StartIndex = 8;
         var EndIndex = 16;
         var Nodes = [];
 
         var maxDepth = 0;
-
 
         result.graphml.graph[0].node.forEach(function(node){
             var Node = {};
@@ -106,7 +105,6 @@ fs.readFile(__dirname + '/data/data.xml', function(err, data) {
         var Sources = [];
         var Flare = {};
 
-
         Flare.name = Flats[StartIndex].name;
         Flare.size = 1;
         Flare.children = [];
@@ -150,14 +148,10 @@ fs.readFile(__dirname + '/data/data.xml', function(err, data) {
 
         var string = JSON.stringify(Flare, null, 4);
 
-
         fs.writeFile('/Users/Luan/Develop/WebPages/VIS/VisVerify/public/projects/Pedigree/data/data.json', string, function(err) {
             if(err) throw err;
             console.log('File write completed');
         });
-
-
-
 
         var Network_Data = [];
         var NetworkDataNames = {};
@@ -188,7 +182,6 @@ fs.readFile(__dirname + '/data/data.xml', function(err, data) {
 
                 NetworkDataNames[keySource] = 1;
                 NetworkDataNames[keyTarget] = 1;
-
 
                 Network_Connection.push({
                     source : getId(source.name,source.id),

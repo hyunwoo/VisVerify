@@ -74,16 +74,20 @@ block body
         h4.c4.fit(style='margin-left:15px')
             span.glyphicon.glyphicon-erase(style='font-size:17px')
             | &nbsp;&nbsp;LDA Topic Modeling Result
-        div#result(style='margin:15px; ')
+
+        div#result(style='margin:15px;')
             div.row
                 div.col-lg-8
                     h5 Visualization :
-                    img(style='width:100%')#newsImage
+                    div(style='width:100%;height:400px;')#renderer
+                    p(style='height:20px')
+                    div(style='width:100%;height:400px;')#renderer2
                 div.col-lg-4
                     h5 Json Output :
-                    pre
+                    pre(style='width:100%;height:830px;')
                         h5.light#JSONOutput
                 p
+    script(src='/d3plus/js/d3plus.full.js')
     script.
         function onLDA() {
             var text = document.getElementById('TextInput').value;
@@ -95,13 +99,54 @@ block body
 
             console.log(text);
             $.post('/apis/lda/topicmodeling', {
-                    text: text,
-                    topic_count: topic_count,
-                    topic_element_count: topic_element_count
-                },
-                function(d){
-                    console.log(d);
-                    document.getElementById('JSONOutput').innerHTML = JSON.stringify(d.topics,null,2);
-                })
+                        text: text,
+                        topic_count: topic_count,
+                        topic_element_count: topic_element_count
+                    },
+                    function (d) {
+                        console.log(d);
+                        document.getElementById('JSONOutput').innerHTML = JSON.stringify(d.topics, null, 2);
+
+                        var topics = d.topics;
+                        // sample data array
+                        var sample_data = [];
+                        var data = [];
+                        for (var i = 0; i < topics.length; i++) {
+                            for (var j = 0; j < topics[i].length; j++) {
+                                sample_data.push({
+                                    value: topics[i][j].probability,
+                                    name: topics[i][j].term,
+                                    group: 'group ' + i,
+                                })
+                                data.push({
+                                    value: topics[i][j].probability,
+                                    name: topics[i][j].term,
+                                })
+                            }
+                        }
+                        // instantiate d3plus
+                        var visualization = d3plus.viz()
+                                .container("#renderer")     // container DIV to hold the visualization
+                                .data(sample_data)     // data to use with the visualization
+                                .type("bubbles")       // visualization type
+                                .id(["group", "name"]) // nesting keys
+                                .depth(1)              // 0-based depth
+                                .size("value")         // key name to size bubbles
+                                .color("group")        // color by each group
+                                .draw()                // finally, draw the visualization!
+
+
+
+
+                        var visualization2 = d3plus.viz()
+                                .container("#renderer2")  // container DIV to hold the visualization
+                                .data(data)  // data to use with the visualization
+                                .type("tree_map")   // visualization type
+                                .id("name")         // key for which our data is unique on
+                                .size("value")      // sizing of blocks
+                                .draw()             // finally, draw the visualization!
+
+                    })
+
 
         }

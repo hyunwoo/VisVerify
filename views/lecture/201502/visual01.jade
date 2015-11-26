@@ -1,0 +1,27 @@
+extends ../../intro_layout
+//<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+block body
+    div.head
+        div(align='center' , style='margin-left:20px')
+            h4.fit.
+                CRC - Free Forced Network
+            h5.fiter
+                c2.
+                    단백질 유전자의 네트워크 시각화
+    div#renderer(style='width:100%;height:100vh;background-color: #ffffff;' )
+    //#loadingBar
+        .outerBorder
+            #text 0%
+            #border
+                #bar
+
+    link(rel='stylesheet', href='/css/vis.css')
+    script(src='/js/vis.js')
+    script(src='/lecture/201502/data/edges.js')
+    script(src='/lecture/201502/data/nodes.js')
+    script(src='/lecture/201502/vis_network.js')
+    script.
+        console.log('in');
+        renderer();
+        renderer.render();
+

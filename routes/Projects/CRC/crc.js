@@ -9,15 +9,12 @@ var db = redis.createClient(16801, "202.30.24.169");
 var sortBy = require('sort-by');
 module.exports = router;
 
-
 var noLinkedOpacity;
-
 
 router.get('/', function (req, res) {
     console.log("in");
     res.render('projects/CRC/crc_main');
 })
-
 
 router.get('/visualization/prototype01', function (req, res) {
     res.render('projects/CRC/crc_proto01');
@@ -32,7 +29,6 @@ router.get('/visualization/prototype03', function (req, res) {
     res.render('projects/CRC/crc_proto03');
 })
 
-
 router.get('/getOriginNetwork', function (req, res) {
     console.log("GET CRC DATA");
     var start = Number(req.query.start);
@@ -46,7 +42,6 @@ router.get('/getOriginNetwork', function (req, res) {
         res.send(d);
     })
 })
-
 
 router.get('/getVisNetwork', function (req, res) {
     console.log("GET CRC DATA");
@@ -75,8 +70,6 @@ router.get('/getBundleData', function (req, res) {
         res.send(d);
     })
 })
-
-
 
 //getCRCToNetworkData(1, 500, function(d){ console.log(d) })
 function getCRCToNetworkData(start,count, func){
@@ -151,7 +144,7 @@ function getCRCToNetworkData(start,count, func){
 
 }
 
-getCRCToVisNetworkData(10, 10, function(d){ console.log(d) })
+//getCRCToVisNetworkData(10, 10, function(d){ console.log(d) })
 function getCRCToVisNetworkData(start,count, func){
     var multi = db.multi();
 
@@ -218,12 +211,7 @@ function getCRCToVisNetworkData(start,count, func){
                     isChecked = true;
                 }
             }
-            if(!isChecked){
-                connections.push({
-                    source: Number(source),
-                    target: Number(10),
-                });
-            }
+
         }
 
         var notConnectList = [];
@@ -312,7 +300,6 @@ function getCRCToBundleData(start,count, func){
 
         }
         points.sort(sortBy('convert_name', 'score'));
-        console.log(points);
 
         var result = {
             success: true,

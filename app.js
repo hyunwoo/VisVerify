@@ -25,6 +25,8 @@ var route_api_crawler = require('./routes/APIS/SiteScraper/SiteScraper')
 var route_api_lda = require('./routes/APIS/LDA/LDA')
 var route_api_cluster = require('./routes/APIS/Cluster/cluster')
 var route_CRC = require('./routes/Projects/CRC/crc')
+var route_Lecture_201502 = require('./routes/Lecture/201502/lecture_201502')
+
 
 
 var route_api = require('./routes/apis');
@@ -69,6 +71,7 @@ app.use('/apis', route_api);
 app.use('/apis/sitescraper', route_api_crawler);
 app.use('/apis/lda', route_api_lda);
 app.use('/apis/cluster', route_api_cluster);
+app.use('/lecture/201502/visual01', route_Lecture_201502);
 
 
 app.use(function (req, res, next) {
