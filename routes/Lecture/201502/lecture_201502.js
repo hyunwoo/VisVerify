@@ -41,6 +41,8 @@ group_reader.on('line', function (line) {
 
 });
 
+
+
 line_reader.on('line', function (line) {
     var datas = line.split('\t');
     lineVectors[line_counts] = [];
