@@ -130,6 +130,7 @@ function renderer() {
             }
         }
 
+
         setTimeout(addNode(idxs),1000);
     }
 
