@@ -86,6 +86,20 @@ var server = email.server.connect({
 
 });
 
+exports.ColorSet = [
+    '#a0a0a0',
+    '#ec5411',
+    '#0b977e',
+    '#db962e',
+    '#0783a0',
+    '#6686b7',
+    '#b890aa',
+    '#a06090',
+    '#9c2370',
+    '#c4292b',
+
+];
+
 
 exports.sendEmail = function(title, body) {
     server.send({

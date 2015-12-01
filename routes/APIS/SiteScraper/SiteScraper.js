@@ -87,7 +87,6 @@ router.get('/scrap', function(req,res){
 })
 
 
-
 router.get('/api/lda', function (req, res) {
     var category_count = req.query.category;
     var topic_count = req.query.topic;

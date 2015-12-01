@@ -1,0 +1,304 @@
+//
+   Created by Luan on 2015. 11. 19..
+
+//
+   Created by Luan on 2015. 11. 18..
+
+extends ../../intro_layout
+//<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+block body
+    div(style='width:100%;height:100vh')
+        div.head(style='width:100%;left:0px;position:absolute;z-index:1')
+            div(align='center' , style='margin-left:20px')
+                h4.fit.
+                    Integrated Design LAB - Free Forced Network with UpSet System
+                h5.fiter
+                    c2.
+                        단백질 유전자의 네트워크 시각화
+        div#renderer(style='position:absolute;left:0px;width:100%;height:100vh;background-color: #222222;z-index:0;' )
+        div#upset.lucustscroll.borderSmooth(style='position:absolute;left:70px; top:80px; width:200px; height:450px; background-color:#2f2f2f;')
+        div#selectElements.lucustscroll(style='position:absolute;right:0; top:0px; width:250px; height:100vh;overflow-y: scroll; background-color:#1f1f1f')
+            div(style='height:80px;width:100%;background-color:#1f1f1f')
+            div#items(style='width:100%;background-color:#1f1f1f;')
+
+
+    #modal.modal.fade(tabindex='-1', role='dialog',data-keyboard="false" data-backdrop="static")
+        .modal-dialog
+            .modal-content(style='margin-top:150px;background-color:#ffffff;border-radius:0px')
+                .modal-header
+                    h3.light(align='center',style='margin-top:0px;font-size:34px') Integrated Design LAB
+                    h4(align='center') Free Forced Network with UpSet System
+                    p <br>
+                    legend
+                    h1.bold.fit#progressText(align='center') 35%
+                    h4.light.fit(align='center') Protein Gene Data Set : Load 3000 to 3900
+                    h5.light.fit#message(align='center') request to server.
+                    p <br><br>
+                    legend
+                    p
+                    h5.light.fit(align='center') powered by H.Hyunwoo, &nbsp;&nbsp;contact : h.hyunwoo@gmail.com
+                    p
+
+    style.
+
+        .borderSmooth {
+            border : solid;
+            border-width: 1px;
+            border-color : #8f8f8f;
+        }
+        .grouplist {
+
+        }
+
+        .circle {
+            alignment: center;
+            background: #f00;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            color: #fff;
+        }
+
+        .item {
+            color: #3f3f3f;
+            border-style: solid;
+            border-left-width: 5px;
+            border-top-width: 0px;
+            border-bottom-width: 0px;
+            border-right-width: 0px;
+            font-size: 20px;
+            margin: 0px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            padding: 0px;
+            padding-left: 10px;
+            padding-top : 5px;
+            padding-bottom : 5px;
+            -webkit-transition: border-left-width 0.2s;
+            transition: border-left-width 0.2s;
+        }
+
+        .item:hover {
+            border-left-width: 15px;
+        }
+
+        .g0 {
+            border-left-color: #636363;
+            color: #636363;
+        }
+
+        .g1 {
+            border-left-color: #ec5411;
+            color: #ec5411;
+        }
+
+        .g2 {
+            border-left-color: #0b977e;
+            color: #0b977e;
+        }
+
+        .g3 {
+            border-left-color: #db962e;
+            color: #db962e;
+        }
+
+        .g4 {
+            border-left-color: #0783a0;
+            color: #0783a0;
+        }
+
+        .g5 {
+            border-left-color: #6686b7;
+            color: #6686b7;
+        }
+
+        .g6 {
+            border-left-color: #b890aa;
+            color: #b890aa;
+        }
+
+        .g7 {
+            border-left-color: #a06090;
+            color: #a06090;
+        }
+
+        .g8 {
+            border-left-color: #9c2370;
+            color: #9c2370;
+        }
+
+        .g9 {
+            border-left-color: #c4292b;
+            color: #c4292b;
+        }
+
+        .item > desc {
+            color: #eeeeee;
+            font-size: 15px;
+        }
+
+        #bar {
+            position: absolute;
+            top: 0px;
+            left: 100px;
+            width: 20px;
+            height: 5px;
+            margin: auto auto auto auto;
+            border-radius: 2px;
+            background: #EA8f00; /* Old browsers */
+        }
+
+        #loadingBar {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 902px;
+            height: 902px;
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+            opacity: 1;
+        }
+
+        #border {
+            position: absolute;
+            top: 10px;
+            left: 110px;
+            width: 500px;
+            height: 23px;
+            margin: auto auto auto auto;
+        }
+
+        #text {
+            position: relative;
+            top: 30px;
+            left: 230px;
+            width: 30px;
+            height: 50px;
+            margin: auto 150px auto auto;
+            font-size: 15px;
+            color: #000000;
+        }
+
+        div.outerBorder {
+            position: relative;
+            top: 300px;
+            width: 600px;
+            height: 44px;
+            margin: auto auto auto auto;
+        }
+
+
+
+    script.
+        function setDescription(s){
+            document.getElementById("message").innerHTML = s;
+        }
+        function setProgress(p){
+            console.log('set P : ' + p)
+            //document.getElementById("progressbar").style.width = p +"%";
+            document.getElementById("progressText").innerHTML = p +"%";
+
+        }
+        function modalOff(){
+            $('#modal').modal('hide');
+        }
+
+        setProgress(0);
+        function deleteList() {
+            var list = document.getElementById("items");
+            var childLength = list.childNodes.length;
+            var elementsParent = document.getElementById('selectElements');
+            elementsParent.style.visibility='hidden'
+            for (var i = childLength - 1; i >= 0; i--)
+                list.removeChild(list.childNodes[i]);
+        }
+
+        function appendListItem(node) {
+            var baseItems = document.getElementById('items');
+            var elementsParent = document.getElementById('selectElements');
+            elementsParent.style.visibility='visible'
+            var item = document.createElement('div');
+            var itemClass = 'item g' + node.category;
+            item.setAttribute('class', itemClass);
+            item.innerHTML = node.label;
+
+            var desc = document.createElement('desc');
+            desc.innerHTML = "Influence : " + node.value;
+            var p = document.createElement('p');
+            p.setAttribute('class', 'fit');
+            item.appendChild(p);
+            item.appendChild(desc);
+
+            var desc = document.createElement('desc');
+            var p = document.createElement('p');
+            var text = 'Partial : ';
+            for(var i = 0 ; i < node.partialCategory.length ; i ++){
+                text += node.partialCategory[i].toFixed(1) ;
+                if(i != node.partialCategory.length - 1) text += ", ";
+            }
+            desc.innerHTML = text;
+            p.setAttribute('class', 'fit');
+            item.appendChild(p);
+            item.appendChild(desc);
+
+
+            baseItems.appendChild(item);
+        }
+        var ColorSet = [
+            '#636363',
+            '#ec5411',
+            '#0b977e',
+            '#db962e',
+            '#0783a0',
+            '#6686b7',
+            '#b890aa',
+            '#a06090',
+            '#9c2370',
+            '#c4292b',
+        ];
+
+
+
+    link(rel='stylesheet', href='/css/vis.css')
+    script(src='/js/vis.js')
+    script(src='/projects/crc/crc_upset_window.js')
+    script(src='/projects/crc/crc_vis_network_origin.js')
+    script.
+        upset();
+        renderer();
+        $('#modal').modal('show');
+        getNetworkData(900);
+        function onPressGetData1() {
+            getNetworkData(250);
+        }
+
+        function onPressGetData2() {
+            getNetworkData(500);
+        }
+
+        function onPressGetData3() {
+            getNetworkData(1000);
+        }
+        function onPressGetData4() {
+            getNetworkData(2000);
+        }
+        function getNetworkData(count) {
+            var url = '/projects/crc/getVisNetwork?start=' + 3000 + '&count=' + count;
+            console.log(url);
+            $.get(url, function (d) {
+                setProgress(15);
+                setDescription('recevied dataset. generate network');
+                renderer.render(d);
+
+
+            })
+
+            deleteList();
+
+        }
+
+
+

@@ -7,14 +7,18 @@ var bases = require('bases');
 var redis = require('redis');
 var db = redis.createClient(16801, "202.30.24.169");
 var sortBy = require('sort-by');
+var functions = require('../../../functions/defaultFunctions');
 module.exports = router;
 
+
 var noLinkedOpacity;
+
 
 router.get('/', function (req, res) {
     console.log("in");
     res.render('projects/CRC/crc_main');
 })
+
 
 router.get('/visualization/prototype01', function (req, res) {
     res.render('projects/CRC/crc_proto01');
@@ -25,9 +29,10 @@ router.get('/visualization/prototype02', function (req, res) {
     res.render('projects/CRC/crc_proto02');
 })
 
-router.get('/visualization/prototype03', function (req, res) {
-    res.render('projects/CRC/crc_proto03');
+router.get('/visualization/upsetnetwork', function (req, res) {
+    res.render('projects/CRC/crc_upsetnetwork_origin');
 })
+
 
 router.get('/getOriginNetwork', function (req, res) {
     console.log("GET CRC DATA");
@@ -42,6 +47,7 @@ router.get('/getOriginNetwork', function (req, res) {
         res.send(d);
     })
 })
+
 
 router.get('/getVisNetwork', function (req, res) {
     console.log("GET CRC DATA");
@@ -70,6 +76,8 @@ router.get('/getBundleData', function (req, res) {
         res.send(d);
     })
 })
+
+
 
 //getCRCToNetworkData(1, 500, function(d){ console.log(d) })
 function getCRCToNetworkData(start,count, func){
@@ -144,7 +152,9 @@ function getCRCToNetworkData(start,count, func){
 
 }
 
-//getCRCToVisNetworkData(10, 10, function(d){ console.log(d) })
+
+var kmeans = require('node-kmeans');
+getCRCToVisNetworkData(10, 25, function(d){ console.log(d) })
 function getCRCToVisNetworkData(start,count, func){
     var multi = db.multi();
 
@@ -172,67 +182,156 @@ function getCRCToVisNetworkData(start,count, func){
         //console.log(err, rep);
         var points = [];
         var connections = [];
-        for(var i = 1; i < count + 1; i ++){
-            var prefix = rep[i].name[0];
-            var score = (bases.fromBase62(prefix) - 36) ;
-
-            points.push({
-                label : rep[i].name,
-                id : rep[i].id - start,
-                group : score,
-                isConnect : false,
-                value : 1,
-
-            });
+        var vectors = new Array();
+        for(var i = 0 ; i < count ; i ++){
+            var arr = [];
+            for(var j = 0 ; j < count ; j ++){
+                arr.push(0);
+            }
+            vectors[i] = arr;
         }
-        for(var i = 1; i < count + 1; i ++){
-            var connect = rep[i + count + 1];
-            var source = i - 1;
-            var isChecked = false;
-            if(connect != null) {
-                for (var j = 0; j < connect.length; j++) {
-                    var target = Number(connect[j]);
-                    target = target - start;
-                    if (target < 0) continue;
-                    if (target >= count) continue;
 
-                    if (source >= target) continue;
+        for(var i = count + 2; i < count * 2 + 2 ; i ++){
+
+            var from = i -(count + 2)+ start;
+            var vector_idx = from - start;
+            for(var j = 0 ; j < rep[i].length ; j ++) {
+                var connect = Number(rep[i][j]);
+                if(connect > Number(start) && connect < Number(start) + Number(count)){
+                    //console.log(connect , connect-start)
+                    vectors[vector_idx][connect - Number(start)] = 1;
+                }
+
+            }
+            //console.log(from - start, vectors[from - start])
 
 
-                    points[source].isConnect = true;
-                    points[target].isConnect = true;
-                    points[source].value += 5;
-                    points[target].value += 5;
+        }
 
-                    connections.push({
-                        from: Number(source),
-                        to: Number(target),
-                    });
-                    isChecked = true;
+        var kCount = 5;
+        kmeans.clusterize(vectors, {k: kCount}, function(err,res) {
+            if (err){
+                console.error(err);
+                return;
+            }
+
+            for(var i = 1; i < count + 1; i ++){
+                var prefix = rep[i].name[0];
+                var score = (bases.fromBase62(prefix) - 36) ;
+
+                points.push({
+                    label : rep[i].name,
+                    id : rep[i].id - start,
+                    group : 0,
+                    category : 0,
+                    partialCategory : [],
+                    isConnect : false,
+                    value : 1,
+                    color : '#666666',
+                    saved_color : '#666666',
+                });
+            }
+
+            var groups = [];
+            for(var i = 0 ; i < res.length ; i ++){
+                var group = {
+                    count : res[i].clusterInd.length,
+                    items : res[i].clusterInd,
+                }
+                groups.push(group);
+            }
+
+            groups.sort(sortBy('-count'))
+
+            for(var i = 0 ; i < groups.length ; i ++){
+                for(var j = 0 ; j < groups[i].items.length ; j ++){
+                    var point = points[groups[i].items[j]];
+                    //point.group = i;
+                    point.category = i;
+                    point.color = point.saved_color = functions.ColorSet[i];
+                    var max = 0;
+                    var maxIdx = 0;
+                    var setMax = false;
+                    for(var k = 0 ; k < kCount; k ++){
+                        if( k == i) point.partialCategory.push(1);
+                        else {
+                            var val = Math.random();
+                            point.partialCategory.push(val);
+                            if(val > max){
+                                max = val;
+                                maxIdx = k;
+                                if(max > 0.85) {
+                                    setMax = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if(setMax == true){
+                        if( i == 0){
+                            point.category = maxIdx;
+                            point.color = point.saved_color = functions.ColorSet[maxIdx];
+                        }
+                    } else {
+                        console.log('NO MAX SET : ', i, j)
+                    }
+
+
                 }
             }
 
-        }
+            for(var i = 1; i < count + 1; i ++){
+                var connect = rep[i + count + 1];
+                var source = i - 1;
+                var isChecked = false;
+                if(connect != null) {
 
-        var notConnectList = [];
-        for(var i = 0 ; i < points.length; i ++){
-            if(!points[i].isConnect) {
-                notConnectList.push(i);
+                    for (var j = 0; j < connect.length; j++) {
+                        var target = Number(connect[j]);
+                        target = target - start;
+
+                        if (target < 0) continue;
+                        if (target >= count) continue;
+                        if (source >= target) continue;
+
+
+                        points[source].isConnect = true;
+                        points[target].isConnect = true;
+                        points[source].value += 5;
+                        points[target].value += 5;
+
+
+                        connections.push({
+                            from: Number(source),
+                            to: Number(target),
+                        });
+                        isChecked = true;
+                    }
+                }
             }
-        }
 
-        for(var i = notConnectList.length - 1 ; i >= 0 ; i --){
-            points.splice(notConnectList[i],1);
-        }
+            var notConnectList = [];
+            for(var i = 0 ; i < points.length; i ++){
+                if(!points[i].isConnect) {
+                    notConnectList.push(i);
+                }
+            }
 
-        var result = {
-            success: true,
-            nodes : points,
-            edges : connections,
-        }
+            for(var i = notConnectList.length - 1 ; i >= 0 ; i --){
+                points.splice(notConnectList[i],1);
+            }
 
-        func(result);
-        console.log(result);
+            var result = {
+                success: true,
+                nodes : points,
+                edges : connections,
+            }
+
+            func(result);
+
+        });
+
+
     })
 
 }
@@ -300,6 +399,7 @@ function getCRCToBundleData(start,count, func){
 
         }
         points.sort(sortBy('convert_name', 'score'));
+        console.log(points);
 
         var result = {
             success: true,
