@@ -57,7 +57,7 @@ function upset(){
 
         for(var i = 1 ; i < groupCount + 1 ; i ++){
 
-            var x = 12 + i * 18;
+            var x = 16 + i * 18;
             var y = 100;
 
             var height = Math.min(groudCountEach[i] * ratio * 4, 90);
@@ -130,10 +130,19 @@ function upset(){
             var x = 36;
             var y = 20 + i * 18 + 10 + 100;
 
+            var button = group.append("svg:image")
+                .attr('x',-30)
+                .attr('y',-9)
+                .attr('width', 16)
+                .attr('height', 16)
+                .attr('checked', true)
+                .attr("xlink:href","/img/crc/button_on.png")
+                .attr('idx',i);
+
             var border = group.append('rect')
-                .attr('x', -30)
+                .attr('x', -10)
                 .attr('y',-8)
-                .attr('width',185)
+                .attr('width',155)
                 .attr('height',18)
                 .attr('fill','#efefef')
                 .attr('opacity',0.0)
@@ -144,18 +153,24 @@ function upset(){
                 bar : bar,
                 text : text,
                 border : border,
+                button : button,
                 setValue : function (v, delay){
+                    var width = Math.min(v * ratio, 65);
                     this.text.attr('width',0).attr('x', groupCount * 18 + 3);
-                    this.text.transition().delay(delay).text(v).attr('x',groupCount * 18 + 3 + (v * ratio))
+                    this.text.transition().delay(delay).text(v).attr('x',groupCount * 18 + 3 + width)
                     .attr('width',v * ratio);
-                    this.bar.transition().delay(delay).attr('width',v * ratio);
+                    this.bar.transition().delay(delay).attr('width',width);
 
                 },
                 setIndex : function (v, delay){
-                    var x = 36;
+                    var x = 40;
                     var y = 20 + v * 18 + 10 + 100;
-                    this.group.attr('transform', 'translate('+x+','+( y - 20)+')').style('opacity',0.0);
-                    this.group.transition().delay(delay).attr('transform', 'translate('+x+','+y+')').style('opacity',1.0);
+                    this.group
+                        .attr('transform', 'translate('+x+','+( y - 20)+')')
+                        .style('opacity',0.0);
+                    this.group.transition().delay(delay)
+                        .attr('transform', 'translate('+x+','+y+')')
+                        .style('opacity',1.0);
                 },
 
                 setHover : function(){
@@ -165,6 +180,20 @@ function upset(){
                 setOut : function(){
                     this.border.transition().attr('opacity',0.0);
                 },
+
+                buttonClick : function(idx){
+                    var b = this.button.attr('checked');
+                    if(b === 'true'){
+                        this.button.attr("xlink:href","/img/crc/button_off.png");
+                        this.button.attr('checked', 'false');
+                        console.log(upsetGroups[idx]);
+                    } else {
+                        this.button.attr("xlink:href","/img/crc/button_on.png");
+                        this.button.attr('checked', 'true');
+                        console.log(upsetGroups[idx]);
+                    }
+                }
+
 
             }
             border.on('mouseover',function(d){
@@ -177,6 +206,14 @@ function upset(){
                 items.group[idx].setOut();
                 offUpset(upsetGroups[idx]);
             })
+
+            button.on('click', function(d){
+                var idx = d3.select(this).attr('idx');
+                console.log(idx, items.group[idx]);
+
+                items.group[idx].buttonClick(idx);
+            })
+
             item.setIndex(i, i * 80);
             item.setValue(count, i * 80 + 350);
             items.group.push(item);

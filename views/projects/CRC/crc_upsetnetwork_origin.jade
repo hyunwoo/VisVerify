@@ -232,7 +232,7 @@ block body
             item.appendChild(p);
             item.appendChild(desc);
 
-            var desc = document.createElement('desc');
+            /*var desc = document.createElement('desc');
             var p = document.createElement('p');
             var text = 'Partial : ';
             for(var i = 0 ; i < node.partialCategory.length ; i ++){
@@ -242,7 +242,7 @@ block body
             desc.innerHTML = text;
             p.setAttribute('class', 'fit');
             item.appendChild(p);
-            item.appendChild(desc);
+            item.appendChild(desc);*/
 
 
             baseItems.appendChild(item);
@@ -270,7 +270,7 @@ block body
         upset();
         renderer();
         $('#modal').modal('show');
-        getNetworkData(900);
+        getNetworkData(1000);
         function onPressGetData1() {
             getNetworkData(250);
         }
@@ -286,14 +286,12 @@ block body
             getNetworkData(2000);
         }
         function getNetworkData(count) {
-            var url = '/projects/crc/getVisNetwork?start=' + 3000 + '&count=' + count;
+            var url = '/projects/crc/getVisNetwork?start=' + 0 + '&count=' + count;
             console.log(url);
             $.get(url, function (d) {
                 setProgress(15);
                 setDescription('recevied dataset. generate network');
                 renderer.render(d);
-
-
             })
 
             deleteList();

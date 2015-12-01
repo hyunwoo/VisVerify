@@ -242,6 +242,7 @@ function getCRCToVisNetworkData(start,count, func){
             }
 
             groups.sort(sortBy('-count'))
+            var useRandomSeed = false;
 
             for(var i = 0 ; i < groups.length ; i ++){
                 for(var j = 0 ; j < groups[i].items.length ; j ++){
@@ -255,25 +256,31 @@ function getCRCToVisNetworkData(start,count, func){
                     for(var k = 0 ; k < kCount; k ++){
                         if( k == i) point.partialCategory.push(1);
                         else {
-                            var val = Math.random();
-                            point.partialCategory.push(val);
-                            if(val > max){
-                                max = val;
-                                maxIdx = k;
-                                if(max > 0.85) {
-                                    setMax = true;
+                            if(useRandomSeed){
+                                var val = Math.random();
+                                point.partialCategory.push(val);
+                                if (val > max) {
+                                    max = val;
+                                    maxIdx = k;
+                                    if (max > 0.85) {
+                                        setMax = true;
+                                    }
                                 }
+                            } else {
+                                point.partialCategory.push(0);
                             }
                         }
                     }
+                    if(useRandomSeed) {
 
-                    if(setMax == true){
-                        if( i == 0){
-                            point.category = maxIdx;
-                            point.color = point.saved_color = functions.ColorSet[maxIdx];
+                        if (setMax == true) {
+                            if (i == 0) {
+                                point.category = maxIdx;
+                                point.color = point.saved_color = functions.ColorSet[maxIdx];
+                            }
+                        } else {
+                            console.log('NO MAX SET : ', i, j)
                         }
-                    } else {
-                        console.log('NO MAX SET : ', i, j)
                     }
 
 

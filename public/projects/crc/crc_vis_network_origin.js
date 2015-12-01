@@ -9,6 +9,7 @@ function renderer() {
     var nodesDataset//; = new vis.DataSet(nodes); // these come from WorldCup2014.js
     var edgesDataset//; = new vis.DataSet(edges); // these come from WorldCup2014.js
 
+    var originNodes = {};
     // create a network
 
 
@@ -17,10 +18,12 @@ function renderer() {
         if (d !== undefined) {
             nodesDataset = new vis.DataSet(d.nodes);
             edgesDataset = new vis.DataSet(d.edges);
+
+
         } else return;
         var container = document.getElementById('renderer');
 
-        var physic_forceAtlas =  {
+        var physic_forceAtlas = {
             stabilization: false,
             "forceAtlas2Based": {
                 "springLength": 100
@@ -30,7 +33,7 @@ function renderer() {
             "timestep": 0.15
         }
 
-        var physic_barneshut =  {
+        var physic_barneshut = {
             stabilization: false,
             barnesHut: {
                 gravitationalConstant: -20000,
@@ -52,8 +55,8 @@ function renderer() {
                 width: 0.15,
                 color: {inherit: 'from'},
                 "smooth": {
-                    type :'continuous',
-                    roundness : 0,
+                    type: 'continuous',
+                    roundness: 0,
                     //"forceDirection": "vertical"
                 }
             },
@@ -70,23 +73,29 @@ function renderer() {
                 stabilization: {iterations: 350}
             }
         };
-        var data = {nodes:nodesDataset, edges:edgesDataset} // Note: data is coming from ./datasources/WorldCup2014.js
+        var data = {nodes: nodesDataset, edges: edgesDataset} // Note: data is coming from ./datasources/WorldCup2014.js
 
 
         network = new vis.Network(container, data, options);
 
         // get a JSON object
-        allNodes = nodesDataset.get({returnType:"Object"});
-        console.log(allNodes[0]);
+        allNodes = nodesDataset.get({returnType: "Object"});
 
-        network.on("click",selectNodeEvent);
+        var keys = Object.keys(allNodes);
+        for(var i = 0 ; i < keys.length ; i ++){
+            var node = allNodes[keys[i]];
+            originNodes[keys[i]] = node;
+        }
 
-        network.on("stabilizationProgress", function(params) {
-            var widthFactor = params.iterations/params.total;
-            setProgress((params.iterations/params.total * 85 + 15).toFixed(0));
+        //network.on("click",selectNodeEvent);
+        network.on("click", deleteNodeEvent);
+
+        network.on("stabilizationProgress", function (params) {
+            var widthFactor = params.iterations / params.total;
+            setProgress((params.iterations / params.total * 85 + 15).toFixed(0));
             setDescription('network stabilization : now iterating');
         });
-        network.once("stabilizationIterationsDone", function() {
+        network.once("stabilizationIterationsDone", function () {
             // really clean the dom element
             console.log('loadover');
             upset.initialize(nodes);
@@ -96,14 +105,52 @@ function renderer() {
 
     }
 
-    function selectNodes(){
+    function selectNodes() {
 
     }
 
-    function selectGroup(params){
+    function deleteNodeEvent(params) {
+        if (params.nodes.length > 0) {
+            deleteList();
+            highlightActive = true;
+            var selectedNode = params.nodes[0];
+            deleteNode([selectedNode]);
+        }
+    }
+
+    function deleteNode(idxs) {
+        for (var i = 0; i < idxs.length; i++) {
+            console.log('delete : ' + idxs[i] , originNodes[idxs[i]]);
+            console.log(nodes[idxs[i]]);
+            try {
+                nodesDataset.remove({id: idxs[i]});
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+
+        setTimeout(addNode(idxs),1000);
+    }
+
+    function addNode(idxs){
+        for (var i = 0; i < idxs.length; i++) {
+            console.log('add : ' + idxs[i] , originNodes[idxs[i]]);
+            try {
+                nodesDataset.add(originNodes[idxs[i]]);
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+
+    }
+
+
+    function selectGroup(params) {
         var updateArray = [];
         for (nodeId in allNodes) {
-            if(Number(allNodes[nodeId].category) === 2){
+            if (Number(allNodes[nodeId].category) === 2) {
 
             } else {
                 console.log(nodeId);
@@ -114,21 +161,22 @@ function renderer() {
     }
 
 
-    function nodeHighlightOn(idxs){
+    function nodeHighlightOn(idxs) {
         clear();
         for (nodeId in allNodes) {
             allNodes[nodeId].color = '#3f3f3f';
             allNodes[nodeId].font = '16px Tahoma #3f3f3f;'
         }
 
-        if(idxs !== undefined){
-            for(var i = 0 ; i < idxs.length ; i ++){
+        if (idxs !== undefined) {
+            for (var i = 0; i < idxs.length; i++) {
                 allNodes[idxs[i]].color = allNodes[idxs[i]].saved_color;
             }
         }
         updateNodeData();
     }
-    function clear(){
+
+    function clear() {
         highlightActive = false;
         deleteList();
         for (var nodeId in allNodes) {
@@ -138,7 +186,7 @@ function renderer() {
     }
 
 
-    function selectNodeEvent(params){
+    function selectNodeEvent(params) {
         if (params.nodes.length > 0) {
             var node;
             deleteList();
@@ -158,7 +206,7 @@ function renderer() {
 
 
             var connectedNodes = network.getConnectedNodes(selectedNode);
-            for(var i = 0 ; i < connectedNodes.length ; i ++){
+            for (var i = 0; i < connectedNodes.length; i++) {
                 var idx = connectedNodes[i];
                 node = allNodes[idx];
                 allNodes[idx].color = allNodes[idx].saved_color;
@@ -182,11 +230,9 @@ function renderer() {
         updateNodeData();
 
 
-
-
     }
 
-    function updateNodeData(){
+    function updateNodeData() {
         var updateArray = [];
         for (nodeId in allNodes) {
             if (allNodes.hasOwnProperty(nodeId)) {
@@ -205,7 +251,7 @@ function renderer() {
 
     }
 
-    upset.setUpsetDelegate(nodeHighlightOn,clear);
+    upset.setUpsetDelegate(nodeHighlightOn, clear);
 
     renderer.clearProgress = clearProgress;
     renderer.render = render;
