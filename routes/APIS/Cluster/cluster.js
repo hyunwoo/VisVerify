@@ -9,6 +9,7 @@ var kmeans = require('kmeans');
 
 module.exports = router;
 
+
 router.get('/', function (req, res) {
     res.render('apis/cluster/cluster');
 });
