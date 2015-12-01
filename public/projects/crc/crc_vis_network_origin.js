@@ -87,8 +87,8 @@ function renderer() {
             originNodes[keys[i]] = node;
         }
 
-        //network.on("click",selectNodeEvent);
-        network.on("click", deleteNodeEvent);
+        network.on("click", selectNodeEvent);
+        //network.on("click", deleteNodeEvent);
 
         network.on("stabilizationProgress", function (params) {
             var widthFactor = params.iterations / params.total;
@@ -119,32 +119,31 @@ function renderer() {
     }
 
     function deleteNode(idxs) {
+        if(idxs === undefined) return;
         for (var i = 0; i < idxs.length; i++) {
-            console.log('delete : ' + idxs[i] , originNodes[idxs[i]]);
-            console.log(nodes[idxs[i]]);
             try {
                 nodesDataset.remove({id: idxs[i]});
+                allNodes[idxs[i]].visible = false;
             }
             catch (err) {
-                alert(err);
+                console.log(err);
             }
         }
-
-
-        setTimeout(addNode(idxs),1000);
+        updateNodeData();
     }
 
     function addNode(idxs){
+        if(idxs === undefined) return;
         for (var i = 0; i < idxs.length; i++) {
-            console.log('add : ' + idxs[i] , originNodes[idxs[i]]);
             try {
                 nodesDataset.add(originNodes[idxs[i]]);
+                allNodes[idxs[i]].visible = true;
             }
             catch (err) {
-                alert(err);
+                console.log(err);
             }
         }
-
+        updateNodeData();
     }
 
 
@@ -237,6 +236,7 @@ function renderer() {
         var updateArray = [];
         for (nodeId in allNodes) {
             if (allNodes.hasOwnProperty(nodeId)) {
+                if(!allNodes[nodeId].visible) continue;
                 updateArray.push(allNodes[nodeId]);
             }
         }
@@ -253,7 +253,7 @@ function renderer() {
     }
 
     upset.setUpsetDelegate(nodeHighlightOn, clear);
-
+    upset.setUpsetVisibleDelegate(addNode,deleteNode);
     renderer.clearProgress = clearProgress;
     renderer.render = render;
 

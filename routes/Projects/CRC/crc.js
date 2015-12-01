@@ -10,7 +10,7 @@ var sortBy = require('sort-by');
 var functions = require('../../../functions/defaultFunctions');
 module.exports = router;
 
-
+var useRandomSeed = true;
 var noLinkedOpacity;
 
 
@@ -154,7 +154,7 @@ function getCRCToNetworkData(start,count, func){
 
 
 var kmeans = require('node-kmeans');
-getCRCToVisNetworkData(10, 25, function(d){ console.log(d) })
+//getCRCToVisNetworkData(10, 25, function(d){ console.log(d) })
 function getCRCToVisNetworkData(start,count, func){
     var multi = db.multi();
 
@@ -229,6 +229,7 @@ function getCRCToVisNetworkData(start,count, func){
                     value : 1,
                     color : '#666666',
                     saved_color : '#666666',
+                    visible : true,
                 });
             }
 
@@ -242,7 +243,7 @@ function getCRCToVisNetworkData(start,count, func){
             }
 
             groups.sort(sortBy('-count'))
-            var useRandomSeed = false;
+
 
             for(var i = 0 ; i < groups.length ; i ++){
                 for(var j = 0 ; j < groups[i].items.length ; j ++){

@@ -14,6 +14,7 @@ function upset(){
     var upsetGroups = [];
     var matrix = [];
     var onUpset, offUpset;
+    var onUpsetVisible, offUpsetVisible;
     function clone(data, limit){
         var newData = [];
         for(var i = 0 ; i < limit ; i ++){
@@ -181,16 +182,22 @@ function upset(){
                     this.border.transition().attr('opacity',0.0);
                 },
 
+                getVisibleStatus : function(){
+                    return this.button.attr('checked');
+                },
+
                 buttonClick : function(idx){
                     var b = this.button.attr('checked');
                     if(b === 'true'){
                         this.button.attr("xlink:href","/img/crc/button_off.png");
                         this.button.attr('checked', 'false');
-                        console.log(upsetGroups[idx]);
+                        offUpsetVisible(upsetGroups[idx]);
+                        //console.log(upsetGroups[idx]);
                     } else {
                         this.button.attr("xlink:href","/img/crc/button_on.png");
                         this.button.attr('checked', 'true');
-                        console.log(upsetGroups[idx]);
+                        onUpsetVisible(upsetGroups[idx]);
+                        //console.log(upsetGroups[idx]);
                     }
                 }
 
@@ -198,11 +205,13 @@ function upset(){
             }
             border.on('mouseover',function(d){
                 var idx = d3.select(this).attr('idx');
+                if(items.group[idx].getVisibleStatus() !== 'true') return;
                 items.group[idx].setHover();
                 onUpset(upsetGroups[idx]);
             })
             border.on('mouseout', function(d){
                 var idx = d3.select(this).attr('idx');
+                if(items.group[idx].getVisibleStatus() !== 'true') return;
                 items.group[idx].setOut();
                 offUpset(upsetGroups[idx]);
             })
@@ -210,7 +219,6 @@ function upset(){
             button.on('click', function(d){
                 var idx = d3.select(this).attr('idx');
                 console.log(idx, items.group[idx]);
-
                 items.group[idx].buttonClick(idx);
             })
 
@@ -226,7 +234,13 @@ function upset(){
         offUpset = off;
     }
 
+    function setUpsetVisibleDelegate(on, off){
+        onUpsetVisible = on;
+        offUpsetVisible = off;
+    }
 
+
+    upset.setUpsetVisibleDelegate = setUpsetVisibleDelegate;
     upset.setUpsetDelegate = setUpsetDelegate;
     upset.initialize = initialize;
 }
