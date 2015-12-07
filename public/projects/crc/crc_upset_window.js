@@ -24,7 +24,6 @@ function upset(){
         return newData;
     }
 
-
     function makeTree(data, limit, index){
 
         var newDataZero = clone(data,limit);
@@ -41,7 +40,6 @@ function upset(){
             makeTree(newDataOne, limit, index + 1);
         }
     }
-
 
     function initialize(nodes){
         var groupCount = 0;
@@ -108,11 +106,8 @@ function upset(){
             }
 
             var group = svg.append('g').style('opacity',0);
-
             var bar = group.append('rect').attr('x', groupCount * 18 ).attr('y',-5).attr('width',0).attr('height',10).attr('fill','#9f9f9f');
             var text = group.append('text').attr('y', 5).attr('fill','#bfbfbf').attr('font-size','12px');
-
-
 
             for(var j = 0 ; j < matrix[i].length ; j ++){
                 var x = j * 18 + 10 + 26;

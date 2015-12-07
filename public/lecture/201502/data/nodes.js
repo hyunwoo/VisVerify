@@ -1,38 +1,38 @@
 var nodes = [
     {
-        "label": "패밀리레스토랑",
-        "id": 25,
+        "label": "주유소",
+        "id": 6,
         "group": 3,
         "isConnect": true,
-        "value": 1035
+        "value": 113007
     },
     {
-        "label": "독서실/고시원",
-        "id": 35,
+        "label": "커피전문점",
+        "id": 12,
         "group": 3,
         "isConnect": true,
-        "value": 24
+        "value": 3555
     },
     {
-        "label": "PC방",
-        "id": 48,
+        "label": "신발",
+        "id": 56,
         "group": 3,
         "isConnect": true,
-        "value": 722
+        "value": 108
     },
     {
-        "label": "BAR",
-        "id": 75,
+        "label": "조명/전기용품",
+        "id": 67,
         "group": 3,
         "isConnect": true,
-        "value": 176
+        "value": 19
     },
     {
-        "label": "라멘/우동 전문점",
-        "id": 97,
+        "label": "보리밥/비빔밥/쌈밥",
+        "id": 82,
         "group": 3,
         "isConnect": true,
-        "value": 189
+        "value": 1260
     },
     {
         "label": "편의점",
@@ -49,11 +49,81 @@ var nodes = [
         "value": 8671
     },
     {
+        "label": "치킨/바비큐/호프",
+        "id": 8,
+        "group": 4,
+        "isConnect": true,
+        "value": 1464
+    },
+    {
+        "label": "한정식",
+        "id": 10,
+        "group": 4,
+        "isConnect": true,
+        "value": 1863
+    },
+    {
+        "label": "스테이크 전문점",
+        "id": 11,
+        "group": 4,
+        "isConnect": true,
+        "value": 2438
+    },
+    {
+        "label": "정통일식",
+        "id": 13,
+        "group": 4,
+        "isConnect": true,
+        "value": 377
+    },
+    {
         "label": "이비인후과",
         "id": 14,
         "group": 4,
         "isConnect": true,
         "value": 510
+    },
+    {
+        "label": "자동차경정비",
+        "id": 15,
+        "group": 4,
+        "isConnect": true,
+        "value": 72
+    },
+    {
+        "label": "갈비/삽겹살/불고기",
+        "id": 16,
+        "group": 4,
+        "isConnect": true,
+        "value": 429
+    },
+    {
+        "label": "실내포차",
+        "id": 17,
+        "group": 4,
+        "isConnect": true,
+        "value": 502
+    },
+    {
+        "label": "활어회",
+        "id": 18,
+        "group": 4,
+        "isConnect": true,
+        "value": 2574
+    },
+    {
+        "label": "잡화",
+        "id": 20,
+        "group": 4,
+        "isConnect": true,
+        "value": 27
+    },
+    {
+        "label": "일반식당",
+        "id": 21,
+        "group": 4,
+        "isConnect": true,
+        "value": 1457
     },
     {
         "label": "약국",
@@ -63,11 +133,39 @@ var nodes = [
         "value": 3286
     },
     {
+        "label": "찜닭/불닭",
+        "id": 23,
+        "group": 4,
+        "isConnect": true,
+        "value": 52
+    },
+    {
+        "label": "동물병원",
+        "id": 27,
+        "group": 4,
+        "isConnect": true,
+        "value": 285
+    },
+    {
         "label": "내과",
         "id": 29,
         "group": 4,
         "isConnect": true,
         "value": 392
+    },
+    {
+        "label": "여성미용실",
+        "id": 30,
+        "group": 4,
+        "isConnect": true,
+        "value": 80
+    },
+    {
+        "label": "기타외국어학원",
+        "id": 32,
+        "group": 4,
+        "isConnect": true,
+        "value": 1594
     },
     {
         "label": "뷔페",
@@ -77,11 +175,32 @@ var nodes = [
         "value": 784
     },
     {
+        "label": "클럽주점",
+        "id": 36,
+        "group": 4,
+        "isConnect": true,
+        "value": 55
+    },
+    {
         "label": "정형외과",
         "id": 37,
         "group": 4,
         "isConnect": true,
         "value": 1440
+    },
+    {
+        "label": "노래방",
+        "id": 38,
+        "group": 4,
+        "isConnect": true,
+        "value": 1155
+    },
+    {
+        "label": "의료기",
+        "id": 39,
+        "group": 4,
+        "isConnect": true,
+        "value": 66
     },
     {
         "label": "소아과",
@@ -98,11 +217,151 @@ var nodes = [
         "value": 44
     },
     {
+        "label": "한방병원",
+        "id": 44,
+        "group": 4,
+        "isConnect": true,
+        "value": 287
+    },
+    {
+        "label": "어린이전문학원",
+        "id": 46,
+        "group": 4,
+        "isConnect": true,
+        "value": 65
+    },
+    {
+        "label": "컴퓨터/주변기기",
+        "id": 47,
+        "group": 4,
+        "isConnect": true,
+        "value": 26
+    },
+    {
         "label": "스포츠/등산용품",
         "id": 51,
         "group": 4,
         "isConnect": true,
         "value": 11
+    },
+    {
+        "label": "죽전문점",
+        "id": 52,
+        "group": 4,
+        "isConnect": true,
+        "value": 1580
+    },
+    {
+        "label": "낙지/쭈꾸미/오징어",
+        "id": 53,
+        "group": 4,
+        "isConnect": true,
+        "value": 858
+    },
+    {
+        "label": "영어학원",
+        "id": 54,
+        "group": 4,
+        "isConnect": true,
+        "value": 32
+    },
+    {
+        "label": "세탁소/빨래방",
+        "id": 57,
+        "group": 4,
+        "isConnect": true,
+        "value": 14
+    },
+    {
+        "label": "오토바이",
+        "id": 58,
+        "group": 4,
+        "isConnect": true,
+        "value": 54
+    },
+    {
+        "label": "모텔",
+        "id": 60,
+        "group": 4,
+        "isConnect": true,
+        "value": 11
+    },
+    {
+        "label": "갈매기살",
+        "id": 62,
+        "group": 4,
+        "isConnect": true,
+        "value": 266
+    },
+    {
+        "label": "안과의원",
+        "id": 64,
+        "group": 4,
+        "isConnect": true,
+        "value": 396
+    },
+    {
+        "label": "해물찜/탕",
+        "id": 65,
+        "group": 4,
+        "isConnect": true,
+        "value": 266
+    },
+    {
+        "label": "당구장",
+        "id": 69,
+        "group": 4,
+        "isConnect": true,
+        "value": 252
+    },
+    {
+        "label": "떡/한과",
+        "id": 70,
+        "group": 4,
+        "isConnect": true,
+        "value": 2522
+    },
+    {
+        "label": "가정용가구",
+        "id": 74,
+        "group": 4,
+        "isConnect": true,
+        "value": 16
+    },
+    {
+        "label": "유아/아동복",
+        "id": 76,
+        "group": 4,
+        "isConnect": true,
+        "value": 32
+    },
+    {
+        "label": "네일아트/케어",
+        "id": 77,
+        "group": 4,
+        "isConnect": true,
+        "value": 1350
+    },
+    {
+        "label": "악기",
+        "id": 78,
+        "group": 4,
+        "isConnect": true,
+        "value": 352
+    },
+    {
+        "label": "청과물",
+        "id": 80,
+        "group": 4,
+        "isConnect": true,
+        "value": 1117
+    },
+    {
+        "label": "미술학원",
+        "id": 81,
+        "group": 4,
+        "isConnect": true,
+        "value": 77
     },
     {
         "label": "애견용품",
@@ -112,6 +371,20 @@ var nodes = [
         "value": 33
     },
     {
+        "label": "스포츠마사지",
+        "id": 84,
+        "group": 4,
+        "isConnect": true,
+        "value": 73
+    },
+    {
+        "label": "자전거",
+        "id": 85,
+        "group": 4,
+        "isConnect": true,
+        "value": 11
+    },
+    {
         "label": "신경외과",
         "id": 90,
         "group": 4,
@@ -119,39 +392,46 @@ var nodes = [
         "value": 1296
     },
     {
-        "label": "주유소",
-        "id": 6,
-        "group": 5,
+        "label": "꼬치구이",
+        "id": 91,
+        "group": 4,
         "isConnect": true,
-        "value": 113007
+        "value": 352
     },
     {
-        "label": "커피전문점",
-        "id": 12,
-        "group": 5,
+        "label": "차량물품/인테리어",
+        "id": 93,
+        "group": 4,
         "isConnect": true,
-        "value": 3555
+        "value": 11
     },
     {
-        "label": "남성미용실",
-        "id": 59,
-        "group": 5,
+        "label": "국수/만두 전문점",
+        "id": 94,
+        "group": 4,
         "isConnect": true,
-        "value": 1522
+        "value": 4862
     },
     {
-        "label": "보리밥/비빔밥/쌈밥",
-        "id": 82,
-        "group": 5,
+        "label": "도장",
+        "id": 95,
+        "group": 4,
         "isConnect": true,
-        "value": 1260
+        "value": 11
     },
     {
-        "label": "전통주점",
-        "id": 96,
+        "label": "슈퍼마켓(일반)",
+        "id": 0,
         "group": 5,
         "isConnect": true,
-        "value": 3581
+        "value": 5828
+    },
+    {
+        "label": "화장품",
+        "id": 1,
+        "group": 5,
+        "isConnect": true,
+        "value": 25263
     },
     {
         "label": "정통호프",
@@ -196,18 +476,18 @@ var nodes = [
         "value": 4504
     },
     {
-        "label": "슈퍼마켓(일반)",
-        "id": 0,
+        "label": "피부과",
+        "id": 26,
         "group": 7,
         "isConnect": true,
-        "value": 5828
+        "value": 5190
     },
     {
-        "label": "서적/도서",
-        "id": 41,
+        "label": "비뇨기과",
+        "id": 40,
         "group": 7,
         "isConnect": true,
-        "value": 42
+        "value": 1064
     },
     {
         "label": "커리/덮밥",
@@ -217,116 +497,144 @@ var nodes = [
         "value": 464
     },
     {
-        "label": "초밥 전문점",
-        "id": 72,
-        "group": 7,
-        "isConnect": true,
-        "value": 21
-    },
-    {
-        "label": "콩/두부",
-        "id": 92,
-        "group": 7,
-        "isConnect": true,
-        "value": 96
-    },
-    {
-        "label": "피부과",
-        "id": 26,
-        "group": 8,
-        "isConnect": true,
-        "value": 5190
-    },
-    {
-        "label": "비뇨기과",
-        "id": 40,
-        "group": 8,
-        "isConnect": true,
-        "value": 1064
-    },
-    {
         "label": "냉면",
         "id": 61,
-        "group": 8,
+        "group": 7,
         "isConnect": true,
         "value": 64
     },
     {
         "label": "분식",
         "id": 5,
-        "group": 9,
+        "group": 8,
         "isConnect": true,
         "value": 2726
     },
     {
-        "label": "치킨/바비큐/호프",
-        "id": 8,
-        "group": 9,
+        "label": "음료/카페/다방",
+        "id": 9,
+        "group": 8,
         "isConnect": true,
-        "value": 1464
+        "value": 286
     },
     {
-        "label": "한정식",
-        "id": 10,
-        "group": 9,
+        "label": "문구/팬시",
+        "id": 19,
+        "group": 8,
         "isConnect": true,
-        "value": 1863
+        "value": 76
     },
     {
-        "label": "스테이크 전문점",
-        "id": 11,
-        "group": 9,
+        "label": "대입학원",
+        "id": 31,
+        "group": 8,
         "isConnect": true,
-        "value": 2438
+        "value": 11
     },
     {
-        "label": "정통일식",
-        "id": 13,
-        "group": 9,
+        "label": "스크린골프",
+        "id": 33,
+        "group": 8,
         "isConnect": true,
-        "value": 377
+        "value": 77
     },
     {
-        "label": "자동차경정비",
-        "id": 15,
-        "group": 9,
+        "label": "서적/도서",
+        "id": 41,
+        "group": 8,
         "isConnect": true,
-        "value": 72
+        "value": 42
     },
     {
-        "label": "실내포차",
-        "id": 17,
-        "group": 9,
+        "label": "일반의류",
+        "id": 49,
+        "group": 8,
         "isConnect": true,
-        "value": 502
+        "value": 960
     },
     {
-        "label": "활어회",
-        "id": 18,
-        "group": 9,
+        "label": "삼계탕/초계탕",
+        "id": 50,
+        "group": 8,
         "isConnect": true,
-        "value": 2574
+        "value": 360
     },
     {
-        "label": "잡화",
-        "id": 20,
-        "group": 9,
+        "label": "남성미용실",
+        "id": 59,
+        "group": 8,
         "isConnect": true,
-        "value": 27
+        "value": 1522
     },
     {
-        "label": "일반식당",
-        "id": 21,
-        "group": 9,
+        "label": "샤브샤브",
+        "id": 63,
+        "group": 8,
         "isConnect": true,
-        "value": 1457
+        "value": 1400
     },
     {
-        "label": "찜닭/불닭",
-        "id": 23,
+        "label": "아이스크림",
+        "id": 66,
+        "group": 8,
+        "isConnect": true,
+        "value": 6711
+    },
+    {
+        "label": "해장국/감자탕 전문",
+        "id": 68,
+        "group": 8,
+        "isConnect": true,
+        "value": 2223
+    },
+    {
+        "label": "사철탕",
+        "id": 71,
+        "group": 8,
+        "isConnect": true,
+        "value": 380
+    },
+    {
+        "label": "초밥 전문점",
+        "id": 72,
+        "group": 8,
+        "isConnect": true,
+        "value": 21
+    },
+    {
+        "label": "놀이방",
+        "id": 88,
+        "group": 8,
+        "isConnect": true,
+        "value": 77
+    },
+    {
+        "label": "콩/두부",
+        "id": 92,
+        "group": 8,
+        "isConnect": true,
+        "value": 96
+    },
+    {
+        "label": "전통주점",
+        "id": 96,
+        "group": 8,
+        "isConnect": true,
+        "value": 3581
+    },
+    {
+        "label": "추어탕",
+        "id": 98,
+        "group": 8,
+        "isConnect": true,
+        "value": 319
+    },
+    {
+        "label": "정육점",
+        "id": 3,
         "group": 9,
         "isConnect": true,
-        "value": 52
+        "value": 1328
     },
     {
         "label": "치과",
@@ -336,48 +644,6 @@ var nodes = [
         "value": 210
     },
     {
-        "label": "여성미용실",
-        "id": 30,
-        "group": 9,
-        "isConnect": true,
-        "value": 80
-    },
-    {
-        "label": "기타외국어학원",
-        "id": 32,
-        "group": 9,
-        "isConnect": true,
-        "value": 1594
-    },
-    {
-        "label": "클럽주점",
-        "id": 36,
-        "group": 9,
-        "isConnect": true,
-        "value": 55
-    },
-    {
-        "label": "노래방",
-        "id": 38,
-        "group": 9,
-        "isConnect": true,
-        "value": 1155
-    },
-    {
-        "label": "의료기",
-        "id": 39,
-        "group": 9,
-        "isConnect": true,
-        "value": 66
-    },
-    {
-        "label": "한방병원",
-        "id": 44,
-        "group": 9,
-        "isConnect": true,
-        "value": 287
-    },
-    {
         "label": "성형외과",
         "id": 45,
         "group": 9,
@@ -385,318 +651,52 @@ var nodes = [
         "value": 642
     },
     {
-        "label": "어린이전문학원",
-        "id": 46,
-        "group": 9,
-        "isConnect": true,
-        "value": 65
-    },
-    {
-        "label": "컴퓨터/주변기기",
-        "id": 47,
-        "group": 9,
-        "isConnect": true,
-        "value": 26
-    },
-    {
-        "label": "죽전문점",
-        "id": 52,
-        "group": 9,
-        "isConnect": true,
-        "value": 1580
-    },
-    {
-        "label": "낙지/쭈꾸미/오징어",
-        "id": 53,
-        "group": 9,
-        "isConnect": true,
-        "value": 858
-    },
-    {
-        "label": "영어학원",
-        "id": 54,
-        "group": 9,
-        "isConnect": true,
-        "value": 32
-    },
-    {
-        "label": "신발",
-        "id": 56,
-        "group": 9,
-        "isConnect": true,
-        "value": 108
-    },
-    {
-        "label": "세탁소/빨래방",
-        "id": 57,
-        "group": 9,
-        "isConnect": true,
-        "value": 14
-    },
-    {
-        "label": "오토바이",
-        "id": 58,
-        "group": 9,
-        "isConnect": true,
-        "value": 54
-    },
-    {
-        "label": "모텔",
-        "id": 60,
-        "group": 9,
-        "isConnect": true,
-        "value": 11
-    },
-    {
-        "label": "안과의원",
-        "id": 64,
-        "group": 9,
-        "isConnect": true,
-        "value": 396
-    },
-    {
-        "label": "해물찜/탕",
-        "id": 65,
-        "group": 9,
-        "isConnect": true,
-        "value": 266
-    },
-    {
-        "label": "조명/전기용품",
-        "id": 67,
-        "group": 9,
-        "isConnect": true,
-        "value": 19
-    },
-    {
-        "label": "당구장",
-        "id": 69,
-        "group": 9,
-        "isConnect": true,
-        "value": 252
-    },
-    {
-        "label": "떡/한과",
-        "id": 70,
-        "group": 9,
-        "isConnect": true,
-        "value": 2522
-    },
-    {
-        "label": "가정용가구",
-        "id": 74,
-        "group": 9,
-        "isConnect": true,
-        "value": 16
-    },
-    {
-        "label": "유아/아동복",
-        "id": 76,
-        "group": 9,
-        "isConnect": true,
-        "value": 32
-    },
-    {
-        "label": "네일아트/케어",
-        "id": 77,
-        "group": 9,
-        "isConnect": true,
-        "value": 1350
-    },
-    {
-        "label": "악기",
-        "id": 78,
-        "group": 9,
-        "isConnect": true,
-        "value": 352
-    },
-    {
-        "label": "청과물",
-        "id": 80,
-        "group": 9,
-        "isConnect": true,
-        "value": 1117
-    },
-    {
-        "label": "미술학원",
-        "id": 81,
-        "group": 9,
-        "isConnect": true,
-        "value": 77
-    },
-    {
-        "label": "스포츠마사지",
-        "id": 84,
-        "group": 9,
-        "isConnect": true,
-        "value": 73
-    },
-    {
-        "label": "자전거",
-        "id": 85,
-        "group": 9,
-        "isConnect": true,
-        "value": 11
-    },
-    {
-        "label": "꼬치구이",
-        "id": 91,
-        "group": 9,
-        "isConnect": true,
-        "value": 352
-    },
-    {
-        "label": "차량물품/인테리어",
-        "id": 93,
-        "group": 9,
-        "isConnect": true,
-        "value": 11
-    },
-    {
-        "label": "국수/만두 전문점",
-        "id": 94,
-        "group": 9,
-        "isConnect": true,
-        "value": 4862
-    },
-    {
-        "label": "도장",
-        "id": 95,
-        "group": 9,
-        "isConnect": true,
-        "value": 11
-    },
-    {
-        "label": "음료/카페/다방",
-        "id": 9,
-        "group": 10,
-        "isConnect": true,
-        "value": 286
-    },
-    {
-        "label": "갈비/삽겹살/불고기",
-        "id": 16,
-        "group": 10,
-        "isConnect": true,
-        "value": 429
-    },
-    {
-        "label": "문구/팬시",
-        "id": 19,
-        "group": 10,
-        "isConnect": true,
-        "value": 76
-    },
-    {
-        "label": "동물병원",
-        "id": 27,
-        "group": 10,
-        "isConnect": true,
-        "value": 285
-    },
-    {
-        "label": "대입학원",
-        "id": 31,
-        "group": 10,
-        "isConnect": true,
-        "value": 11
-    },
-    {
-        "label": "스크린골프",
-        "id": 33,
-        "group": 10,
-        "isConnect": true,
-        "value": 77
-    },
-    {
-        "label": "일반의류",
-        "id": 49,
-        "group": 10,
-        "isConnect": true,
-        "value": 960
-    },
-    {
-        "label": "삼계탕/초계탕",
-        "id": 50,
-        "group": 10,
-        "isConnect": true,
-        "value": 360
-    },
-    {
-        "label": "갈매기살",
-        "id": 62,
-        "group": 10,
-        "isConnect": true,
-        "value": 266
-    },
-    {
-        "label": "샤브샤브",
-        "id": 63,
-        "group": 10,
-        "isConnect": true,
-        "value": 1400
-    },
-    {
-        "label": "아이스크림",
-        "id": 66,
-        "group": 10,
-        "isConnect": true,
-        "value": 6711
-    },
-    {
-        "label": "해장국/감자탕 전문",
-        "id": 68,
-        "group": 10,
-        "isConnect": true,
-        "value": 2223
-    },
-    {
-        "label": "사철탕",
-        "id": 71,
-        "group": 10,
-        "isConnect": true,
-        "value": 380
-    },
-    {
-        "label": "놀이방",
-        "id": 88,
-        "group": 10,
-        "isConnect": true,
-        "value": 77
-    },
-    {
         "label": "목욕탕",
         "id": 89,
-        "group": 10,
+        "group": 9,
         "isConnect": true,
         "value": 175
     },
     {
-        "label": "추어탕",
-        "id": 98,
-        "group": 10,
-        "isConnect": true,
-        "value": 319
-    },
-    {
-        "label": "화장품",
-        "id": 1,
-        "group": 11,
-        "isConnect": true,
-        "value": 25263
-    },
-    {
-        "label": "정육점",
-        "id": 3,
-        "group": 11,
-        "isConnect": true,
-        "value": 1328
-    },
-    {
         "label": "굴/전복",
         "id": 87,
-        "group": 11,
+        "group": 10,
         "isConnect": true,
         "value": 4760
+    },
+    {
+        "label": "패밀리레스토랑",
+        "id": 25,
+        "group": 11,
+        "isConnect": true,
+        "value": 1035
+    },
+    {
+        "label": "독서실/고시원",
+        "id": 35,
+        "group": 11,
+        "isConnect": true,
+        "value": 24
+    },
+    {
+        "label": "PC방",
+        "id": 48,
+        "group": 11,
+        "isConnect": true,
+        "value": 722
+    },
+    {
+        "label": "BAR",
+        "id": 75,
+        "group": 11,
+        "isConnect": true,
+        "value": 176
+    },
+    {
+        "label": "라멘/우동 전문점",
+        "id": 97,
+        "group": 11,
+        "isConnect": true,
+        "value": 189
     }
 ];
