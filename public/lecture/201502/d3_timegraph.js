@@ -74,6 +74,7 @@ function d3_time() {
         return n > 9 ? "" + n : "0" + n;
     }
 
+
     var makeLineGraphData =
         d3.svg.line()
             .x(function (d) {
