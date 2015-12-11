@@ -40,15 +40,26 @@ router.get('/Prototype/06', function(req,res){
 })
 
 
-console.log(__dirname);
+
+
+
+var a = {
+    b : 'c',
+}
+console.log(a);
+
+
+
 return;
+console.log(__dirname);
+//return;
 fs.readFile(__dirname + '/data/data.xml', function(err, data) {
+
     parser.parseString(data, function (err, result) {
 
-        var StartIndex = 8;
-        var EndIndex = 16;
+        var StartIndex = 1;
+        var EndIndex = 5;
         var Nodes = [];
-
         var maxDepth = 0;
 
         result.graphml.graph[0].node.forEach(function(node){
@@ -94,10 +105,15 @@ fs.readFile(__dirname + '/data/data.xml', function(err, data) {
             if(Nodes[i] === undefined){
                 continue;
             }
+
             Flats[Nodes[i].id] = {
                 name : Nodes[i].name,
-                size : Nodes[i].grade,
-
+                grade : Nodes[i].grade,
+                period : Nodes[i].period,
+                sex : Nodes[i].sex,
+                depth : Nodes[i].depth,
+                grade_exam : Nodes[i].grade_exam,
+                family_origin : Nodes[i].family_origin,
             }
 
         }
@@ -126,7 +142,12 @@ fs.readFile(__dirname + '/data/data.xml', function(err, data) {
 
                 var t = {
                     name : Flats[target].name,
-                    size : Flats[target].size,
+                    grade : Flats[target].grade,
+                    period : Flats[target].period,
+                    sex : Flats[target].sex,
+                    depth : Flats[target].depth,
+                    grade_exam : Flats[target].grade_exam,
+                    family_origin : Flats[target].family_origin,
                     children : [],
                 }
 
@@ -148,10 +169,13 @@ fs.readFile(__dirname + '/data/data.xml', function(err, data) {
 
         var string = JSON.stringify(Flare, null, 4);
 
-        fs.writeFile('/Users/Luan/Develop/WebPages/VIS/VisVerify/public/projects/Pedigree/data/data.json', string, function(err) {
+        fs.writeFile(__dirname + '/data.json', string, function(err) {
             if(err) throw err;
             console.log('File write completed');
         });
+        return;
+
+        //
 
         var Network_Data = [];
         var NetworkDataNames = {};
@@ -196,12 +220,12 @@ fs.readFile(__dirname + '/data/data.xml', function(err, data) {
         string_network_data = "var network_data = " + string_network_data;
         string_network_connection = "var network_connection = " + string_network_connection;
 
-        fs.writeFile('/Users/Luan/Develop/WebPages/VIS/VisVerify/public/projects/Pedigree/data/network_data.js', string_network_data, function(err) {
+        fs.writeFile(__dirname + '/network_data.js', string_network_data, function(err) {
             if(err) throw err;
             console.log('network_data write completed');
         });
 
-        fs.writeFile('/Users/Luan/Develop/WebPages/VIS/VisVerify/public/projects/Pedigree/data/network_connectnion.js', string_network_connection, function(err) {
+        fs.writeFile(__dirname + 'network_connectnion.js', string_network_connection, function(err) {
             if(err) throw err;
             console.log('network_connectnion write completed');
         });

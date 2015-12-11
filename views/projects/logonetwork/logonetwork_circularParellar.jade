@@ -81,17 +81,6 @@ block body
             }
 
             var myTextArea = document.getElementById("text");
-            /*
-             var myCodeMirror = CodeMirror(function (elt) {
-             myTextArea.parentNode.replaceChild(elt, myTextArea);
-             },
-             {
-             value: myTextArea.value,
-             lineNumbers: true,
-             lineWrapping: true,
-             theme: '3024-day',
-             }
-             )*/
 
             for (var i = 0; i < circle_length + 1; i++) {
                 circle_line_data.push([i, 0])
@@ -208,10 +197,7 @@ block body
 
 
 
-
-
             function zoomed() {
-                //console.log("zoomed : " + d3.event.translate);
                 svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
             }
             function dragstarted(d) {
@@ -294,7 +280,6 @@ block body
             }
 
             var drawings = [];
-
             function drawInit(d) {
                 drawings.push({d: d});
             }
@@ -317,8 +302,8 @@ block body
                             .attr('logo', d.logo);
                     drawings[i].graph = graph;
                 }
-
             }
+
             function drawCircle() {
                 for (var i = 0; i < drawings.length; i++) {
                     var d = drawings[i].d;
@@ -346,8 +331,8 @@ block body
                             .attr('logo', d.logo);
                     drawings[i].circle = circle;
                 }
-
             }
+
             function drawText() {
                 for (var i = 0; i < drawings.length; i++) {
                     var d = drawings[i].d;

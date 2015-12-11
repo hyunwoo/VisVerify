@@ -26,15 +26,12 @@ block body
                         h4.fit.c5 Overview
                         h5.fit.c6 Download LDA Topic Modeling Document
             div.col-lg-8.img-content
-                h4.light(style='line-height: 160%;font-size:15px').
-                    본 API는 CSV포맷의 데이터를 클러스터링 합니다.<br>
-                    3가지의 클러스터링 기법을 지원하며, 본 페이지에서는 클러스터의 결과를 Scatterplot형태로 확인 할 수 있습니다.
                 p
-                h4
-                    div.strike.c4
-                        span Description
                 div.row
                     div.col-lg-6
+                        h4.light(style='line-height: 160%;font-size:15px').
+                            본 API는 CSV포맷의 데이터를 클러스터링 합니다.<br>
+                            3가지의 클러스터링 기법을 지원하며, 본 페이지에서는 클러스터의 결과를 Scatterplot형태로 확인 할 수 있습니다.
                         h4.fit.light(style='line-height: 160%;font-size:15px').
                             <br><strong> 예제 사용방법 :</strong><br>
                             1. CSV데이터를 아래 Input 필드에 복사하여 붙혀 넣습니다.<br>
@@ -47,19 +44,23 @@ block body
                             ㄴ 1열은 데이터의 이름이어야 합니다.<br>
                     div.col-lg-6
                         h4.fit.light(style='line-height: 160%;font-size:15px').
-                            <br><strong> API : </strong><br>
-                            HTTP TYPE : POST<br>
-                            1. KMeans : /apis/cluster/KMeans<br>
-                            &nbsp;&nbsp;&nbsp;-    Parameter : meanCount(int), meanIter(int)<br>
-                            2. DBScan : /apis/cluster/DBScan<br>
-                            &nbsp;&nbsp;&nbsp;-    Parameter : radius(float), points(int)<br>
-                            3. Optics : /apis/cluster/Optics<br>
-                            &nbsp;&nbsp;&nbsp;-    Parameter : radius(float), points(int)<br>
-
-                p
-                h5.
-                    Input Parameter에 대한 자세한 설명과 Return Value는 아래 예제를 통해 확인 가능합니다.
-
+                            <strong> API : </strong> HTTP TYPE (Post)
+                        pre.
+                            <strong>1. KMeans : /apis/cluster/KMeans</strong>
+                            Parameter :
+                                body(csv-String)
+                                meanCount(int)
+                                meanIter(int)<br>
+                            <strong>2. DBScan : /apis/cluster/DBScan</strong>
+                            Parameter :
+                                body(csv-String)
+                                radius(float)
+                                points(int)<br>
+                            <strong>3. Optics : /apis/cluster/Optics</strong>
+                            Parameter :
+                                body(csv-String)
+                                radius(float)
+                                points(int)
         p.double
         div.center.c4.strike
             span
@@ -67,7 +68,6 @@ block body
                     span.glyphicon.glyphicon-play-circle(style='font-size:17px')
                     | &nbsp;&nbsp;Input Data (CSV File Format)
         .space
-
         div
             div.row
                 div.col-sm-4(style='text-align:center')

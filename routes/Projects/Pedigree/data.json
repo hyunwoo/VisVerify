@@ -1,0 +1,48 @@
+{
+    "name": "권행",
+    "size": 1,
+    "children": [
+        {
+            "name": "권인행",
+            "grade": "12",
+            "period": "1",
+            "sex": "0",
+            "depth": "2",
+            "grade_exam": "미상",
+            "family_origin": "안동",
+            "children": [
+                {
+                    "name": "권책",
+                    "grade": "5",
+                    "period": "2",
+                    "sex": "0",
+                    "depth": "3",
+                    "grade_exam": "미상",
+                    "family_origin": "안동",
+                    "children": [
+                        {
+                            "name": "권균한",
+                            "grade": "5",
+                            "period": "2",
+                            "sex": "0",
+                            "depth": "4",
+                            "grade_exam": "미상",
+                            "family_origin": "안동",
+                            "children": [
+                                {
+                                    "name": "권자팽",
+                                    "grade": "5",
+                                    "period": "3",
+                                    "sex": "0",
+                                    "depth": "5",
+                                    "grade_exam": "미상",
+                                    "family_origin": "안동"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -8,18 +8,23 @@ function renderer() {
     var network;
     var allNodes;
     var highlightActive = false;
-    var nodesDataset//; = new vis.DataSet(nodes); // these come from WorldCup2014.js
-    var edgesDataset//; = new vis.DataSet(edges); // these come from WorldCup2014.js
-    // create a network
+    var nodesDataset;
+    var edgesDataset;
+
     function render() {
         nodesDataset = new vis.DataSet(nodes);
         edgesDataset = new vis.DataSet(edges);
+
+        for(var i = 0 ; i < nodes.length; i ++){
+            if(group_count[nodes[i].group] == null) group_count[nodes[i].group] = 1;
+            else group_count[nodes[i].group] ++;
+        }
         console.log('NODE COUNT : ' + nodes.length);
         console.log('EDGE COUNT : ' + edges.length);
-
         console.log('render');
+
         var container = document.getElementById('renderer');
-        var physic_forceAtlas =  {
+        var physic_forceAtlas = {
             stabilization: false,
             "forceAtlas2Based": {
                 "springLength": 100
@@ -28,7 +33,7 @@ function renderer() {
             "solver": "forceAtlas2Based",
             "timestep": 0.15
         }
-        var physic_barneshut =  {
+        var physic_barneshut = {
             stabilization: false,
             barnesHut: {
                 gravitationalConstant: -20000,
@@ -40,63 +45,43 @@ function renderer() {
             nodes: {
                 shape: 'dot',
                 scaling: {
-                    min: 25,
-                    max: 55,
-                    label: {
-                        min: 20,
-                        max: 40,
-                        drawThreshold: 12,
-                        maxVisible: 20
-                    }
+                    min: 10,
+                    max: 100,
                 },
                 font: {
-                    size: 13,
-                    face: 'Tahoma',
-                    color: '#222222'
+                    size: 50,
+                    face: 'Tahoma'
+                }
+            },
+            edges: {
+                width: 0.15,
+                color: {inherit: 'from'},
+                smooth: {
+                    type: 'continuous'
                 }
             },
             physics: {
-                forceAtlas2Based: {
-                    gravitationalConstant: -26,
-                    centralGravity: 0.005,
-                    springLength: 230,
-                    springConstant: 0.18
-                },
-                maxVelocity: 146,
-                solver: 'forceAtlas2Based',
-                timestep: 0.35,
-                stabilization: {iterations: 150}
+                stabilization: false,
+                barnesHut: {
+                    gravitationalConstant: -80000,
+                    springConstant: 0.001,
+                    springLength: 200
+                }
             },
         };
-        var data = {nodes:nodesDataset, edges:edgesDataset} // Note: data is coming from ./datasources/WorldCup2014.js
+
+
+        var data = {nodes: nodesDataset, edges: edgesDataset} // Note: data is coming from ./datasources/WorldCup2014.js
         network = new vis.Network(container, data, options);
-// get a JSON object
-        allNodes = nodesDataset.get({returnType:"Object"});
-        network.on("click",neighbourhoodHighlight);
-        /*
-         network.on("stabilizationProgress", function (params) {
-         var maxWidth = 496;
-         var minWidth = 20;
-         var widthFactor = params.iterations / params.total;
-         var width = Math.max(minWidth, maxWidth * widthFactor);
-         document.getElementById('bar').style.width = width + 'px';
-         document.getElementById('text').innerHTML = Math.round(widthFactor * 100) + '%';
-         });
-         network.once("stabilizationIterationsDone", function () {
-         document.getElementById('text').innerHTML = '100%';
-         document.getElementById('bar').style.width = '496px';
-         document.getElementById('loadingBar').style.opacity = 0;
-         // really clean the dom element
-         setTimeout(function () {
-         document.getElementById('loadingBar').style.display = 'none';
-         }, 500);
-         });*/
+        allNodes = nodesDataset.get({returnType: "Object"});
+        network.on("click", neighbourhoodHighlight);
     }
+
     function neighbourhoodHighlight(params) {
         // if something is selected:
         if (params.nodes.length > 0) {
             highlightActive = true;
-            var i,j;
+            var i, j;
             var selectedNode = params.nodes[0];
             var degrees = 2;
             // mark all nodes as hard to read.
@@ -107,6 +92,10 @@ function renderer() {
                     allNodes[nodeId].label = undefined;
                 }
             }
+
+            console.log(allNodes[selectedNode]);
+            // set group highlight;
+            selectGroup(allNodes[selectedNode].group)
             var connectedNodes = network.getConnectedNodes(selectedNode);
             var allConnectedNodes = [];
             // get the second degree nodes
@@ -149,7 +138,6 @@ function renderer() {
             }
             highlightActive = false
         }
-// transform the object into an array
         var updateArray = [];
         for (nodeId in allNodes) {
             if (allNodes.hasOwnProperty(nodeId)) {
@@ -158,12 +146,19 @@ function renderer() {
         }
         nodesDataset.update(updateArray);
     }
+
     function clearProgress() {
         document.getElementById('text').innerHTML = '0%';
         document.getElementById('bar').style.width = '0px';
         document.getElementById('loadingBar').style.opacity = 1;
         document.getElementById('loadingBar').style.display = 'inline';
     }
+
+    function selectGroup(g){
+        d3_time.draw(g);
+        d3_gender.draw(g);
+    }
+
     renderer.clearProgress = clearProgress;
     renderer.render = render;
 }

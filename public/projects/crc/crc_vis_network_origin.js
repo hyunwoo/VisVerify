@@ -6,21 +6,19 @@ function renderer() {
     var allNodes;
     var highlightActive = false;
     var nodes;
-    var nodesDataset//; = new vis.DataSet(nodes); // these come from WorldCup2014.js
-    var edgesDataset//; = new vis.DataSet(edges); // these come from WorldCup2014.js
+    var nodesDataset;
+    var edgesDataset;
 
     var originNodes = {};
+
     // create a network
-
-
     function render(d) {
         nodes = d.nodes;
         if (d !== undefined) {
             nodesDataset = new vis.DataSet(d.nodes);
             edgesDataset = new vis.DataSet(d.edges);
-
-
         } else return;
+
         var container = document.getElementById('renderer');
 
         var physic_forceAtlas = {
@@ -41,7 +39,6 @@ function renderer() {
                 springLength: 200
             },
         }
-
 
         var options = {
             nodes: {

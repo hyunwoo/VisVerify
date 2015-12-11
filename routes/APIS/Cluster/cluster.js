@@ -6,9 +6,7 @@ var router = express.Router();
 var clustering = require('density-clustering');
 var kmeans = require('kmeans');
 
-
 module.exports = router;
-
 
 router.get('/', function (req, res) {
     res.render('apis/cluster/cluster');

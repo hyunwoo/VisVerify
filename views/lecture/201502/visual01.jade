@@ -1,27 +1,41 @@
 extends ../../intro_layout
 //<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
 block body
-    div.head
-        div(align='center' , style='margin-left:20px')
-            h4.fit.
-                CRC - Free Forced Network
-            h5.fiter
-                c2.
-                    단백질 유전자의 네트워크 시각화
-    div#renderer(style='width:100%;height:100vh;background-color: #ffffff;' )
-    //#loadingBar
-        .outerBorder
-            #text 0%
-            #border
-                #bar
+    div(style='width:100%;height:100vh;background-color: #c9c9c9;')
+        div.head(style='width:100%;left:0px;height:6%;position:absolute;z-index:1;')
+            div(align='center' , style='margin-left:20px;margin-top:-10px')
+                h4.fiter
+                    c2.
+                        Cardz - Code9
+        div.borderSmooth#renderer(style='position:absolute;left:4%;width:60%;top:9%;height:89%;background-color: #e8e8e6;z-index:0;' )
+        div.borderSmooth#window_scenario(style='position:absolute;left:65%;width:34%;top:9%;height:25%;background-color: #e8e8e6;z-index:0;' )
+        div.borderSmooth#d3_time(style='position:absolute;left:65%;width:34%;top:35%;height:31%;background-color: #e8e8e6;z-index:0;' )
+        div.borderSmooth#d3_gender(style='position:absolute;left:65%;width:34%;top:67%;height:31%;background-color: #e8e8e6;z-index:0;' )
+
+    style.
+        .borderSmooth {
+            border: solid;
+            border-width: 1px;
+            border-color: #a0a0a0;
+        }
 
     link(rel='stylesheet', href='/css/vis.css')
     script(src='/js/vis.js')
     script(src='/lecture/201502/data/edges.js')
     script(src='/lecture/201502/data/nodes.js')
+    script(src='/lecture/201502/data/groupinfo.js')
     script(src='/lecture/201502/vis_network.js')
+    script(src='/lecture/201502/d3_timegraph.js')
+    script(src='/lecture/201502/d3_gendergraph.js')
     script.
-        console.log('in');
+        var group_count = {};
         renderer();
         renderer.render();
+        d3_time();
+        d3_time.initialize();
+
+        d3_gender();
+        d3_gender.initialize();
+        d3_gender.draw(0);
+        //d3_time.draw();
 
