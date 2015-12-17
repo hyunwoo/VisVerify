@@ -433,7 +433,7 @@ var groupinfo = [
             1058
         ],
         "time": [
-            1058,
+            89,
             11,
             0,
             0,
@@ -459,7 +459,7 @@ var groupinfo = [
             66
         ],
         "maxSex": 12606,
-        "maxTime": 1058
+        "maxTime": 596
     },
     {
         "sex": [

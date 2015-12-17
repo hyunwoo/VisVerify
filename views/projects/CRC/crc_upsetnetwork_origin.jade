@@ -35,18 +35,17 @@ block body
                     p <br><br>
                     legend
                     p
-                    h5.light.fit(align='center') powered by H.Hyunwoo, &nbsp;&nbsp;contact : h.hyunwoo@gmail.com
+                    h5.light.fit(align='center').
+                        powered by H.Hyunwoo, &nbsp;&nbsp;contact : h.hyunwoo@gmail.com
                     p
 
     style.
-
-
-
         .borderSmooth {
             border: solid;
             border-width: 1px;
             border-color: #8f8f8f;
         }
+
         .grouplist {
 
         }
@@ -73,8 +72,8 @@ block body
             margin-bottom: 4px;
             padding: 0px;
             padding-left: 10px;
-            padding-top : 5px;
-            padding-bottom : 5px;
+            padding-top: 5px;
+            padding-bottom: 5px;
             -webkit-transition: border-left-width 0.2s;
             transition: border-left-width 0.2s;
         }
@@ -194,16 +193,16 @@ block body
 
 
     script.
-        function setDescription(s){
+        function setDescription(s) {
             document.getElementById("message").innerHTML = s;
         }
-        function setProgress(p){
+        function setProgress(p) {
             console.log('set P : ' + p)
             //document.getElementById("progressbar").style.width = p +"%";
-            document.getElementById("progressText").innerHTML = p +"%";
+            document.getElementById("progressText").innerHTML = p + "%";
 
         }
-        function modalOff(){
+        function modalOff() {
             $('#modal').modal('hide');
         }
 
@@ -212,7 +211,7 @@ block body
             var list = document.getElementById("items");
             var childLength = list.childNodes.length;
             var elementsParent = document.getElementById('selectElements');
-            elementsParent.style.visibility='hidden'
+            elementsParent.style.visibility = 'hidden'
             for (var i = childLength - 1; i >= 0; i--)
                 list.removeChild(list.childNodes[i]);
         }
@@ -220,7 +219,7 @@ block body
         function appendListItem(node) {
             var baseItems = document.getElementById('items');
             var elementsParent = document.getElementById('selectElements');
-            elementsParent.style.visibility='visible'
+            elementsParent.style.visibility = 'visible'
             var item = document.createElement('div');
             var itemClass = 'item g' + node.category;
             item.setAttribute('class', itemClass);
@@ -234,16 +233,16 @@ block body
             item.appendChild(desc);
 
             /*var desc = document.createElement('desc');
-            var p = document.createElement('p');
-            var text = 'Partial : ';
-            for(var i = 0 ; i < node.partialCategory.length ; i ++){
-                text += node.partialCategory[i].toFixed(1) ;
-                if(i != node.partialCategory.length - 1) text += ", ";
-            }
-            desc.innerHTML = text;
-            p.setAttribute('class', 'fit');
-            item.appendChild(p);
-            item.appendChild(desc);*/
+             var p = document.createElement('p');
+             var text = 'Partial : ';
+             for(var i = 0 ; i < node.partialCategory.length ; i ++){
+             text += node.partialCategory[i].toFixed(1) ;
+             if(i != node.partialCategory.length - 1) text += ", ";
+             }
+             desc.innerHTML = text;
+             p.setAttribute('class', 'fit');
+             item.appendChild(p);
+             item.appendChild(desc);*/
 
 
             baseItems.appendChild(item);

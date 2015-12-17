@@ -35,12 +35,12 @@ router.get('/getOriginNetwork', function (req, res) {
     console.log("GET CRC DATA");
     var start = Number(req.query.start);
     var count = Number(req.query.count);
-    console.log(start,count);
-    if(count === undefined) count = 100;
-    if(start === undefined) start = 1;
-    if(start < 1) start = 1;
+    console.log(start, count);
+    if (count === undefined) count = 100;
+    if (start === undefined) start = 1;
+    if (start < 1) start = 1;
 
-    getCRCToNetworkData(start, count, function(d){
+    getCRCToNetworkData(start, count, function (d) {
         res.send(d);
     })
 })
@@ -50,12 +50,12 @@ router.get('/getVisNetwork', function (req, res) {
     console.log("GET CRC DATA");
     var start = Number(req.query.start);
     var count = Number(req.query.count);
-    console.log(start,count);
-    if(count === undefined) count = 100;
-    if(start === undefined) start = 1;
-    if(start < 1) start = 1;
+    console.log(start, count);
+    if (count === undefined) count = 100;
+    if (start === undefined) start = 1;
+    if (start < 1) start = 1;
 
-    getCRCToVisNetworkData(start, count, function(d){
+    getCRCToVisNetworkData(start, count, function (d) {
         res.send(d);
     })
 })
@@ -64,24 +64,23 @@ router.get('/getBundleData', function (req, res) {
     console.log("GET CRC DATA");
     var start = Number(req.query.start);
     var count = Number(req.query.count);
-    console.log(start,count);
-    if(count === undefined) count = 100;
-    if(start === undefined) start = 1;
-    if(start < 1) start = 1;
+    console.log(start, count);
+    if (count === undefined) count = 100;
+    if (start === undefined) start = 1;
+    if (start < 1) start = 1;
 
-    getCRCToBundleData(start, count, function(d){
+    getCRCToBundleData(start, count, function (d) {
         res.send(d);
     })
 })
 
 
-
 //getCRCToNetworkData(1, 500, function(d){ console.log(d) })
-function getCRCToNetworkData(start,count, func){
+function getCRCToNetworkData(start, count, func) {
     var multi = db.multi();
 
-    if(count === undefined) count = 100;
-    if(start === undefined) start = 1;
+    if (count === undefined) count = 100;
+    if (start === undefined) start = 1;
 
     console.log("REQUEST TO DATABASE GET : " + start + " , " + count)
 
@@ -94,32 +93,32 @@ function getCRCToNetworkData(start,count, func){
         multi.smembers('' + i);
     }
     multi.exec(function (err, rep) {
-        if(err != null){
+        if (err != null) {
             func({
-                success:false,
-                err : err,
+                success: false,
+                err: err,
             })
             return;
         }
         //console.log(err, rep);
         var points = [];
         var connections = [];
-        for(var i = 1; i < count + 1; i ++){
+        for (var i = 1; i < count + 1; i++) {
             var prefix = rep[i].name[0];
             var score = (bases.fromBase62(prefix) - 36) / 26;
 
             points.push({
-                id : rep[i].name,
-                idx : rep[i].id,
-                size : 1,
-                type : 'circle',
-                score : score,
+                id: rep[i].name,
+                idx: rep[i].id,
+                size: 1,
+                type: 'circle',
+                score: score,
 
             });
         }
-        for(var i = 1; i < count + 1; i ++){
+        for (var i = 1; i < count + 1; i++) {
             var connect = rep[i + count + 1];
-            if(connect != null) {
+            if (connect != null) {
                 for (var j = 0; j < connect.length; j++) {
                     var target = Number(connect[j]);
                     target = target - start;
@@ -141,8 +140,8 @@ function getCRCToNetworkData(start,count, func){
 
         var result = {
             success: true,
-            nodes : points,
-            links : connections,
+            nodes: points,
+            links: connections,
         }
         func(result);
     })
@@ -152,11 +151,11 @@ function getCRCToNetworkData(start,count, func){
 
 var kmeans = require('node-kmeans');
 //getCRCToVisNetworkData(10, 25, function(d){ console.log(d) })
-function getCRCToVisNetworkData(start,count, func){
+function getCRCToVisNetworkData(start, count, func) {
     var multi = db.multi();
 
-    if(count === undefined) count = 100;
-    if(start === undefined) start = 1;
+    if (count === undefined) count = 100;
+    if (start === undefined) start = 1;
 
     console.log("REQUEST TO DATABASE GET : " + start + " , " + count)
 
@@ -169,10 +168,10 @@ function getCRCToVisNetworkData(start,count, func){
         multi.smembers('' + i);
     }
     multi.exec(function (err, rep) {
-        if(err != null){
+        if (err != null) {
             func({
-                success:false,
-                err : err,
+                success: false,
+                err: err,
             })
             return;
         }
@@ -180,21 +179,21 @@ function getCRCToVisNetworkData(start,count, func){
         var points = [];
         var connections = [];
         var vectors = new Array();
-        for(var i = 0 ; i < count ; i ++){
+        for (var i = 0; i < count; i++) {
             var arr = [];
-            for(var j = 0 ; j < count ; j ++){
+            for (var j = 0; j < count; j++) {
                 arr.push(0);
             }
             vectors[i] = arr;
         }
 
-        for(var i = count + 2; i < count * 2 + 2 ; i ++){
+        for (var i = count + 2; i < count * 2 + 2; i++) {
 
-            var from = i -(count + 2)+ start;
+            var from = i - (count + 2) + start;
             var vector_idx = from - start;
-            for(var j = 0 ; j < rep[i].length ; j ++) {
+            for (var j = 0; j < rep[i].length; j++) {
                 var connect = Number(rep[i][j]);
-                if(connect > Number(start) && connect < Number(start) + Number(count)){
+                if (connect > Number(start) && connect < Number(start) + Number(count)) {
                     //console.log(connect , connect-start)
                     vectors[vector_idx][connect - Number(start)] = 1;
                 }
@@ -206,35 +205,35 @@ function getCRCToVisNetworkData(start,count, func){
         }
 
         var kCount = 5;
-        kmeans.clusterize(vectors, {k: kCount}, function(err,res) {
-            if (err){
+        kmeans.clusterize(vectors, {k: kCount}, function (err, res) {
+            if (err) {
                 console.error(err);
                 return;
             }
 
-            for(var i = 1; i < count + 1; i ++){
+            for (var i = 1; i < count + 1; i++) {
                 var prefix = rep[i].name[0];
-                var score = (bases.fromBase62(prefix) - 36) ;
+                var score = (bases.fromBase62(prefix) - 36);
 
                 points.push({
-                    label : rep[i].name,
-                    id : rep[i].id - start,
-                    group : 0,
-                    category : 0,
-                    partialCategory : [],
-                    isConnect : false,
-                    value : 1,
-                    color : '#666666',
-                    saved_color : '#666666',
-                    visible : true,
+                    label: rep[i].name,
+                    id: rep[i].id - start,
+                    group: 0,
+                    category: 0,
+                    partialCategory: [],
+                    isConnect: false,
+                    value: 1,
+                    color: '#666666',
+                    saved_color: '#666666',
+                    visible: true,
                 });
             }
 
             var groups = [];
-            for(var i = 0 ; i < res.length ; i ++){
+            for (var i = 0; i < res.length; i++) {
                 var group = {
-                    count : res[i].clusterInd.length,
-                    items : res[i].clusterInd,
+                    count: res[i].clusterInd.length,
+                    items: res[i].clusterInd,
                 }
                 groups.push(group);
             }
@@ -242,8 +241,8 @@ function getCRCToVisNetworkData(start,count, func){
             groups.sort(sortBy('-count'))
 
 
-            for(var i = 0 ; i < groups.length ; i ++){
-                for(var j = 0 ; j < groups[i].items.length ; j ++){
+            for (var i = 0; i < groups.length; i++) {
+                for (var j = 0; j < groups[i].items.length; j++) {
                     var point = points[groups[i].items[j]];
                     //point.group = i;
                     point.category = i;
@@ -251,10 +250,10 @@ function getCRCToVisNetworkData(start,count, func){
                     var max = 0;
                     var maxIdx = 0;
                     var setMax = false;
-                    for(var k = 0 ; k < kCount; k ++){
-                        if( k == i) point.partialCategory.push(1);
+                    for (var k = 0; k < kCount; k++) {
+                        if (k == i) point.partialCategory.push(1);
                         else {
-                            if(useRandomSeed){
+                            if (useRandomSeed) {
                                 var val = Math.random();
                                 point.partialCategory.push(val);
                                 if (val > max) {
@@ -269,7 +268,7 @@ function getCRCToVisNetworkData(start,count, func){
                             }
                         }
                     }
-                    if(useRandomSeed) {
+                    if (useRandomSeed) {
 
                         if (setMax == true) {
                             if (i == 0) {
@@ -285,11 +284,11 @@ function getCRCToVisNetworkData(start,count, func){
                 }
             }
 
-            for(var i = 1; i < count + 1; i ++){
+            for (var i = 1; i < count + 1; i++) {
                 var connect = rep[i + count + 1];
                 var source = i - 1;
                 var isChecked = false;
-                if(connect != null) {
+                if (connect != null) {
 
                     for (var j = 0; j < connect.length; j++) {
                         var target = Number(connect[j]);
@@ -316,20 +315,20 @@ function getCRCToVisNetworkData(start,count, func){
             }
 
             var notConnectList = [];
-            for(var i = 0 ; i < points.length; i ++){
-                if(!points[i].isConnect) {
+            for (var i = 0; i < points.length; i++) {
+                if (!points[i].isConnect) {
                     notConnectList.push(i);
                 }
             }
 
-            for(var i = notConnectList.length - 1 ; i >= 0 ; i --){
-                points.splice(notConnectList[i],1);
+            for (var i = notConnectList.length - 1; i >= 0; i--) {
+                points.splice(notConnectList[i], 1);
             }
 
             var result = {
                 success: true,
-                nodes : points,
-                edges : connections,
+                nodes: points,
+                edges: connections,
             }
 
             func(result);
@@ -342,11 +341,11 @@ function getCRCToVisNetworkData(start,count, func){
 }
 
 //getCRCToBundleData(1, 100, function(d){console.log(JSON.stringify(d, null, 4))})
-function getCRCToBundleData(start,count, func){
+function getCRCToBundleData(start, count, func) {
     var multi = db.multi();
 
-    if(count === undefined) count = 100;
-    if(start === undefined) start = 1;
+    if (count === undefined) count = 100;
+    if (start === undefined) start = 1;
 
     console.log("REQUEST TO DATABASE GET : " + start + " , " + count)
 
@@ -359,17 +358,17 @@ function getCRCToBundleData(start,count, func){
         multi.smembers('' + i);
     }
     multi.exec(function (err, rep) {
-        if(err != null){
+        if (err != null) {
             func({
-                success:false,
-                err : err,
+                success: false,
+                err: err,
             })
             return;
         }
         //console.log(err, rep);
         var points = [];
         var connections = [];
-        for(var i = 1; i < count + 1; i ++){
+        for (var i = 1; i < count + 1; i++) {
             var prefix = rep[i].name[0];
             var score = (bases.fromBase62(prefix) - 36) / 26;
 
@@ -378,23 +377,23 @@ function getCRCToBundleData(start,count, func){
 
 
             var d = {
-                name : rep[i].id - start,
-                convert_name : convert_name,
-                size : 1,
-                type : 'circle',
-                score : score,
-                imports : [],
+                name: rep[i].id - start,
+                convert_name: convert_name,
+                size: 1,
+                type: 'circle',
+                score: score,
+                imports: [],
             }
 
             var connect = rep[i + count + 1];
-            if(connect == null) continue;
-            for(var j = 0 ; j < connect.length ; j ++){
+            if (connect == null) continue;
+            for (var j = 0; j < connect.length; j++) {
                 var target = Number(connect[j]);
-                target = target ;
-                if(target < 0) continue;
-                if(target >= count) continue;
+                target = target;
+                if (target < 0) continue;
+                if (target >= count) continue;
                 var source = i - 1;
-                if(source >= target) continue;
+                if (source >= target) continue;
 
                 d.size += 3;
                 d.imports.push(target + '');
@@ -408,7 +407,7 @@ function getCRCToBundleData(start,count, func){
 
         var result = {
             success: true,
-            data : points,
+            data: points,
         }
 
 

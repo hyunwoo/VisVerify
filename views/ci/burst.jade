@@ -1,0 +1,179 @@
+//
+   Created by Luan on 15. 10. 30..
+
+//
+   Created by Luan on 15. 9. 15..
+extends ../projects_layout
+block body
+
+    script(src='http://www.d3plus.org/js/d3.js')
+    script(src='http://www.d3plus.org/js/d3plus.js')
+    style.
+        .strokeblack {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 2px;
+        }
+    div.container-fulid(style='z-index:0;position:absolute;left:0px;top:0px;width:100%;background:#000000')
+        div.row
+            div.col-sm-9
+                #renderer(style='height:100vh;background:#000000')
+            div.col-sm-2(style='height:90vh;overflow-y:scroll;margin-top:30px;background:#ffffff')
+                h4.fit(align='center').
+                    Controller
+                div(align='center')
+                    input#input_elementCount(style='height:30px;margin:2px 1px',type="number")
+                    button.btn.btn-warning(onclick='initialize()',style='height:30px;margin:2px 1px') Make Table
+                p
+                div#div_inputs(align='center')
+                p
+
+                div(align='center')
+                    button.btn.btn-success(onclick='make()',style='width:100%') Update Graphic
+
+    script.
+        var elementCount = 4;
+        var values = [];
+        var inputs = [];
+
+        var parent = document.getElementById("div_inputs");
+
+        function initialize() {
+            checkValues();
+
+            for (var i = 0; i < inputs.length; i++) {
+                var i_size = inputs[i].input_size;
+                var i_color = inputs[i].input_color;
+                var i_size2 = inputs[i].input_size2;
+                var i_color2 = inputs[i].input_color2;
+                var text = inputs[i].text;
+                parent.removeChild(i_size);
+                parent.removeChild(i_color);
+                parent.removeChild(i_size2);
+                parent.removeChild(i_color2);
+                parent.removeChild(text);
+            }
+            inputs = [];
+            elementCount = Number(document.getElementById("input_elementCount").value);
+
+            for (var i = 0; i < elementCount; i++) {
+                var text = document.createElement('p');
+                text.innerHTML = (i + 1) + " Element ";
+                var input_size = document.createElement("INPUT");
+                input_size.setAttribute("type", "number");
+                input_size.style.height = '20px';
+                input_size.style.margin = '2px 1px';
+                var input_color = document.createElement("INPUT");
+                input_color.style.height = '20px';
+                input_color.style.margin = '4px 1px 0px 1px';
+                input_color.setAttribute("type", "color");
+
+                var input_size2 = document.createElement("INPUT");
+                input_size2.setAttribute("type", "number");
+                input_size2.style.height = '20px';
+                input_size2.style.margin = '2px 1px';
+                var input_color2 = document.createElement("INPUT");
+                input_color2.style.height = '20px';
+                input_color2.style.margin = '4px 1px 0px 1px';
+
+                input_color2.setAttribute("type", "color");
+                if (values[i] !== undefined) {
+                    input_size.value = values[i].size;
+                    input_color.value = values[i].color;
+                    input_size2.value = values[i].size2;
+                    input_color2.value = values[i].color2;
+                } else {
+                    input_size.value = Math.floor(Math.random() * 100) + 50;
+                    input_color.value = '#FFAA00';
+                    input_size2.value = 0;
+                    input_color2.value = '#00FFAA';
+                }
+
+                parent.appendChild(input_size);
+                parent.appendChild(input_color);
+                parent.appendChild(input_size2);
+                parent.appendChild(input_color2);
+                parent.appendChild(text);
+                inputs.push({
+                    input_size: input_size,
+                    input_color: input_color,
+                    input_size2: input_size2,
+                    input_color2: input_color2,
+                    text: text,
+                })
+
+            }
+        }
+
+        function checkValues() {
+            values = [];
+            for (var i = 0; i < inputs.length; i++) {
+                values.push({
+                    size: inputs[i].input_size.value,
+                    color: inputs[i].input_color.value,
+                    size2: inputs[i].input_size2.value,
+                    color2: inputs[i].input_color2.value,
+                });
+            }
+        }
+
+        function make() {
+            checkValues();
+            draw();
+        }
+
+
+        var svg;
+        var pi = Math.PI;
+
+        var width = document.getElementById("renderer").offsetWidth;
+        var height = document.getElementById("renderer").offsetHeight;
+
+
+
+
+        draw();
+        function draw(){
+
+            if(svg != null) svg.remove();
+
+            svg = d3.select("#renderer").append("svg")
+            svg.attr("width", width).attr("height", height)
+
+            var eleCount = values.length;
+            var each_angle = pi * 2 / eleCount;
+            var c_width = width / 2;
+            var c_height = height / 2;
+
+            function makeArc(height, index) {
+                return d3.svg.arc()
+                        .innerRadius(0)
+                        .outerRadius(height)
+                        .startAngle(each_angle * index - each_angle / 2) //converting from degs to radians
+                        .endAngle(each_angle * (index + 1) - each_angle / 2) //just radians
+            }
+
+            console.log('Prepare : ' + eleCount);
+            for (var i = 0; i < eleCount; i++) {
+                var size1 = values[i].size;
+                var color1 = values[i].color;
+                var size2 = values[i].size2;
+                var color2 = values[i].color2;
+
+                console.log('draw element');
+                var arc = makeArc(Number(size1), i);
+                svg.append("path")
+                        .attr("d", arc)
+                        .attr("fill", color1)
+                        .attr("transform", "translate(" + c_width + "," + c_height + ")")
+                        .attr("class", "strokeblack")
+
+                if(size2 == 0) continue;
+                var arc2 = makeArc(Number(size2), i);
+                svg.append("path")
+                        .attr("d", arc2)
+                        .attr("fill", color2)
+                        .attr("transform", "translate(" + c_width + "," + c_height + ")")
+                        .attr("class", "strokeblack")
+            }
+        }
+

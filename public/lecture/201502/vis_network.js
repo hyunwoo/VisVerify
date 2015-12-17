@@ -15,9 +15,9 @@ function renderer() {
         nodesDataset = new vis.DataSet(nodes);
         edgesDataset = new vis.DataSet(edges);
 
-        for(var i = 0 ; i < nodes.length; i ++){
-            if(group_count[nodes[i].group] == null) group_count[nodes[i].group] = 1;
-            else group_count[nodes[i].group] ++;
+        for (var i = 0; i < nodes.length; i++) {
+            if (group_count[nodes[i].group] == null) group_count[nodes[i].group] = 1;
+            else group_count[nodes[i].group]++;
         }
         console.log('NODE COUNT : ' + nodes.length);
         console.log('EDGE COUNT : ' + edges.length);
@@ -46,7 +46,7 @@ function renderer() {
                 shape: 'dot',
                 scaling: {
                     min: 10,
-                    max: 100,
+                    max: 60,
                 },
                 font: {
                     size: 50,
@@ -57,18 +57,26 @@ function renderer() {
                 width: 0.15,
                 color: {inherit: 'from'},
                 smooth: {
-                    type: 'continuous'
-                }
-            },
-            physics: {
-                stabilization: false,
-                barnesHut: {
-                    gravitationalConstant: -80000,
-                    springConstant: 0.001,
-                    springLength: 200
-                }
-            },
-        };
+                    type: 'continuous'x`
+    }
+    },
+        physics: {
+            stabilization: false,
+                barnesHut
+        :
+            {
+                gravitationalConstant: -80000,
+                    springConstant
+            :
+                0.001,
+                    springLength
+            :
+                200
+            }
+        }
+    ,
+    }
+        ;
 
 
         var data = {nodes: nodesDataset, edges: edgesDataset} // Note: data is coming from ./datasources/WorldCup2014.js
@@ -154,7 +162,7 @@ function renderer() {
         document.getElementById('loadingBar').style.display = 'inline';
     }
 
-    function selectGroup(g){
+    function selectGroup(g) {
         d3_time.draw(g);
         d3_gender.draw(g);
     }
