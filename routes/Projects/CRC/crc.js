@@ -11,8 +11,6 @@ var functions = require('../../../functions/defaultFunctions');
 module.exports = router;
 
 var useRandomSeed = true;
-var noLinkedOpacity;
-
 
 router.get('/', function (req, res) {
     res.render('projects/CRC/crc_main');

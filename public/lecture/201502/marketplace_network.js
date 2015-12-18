@@ -42,41 +42,35 @@ function renderer() {
             },
         }
         var options = {
-            nodes: {
-                shape: 'dot',
-                scaling: {
-                    min: 10,
-                    max: 60,
+                nodes: {
+                    shape: 'dot',
+                    scaling: {
+                        min: 10,
+                        max: 60,
+                    },
+                    font: {
+                        size: 50,
+                        face: 'Tahoma'
+                    }
                 },
-                font: {
-                    size: 50,
-                    face: 'Tahoma'
+                edges: {
+                    width: 0.15,
+                    color: {inherit: 'from'},
+                    smooth: {
+                        type: 'continuous'
+                    }
+                },
+                physics: {
+                    stabilization: false,
+                    barnesHut: {
+                        gravitationalConstant: -80000,
+                        springConstant: 0.001,
+                        springLength: 200
+                    }
                 }
-            },
-            edges: {
-                width: 0.15,
-                color: {inherit: 'from'},
-                smooth: {
-                    type: 'continuous'x`
-    }
-    },
-        physics: {
-            stabilization: false,
-                barnesHut
-        :
-            {
-                gravitationalConstant: -80000,
-                    springConstant
-            :
-                0.001,
-                    springLength
-            :
-                200
+                ,
             }
-        }
-    ,
-    }
-        ;
+            ;
 
 
         var data = {nodes: nodesDataset, edges: edgesDataset} // Note: data is coming from ./datasources/WorldCup2014.js

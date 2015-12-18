@@ -1,18 +1,13 @@
-//
-   Created by Luan on 15. 10. 30..
-
-//
-   Created by Luan on 15. 9. 15..
 extends ../projects_layout
-block body
 
+block body
     script(src='http://www.d3plus.org/js/d3.js')
     script(src='http://www.d3plus.org/js/d3plus.js')
     style.
         .strokeblack {
             stroke: rgb(0, 0, 0);
             stroke-width: 2px;
-        }
+
     div.container-fulid(style='z-index:0;position:absolute;left:0px;top:0px;width:100%;background:#000000')
         div.row
             div.col-sm-9
@@ -29,7 +24,6 @@ block body
 
                 div(align='center')
                     button.btn.btn-success(onclick='make()',style='width:100%') Update Graphic
-
     script.
         var elementCount = 4;
         var values = [];
@@ -132,9 +126,9 @@ block body
 
 
         draw();
-        function draw(){
+        function draw() {
 
-            if(svg != null) svg.remove();
+            if (svg != null) svg.remove();
 
             svg = d3.select("#renderer").append("svg")
             svg.attr("width", width).attr("height", height)
@@ -167,7 +161,7 @@ block body
                         .attr("transform", "translate(" + c_width + "," + c_height + ")")
                         .attr("class", "strokeblack")
 
-                if(size2 == 0) continue;
+                if (size2 == 0) continue;
                 var arc2 = makeArc(Number(size2), i);
                 svg.append("path")
                         .attr("d", arc2)
