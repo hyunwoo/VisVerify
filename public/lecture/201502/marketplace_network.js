@@ -21,7 +21,12 @@ function renderer() {
                 case 0:
                     nodes[i].color = '#29849c';
                     break;
-
+                case 14:
+                    nodes[i].color = '#618596';
+                    break;
+                case 10:
+                    nodes[i].color = '#395268';
+                    break;
                 default:
                     //nodes[i].color = '#8f8f8f';
                     break;
