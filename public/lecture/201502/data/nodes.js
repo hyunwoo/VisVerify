@@ -288,51 +288,6 @@ var nodes = [
         "isConnect": true
     },
     {
-        "label": "서적/도서",
-        "id": 100,
-        "group": 3,
-        "value": 2282,
-        "category": "잡화/생활용품",
-        "size": 0.10062334523536265,
-        "isConnect": true
-    },
-    {
-        "label": "아이스크림",
-        "id": 454,
-        "group": 3,
-        "value": 2629,
-        "category": "식료품점",
-        "size": 0.30487791495397687,
-        "isConnect": true
-    },
-    {
-        "label": "커피전문점",
-        "id": 485,
-        "group": 3,
-        "value": 3611,
-        "category": "술집/카페/다방",
-        "size": 0.8447063954081386,
-        "isConnect": true
-    },
-    {
-        "label": "전통주점",
-        "id": 513,
-        "group": 3,
-        "value": 4125,
-        "category": "술집/카페/다방",
-        "size": 0.953558842651546,
-        "isConnect": true
-    },
-    {
-        "label": "성형외과",
-        "id": 551,
-        "group": 3,
-        "value": 2889,
-        "category": "병원",
-        "size": 0.7793811860028654,
-        "isConnect": true
-    },
-    {
         "label": "미용실",
         "id": 8,
         "group": 6,
@@ -591,60 +546,6 @@ var nodes = [
         "value": 1349,
         "category": "식당",
         "size": 0.6151292268186808,
-        "isConnect": true
-    },
-    {
-        "label": "모텔",
-        "id": 18,
-        "group": 8,
-        "value": 5650,
-        "category": "여가생활",
-        "size": 0.012482900638133287,
-        "isConnect": true
-    },
-    {
-        "label": "편의점",
-        "id": 153,
-        "group": 8,
-        "value": 4474,
-        "category": "식료품점",
-        "size": 0.21410401910543442,
-        "isConnect": true
-    },
-    {
-        "label": "분식",
-        "id": 274,
-        "group": 8,
-        "value": 9309,
-        "category": "식당",
-        "size": 0.15557478880509734,
-        "isConnect": true
-    },
-    {
-        "label": "닭갈비",
-        "id": 354,
-        "group": 8,
-        "value": 4992,
-        "category": "식당",
-        "size": 0.8661857848055661,
-        "isConnect": true
-    },
-    {
-        "label": "커피전문점",
-        "id": 489,
-        "group": 8,
-        "value": 5539,
-        "category": "술집/카페/다방",
-        "size": 0.27576393098570406,
-        "isConnect": true
-    },
-    {
-        "label": "BAR",
-        "id": 522,
-        "group": 8,
-        "value": 4444,
-        "category": "술집/카페/다방",
-        "size": 0.13404974131844938,
         "isConnect": true
     },
     {

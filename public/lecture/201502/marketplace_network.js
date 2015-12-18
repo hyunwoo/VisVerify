@@ -12,6 +12,22 @@ function renderer() {
     var edgesDataset;
 
     function render() {
+
+        for(var i = 0 ; i < nodes.length ; i ++){
+            switch(nodes[i].group){
+                case 6:
+                    nodes[i].color = '#e2836d';
+                    break;
+                case 0:
+                    nodes[i].color = '#29849c';
+                    break;
+
+                default:
+                    //nodes[i].color = '#8f8f8f';
+                    break;
+            }
+        }
+
         nodesDataset = new vis.DataSet(nodes);
         edgesDataset = new vis.DataSet(edges);
 

@@ -4,8 +4,6 @@
 
 
 function d3_time() {
-
-
     var canvas = document.getElementById("d3_time");
     console.log(canvas);
     var width = canvas.offsetWidth;

@@ -4,21 +4,19 @@
 
 
 function d3_gender() {
-
-
     var line_colors = [
         // M
-        "#7986CB",
-        "#5C6BC0",
-        "#3F51B5",
-        "#3949AB",
-        "#303F9F",
+        "#52c1e7",
+        "#6bc7e9",
+        "#7ac5e3",
+        "#96ceea",
+        "#add7f0",
         // W
-        "#F06292",
-        "#EC407A",
-        "#E91E63",
-        "#D81B60",
-        "#C2185B",
+        "#e9587e",
+        "#ec738b",
+        "#ef8f9e",
+        "#f4b0b3",
+        "#f6c2c3",
     ];
     var canvas = document.getElementById("d3_gender");
     var width = canvas.offsetWidth;
@@ -58,7 +56,7 @@ function d3_gender() {
             y: graph_height_max + 20
         });
 
-        for(var i = 0 ; i < groupinfo[g].sex.length ; i ++){
+        for (var i = 0; i < groupinfo[g].sex.length; i++) {
             setGraphRatio(i, groupinfo[g].sex[i] / groupinfo[g].maxSex);
         }
     }
@@ -67,14 +65,14 @@ function d3_gender() {
         return n > 9 ? "" + n : "0" + n;
     }
 
-    function setGraphRatio(i,ratio){
+    function setGraphRatio(i, ratio) {
         var t = graph_height_max * ratio;
-        if(t < graph_gap / 3 * 2) t = graph_gap / 3 * 2;
+        if (t < graph_gap / 3 * 2) t = graph_gap / 3 * 2;
         var h = graph_height_max + 20 - t;
         circles[i]
-            .transition(1000).attr('cy',h + margin_top);
+            .transition(1000).attr('cy', h + margin_top);
         lines[i]
-            .transition(1000).attr('y2',h + margin_top);
+            .transition(1000).attr('y2', h + margin_top);
     }
 
     var makeLineGraphData =
@@ -109,7 +107,6 @@ function d3_gender() {
         }
 
         for (var i = 0; i < 10; i++) {
-
             svg.append('line')
                 .attr('x1', margin_left + graph_per * i + graph_width / 2)
                 .attr('y1', graph_height_max / 20 + margin_top)
@@ -123,7 +120,7 @@ function d3_gender() {
                 .attr('y', graph_height_max + 32 + margin_top)
                 .attr('x', margin_left + graph_per * i + graph_width / 2)
                 .text((i < 5 ? "M" : "W") + timeText(20 + 10 * (i % 5)))
-                .attr('font-size', graph_per / 5 )
+                .attr('font-size', graph_per / 5)
                 .attr("fill", '#2f2f2f')
                 .attr('text-anchor', 'middle')
 
@@ -133,13 +130,13 @@ function d3_gender() {
                 .attr('x2', margin_left + graph_per * i + graph_width / 2)
                 .attr('y2', graph_height_max + 20 + margin_top)
                 .attr('stroke', line_colors[i])
-                .attr('stroke-width', graph_per / 3 * 2)
+                .attr('stroke-width', graph_per / 3 * 1.25)
 
             var each_circle = svg.append('circle')
                 .attr('cx', margin_left + graph_per * i + graph_width / 2)
                 .attr('cy', 100 + margin_top)
                 .attr('fill', line_colors[i])
-                .attr('r', graph_per / 3 )
+                .attr('r', graph_per / 6 * 1.25)
 
 
             lines.push(each_line);

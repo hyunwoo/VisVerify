@@ -1,16 +1,15 @@
 extends ../../intro_layout
 //<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
 block body
-    div(style='width:100%;height:100vh;background-color: #c9c9c9;')
-        div.head(style='width:100%;left:0px;height:6%;position:absolute;z-index:1;')
-            div(align='center' , style='margin-left:20px;margin-top:-10px')
-                h4.fiter
-                    c2.
-                        Cardz - Code9
-        div.borderSmooth#renderer(style='position:absolute;left:4%;width:60%;top:9%;height:89%;background-color: #e8e8e6;z-index:0;' )
-        div.borderSmooth#window_scenario(style='position:absolute;left:65%;width:34%;top:9%;height:25%;background-color: #e8e8e6;z-index:0;' )
-        div.borderSmooth#d3_time(style='position:absolute;left:65%;width:34%;top:35%;height:31%;background-color: #e8e8e6;z-index:0;' )
-        div.borderSmooth#d3_gender(style='position:absolute;left:65%;width:34%;top:67%;height:31%;background-color: #e8e8e6;z-index:0;' )
+    div(style='width:100%;height:100vh;background-color: #000000;')
+        div#renderer(style='position:absolute;left:0%;width:100%;top:0%;height:100%;background-color: #e8e8e6;z-index:0;' )
+        div.borderSmooth#window_scenario(style='position:absolute;left:70%;width:28%;top:2%;height:25%;background-color: #e8e8e6;z-index:0;' )
+        div.borderSmooth#d3_time(style='position:absolute;left:70%;width:28%;top:28%;height:31%;background-color: #e8e8e6;z-index:0;' )
+        div.borderSmooth#d3_gender(style='position:absolute;left:70%;width:28%;top:60%;height:31%;background-color: #e8e8e6;z-index:0;' )
+        div#renderer_head(style='position:absolute;left:4%;width:250px;top:2%;height:89%;z-index:1;pointer-events: none; background-color:#none;' )
+            div(style='background-color:#e8e8e8;opacity:0.2')
+            h3.fit Market Place Code 10
+
 
     style.
         .borderSmooth {
@@ -39,4 +38,9 @@ block body
         d3_gender.initialize();
         d3_gender.draw(0);
         //d3_time.draw();
+
+
+        // draw headline
+
+
 
