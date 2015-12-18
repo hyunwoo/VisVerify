@@ -27,6 +27,20 @@ function renderer() {
                 case 10:
                     nodes[i].color = '#395268';
                     break;
+                // semi
+                    /*
+                     755e5c
+                     b1908b
+                     e1bd6e
+                     95928c
+                     be7b73
+                     */
+                case 7:
+                    break;
+                case 11:
+                    break;
+                case 12:
+                    break;
                 default:
                     //nodes[i].color = '#8f8f8f';
                     break;
@@ -70,7 +84,7 @@ function renderer() {
                         max: 60,
                     },
                     font: {
-                        size: 50,
+                        size: 25,
                         face: 'Tahoma'
                     }
                 },
