@@ -23,7 +23,14 @@ function d3_gender() {
     var height = canvas.offsetHeight;
 
     root = d3.select("#d3_gender").append("svg").attr('width', width).attr('height', height);
+
     var svg = root.append("g");
+    svg.append('text')
+        .attr('x',width/2)
+        .attr('y',14)
+        .text('The Number of Approval by Age')
+        .attr('font-size','12px')
+        .attr('text-anchor', 'middle')
     var svg_foreground = root.append("g");
 
     var margin_left = width / 11 / 3 * 2;

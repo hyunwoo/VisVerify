@@ -11,6 +11,12 @@ function d3_time() {
 
     root = d3.select("#d3_time").append("svg").attr('width', width).attr('height', height);
     var svg = root.append("g");
+    svg.append('text')
+        .attr('x',width/2)
+        .attr('y',14)
+        .text('The Number of Approval by Time')
+        .attr('font-size','12px')
+        .attr('text-anchor', 'middle')
     var svg_foreground = root.append("g");
 
     var margin_left = width / 25 / 3 * 2;

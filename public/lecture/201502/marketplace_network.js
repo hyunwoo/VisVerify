@@ -117,9 +117,12 @@ function renderer() {
     function neighbourhoodHighlight(params) {
         // if something is selected:
         if (params.nodes.length > 0) {
+            var selectedNode = params.nodes[0];
+            selectGroup(allNodes[selectedNode].group);
+            return;
             highlightActive = true;
             var i, j;
-            var selectedNode = params.nodes[0];
+
             var degrees = 2;
             // mark all nodes as hard to read.
             for (var nodeId in allNodes) {
@@ -132,7 +135,7 @@ function renderer() {
 
             console.log(allNodes[selectedNode]);
             // set group highlight;
-            selectGroup(allNodes[selectedNode].group)
+
             var connectedNodes = network.getConnectedNodes(selectedNode);
             var allConnectedNodes = [];
             // get the second degree nodes
