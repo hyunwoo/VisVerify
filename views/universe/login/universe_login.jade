@@ -1,0 +1,116 @@
+//
+   Created by Luan on 2015. 12. 21..
+
+extends ../universe_parent
+block content
+    //div.head
+        div(align='center' , style='margin-left:20px')
+            h4.fit.
+                Project Universe
+            h5.fit
+                c2.
+                    데이터 시각화 분석의 일반화
+    div.container-fulid.background-login(style='height:1120px;')
+        p.double
+        div.border-dark(style='width:600px;margin: auto; padding:15px; margin-top:200px;background-color:rgba(255,255,255,0.889)',align='center')
+            h2.fit.bold UNIVERSE
+            h4.c-darkgray.fit.light(style='margin-top:-10px') Data Visualization System
+            p
+            legend
+            .input-group(style='width:100%')
+                span#basic-addon1.input-group-addon(style='width:120px') E-MAIL
+                input.form-control#input_email(type='text', placeholder='Enter Your E-Mail', aria-describedby='basic-addon1',style ='text-align:center')
+            p
+            .input-group(style='width:100%')
+                span#basic-addon2.input-group-addon(style='width:120px') PASSWORD
+                input.form-control#input_pw(type='password', placeholder='Enter Your Data Name', aria-describedby='basic-addon2',style ='text-align:center')
+            h5.c-red(style='height:30px')#message
+
+            div.row
+                div.col-lg-6
+                    div.form-actions
+                        input.btn.btn-success(type='submit',style='width:100%', value='SIGN IN', onclick='auth()')
+                    p
+                div.col-lg-6
+                    div.form-actions
+                        input.btn.btn-primary(type='submit',style='width:100%', value='SIGN UP', onclick='join()')
+                    p
+        script.
+
+            function getForm() {
+                var email = document.getElementById('input_email').value;
+                var pw = document.getElementById('input_pw').value;
+                if (email === "") {
+                    message("The E-mail is not entered.");
+                    return null;
+                } else if (pw === "") {
+                    message("The Password is not entered.");
+                    return null;
+                }
+
+                return {
+                    email: email,
+                    pw: pw,
+                }
+            }
+            function auth() {
+                var val = getForm();
+                if (val == null) {
+                    console.log('no form data')
+                    return;
+                }
+
+                $.post('/universe/auth',
+                        {
+                            email: val.email,
+                            pw: val.pw,
+                        },
+                        function (rep, result) {
+                            if (rep.success) {
+                                message(rep.message, '#0C0');
+                                window.location.replace("/universe/");
+                            } else {
+                                message(rep.message);
+                            }
+                        }
+                );
+            }
+
+            function join() {
+                var val = getForm();
+                if (val == null) {
+                    console.log('no form data')
+                    return;
+                }
+
+                $.post('/universe/join',
+                        {
+                            email: val.email,
+                            pw: val.pw,
+                        },
+                        function (rep, result) {
+                            if (rep.success) {
+                                message(rep.message, '#0C0');
+                            } else {
+                                message(rep.message);
+                            }
+                        }
+                );
+            }
+
+            function message(msg, color) {
+                if (color === undefined) color = '#DD0000';
+                document.getElementById('message').innerHTML = msg;
+                document.getElementById('message').style.color = color;
+            }
+        p
+        div.row.hide
+            div.span12
+                div.progress.progress-striped.active(style='margin:10px')
+                    div.bar(style='width: 0%')
+        div.row.hide
+            div.span12
+                div.alert
+                    button.close(type='button', data-dismiss='alert') x
+                    span
+                        strong.message aa

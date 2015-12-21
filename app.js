@@ -9,6 +9,7 @@ var routes = require('./routes/index');
 var route_verify = require('./routes/verify');
 var route_visualization = require('./routes/visualization');
 var crossdomain = require('crossdomain');
+var session = require('express-session');
 
 // Project
 var route_projects = require('./routes/projects');
@@ -27,9 +28,7 @@ var route_api_cluster = require('./routes/APIS/Cluster/cluster')
 var route_CRC = require('./routes/Projects/CRC/crc')
 var route_Lecture_201502 = require('./routes/Lecture/201502/lecture_201502')
 var route_ci_burst = require('./routes/ci/burst');
-
-
-
+var crypto = require('crypto');
 
 var route_api = require('./routes/apis');
 var users = require('./routes/users');
@@ -54,6 +53,12 @@ app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
 app.use(cookieParser());
 app.use(cors());
 
+app.use(session({
+    secret: 'UNIVERSE',
+    resave: false,
+    saveUninitialized: true
+}));
+
 app.use('/', routes);
 app.use('/users', users);
 app.use('/verify', route_verify);
@@ -73,6 +78,13 @@ app.use('/apis/lda', route_api_lda);
 app.use('/apis/cluster', route_api_cluster);
 app.use('/lecture/201502/visual01', route_Lecture_201502);
 app.use('/ci/burst', route_ci_burst);
+
+
+
+
+// Universe System
+var route_universe = require('./routes/Universe/universe_main')
+app.use('/universe', route_universe);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

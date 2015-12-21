@@ -1,0 +1,92 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        title UNIVERSE
+        script(src="/js/jquery.js")
+        script(src='/js/jqueryui.js')
+        script(src='/javascripts/bootstrap.min.js')
+        script(src='/javascripts/codemirror.js')
+        script(src='http://d3js.org/d3.v3.min.js')
+
+        script(src='/javascripts/nodejs/node-tooltip.js')
+        script(src='/js/sliiide.js')
+        script(src='/js/validate.js')
+        script(src='/js/lucust.js')
+        script(src='/nvd3/js/nv.d3.js')
+        script(type='text/javascript', src='/js/scrollTo.js')
+        script(type='text/javascript', src='/js/owl.carousel.min.js')
+        script(type='text/javascript', src='/js/wow.js')
+        script(type='text/javascript', src='/js/parallax.js')
+        script(type='text/javascript', src='/js/nicescroll.js')
+        script(type='text/javascript', src='/js/main.js')
+
+        link(rel='stylesheet', href='/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/css/awesome-bootstrap-checkbox.css')
+        link(rel='stylesheet', href='/stylesheets/node-tooltip.css')
+        link(rel='stylesheet', href='/stylesheets/CodeMirror/codemirror.css')
+        link(rel='stylesheet', href='/stylesheets/CodeMirror/3024-day.css')
+
+        link(rel='stylesheet', href='/universe/universe.css')
+        link(rel='stylesheet', type='text/css', href='/css/owl.transitions.css')
+        link(rel='stylesheet', type='text/css', href='/css/owl.carousel.css')
+        link(rel='stylesheet', type='text/css', href='/css/animate.css')
+        link(rel='stylesheet', type='text/css', href='/css/hoveranimation.css')
+        link(rel='stylesheet', href='/nvd3/css/nv.d3.css')
+    body#body
+        header
+            nav.navbar.navbar-default( role='navigation', style='padding:0px;')
+                ul.nav.navbar-nav(style='height:40px;padding:0px;margin:0px')
+                    li
+                        h5.light.fit(href='/universe',style='padding:10px 10px 0px 17px') Foxtail with Ajou university
+                            //span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-home(style='font-size:16px; margin-right:5px')
+                ul.nav.navbar-nav.right
+                    if(user === undefined)
+                        li
+                            div.btn.btn-group
+                                a.btn.btn-success.hvr-underline-reveal(href='/universe/login', style='margin-top:1px') SIGN IN
+                    else
+                        li
+                            div.btn.btn-group
+                                a.btn.btn-success(href='/universe/user?email=' + user.email, style='margin-top:1px') #{user.email}
+                    form.navbar-form.navbar-left(role='search')
+                        .form-group
+                            input.form-control.no-right-border(type='text', placeholder='Search')
+                        button.btn.btn-warning(type='submit') &nbsp;
+                            span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-search(style='font-size:16px; margin-right:5px; margin-top:2px')
+            nav.navbar.navbar-default( role='navigation')
+                ul.nav.navbar-nav(style='padding:10px 5px 0px 17px')
+                    li
+                        h3.bold.fit(href='/') UNIVERSE
+                ul.nav.navbar-nav.right(style='padding:0px 20px 0px 20px')
+                    li
+                        a.dropdown-toggle( data-toggle='dropdown', style='font-size:15px') Projects &nbsp;
+                            span.caret
+                        ul.dropdown-menu.forAnimate(role='menu')
+                            li.item
+                                a(href="/projects/cosmovis/", style='font-size:14px') CRC
+                            li.item
+                                a(href='#', style='font-size:14px') Pedigree
+                            li.item
+                                a(href='#', style='font-size:14px') NWS
+                    li
+                        a.dropdown-toggle( data-toggle='dropdown', style='font-size:15px') UPLOAD
+                            span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-chevron-up(style='font-size:12px; margin-left:3px; margin-top:3px')
+
+        body
+            div(style="min-height:1120px;")
+                block content
+                //include ./footer.jade
+
+    // footer
+    p.double
+    legend
+    div.container
+        div.row(style='margin-top:25px;height:70px;padding-left:30px')
+            div.col-sm-6
+                div(align='left')
+                    h5.light(style='letter-spacing:1px').fit.
+                        powered by H.hyunwoo, Copyright© 2015 Hyunwoo Han All rights reserved
+                    h5.light.fit(style='margin-top:3px').
+                        CONTACT : h.hyunwoo@gmail.com
+

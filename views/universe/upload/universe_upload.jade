@@ -1,0 +1,49 @@
+//
+   Created by Luan on 2015. 12. 21..
+
+extends ../universe_parent
+block content
+    //div.head
+        div(align='center' , style='margin-left:20px')
+            h4.fit.
+                Project Universe
+            h5.fit
+                c2.
+                    데이터 시각화 분석의 일반화
+    script(type='text/javascript', src='/universe/universe_file_upload.js')
+    div.container-fulid.background-upload(style='height:1120px;')
+        p.double
+        form(method='post', action='/')
+            div.border-dark(style='width:400px;margin: auto; padding:15px; margin-top:200px;background-color:rgba(255,255,255,0.8)',align='center')
+                div(style='height:300px;width:100%')
+                .input-group(style='width:100%')
+                    span#basic-addon1.input-group-addon(style='width:90px') E-MAIL
+                    input.form-control#input_email(type='text', placeholder='Enter Your E-Mail', aria-describedby='basic-addon1',style ='text-align:center')
+                p
+                .input-group(style='width:100%')
+                    span#basic-addon2.input-group-addon(style='width:90px') TITLE
+                    input.form-control#input_title(type='text', placeholder='Enter Your Data Name', aria-describedby='basic-addon2',style ='text-align:center')
+                p
+                .input-group(style='width:100%')
+                    span.input-group-btn
+                        span.btn.btn-inverse.btn-file.hvr-underline-reveal(style='width:90px')
+                            | CSV FILE
+                            input(type='file', name='myFile', id='myFile', placeholder='Choose CSV or TSV data file')
+                    input.form-control(type='text', readonly='' , placeholder='Choose CSV or TSV data file',style ='text-align:center')
+                p
+                div.form-actions
+                    input.btn.btn-warning(type='submit',style='width:100%', value='Upload File')
+                p
+
+
+        p
+        div.row.hide
+            div.span12
+                div.progress.progress-striped.active(style='margin:10px')
+                    div.bar(style='width: 0%')
+        div.row.hide
+            div.span12
+                div.alert
+                    button.close(type='button', data-dismiss='alert') x
+                    span
+                        strong.message aa

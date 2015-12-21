@@ -502,7 +502,10 @@ pre {
 }
 
 
-
+a.fit {
+    padding: 0px;
+    margin: 0px;
+}
 h1.fit,
 h2.fit,
 h3.fit,
@@ -512,7 +515,6 @@ h6.fit,
 p.fit {
     padding: 0px;
     margin: 0px;
-
 }
 
 div.line {
@@ -540,31 +542,43 @@ p > c {
     color: #BA6C00;
 }
 
+.c-brown,
 .c {
     color: #BA6C00;
 }
 
+.c-orange,
 .c2 {
     color: #CF7F00;
 }
 
+.c-cyan,
 .c3 {
     color: #2FCFFF;
 }
-
+.c-gray,
 .c4 {
     color: #6f6f6f;
 }
 
+.c-white,
 .c5 {
     color: #ffffff;
 }
+.c-lightgray,
 .c6 {
     color: #dfdfdf;
 }
+
+.c-red{
+    color: #DD0000;
+}
+
 .c7 {
     color: #DD0000;
 }
+
+
 
 h1 > c2,
 h2 > c2,

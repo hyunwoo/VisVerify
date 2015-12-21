@@ -17,7 +17,6 @@ module.exports = router;
 var Twitter = require('twitter-node-client').Twitter;
 
 
-
 var error = function (err, response, body) {
     console.log('ERROR [%s]', err);
 };
@@ -55,7 +54,7 @@ router.get('/', function (req, res) {
     res.render('apis');
 });
 
-router.get('/sentence_seperator', function(req,res){
+router.get('/sentence_seperator', function (req, res) {
 
 })
 
@@ -68,7 +67,7 @@ var each_page_data_count = 100;
 var lda = require('../functions/LDA');
 
 
-router.post('/textanalysis/lda', function(req,res){
+router.post('/textanalysis/lda', function (req, res) {
     console.log('in lda');
     var document = req.body.input;
     console.log(req.body);
@@ -77,14 +76,14 @@ router.post('/textanalysis/lda', function(req,res){
     var outString = '';
     for (var i in lda_output) {
         var row = lda_output[i];
-        outString+='Topic ' + (parseInt(i) + 1) +'\n';
+        outString += 'Topic ' + (parseInt(i) + 1) + '\n';
         // For each term.
         for (var j in row) {
             var term = row[j];
-            outString+=term.term + ' (' + term.probability + '%)';
+            outString += term.term + ' (' + term.probability + '%)';
         }
 
-        outString+= '\n';
+        outString += '\n';
     }
     console.log(outString);
     res.send(outString);
@@ -96,16 +95,16 @@ router.get('/twitter/search', function (req, res) {
     var date = req.query.date;
     var page = req.query.page;
     var onlyDate = req.query.oneday;
-    if(onlyDate === undefined) onlyDate = false;
+    if (onlyDate === undefined) onlyDate = false;
     else {
-        if(onlyDate === false) onlyDate = false;
+        if (onlyDate === false) onlyDate = false;
         else onlyDate = true;
     }
 
     var mode = req.query.mode;
-    if(mode === undefined){
+    if (mode === undefined) {
         mode = 'recent'
-    } else if(mode == 'popular') {
+    } else if (mode == 'popular') {
         mode = 'popular';
         page = 1;
     } else {
@@ -113,13 +112,13 @@ router.get('/twitter/search', function (req, res) {
     }
     var starttime = defaultFunc.getDateDetailNoDot();
 
-    if(page === undefined) page = 1;
-    if(page * 1 > 10) page = 10;
+    if (page === undefined) page = 1;
+    if (page * 1 > 10) page = 10;
 
     var day = '';
     var query = q + ' ';
 
-    if(date !== undefined) {
+    if (date !== undefined) {
         var date_t = date.split('-');
 
         if (date_t.length != 3) {
@@ -131,17 +130,17 @@ router.get('/twitter/search', function (req, res) {
         }
     } else onlyDate = false;
 
-    if(date !==undefined){
+    if (date !== undefined) {
         query = q + ' ' + 'until:' + date;
-        if(date_t[2] != null || date_t[2] !== undefined){
+        if (date_t[2] != null || date_t[2] !== undefined) {
             day = date.split('-')[2];
         }
     }
 
     var result = {
-        success : true,
-        count : 0,
-        tweets : [],
+        success: true,
+        count: 0,
+        tweets: [],
     }
     var recursiveCount = 0;
     var error = function (err, response, body) {
@@ -154,30 +153,30 @@ router.get('/twitter/search', function (req, res) {
 
     var success = function (data) {
 
-        recursiveCount ++;
+        recursiveCount++;
         var json = JSON.parse(data);
-        for(var i = 0 ; i < json.statuses.length ; i ++){
+        for (var i = 0; i < json.statuses.length; i++) {
             var tweet = json.statuses[i];
             var d = {
-                text : tweet.text,
-                time : tweet.created_at,
-                user : tweet.user.screen_name,
+                text: tweet.text,
+                time: tweet.created_at,
+                user: tweet.user.screen_name,
 
             }
 
-            if(onlyDate){
-                var check =d.time.split(' ')[2] * 1;
-                if(check * 1 != day * 1 - 1){
+            if (onlyDate) {
+                var check = d.time.split(' ')[2] * 1;
+                if (check * 1 != day * 1 - 1) {
 
                     res.send(result);
                     return;
                 }
             }
-            result.count ++;
+            result.count++;
             result.tweets.push(d);
         }
 
-        if(recursiveCount == 5){ // finish
+        if (recursiveCount == 5) { // finish
             res.send(result);
             return;
         }
@@ -189,9 +188,9 @@ router.get('/twitter/search', function (req, res) {
                 'max_id': max_id,
                 'count': 100,
                 'result_type': mode,
-                'lang':'en'
+                'lang': 'en'
             }, error, success);
-        } catch(e){
+        } catch (e) {
             res.send(result);
             return;
         }
@@ -199,14 +198,14 @@ router.get('/twitter/search', function (req, res) {
 
     twitter.getSearch({
         'q': query,
-        'max_id':'',
+        'max_id': '',
         'count': 100,
         'result_type': mode,
-        'lang':'en'
+        'lang': 'en'
     }, error, success);
 })
 
-router.get('/twitter/searchDate' , function(req,res){
+router.get('/twitter/searchDate', function (req, res) {
 
 })
 router.get('/twitter/infos', function (req, res) {
