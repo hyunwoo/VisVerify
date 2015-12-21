@@ -7,16 +7,12 @@ var func = require('../functions/defaultFunctions')
 var url = require('url');
 
 
-
-
-
 /* GET home page. */
 module.exports = router;
 
 router.get('/', function (req, res) {
     res.render('index');
 });
-
 
 
 router.post('/uploadFile?', function (req, res) {
@@ -29,17 +25,20 @@ router.post('/uploadFile?', function (req, res) {
     var title = req.query.title;
 
 
-    if(email === undef){
+    console.log('1');
+    if (email === undefined) {
         res.send({
-            success : false,
-            message : 'input E-Mail'
+            success: false,
+            message: 'input E-Mail'
         })
         return;
     }
+    console.log('2');
     console.log(func.isEmail(email))
 
-
+    console.log('3');
     req.busboy.on('file', function (fieldname, file, filename) {
+
         console.log("Uploading: " + filename);
         //Path where image will be uploaded
         fstream = fs.createWriteStream(__dirname + '/../trash/' + filename);

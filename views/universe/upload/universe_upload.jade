@@ -13,27 +13,56 @@ block content
     script(type='text/javascript', src='/universe/universe_file_upload.js')
     div.container-fulid.background-upload(style='height:1120px;')
         p.double
-        form(method='post', action='/')
-            div.border-dark(style='width:400px;margin: auto; padding:15px; margin-top:200px;background-color:rgba(255,255,255,0.8)',align='center')
-                div(style='height:300px;width:100%')
-                .input-group(style='width:100%')
-                    span#basic-addon1.input-group-addon(style='width:90px') E-MAIL
-                    input.form-control#input_email(type='text', placeholder='Enter Your E-Mail', aria-describedby='basic-addon1',style ='text-align:center')
-                p
-                .input-group(style='width:100%')
-                    span#basic-addon2.input-group-addon(style='width:90px') TITLE
-                    input.form-control#input_title(type='text', placeholder='Enter Your Data Name', aria-describedby='basic-addon2',style ='text-align:center')
-                p
-                .input-group(style='width:100%')
-                    span.input-group-btn
-                        span.btn.btn-inverse.btn-file.hvr-underline-reveal(style='width:90px')
-                            | CSV FILE
-                            input(type='file', name='myFile', id='myFile', placeholder='Choose CSV or TSV data file')
-                    input.form-control(type='text', readonly='' , placeholder='Choose CSV or TSV data file',style ='text-align:center')
-                p
-                div.form-actions
-                    input.btn.btn-warning(type='submit',style='width:100%', value='Upload File')
-                p
+        div.container
+            form(method='post', action='/')
+                div.row.fit#parent_upload
+                    div.col-sm-1
+                    div.col-sm-6
+                        div.border-dark(style='width:100%;height:500px;padding:15px; margin-top:150px;background-color:rgba(255,255,255,0.8)')
+                            h2(align='center').fit.bold.c-darkgray RULE
+                            h4.light.c-darkgray 1. Only <strong>numeric</strong> data can be used
+                            h4.light.c-darkgray 2. The current version only supports <strong>CSV</strong>
+                            h4.light.c-darkgray 3. First coloum must be <strong>Data Group Name</strong>
+                            h4.light.c-darkgray 4. First row must be <strong>Unique Data Name</strong>
+                            h4.light.c-darkgray 5. File size limit is <strong>5MB</strong>
+                            p.double(style='height:20px')
+                            div(align='center')
+                                h5.bold.c-darkblue SAMPLE DATA
+                                img(src='/universe/image/image_explane_csv.png', style='width:100%')
+
+                    div.col-sm-4
+                        div.border-dark(style='width:100%;height:500px;margin: auto; padding:15px; margin-top:150px;background-color:rgba(255,255,255,0.8)',align='center')
+                            div(style='height:90px;width:100%')
+                            div(style='height:195px;width:100%')
+                                h4.fit.c-darkblue Verified User
+                                h3.fit.c-darkgray#input_email(style='width:100%;height:35px',placeholder="ASDF") #{user.email}
+                                p
+                                .input-group(style='width:100%')
+                                    span#basic-addon2.input-group-addon(style='width:90px') TITLE
+                                    input.form-control#input_title(type='text', placeholder='Enter Your Data Name', aria-describedby='basic-addon2',style ='text-align:center')
+                                p
+                                .input-group(style='width:100%')
+                                    span.input-group-btn
+                                        span.btn.btn-inverse.btn-file.hvr-underline-reveal(style='width:90px')
+                                            | CSV FILE
+                                            input(type='file', name='myFile', id='myFile', placeholder='Choose CSV or TSV data file')
+                                    input.form-control(type='text', readonly='' , placeholder='Choose CSV or TSV data file',style ='text-align:center')
+                                p
+                                div.form-actions
+                                    input.btn.btn-warning(type='submit',style='width:100%', value='Upload File')
+                                p
+                            h5.c-darkgray#message(style='visibility:hidden') wait for upload file
+                            h3.c-darkblue#progress_text(style='visibility:hidden') uploading
+                            h2.bold.c-darkgray#progress_number(style='visibility:hidden') 100%
+                        div#progress_bar(align='left',style='height:5px;width:0%;background-color:#FFAA00')
+                p.double(style='height:10px')
+                div.row.fit#parent_success(style='margin-top:-200px;opacity:0;')
+                    div.col-sm-1
+                    div.col-sm-10
+                        a.btn.btn-success#btn-success(style='width:100%;height:110px;')
+                            h2.fit Congratulations!
+                            h4.fit.light Data upload finished. To view a visualization Now Click here
+
 
 
         p
