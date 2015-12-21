@@ -26,10 +26,10 @@ function d3_gender() {
 
     var svg = root.append("g");
     svg.append('text')
-        .attr('x',width/2)
-        .attr('y',14)
+        .attr('x', width / 2)
+        .attr('y', 14)
         .text('The Number of Approval by Age')
-        .attr('font-size','12px')
+        .attr('font-size', '12px')
         .attr('text-anchor', 'middle')
     var svg_foreground = root.append("g");
 
