@@ -5,6 +5,10 @@ extends ../universe_parent
 block content
     div.container
         p
+        .alert.alert-danger(align='center')
+            a.close(href='#', data-dismiss='alert', aria-label='close') ×
+            h4.fit <strong>Current version is not stable</strong> .
+        p
         -   var totalsize = '3.38MB'; //for(var i = 1 ; i < data.length ; i ++) totalsize += data[i].capacity;
         div(style='padding:18px;')
             div.row
@@ -17,19 +21,18 @@ block content
         p
         p(style='height:10px')
 
-
         //li.list-group-item.list-group-item-heading.list-group-item-info
             h4.fit CSV DATALIST #{data[0]}
         div.row
-        -   for(var i = 1 ; i < data.length ; i ++) {
-        a(href='/universe/project')
-            div.col-sm-4(style='padding:5px;margin-top:20px').hvr-shrink
+        -   for(var i = data.length - 1 ; i > 0 ; i --) {
+        a(href='/universe/dashboard?data=' + data[i].key)
+            div.col-sm-4(style='padding:5px;height:270px;margin-bottom:80px').hvr-shrink
                 div(style='width:100%;padding:0px;margin:0px;height:24px;background-color:#08C;', align='center')
                     h5.fit.c-white.bold(style='padding-top:4px').
                         Able Visualziation
-                div.border(style='padding:15px')
-                    div
-                        h2.fit.bold.c-darkgray #{data[i].title}
+                div.border(style='padding:15px;height:100%')
+                    div(style='height:120px')
+                        h3.fit.bold.c-darkgray #{data[i].title}
                         h4.fit.bold #{data[i].filename}
                     p
                     div(align='right')
@@ -37,9 +40,6 @@ block content
                         h4.light Capacity : #{data[i].capacity}
                     div(align='center' ,style='padding-top:5px;margin-bottom:-5px')
                         h5.light #{data[i].key}
-
-
-
         -   }
 
 

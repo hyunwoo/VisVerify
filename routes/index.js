@@ -27,7 +27,6 @@ router.post('/uploadFile?', function (req, res) {
     var title = req.query.title;
     var type = req.query.type;
 
-
     if (email === undefined) {
         DBFunc.resSendFailed(res, "not exist E-Mail")
         return;

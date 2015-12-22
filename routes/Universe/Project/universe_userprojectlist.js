@@ -45,7 +45,7 @@ router.get('/', function (req, res) {
                 } else {
                     var deliver = {
                         user: req.session.user,
-                        userinfo : user,
+                        userinfo: user,
                         data: rep,
                     }
                     res.render('universe/project/userprojectlist', deliver);

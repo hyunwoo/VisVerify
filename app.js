@@ -40,7 +40,6 @@ var path = require('path');     //used for file path
 var fs = require('fs-extra');       //File System - for file manipulation
 var cors = require('cors');
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -71,7 +70,6 @@ app.use('/projects/logonetwork', route_Logonetwork);
 app.use('/projects/crc', route_CRC);
 app.use('/systems/topicmodeling', route_Topicmodeling);
 
-
 app.use('/apis', route_api);
 app.use('/apis/sitescraper', route_api_crawler);
 app.use('/apis/lda', route_api_lda);
@@ -80,13 +78,15 @@ app.use('/lecture/201502/visual01', route_Lecture_201502);
 app.use('/ci/burst', route_ci_burst);
 
 
-
-
 // Universe System
 var route_universe = require('./routes/Universe/universe_main')
 var route_universe_project = require('./routes/Universe/Project/universe_userprojectlist')
+var route_universe_visualization = require('./routes/Universe/Project/visualization/universe_visualization')
+var route_universe_dashboard = require('./routes/Universe/Project/dashboard/universe_dashboard')
 app.use('/universe', route_universe);
-app.use('/universe/project', route_universe_project)
+app.use('/universe/project', route_universe_project);
+app.use('/universe/visualization', route_universe_visualization);
+app.use('/universe/dashboard', route_universe_dashboard);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
@@ -97,7 +97,6 @@ app.use(function (req, res, next) {
 app.listen(3001);
 
 var crossdomain_xml = crossdomain({domain: '*.segment.io'});
-
 
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {

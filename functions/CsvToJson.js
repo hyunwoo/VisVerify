@@ -4,6 +4,9 @@
 var Converter = require("csvtojson").core.Converter;
 var fs = require("fs");
 
+
+
+
 exports.Parse = function(location,func){
     var fileStream = fs.createReadStream(location,  { encoding : 'utf-8' } );
     var csvConverter = new Converter({constructResult: true});
