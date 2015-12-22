@@ -1,0 +1,45 @@
+//
+   Created by Luan on 2015. 12. 22..
+
+extends ../universe_parent
+block content
+    div.container
+        p
+        -   var totalsize = '3.38MB'; //for(var i = 1 ; i < data.length ; i ++) totalsize += data[i].capacity;
+        div(style='padding:18px;')
+            div.row
+                div.col-sm-6
+                    h2.bold.c-darkblue #{user.email}
+                div.col-sm-6(align='right')
+                    h4.light.c-darkblue Total Capacity : #{totalsize} / 50MB
+                    h4.light.c-darkblue Data Count : #{data.length - 1}
+            div(style='width:100%;height:3px;background-color:#FA0')
+        p
+        p(style='height:10px')
+
+
+        //li.list-group-item.list-group-item-heading.list-group-item-info
+            h4.fit CSV DATALIST #{data[0]}
+        div.row
+        -   for(var i = 1 ; i < data.length ; i ++) {
+        a(href='/universe/project')
+            div.col-sm-4(style='padding:5px;margin-top:20px').hvr-shrink
+                div(style='width:100%;padding:0px;margin:0px;height:24px;background-color:#08C;', align='center')
+                    h5.fit.c-white.bold(style='padding-top:4px').
+                        Able Visualziation
+                div.border(style='padding:15px')
+                    div
+                        h2.fit.bold.c-darkgray #{data[i].title}
+                        h4.fit.bold #{data[i].filename}
+                    p
+                    div(align='right')
+                        h4.light Type : #{data[i].type}
+                        h4.light Capacity : #{data[i].capacity}
+                    div(align='center' ,style='padding-top:5px;margin-bottom:-5px')
+                        h5.light #{data[i].key}
+
+
+
+        -   }
+
+

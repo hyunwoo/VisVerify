@@ -1,6 +1,9 @@
 /**
  * Created by Luan on 15. 3. 25..
  */
+var moment = require('moment')
+
+
 Date.prototype.format = function (f) {
     if (!this.valueOf()) return " ";
 
@@ -33,6 +36,7 @@ Date.prototype.format = function (f) {
             case "a/p":
                 return d.getHours() < 12 ? "오전" : "오후";
             default:
+                console.log($1);
                 return $1;
         }
     });
@@ -63,9 +67,11 @@ exports.getDay = function () {
     return time;
 }
 exports.getDate = function () {
-    var date = new Date();
-    var time = date.format("yyyy.MM.dd.HH:mm:ss");
-    return time;
+    return moment().format();
+}
+
+exports.getUnique = function(){
+    return moment().valueOf();
 }
 
 exports.getDateNoDot = function () {
@@ -73,7 +79,6 @@ exports.getDateNoDot = function () {
     var time = date.format("yyyyMMddHHmmss");
     return time;
 }
-
 
 exports.getDateDetailNoDot = function () {
     var date = new Date();

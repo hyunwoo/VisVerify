@@ -3,14 +3,15 @@
  */
 var express = require('express');
 var router = express.Router();
-var db = require('redis').createClient(6500, '202.30.24.169');
+
 var DBFunc = require('../../functions/DBFunction');
+var db = DBFunc.db;
 var Func = require('../../functions/defaultFunctions')
 var multi;
 module.exports = router;
 
 router.get('/', function (req, res) {
-    res.render('universe/universe_main',req.session);
+    res.render('universe/universe_main', req.session);
 })
 
 router.get('/getData', function (req, res) {
@@ -20,7 +21,7 @@ router.get('/getData', function (req, res) {
 
 
 router.get('/upload', function (req, res) {
-    if(!DBFunc.UserAuthCheck(req)){
+    if (!DBFunc.UserAuthCheck(req)) {
         console.log('session not exist')
         res.redirect('/universe/login');
         return;
@@ -82,7 +83,6 @@ router.post('/auth', function (req, res) {
     });
 })
 
-
 router.post('/join', function (req, res) {
     if (req.body.email === undefined || req.body.pw === undefined) {
         res.send({
@@ -103,10 +103,7 @@ router.post('/join', function (req, res) {
                 email: req.body.email,
                 pw: DBFunc.getHASH(req.body.pw),
                 jointime: Func.getDate(),
-                SQLDataCount: 0,
-                TextDataCount: 0,
-                NOSQLDataCount: 0,
-                TOTALDataCount: 0,
+                DataCount: 0,
 
             }
             multi.hmset(DBFunc.getUserID(req.body.email), userData);

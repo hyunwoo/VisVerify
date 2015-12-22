@@ -3,9 +3,33 @@
  */
 
 var crypto = require('crypto');
+var Func = require('./defaultFunctions');
 
-exports.getUserID = function (id) {
-    return "USER:" + id;
+var db = require('redis').createClient(6500, '202.30.24.169');
+exports.db = db;
+
+exports.getUserID = function (email) {
+    return "USER:" + email;
+}
+
+exports.getDataUniqueID = function(){
+    return Func.getUnique();
+}
+exports.getUserData = function (email, unique) {
+    return "USER:" + email + ":" + unique;
+}
+
+exports.getUserDataList = function (email) {
+    return "DATALIST:" + email ;
+}
+
+
+exports.getUserERROR = function(email){
+    return "USER:" + email + ":ERROR";
+}
+
+exports.getUserINFO = function(email){
+    return "USER:" + email + ":INFO";
 }
 
 exports.getHASH = function (val) {

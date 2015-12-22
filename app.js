@@ -84,7 +84,9 @@ app.use('/ci/burst', route_ci_burst);
 
 // Universe System
 var route_universe = require('./routes/Universe/universe_main')
+var route_universe_project = require('./routes/Universe/Project/universe_userprojectlist')
 app.use('/universe', route_universe);
+app.use('/universe/project', route_universe_project)
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
