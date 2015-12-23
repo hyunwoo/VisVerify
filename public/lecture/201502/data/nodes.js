@@ -1260,7 +1260,7 @@ var nodes = [
         "isConnect": true
     },
     {
-        "label": "자동차경정비",
+        "label": "스포츠/등산",
         "id": 78,
         "group": 14,
         "value": 1656,
@@ -1341,7 +1341,7 @@ var nodes = [
         "isConnect": true
     },
     {
-        "label": "냉면",
+        "label": "스포츠/등산",
         "id": 288,
         "group": 14,
         "value": 1632,
@@ -1350,7 +1350,7 @@ var nodes = [
         "isConnect": true
     },
     {
-        "label": "냉면",
+        "label": "스포츠/등산",
         "id": 289,
         "group": 14,
         "value": 2432,
