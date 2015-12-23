@@ -49,7 +49,6 @@ function d3_time() {
             y: graph_height_max + 20
         });
 
-
         lineGraph = svg.append("svg:path")
             .attr("d", makeLineGraphData(numeric_d))
             .attr("stroke", "#FFFFFF")

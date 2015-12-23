@@ -549,7 +549,7 @@ var nodes = [
         "isConnect": true
     },
     {
-        "label": "네일아트",
+        "label": "인테리어",
         "id": 1,
         "group": 9,
         "value": 39,
@@ -558,7 +558,7 @@ var nodes = [
         "isConnect": true
     },
     {
-        "label": "네일아트",
+        "label": "인테리어",
         "id": 2,
         "group": 9,
         "value": 116,
@@ -567,7 +567,7 @@ var nodes = [
         "isConnect": true
     },
     {
-        "label": "네일아트",
+        "label": "철물점",
         "id": 3,
         "group": 9,
         "value": 52,
@@ -576,7 +576,7 @@ var nodes = [
         "isConnect": true
     },
     {
-        "label": "네일아트",
+        "label": "철물점",
         "id": 4,
         "group": 9,
         "value": 91,
@@ -585,7 +585,7 @@ var nodes = [
         "isConnect": true
     },
     {
-        "label": "네일아트",
+        "label": "철물점",
         "id": 5,
         "group": 9,
         "value": 59,
