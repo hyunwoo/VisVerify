@@ -85,6 +85,7 @@ function renderer() {
                     },
                     font: {
                         size: 25,
+                        color : '#FFF',
                         face: 'Tahoma'
                     }
                 },
