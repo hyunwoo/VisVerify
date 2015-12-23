@@ -2,41 +2,84 @@ extends ../../intro_layout
 //<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
 block body
     div(style='width:100%;height:100vh;background-color: #000000;')
-        div#renderer(style='position:absolute;left:0%;width:100%;top:0%;height:100%;background-color: #e8e8e6;z-index:0;' )
-        div.borderSmooth#window_scenario(style='position:absolute;left:70%;width:28%;top:2%;height:25%; background: rgba(255, 255, 255, 0.8);z-index:0;' )
-            h6.fit(align='center') Scenario
+        div#renderer(style='position:absolute;left:0%;width:100%;top:0%;height:100%;background-color: #000;z-index:0;' )
+        div.borderSmooth#window_scenario(style='position:absolute;left:70%;width:28%;top:2%;height:25%; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
+            h6.fit.c5(align='center') Scenario
             div.row
                 div.col-sm-4
                 div.col-sm-7(style='padding-right:10px')
-                    h3.bold Code2 BOBOS
-                    h5 일과 여가를 즐기며 퇴근후 시간을 활용하는 젊은 감각의 남성들이 이용하는 MarketPlace
+                    h3.bold.c5 Code2 BOBOS
+                    h5.c5 일과 여가를 즐기며 퇴근후 시간을 활용하는 젊은 감각의 남성들이 이용하는 MarketPlace
                     p
                     legend
-                    h5 주요 구성 업종 : 레저, 음식
-        div.borderSmooth#d3_time(style='position:absolute;left:70%;width:28%;top:28%;height:31%; background: rgba(255, 255, 255, 0.8);z-index:0;' )
-        div.borderSmooth#d3_gender(style='position:absolute;left:70%;width:28%;top:60%;height:31%; background: rgba(255, 255, 255, 0.8);z-index:0;' )
-        div.borderSmooth#renderer_head(style='position:absolute;left:4%;width:270px;top:2%;height:330px;z-index:1;pointer-events: none;padding:10px 20px;background: rgba(255, 255, 255, 0.8);' )
-            h3.fit.bold(style='font-size:24px') Marketplace CODE9
-            h4.fit(style='font-size:14px;margin-top:-5px') The CODE9 abount type of business
+                    h5.c5.bold 주요 구성 업종 : 레저, 음식
+        div.borderSmooth#d3_time(style='position:absolute;left:70%;width:28%;top:28%;height:31%; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
+        div.borderSmooth#d3_gender(style='position:absolute;left:70%;width:28%;top:60%;height:31%; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
+        div#renderer_head(style='position:absolute;left:4%;width:270px;top:2%;height:630px;z-index:1;pointer-events: none;padding:10px 20px;background: rgba(0, 0, 0, 0.0);' )
+            h3.fit.bold(style='font-size:24px;color:#e8e8e6') Marketplace CODE9
+            h4.fit(style='font-size:14px;margin-top:-5px;color:#c8c8c8') The CODE9 abount type of business
             p(style='height:10px')
-            div(style='width:15px;height:15px;margin-top:20px;background-color:#e2836d')
-                h5(style='margin-left:20px;margin-top:-10px;width:200px') Rudy
-            div(style='width:15px;height:15px;margin-top:20px;background-color:#29849c')
-                h5(style='margin-left:20px;margin-top:-10px;width:200px') Bobos
-            div(style='width:15px;height:15px;margin-top:20px;background-color:#618596')
-                h5(style='margin-left:20px;margin-top:-10px;width:200px') Realist
-            div(style='width:15px;height:15px;margin-top:20px;background-color:#395268')
-                h5(style='margin-left:20px;margin-top:-10px;width:200px') Rookie
-            div(style='width:15px;height:15px;margin-top:20px;background-color:#755e5c')
-                h5(style='margin-left:20px;margin-top:-10px;width:200px') Loel
-            div(style='width:15px;height:15px;margin-top:20px;background-color:#b1908b')
-                h5(style='margin-left:20px;margin-top:-10px;width:200px') Mr. routine
-            div(style='width:15px;height:15px;margin-top:20px;background-color:#e1bd6e')
-                h5(style='margin-left:20px;margin-top:-10px;width:200px') Prima donna
-            div(style='width:15px;height:15px;margin-top:20px;background-color:#95928c')
-                h5(style='margin-left:20px;margin-top:-10px;width:200px') zumarella
-            div(style='width:15px;height:15px;margin-top:20px;background-color:#be7b73')
-                h5(style='margin-left:20px;margin-top:-10px;width:200px') silver lady
+
+            legend
+            div.row
+                -var height = '40px';
+                -var img_size = '30px';
+                div.row
+                    div.col-sm-6(style='padding-right:2px')
+                        div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
+                            div.col-sm-2(style='padding:0px;margin:0px')
+                                img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M20.png')
+                            div.col-sm-10
+                                h5.fit Rudy
+                    div.col-sm-6(style='padding-left:2px')
+                        div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
+                            div.col-sm-2(style='padding:0px;margin:0px')
+                                img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M30.png')
+                            div.col-sm-10
+                                h5.fit Rudy
+                p
+                div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
+                    div.col-sm-2(style='padding:0px;margin:0px')
+                        img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M40.png')
+                    div.col-sm-10
+                        h5.fit Rudy
+                p
+                div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
+                    div.col-sm-2(style='padding:0px;margin:0px')
+                        img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M50.png')
+                    div.col-sm-10
+                        h5.fit Rudy
+                p
+                div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
+                    div.col-sm-2(style='padding:0px;margin:0px')
+                        img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M60.png')
+                    div.col-sm-10
+                        h5.fit Rudy
+                p
+                div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
+                    div.col-sm-2(style='padding:0px;margin:0px')
+                        img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W20.png')
+                    div.col-sm-10
+                        h5.fit Rudy
+                p
+                div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
+                    div.col-sm-2(style='padding:0px;margin:0px')
+                        img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W30.png')
+                    div.col-sm-10
+                        h5.fit Rudy
+                p
+                div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
+                    div.col-sm-2(style='padding:0px;margin:0px')
+                        img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W40.png')
+                    div.col-sm-10
+                        h5.fit Rudy
+                p
+                div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
+                    div.col-sm-2(style='padding:0px;margin:0px')
+                        img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W50.png')
+                    div.col-sm-10
+                        h5.fit Rudy
+
 
     style.
         .borderSmooth {

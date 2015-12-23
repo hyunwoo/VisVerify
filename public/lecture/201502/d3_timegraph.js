@@ -15,6 +15,7 @@ function d3_time() {
         .attr('x',width/2)
         .attr('y',14)
         .text('The Number of Approval by Time')
+        .attr('fill','#e8e8e8')
         .attr('font-size','12px')
         .attr('text-anchor', 'middle')
     var svg_foreground = root.append("g");
@@ -34,7 +35,13 @@ function d3_time() {
     var max_text;
 
     function draw(g) {
-        if (lineGraph != null) lineGraph.remove();
+        if (lineGraph != null) {
+            for(var i = 0;  i < lineGraph.length ; i ++)
+                lineGraph[i].remove();
+
+        }
+
+        lineGraph = [];
         var numeric_d = makeLineData(g);
         numeric_d.push({
             x: margin_left + graph_per * 23 + graph_gap / 2,
@@ -47,13 +54,17 @@ function d3_time() {
             y: graph_height_max + 20
         });
 
-        lineGraph = svg.append("svg:path")
-            .attr("d", makeLineGraphData(numeric_d))
-            .attr("stroke", "#FFFFFF")
-            .attr('stroke-width', 1)
-            .attr('stroke-opacity', 1)
-            .attr('fill', '#f09494')
-            .attr('opacity', 0.75)
+        for(var i = 0 ; i < 9 ; i ++) {
+            var graph = svg.append("svg:path")
+                .attr("d", makeLineGraphData(numeric_d))
+                .attr("stroke", "#FFFFFF")
+                .attr('stroke-width', 1)
+                .attr('stroke-opacity', 1)
+                .attr('fill', '#f09494')
+                .attr('opacity', 0.75)
+
+            lineGraph.push(graph);
+        }
 
         if (max_text != null) max_text.remove();
         max_text = svg.append('g');
@@ -64,7 +75,7 @@ function d3_time() {
                 .attr('x', margin_left + 3)
                 .text(Math.floor(perMax / 10 * i))
                 .attr('font-size', 7)
-                .attr("fill", '#2f2f2f')
+                .attr("fill", '#e8e8e8')
                 .attr('text-anchor', 'end')
 
         }
@@ -101,7 +112,7 @@ function d3_time() {
                 .attr('y1', graph_height_max + 20 - graph_height_max / 10 * i)
                 .attr('x2', width - margin_left)
                 .attr('y2', graph_height_max + 20 - graph_height_max / 10 * i)
-                .attr('stroke', '#625757')
+                .attr('stroke', '#e8e8e8')
                 .attr('opacity', 0.15)
                 .attr('stroke-width', '0.5px')
 
@@ -123,7 +134,7 @@ function d3_time() {
                 .attr('y1', graph_height_max / 20)
                 .attr('x2', margin_left + graph_per * i + graph_width / 2)
                 .attr('y2', graph_height_max + 20)
-                .attr('stroke', '#625757')
+                .attr('stroke', '#e8e8e8')
                 .attr('opacity', 0.25)
                 .attr('stroke-width', '0.5px')
 
@@ -132,16 +143,14 @@ function d3_time() {
                 .attr('x', margin_left + graph_per * i + graph_width / 2)
                 .text(timeText(i))
                 .attr('font-size', 9)
-                .attr("fill", '#2f2f2f')
+                .attr("fill", '#e8e8e8')
                 .attr('text-anchor', 'middle')
         }
 
     }
-
     function makeLineData(g) {
         var info = groupinfo[g];
         var output = [];
-
         for (var i = 0; i < 24; i++) {
             var each_height = info.time[i] / info.maxTime * graph_height_max - 20;
             var top_gap = graph_height_max - each_height;
@@ -152,7 +161,6 @@ function d3_time() {
         }
         return output;
     }
-
 
     d3_time.initialize = initialize;
     d3_time.draw = draw;

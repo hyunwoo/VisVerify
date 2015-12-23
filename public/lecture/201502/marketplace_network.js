@@ -13,8 +13,8 @@ function renderer() {
 
     function render() {
 
-        for(var i = 0 ; i < nodes.length ; i ++){
-            switch(nodes[i].group){
+        for (var i = 0; i < nodes.length; i++) {
+            switch (nodes[i].group) {
                 case 6:
                     nodes[i].color = '#e2836d';
                     break;
@@ -28,13 +28,13 @@ function renderer() {
                     nodes[i].color = '#395268';
                     break;
                 // semi
-                    /*
-                     755e5c
-                     b1908b
-                     e1bd6e
-                     95928c
-                     be7b73
-                     */
+                /*
+                 755e5c
+                 b1908b
+                 e1bd6e
+                 95928c
+                 be7b73
+                 */
                 case 7:
                     break;
                 case 11:
@@ -105,8 +105,6 @@ function renderer() {
                 }
                 ,
             }
-            ;
-
 
         var data = {nodes: nodesDataset, edges: edgesDataset} // Note: data is coming from ./datasources/WorldCup2014.js
         network = new vis.Network(container, data, options);
@@ -119,6 +117,7 @@ function renderer() {
         if (params.nodes.length > 0) {
             var selectedNode = params.nodes[0];
             selectGroup(allNodes[selectedNode].group);
+            console.log(allNodes[selectedNode]);
             return;
             highlightActive = true;
             var i, j;
@@ -133,7 +132,7 @@ function renderer() {
                 }
             }
 
-            console.log(allNodes[selectedNode]);
+
             // set group highlight;
 
             var connectedNodes = network.getConnectedNodes(selectedNode);
