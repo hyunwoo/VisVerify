@@ -35,13 +35,8 @@ function d3_time() {
     var max_text;
 
     function draw(g) {
-        if (lineGraph != null) {
-            for(var i = 0;  i < lineGraph.length ; i ++)
-                lineGraph[i].remove();
+        if (lineGraph != null) lineGraph.remove();
 
-        }
-
-        lineGraph = [];
         var numeric_d = makeLineData(g);
         numeric_d.push({
             x: margin_left + graph_per * 23 + graph_gap / 2,
@@ -54,17 +49,14 @@ function d3_time() {
             y: graph_height_max + 20
         });
 
-        for(var i = 0 ; i < 9 ; i ++) {
-            var graph = svg.append("svg:path")
-                .attr("d", makeLineGraphData(numeric_d))
-                .attr("stroke", "#FFFFFF")
-                .attr('stroke-width', 1)
-                .attr('stroke-opacity', 1)
-                .attr('fill', '#f09494')
-                .attr('opacity', 0.75)
 
-            lineGraph.push(graph);
-        }
+        lineGraph = svg.append("svg:path")
+            .attr("d", makeLineGraphData(numeric_d))
+            .attr("stroke", "#FFFFFF")
+            .attr('stroke-width', 1)
+            .attr('stroke-opacity', 1)
+            .attr('fill', '#f09494')
+            .attr('opacity', 0.75)
 
         if (max_text != null) max_text.remove();
         max_text = svg.append('g');
