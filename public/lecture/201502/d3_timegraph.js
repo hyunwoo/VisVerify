@@ -54,7 +54,7 @@ function d3_time() {
             .attr('stroke-width', 1)
             .attr('stroke-opacity', 1)
             .attr('fill', '#354457')
-            .attr('opacity', 0.75)
+            .attr('opacity', 1)
 
         if (max_text != null) max_text.remove();
         max_text = svg.append('g');

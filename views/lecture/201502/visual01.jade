@@ -3,7 +3,7 @@ extends ../../intro_layout
 block body
     div(style='width:100%;height:100vh;background-color: #000000;')
         div#renderer(style='position:absolute;left:0%;width:100%;top:0%;height:100%;background-color: #000;z-index:0;' )
-        div#window_scenario(style='position:absolute;left:77%;width:22%;top:2%;height:20%;z-index:0;' )
+        div#window_scenario(style='position:absolute;right:20px;width:370px;top:110px;height:200px;z-index:0;' )
             table
                 tr
                     td
@@ -18,14 +18,14 @@ block body
 
             h4.c5.bold#text_part 주요 구성 업종 : 레저, 음식
             h5.c5#text_desc 일과 여가를 즐기며 퇴근후 시간을 활용하는 젊은 감각의 남성들이 이용하는 MarketPlace
-        div.borderSmooth#d3_time(style='position:absolute;left:77%;width:22%;top:20%;height:25%; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
-        div.borderSmooth#d3_gender(style='position:absolute;left:77%;width:22%;top:46%;height:25%; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
+        div.borderSmooth#d3_time(style='position:absolute;right:20px;width:370px;top:280px;height:200px; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
+        div.borderSmooth#d3_gender(style='position:absolute;right:20px;width:370px;top:490px;height:200px; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
         div#renderer_head(style='position:absolute;left:4%;width:370px;top:2%;height:630px;z-index:1;pointer-events: none;padding:10px 20px;background: rgba(0, 0, 0, 0.0);' )
             img(style='position:absolute;left:10px;top:10px;width:54px;height:54px;', src='/lecture/201502/img/marketplacecode9icon.png')
             div(style='position:absolute;left:75px;top:2px;')
                 h3.fit.bold(style='font-size:29px;color:#e8e8e6') Marketplace CODE9
                 h4.fit(style='font-size:17px;margin-top:-5px;color:#c8c8c8') The CODE9 abount type of business
-            div(style='position:absolute;top:90px;left:10px;width:330px')
+            div(style='position:absolute;top:105px;left:10px;width:330px')
                 -var height = '38px';
                 -var img_size = '25px';
 
