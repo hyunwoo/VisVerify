@@ -32,6 +32,7 @@ function d3_gender() {
         .attr('fill', '#e8e8e8')
         .attr('font-size', '12px')
         .attr('text-anchor', 'middle')
+
     var svg_foreground = root.append("g");
     var margin_left = width / 11 / 3 * 2;
     var margin_top = 50;
@@ -59,10 +60,8 @@ function d3_gender() {
     for (var i = 0; i < groupinfo.length; i++) {
         for (var j = 0; j < 10; j++) {
             gradeMaxRatio[j] += Number(groupinfo[i].sex[j]);
-            console.log(i, j, Number(groupinfo[i].sex[j]), gradeMaxRatio[j])
         }
     }
-    console.log(gradeMaxRatio);
 
     function draw(g) {
         if (lineGraph != null) lineGraph.remove();
@@ -76,9 +75,6 @@ function d3_gender() {
             y: graph_height_max + 20
         });
         // equation max value
-        for (var i = 0; i < groupinfo[g].sex.length; i++) {
-            console.log(groupinfo[g].sex[i]);
-        }
 
         var maxRatio = 0;
 
@@ -183,8 +179,9 @@ function d3_gender() {
 
             var each_circle = svg.append('circle')
                 .attr('cx', margin_left + graph_per * i + graph_width / 2)
-                .attr('cy', 100 + margin_top)
+                .attr('cy', 100 + margin_top + graph_height_max)
                 .attr('fill', line_colors[i])
+                .attr('opacity',0)
                 .attr('r', graph_per / 6 * 1.25)
 
             var each_text = svg.append('text')
@@ -207,9 +204,6 @@ function d3_gender() {
             circles.push(each_circle);
             amount_texts.push(each_text_amount);
         }
-
-
-        console.log(val);
     }
 
     function makeLineData(g) {

@@ -12,37 +12,36 @@ function renderer() {
     var edgesDataset;
 
     function render() {
-
         for (var i = 0; i < nodes.length; i++) {
             switch (nodes[i].group) {
-                case 6:
-                    nodes[i].color = '#e2836d';
-                    break;
                 case 0:
-                    nodes[i].color = '#29849c';
+                    nodes[i].color = '#3780bb';
                     break;
-                case 14:
-                    nodes[i].color = '#618596';
+                case 9:
+                    nodes[i].color = '#4ebabb';
                     break;
-                case 10:
-                    nodes[i].color = '#395268';
-                    break;
-                // semi
-                /*
-                 755e5c
-                 b1908b
-                 e1bd6e
-                 95928c
-                 be7b73
-                 */
                 case 7:
+                    nodes[i].color = '#8555a3';
                     break;
-                case 11:
+                case 2:
+                    nodes[i].color = '#f4c221';
                     break;
-                case 12:
+                case 6 :
+                    nodes[i].color = '#e14046';
+                    break;
+                case 11 :
+                    nodes[i].color = '#ebe57c';
+                    break;
+                case 10 :
+                    nodes[i].color = '#ea888d';
+                    break;
+                case 14 :
+                    nodes[i].color = '#119768';
+                    break;
+                case 12 :
+                    nodes[i].color = '#bfb196';
                     break;
                 default:
-                    //nodes[i].color = '#8f8f8f';
                     break;
             }
         }
@@ -54,9 +53,6 @@ function renderer() {
             if (group_count[nodes[i].group] == null) group_count[nodes[i].group] = 1;
             else group_count[nodes[i].group]++;
         }
-        console.log('NODE COUNT : ' + nodes.length);
-        console.log('EDGE COUNT : ' + edges.length);
-        console.log('render');
 
         var container = document.getElementById('renderer');
         var physic_forceAtlas = {
@@ -97,7 +93,6 @@ function renderer() {
                     }
                 },
                 physics: {
-                    stabilization: false,
                     barnesHut: {
                         gravitationalConstant: -80000,
                         springConstant: 0.001,
@@ -118,7 +113,6 @@ function renderer() {
         if (params.nodes.length > 0) {
             var selectedNode = params.nodes[0];
             selectGroup(allNodes[selectedNode].group);
-            console.log(allNodes[selectedNode]);
             return;
             highlightActive = true;
             var i, j;
@@ -197,8 +191,17 @@ function renderer() {
     function selectGroup(g) {
         d3_time.draw(g);
         d3_gender.draw(g);
+        setScenario(g);
+
     }
 
+    function onSetScenario(func){
+        setScenario = func;
+    }
+
+    var setScenario;
+
     renderer.clearProgress = clearProgress;
+    renderer.onSetScenario = onSetScenario;
     renderer.render = render;
 }

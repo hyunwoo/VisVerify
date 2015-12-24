@@ -3,81 +3,122 @@ extends ../../intro_layout
 block body
     div(style='width:100%;height:100vh;background-color: #000000;')
         div#renderer(style='position:absolute;left:0%;width:100%;top:0%;height:100%;background-color: #000;z-index:0;' )
-        div.borderSmooth#window_scenario(style='position:absolute;left:70%;width:28%;top:2%;height:25%; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
-            h6.fit.c5(align='center') Scenario
-            div.row
-                div.col-sm-4
-                div.col-sm-7(style='padding-right:10px')
-                    h3.bold.c5 Code2 BOBOS
-                    h5.c5 일과 여가를 즐기며 퇴근후 시간을 활용하는 젊은 감각의 남성들이 이용하는 MarketPlace
-                    p
-                    legend
-                    h5.c5.bold 주요 구성 업종 : 레저, 음식
-        div.borderSmooth#d3_time(style='position:absolute;left:70%;width:28%;top:28%;height:31%; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
-        div.borderSmooth#d3_gender(style='position:absolute;left:70%;width:28%;top:60%;height:31%; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
+        div#window_scenario(style='position:absolute;left:77%;width:22%;top:2%;height:20%;z-index:0;' )
+            table
+                tr
+                    td
+                        h2.fit.bold.c5#text_code Mr.Routine
+                    td
+                        table#img_parent(style='margin-left:10px')
+                            tr
+                                td(style='margin:15px')#face_00
+                                td(style='margin:15px')#face_01
+                                td(style='margin:15px')#face_02
+                                td(style='margin:15px')#face_03
+
+            h4.c5.bold#text_part 주요 구성 업종 : 레저, 음식
+            h5.c5#text_desc 일과 여가를 즐기며 퇴근후 시간을 활용하는 젊은 감각의 남성들이 이용하는 MarketPlace
+        div.borderSmooth#d3_time(style='position:absolute;left:77%;width:22%;top:20%;height:25%; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
+        div.borderSmooth#d3_gender(style='position:absolute;left:77%;width:22%;top:46%;height:25%; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
         div#renderer_head(style='position:absolute;left:4%;width:370px;top:2%;height:630px;z-index:1;pointer-events: none;padding:10px 20px;background: rgba(0, 0, 0, 0.0);' )
             img(style='position:absolute;left:10px;top:10px;width:54px;height:54px;', src='/lecture/201502/img/marketplacecode9icon.png')
             div(style='position:absolute;left:75px;top:2px;')
                 h3.fit.bold(style='font-size:29px;color:#e8e8e6') Marketplace CODE9
                 h4.fit(style='font-size:17px;margin-top:-5px;color:#c8c8c8') The CODE9 abount type of business
-            div.row(style='position:absolute;top:90px;width:200px')
-                -var height = '40px';
-                -var img_size = '30px';
-                div(style='padding-right:2px')
-                    div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
-                        div.col-sm-2(style='padding:0px;margin:0px')
-                            img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M20.png')
-                        div.col-sm-10
-                            h5.fit Rudy
-                p
-                div(style='padding-left:2px')
-                    div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
-                        div.col-sm-2(style='padding:0px;margin:0px')
-                            img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M30.png')
-                        div.col-sm-10
-                            h5.fit Rudy
-                p
-                div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
-                    div.col-sm-2(style='padding:0px;margin:0px')
-                        img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M40.png')
-                    div.col-sm-10
-                        h5.fit Rudy
-                p
-                div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
-                    div.col-sm-2(style='padding:0px;margin:0px')
-                        img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M50.png')
-                    div.col-sm-10
-                        h5.fit Rudy
-                p
-                div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
-                    div.col-sm-2(style='padding:0px;margin:0px')
-                        img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M60.png')
-                    div.col-sm-10
-                        h5.fit Rudy
-                p
-                div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
-                    div.col-sm-2(style='padding:0px;margin:0px')
-                        img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W20.png')
-                    div.col-sm-10
-                        h5.fit Rudy
-                p
-                div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
-                    div.col-sm-2(style='padding:0px;margin:0px')
-                        img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W30.png')
-                    div.col-sm-10
-                        h5.fit Rudy
-                p
-                div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
-                    div.col-sm-2(style='padding:0px;margin:0px')
-                        img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W40.png')
-                    div.col-sm-10
-                        h5.fit Rudy
-                p
-                div.row(style='margin:0px;padding:5px;width:100%;height:' + height + ';background-color:#e2836d;', align='center')
-                    div.col-sm-2(style='padding:0px;margin:0px')
-                        img(style='width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W50.png')
-                    div.col-sm-10
-                        h5.fit Rudy
+            div(style='position:absolute;top:90px;left:10px;width:330px')
+                -var height = '38px';
+                -var img_size = '25px';
+
+                div(style='padding-right:2px;padding-bottom:4px;')
+                    div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#f58d92;')
+                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 Bravolife
+                    div(style='position:absolute;left:133px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M40.png')
+                    div(style='position:absolute;left:163px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W40.png')
+                    div(style='position:absolute;left:193px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M60.png')
+                    div(style='position:absolute;left:223px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W60.png')
+                p(style='height:20px')
+
+                div(style='padding-right:2px;padding-bottom:4px;')
+                    div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#4ebabb;')
+                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 LOEL
+                    div(style='position:absolute;left:133px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M20.png')
+                    div(style='position:absolute;left:163px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W20.png')
+                    div(style='position:absolute;left:193px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M40.png')
+                    div(style='position:absolute;left:223px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W40.png')
+                p(style='height:20px')
+
+                div(style='padding-right:2px;padding-bottom:4px;')
+                    div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#ebe57c;')
+                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 2080
+                    div(style='position:absolute;left:133px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M20.png')
+                    div(style='position:absolute;left:163px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W20.png')
+                    div(style='position:absolute;left:193px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M60.png')
+                    div(style='position:absolute;left:223px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W60.png')
+                p(style='height:20px')
+
+                div(style='padding-right:2px;padding-bottom:4px;')
+                    div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#bfb196;')
+                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 Silverlife
+                    div(style='position:absolute;left:133px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M60.png')
+                    div(style='position:absolute;left:163px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W60.png')
+                p(style='height:20px')
+
+                div(style='padding-right:2px;padding-bottom:4px;')
+                    div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#119768;')
+                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 Graceman
+                    div(style='position:absolute;left:133px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M40.png')
+                    div(style='position:absolute;left:163px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M60.png')
+                p(style='height:20px')
+
+                div(style='padding-right:2px;padding-bottom:4px;')
+                    div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#f4c221;')
+                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 Nightlife
+                    div(style='position:absolute;left:133px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M20.png')
+                    div(style='position:absolute;left:163px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W20.png')
+                p(style='height:20px')
+
+                div(style='padding-right:2px;padding-bottom:4px;')
+                    div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#8555a3;')
+                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 Mr.Routine
+                    div(style='position:absolute;left:133px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M40.png')
+                p(style='height:20px')
+
+                div(style='padding-right:2px;padding-bottom:4px;')
+                    div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#3780bb;')
+                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 BOBOS
+                    div(style='position:absolute;left:133px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M20.png')
+                p(style='height:20px')
+
+                div(style='padding-right:2px;padding-bottom:4px;')
+                    div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#e14046;')
+                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 RUDY
+                    div(style='position:absolute;left:133px')
+                        img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W20.png')
+                p(style='height:20px')
+
+
+
+
 
 
     style.
@@ -92,6 +133,7 @@ block body
     script(src='/lecture/201502/data/edges.js')
     script(src='/lecture/201502/data/nodes.js')
     script(src='/lecture/201502/data/groupinfo.js')
+    script(src='/lecture/201502/data/scenario_data.js')
     script(src='/lecture/201502/marketplace_network.js')
     script(src='/lecture/201502/d3_timegraph.js')
     script(src='/lecture/201502/d3_gendergraph.js')
@@ -100,12 +142,61 @@ block body
         var group_count = {};
         renderer();
         renderer.render();
+        renderer.onSetScenario(setScenario);
+
         d3_time();
         d3_time.initialize();
 
         d3_gender();
         d3_gender.initialize();
         d3_gender.draw(0);
+
+
+
+        function setScenario(g) {
+            console.log('input : ', g);
+            var data = scenarios['' + g];
+            if (data !== undefined) {
+
+                for (var i = 0; i < 4; i++) {
+                    document.getElementById('face_0' + i).innerHTML = "";
+                }
+
+
+                /*
+                 switch (data.img.length) {
+                 case 1:
+                 document.getElementById('img_parent').style.marginLeft = '30px';
+                 document.getElementById('img_parent').style.marginTop = '30px';
+                 break;
+                 case 2:
+                 document.getElementById('img_parent').style.marginLeft = '30px';
+                 document.getElementById('img_parent').style.marginTop = '55px';
+                 break;
+                 case 3:
+                 document.getElementById('img_parent').style.marginLeft = '30px';
+                 document.getElementById('img_parent').style.marginTop = '30px';
+                 break;
+                 case 4:
+                 document.getElementById('img_parent').style.marginLeft = '30px';
+                 document.getElementById('img_parent').style.marginTop = '30px';
+                 break;
+                 }*/
+
+                for (var i = 0; i < data.img.length; i++) {
+                    innerhtml = '\<img style=\"width:45px;height:45px\", src=\'/lecture/201502/img/' + data.img[i] + '.png\'\>\</img\>';
+
+                    document.getElementById('face_0' + i).innerHTML = innerhtml;
+                    document.getElementById('face_0' + i).style.width = '40px';
+                    document.getElementById('face_0' + i).style.height = '40px';
+
+                }
+
+                document.getElementById('text_code').innerHTML = data.name;
+                document.getElementById('text_part').innerHTML = '주요구성업종 : ' + data.part;
+                document.getElementById('text_desc').innerHTML = data.desc;
+            }
+        }
         //d3_time.draw();
 
 

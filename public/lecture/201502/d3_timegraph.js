@@ -5,7 +5,6 @@
 
 function d3_time() {
     var canvas = document.getElementById("d3_time");
-    console.log(canvas);
     var width = canvas.offsetWidth;
     var height = canvas.offsetHeight;
 
@@ -54,7 +53,7 @@ function d3_time() {
             .attr("stroke", "#FFFFFF")
             .attr('stroke-width', 1)
             .attr('stroke-opacity', 1)
-            .attr('fill', '#f09494')
+            .attr('fill', '#354457')
             .attr('opacity', 0.75)
 
         if (max_text != null) max_text.remove();
