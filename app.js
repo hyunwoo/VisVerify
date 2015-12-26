@@ -26,7 +26,6 @@ var route_api_crawler = require('./routes/APIS/SiteScraper/SiteScraper')
 var route_api_lda = require('./routes/APIS/LDA/LDA')
 var route_api_cluster = require('./routes/APIS/Cluster/cluster')
 var route_CRC = require('./routes/Projects/CRC/crc')
-var route_Lecture_201502 = require('./routes/Lecture/201502/lecture_201502')
 var route_ci_burst = require('./routes/ci/burst');
 var crypto = require('crypto');
 
@@ -68,13 +67,14 @@ app.use('/projects/Pedigree', route_Pedigree);
 app.use('/projects/cosmovis', route_Cosmovis);
 app.use('/projects/logonetwork', route_Logonetwork);
 app.use('/projects/crc', route_CRC);
-app.use('/systems/topicmodeling', route_Topicmodeling);
 
+
+app.use('/systems/topicmodeling', route_Topicmodeling);
 app.use('/apis', route_api);
 app.use('/apis/sitescraper', route_api_crawler);
 app.use('/apis/lda', route_api_lda);
 app.use('/apis/cluster', route_api_cluster);
-app.use('/lecture/201502/visual01', route_Lecture_201502);
+
 app.use('/ci/burst', route_ci_burst);
 
 
@@ -83,10 +83,12 @@ var route_universe = require('./routes/Universe/universe_main')
 var route_universe_project = require('./routes/Universe/Project/universe_userprojectlist')
 var route_universe_visualization = require('./routes/Universe/Project/visualization/universe_visualization')
 var route_universe_dashboard = require('./routes/Universe/Project/dashboard/universe_dashboard')
+var route_universe_Section9 = require('./routes/Universe/Project/sample/Section9/Section9')
 app.use('/universe', route_universe);
 app.use('/universe/project', route_universe_project);
 app.use('/universe/visualization', route_universe_visualization);
 app.use('/universe/dashboard', route_universe_dashboard);
+app.use('/universe/samples/section9', route_universe_Section9);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

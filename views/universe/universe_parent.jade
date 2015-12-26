@@ -33,7 +33,7 @@ html
         link(rel='stylesheet', href='/nvd3/css/nv.d3.css')
     body#body
 
-        header
+        header(style='height:80px;position:absolute;left:0%;width:100%;top:0%;background-color: #000;z-index:1;')
             nav.navbar.navbar-default( role='navigation', style='padding:0px;')
                 ul.nav.navbar-nav(style='height:40px;padding:0px;margin:0px')
                     li
@@ -77,9 +77,10 @@ html
         body
             div(style="min-height:1120px;")
                 block content
+- if(useFooter === undefined || useFooter)
     legend
-    div.container
-        div.row(style='margin-top:25px;height:70px;padding-left:30px')
+    div.container(style='position:absolute;left:0%;width:100%;bottom:0%;background-color: #fff;z-index:1;')
+        div.row(style='margin-top:25px;height:60px;padding-left:30px')
             div.col-sm-6
                 div(align='left')
                     h5.light(style='letter-spacing:1px').fit.

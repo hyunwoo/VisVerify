@@ -24,6 +24,17 @@ var fs = require('fs-extra');
 //doProcess();
 
 
+
+router.get('/', function (req, res) {
+    console.log("in");
+    res.render('universe/project/samples/section9/visualization');
+})
+
+router.get('/getData', function (req, res) {
+
+
+})
+
 function doProcess() {
 
 
@@ -308,14 +319,3 @@ function makeData() {
 
 
 }
-
-
-router.get('/', function (req, res) {
-    console.log("in");
-    res.render('lecture/201502/visual01');
-})
-
-router.get('/getData', function (req, res) {
-
-
-})
