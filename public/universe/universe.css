@@ -5,7 +5,12 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:400,300,700);
 @import url(https://fonts.googleapis.com/css?family=Maven+Pro:400,500,700);
 @import url(https://fonts.googleapis.com/css?family=Ubuntu:400,300,500,700);
+@import url(https://cdn.rawgit.com/openhiun/hangul/14c0f6faa2941116bb53001d6a7dcd5e82300c3f/nanumbarungothic.css);
 
+
+.fontnanum {
+    font-family:Nanum Barun Gothic, sans-serif;
+}
 .center {
     text-align: center;
     vertical-align: middle;

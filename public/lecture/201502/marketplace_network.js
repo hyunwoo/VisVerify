@@ -82,7 +82,7 @@ function renderer() {
                     font: {
                         size: 25,
                         color : '#FFF',
-                        face: 'Tahoma'
+                        face: 'Nanum Barun Gothic'
                     }
                 },
                 edges: {

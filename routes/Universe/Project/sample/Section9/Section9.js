@@ -27,7 +27,7 @@ var fs = require('fs-extra');
 
 router.get('/', function (req, res) {
     console.log("in");
-    res.render('universe/project/samples/section9/visualization');
+    res.render('universe/project/samples/section9/section9_visualization');
 })
 
 router.get('/getData', function (req, res) {

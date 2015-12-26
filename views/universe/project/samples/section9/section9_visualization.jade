@@ -1,6 +1,7 @@
 extends ../../../universe_parent
 //<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
 block content
+
     -var useFooter = false;
     div.container-fuild
         div#renderer(style='position:absolute;left:0%;width:100%;top:0%;height:100%;background-color: #000;z-index:0;' )
@@ -8,7 +9,7 @@ block content
             table
                 tr
                     td
-                        h3.fit.bold.c5(style='font-size:27px')#text_code Section
+                        h3.fontnanum.fit.bold.c5(style='font-size:27px')#text_code Section
                     td
                         table#img_parent(style='margin-left:10px')
                             tr
@@ -17,10 +18,11 @@ block content
                                 td(style='margin:15px')#face_02
                                 td(style='margin:15px')#face_03
 
-            h4.c5.bold#text_part 주요 구성 업종 : 레저, 음식
-            h5.c5#text_desc 일과 여가를 즐기며 퇴근후 시간을 활용하는 젊은 감각의 남성들이 이용하는 MarketPlace
-        div.borderSmooth#d3_time(style='position:absolute;right:20px;width:370px;top:360px;height:200px; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
-        div.borderSmooth#d3_gender(style='position:absolute;right:20px;width:370px;top:570px;height:200px; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
+            h4.fontnanum.c5.bold#text_part 주요 구성 업종 : 레저, 음식
+            h5.fontnanum.c5#text_desc 일과 여가를 즐기며 퇴근후 시간을 활용하는 젊은 감각의 남성들이 이용하는 MarketPlace
+        div(style='overflow-y: auto;')
+            div.borderSmooth#d3_time(style='position:absolute;right:20px;width:370px;top:360px;height:200px; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
+            div.borderSmooth#d3_gender(style='position:absolute;right:20px;width:370px;top:570px;height:200px; background: rgba(0, 0, 0, 0.9);z-index:0;border-color:#e8e8e6' )
         div#renderer_head(style='position:absolute;left:30px;width:400px;top:120px;height:630px;z-index:1;pointer-events: none;padding:10px 20px;background: rgba(0, 0, 0, 0.0);' )
             img(style='position:absolute;left:10px;top:10px;width:54px;height:54px;', src='/lecture/201502/img/marketplacecode9icon.png')
             div(style='position:absolute;left:75px;top:2px;')
@@ -32,7 +34,7 @@ block content
 
                 div(style='padding-right:2px;padding-bottom:4px;')
                     div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#f58d92;')
-                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 브라보라이프 존
+                    div(style='position:absolute;left:33px;margin-top:5px;font-size:17px;').h4.fontnanum.fit.c5 브라보라이프 존
                     div(style='position:absolute;left:153px')
                         img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M40.png')
                     div(style='position:absolute;left:183px')
@@ -45,7 +47,7 @@ block content
 
                 div(style='padding-right:2px;padding-bottom:4px;')
                     div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#4ebabb;')
-                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 인스피리언스 존
+                    div(style='position:absolute;left:33px;margin-top:5px;font-size:17px;').h4.fontnanum.fit.c5 인스피리언스 존
                     div(style='position:absolute;left:153px')
                         img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M20.png')
                     div(style='position:absolute;left:183px')
@@ -58,7 +60,7 @@ block content
 
                 div(style='padding-right:2px;padding-bottom:4px;')
                     div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#ebe57c;')
-                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 2080 존
+                    div(style='position:absolute;left:33px;margin-top:5px;font-size:17px;').h4.fontnanum.fit.c5 2080 존
                     div(style='position:absolute;left:153px')
                         img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M20.png')
                     div(style='position:absolute;left:183px')
@@ -71,7 +73,7 @@ block content
 
                 div(style='padding-right:2px;padding-bottom:4px;')
                     div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#bfb196;')
-                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 실버 존
+                    div(style='position:absolute;left:33px;margin-top:5px;font-size:17px;').h4.fontnanum.fit.c5 실버 존
                     div(style='position:absolute;left:153px')
                         img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M60.png')
                     div(style='position:absolute;left:183px')
@@ -80,7 +82,7 @@ block content
 
                 div(style='padding-right:2px;padding-bottom:4px;')
                     div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#119768;')
-                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 슬로비 존
+                    div(style='position:absolute;left:33px;margin-top:4px;').h4.fontnanum.fit.c5 슬로비 존
                     div(style='position:absolute;left:153px')
                         img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M40.png')
                     div(style='position:absolute;left:183px')
@@ -89,7 +91,7 @@ block content
 
                 div(style='padding-right:2px;padding-bottom:4px;')
                     div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#f4c221;')
-                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 올빼미 존
+                    div(style='position:absolute;left:33px;margin-top:5px;font-size:17px;').h4.fontnanum.fit.c5 올빼미 존
                     div(style='position:absolute;left:153px')
                         img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M20.png')
                     div(style='position:absolute;left:183px')
@@ -98,21 +100,21 @@ block content
 
                 div(style='padding-right:2px;padding-bottom:4px;')
                     div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#8555a3;')
-                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 루틴 존
+                    div(style='position:absolute;left:33px;margin-top:5px;font-size:17px;').h4.fontnanum.fit.c5 루틴 존
                     div(style='position:absolute;left:153px')
                         img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M40.png')
                 p(style='height:20px')
 
                 div(style='padding-right:2px;padding-bottom:4px;')
                     div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#3780bb;')
-                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 보보스 존
+                    div(style='position:absolute;left:33px;margin-top:5px;font-size:17px;').h4.fontnanum.fit.c5 보보스 존
                     div(style='position:absolute;left:153px')
                         img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/M20.png')
                 p(style='height:20px')
 
                 div(style='padding-right:2px;padding-bottom:4px;')
                     div(style='position:absolute;left:0px;width:25px;height:25px;background-color:#e14046;')
-                    div(style='position:absolute;left:33px;margin-top:3px;').h4.fit.c5 포미 존
+                    div(style='position:absolute;left:33px;margin-top:5px;font-size:17px;').h4.fontnanum.fit.c5 포미 존
                     div(style='position:absolute;left:153px')
                         img(style='margin-top:-0px;margin-right:2px;width:' + img_size + ';height:' + img_size,src='/lecture/201502/img/W20.png')
                 p(style='height:20px')
