@@ -1,0 +1,39 @@
+<!doctype html>
+<meta charset="utf-8">
+
+<!-- load D3js -->
+<script src="http://www.d3plus.org/js/d3.js"></script>
+
+<!-- load D3plus after D3js -->
+<script src="http://www.d3plus.org/js/d3plus.js"></script>
+<script src="./d3plus_bubbles_data.js"></script>
+
+<!-- create container element for visualization -->
+<body>
+<div id="viz" style="width:800px;height:400px"></div>
+<div id="viz_bar" style="width:800px;height:400px"></div>
+</body>
+
+<script>
+
+    // instantiate d3plus
+    var visualization = d3plus.viz()
+            .container("#viz")     // container DIV to hold the visualization
+            .data(d3plus_bubble_data)     // data to use with the visualization
+            .type("bubbles")       // visualization type
+            .id(["group", "name"]) // nesting keys
+            .depth(1)              // 0-based depth
+            .size("value")         // key name to size bubbles
+            .color("group")        // color by each group
+            .draw()                // finally, draw the visualization!
+
+    var visualization_bar = d3plus.viz()
+            .container("#viz_bar")
+            .data(d3plus_bubble_data)
+            .type("bar")
+            .id("name")
+            .x("group")
+            .y("value")
+            .draw()
+
+</script>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NVD3 Scatter</title>
+</head>
+
+<link href="http://nvd3.org/assets/css/common.css" rel="stylesheet">
+<link href="http://nvd3.org/assets/css/nv.d3.css" rel="stylesheet">
+
+
+<script src="http://nvd3.org/assets/lib/d3.v3.js"></script>
+<script src="http://nvd3.org/assets/js/nv.d3.js"></script>
+
+<body>
+<div id="chart">
+    <svg style="height:600px;width:900px; border: black"></svg>
+</div>
+</body>
+
+<script>
+    nv.addGraph(function () {
+        var chart = nv.models.scatterChart()
+                .showDistX(true)    //showDist, when true, will display those little distribution lines on the axis.
+                .showDistY(true)
+                .transitionDuration(350)
+                .color(d3.scale.category10().range());
+
+        //Configure how the tooltip looks.
+        chart.tooltipContent(function (key) {
+            return '<h3>' + key + '</h3>';
+        });
+
+        //Axis settings
+        chart.xAxis.tickFormat(d3.format('.02f'));
+        chart.yAxis.tickFormat(d3.format('.02f'));
+
+        //We want to show shapes other than circles.
+        chart.scatter.onlyCircles(false);
+
+var myData = [
+    {
+        key: 'A',
+        values : [
+            {
+                x : 0,
+                y : 0,
+                size : 1,
+                shape : 'circle',
+            },
+            {
+                x : 1,
+                y : 0,
+                size : 0.1,
+                shape : 'circle',
+            },
+            {
+                x : 0.5,
+                y : 1,
+                size : 2,
+                shape : 'circle',
+            }
+        ]
+    },
+    {
+        key : 'B',
+        values : [
+            {
+                x : -1.25,
+                y : 3,
+                size : 4,
+                shape : 'cross',
+            },
+            {
+                x : 0.25,
+                y : 0.3,
+                size : 5,
+                shape : 'cross',
+            },
+        ]
+    }
+]
+        d3.select('#chart svg')
+                .datum(myData)
+                .call(chart);
+
+        nv.utils.windowResize(chart.update);
+
+        return chart;
+    });
+    function randomData(groups, points) { //# groups,# points per group
+        var data = [],
+                shapes = ['circle', 'cross', 'triangle-up', 'triangle-down', 'diamond', 'square'],
+                random = d3.random.normal();
+
+        for (i = 0; i < groups; i++) {
+            data.push({
+                key: 'Group ' + i,
+                values: []
+            });
+
+            for (j = 0; j < points; j++) {
+                data[i].values.push({
+                    x: random()
+                    , y: random()
+                    , size: Math.random()   //Configure the size of each scatter point
+                    , shape: (Math.random() > 0.95) ? shapes[j % 6] : "circle"  //Configure the shape of each scatter point.
+                });
+            }
+        }
+        return data;
+    }
+    /* ..... */
+
+</script>
+</html>
