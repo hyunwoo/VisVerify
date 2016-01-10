@@ -16,11 +16,7 @@ var sort = require('javascript-natural-sort');
 
 
 
-
-
-
 var csvParser = require('../functions/CsvToJson');
-
 var sentiment = require('../functions/SentimenAnalsys');
 var defaultFunc = require('../functions/defaultFunctions');
 
@@ -29,7 +25,7 @@ module.exports = router;
 
 
 var lda = require('../functions/LDA');
-var db = require('redis').createClient(13000, '202.30.24.169');
+var db = require('../functions/DBFunction').db;
 
 /*
  db 1 : twit
@@ -40,7 +36,7 @@ var db = require('redis').createClient(13000, '202.30.24.169');
  db 6 : temp dic
   */
 
-var joseon_dynasty_db = require('redis').createClient(13001, '202.30.24.169');
+var joseon_dynasty_db = db;
 
 
 

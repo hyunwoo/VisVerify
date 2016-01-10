@@ -6,7 +6,7 @@ var fs = require('fs-extra');       //File System - for file manipulation
 var func = require('../functions/defaultFunctions')
 var DBFunc = require('../functions/DBFunction');
 var url = require('url');
-var db = require('redis').createClient(6500, '202.30.24.169');
+var db = DBFunc.db;
 var multi;
 
 /* GET home page. */

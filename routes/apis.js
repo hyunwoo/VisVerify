@@ -37,8 +37,8 @@ var config = {
 
 var twitter = new Twitter(config);
 
-var db = require('redis').createClient(13000, '202.30.24.169');
-var joseon_dynasty_db = require('redis').createClient(13001, '202.30.24.169');
+var db = require('../functions/DBFunction').db;
+var joseon_dynasty_db = db;
 
 var kingsName = {};
 csvParser.Parse('./ProjectData/joseondynasty/kingsname.csv', function (data) {

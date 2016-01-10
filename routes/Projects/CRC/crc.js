@@ -5,9 +5,12 @@ var express = require('express');
 var router = express.Router();
 var bases = require('bases');
 var redis = require('redis');
-var db = redis.createClient(16801, "202.30.24.169");
+
 var sortBy = require('sort-by');
 var functions = require('../../../functions/defaultFunctions');
+
+var db = require('../../../functions/DBFunction').crc_db;
+
 module.exports = router;
 
 var useRandomSeed = true;

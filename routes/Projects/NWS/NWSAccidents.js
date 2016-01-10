@@ -9,7 +9,7 @@ module.exports = router;
 var redis = require('redis');
 
 // port 16800
-var db = require('redis').createClient(16800, '202.30.24.169');
+var db = require('../../../functions/DBFunction').nws_db;
 
 router.get('/', function (req, res) {
     console.log("in new projects");
