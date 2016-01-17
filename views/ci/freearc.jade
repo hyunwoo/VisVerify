@@ -22,14 +22,29 @@ block body
         h5(style='font-size:20px' align='center')#div_selected_number SELECTED : 1
         div(align='left')
             div#div_inputs
+
     div(style='position:absolute;right:340px;top:20px;width:50px;')
         div#div_elements
+
+    div(style='z-index:100;position:absolute;right:120px;top:620px;width:200px;', data-slider='')
+        h5(style='font-size:15px;color:#404040') Hue Controller
+            input(onchange='onChangeHSB(this.value)',type='range' , style='width:300px')
+        p
+        h5(style='font-size:15px;color:#404040') Saturation Controller (not work)
+            input(type='range' , style='width:300px')
+        p
+        h5(style='font-size:15px;color:#404040') Brightness Controller (not work)
+            input(type='range' , style='width:300px')
+
+
 
 
 
 
 
     script.
+        var currentH = 50;
+
         var width = 1200;
         var height = 800;
         var svg;
@@ -41,11 +56,50 @@ block body
         var elementButtonParent;
 
         var text = ["Inner Radius", "Outer Radius", "Rotate Angle", "Size Angle", "Color", "Opacity"];
-        var type = ['number', 'number', 'number', 'number', 'text', 'number'];
+        var type = ['number', 'number', 'number', 'number', 'color', 'number'];
 
         var defaultValue = [50, 100, 0, 100, '#FFAA00', 100];
 
         var inputs = [];
+
+        function onChangeHSB(v) {
+            console.log(v);
+            var v = Number(v);
+            var delta = v - currentH;
+            currentH = v;
+
+            var keys = Object.keys(arcList);
+            console.log(delta);
+
+            for (var i = 0; i < keys.length; i++) {
+
+                var d = arcList[keys[i]];
+                if(d == null) continue;
+                var hex = d.DrawInfo.color;
+                var rgb = hexToRgb(hex);
+                var hsb = RGBtoHSV(rgb.r, rgb.g, rgb.b);
+                console.log("pre H : " + hsb.h)
+                hsb.h += delta / 50;
+                if (hsb.h > 1.0) {
+                    hsb.h = hsb.h - 1.0;
+                }
+                if(hsb.h < 0.0){
+                    hsb.h = hsb.h + 1.0;
+                }
+
+                console.log("aft H : " + hsb.h)
+
+                console.log(hsb);
+                rgb = HSVtoRGB(hsb.h, hsb.s, hsb.v);
+                console.log(rgb);
+                hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+                d.DrawInfo.color = hex;
+                d.updateSVG();
+
+            }
+        }
+
+
 
         function deleteElement() {
             var d = arcList[selectedArc];
@@ -92,11 +146,8 @@ block body
                 head.style.fontSize = '15px';
                 head.style.color = '#6f6f6f';
 
-
                 parent.appendChild(head);
                 parent.appendChild(input);
-
-
             }
 
         }
@@ -167,7 +218,7 @@ block body
                 '#facc00'
             ];
             var arc = d3.svg.arc()
-                    .innerRadius(50)
+                    .innerRadius(0)
                     .outerRadius(100)
                     .startAngle(-50 * (Math.PI / 180)) //converting from degs to radians
                     .endAngle(50 * (Math.PI / 180)) //just radians
@@ -183,10 +234,10 @@ block body
                 svg: svgElement,
                 d: arc,
                 ArcInfo: {
-                    iR: 50,
-                    oR: 100,
-                    rA: 0,
-                    sA: 100,
+                    iR: 0,
+                    oR: 250,
+                    rA: 30 * savedIndex,
+                    sA: 30,
                 },
                 button: button,
                 DrawInfo: {
@@ -239,6 +290,77 @@ block body
             } : null;
         }
 
+        function RGBtoHSV(r, g, b) {
+            if (arguments.length === 1) {
+                g = r.g, b = r.b, r = r.r;
+            }
+            var max = Math.max(r, g, b), min = Math.min(r, g, b),
+                    d = max - min,
+                    h,
+                    s = (max === 0 ? 0 : d / max),
+                    v = max / 255;
+
+            switch (max) {
+                case min:
+                    h = 0;
+                    break;
+                case r:
+                    h = (g - b) + d * (g < b ? 6 : 0);
+                    h /= 6 * d;
+                    break;
+                case g:
+                    h = (b - r) + d * 2;
+                    h /= 6 * d;
+                    break;
+                case b:
+                    h = (r - g) + d * 4;
+                    h /= 6 * d;
+                    break;
+            }
+
+            return {
+                h: h,
+                s: s,
+                v: v
+            };
+        }
+
+        function HSVtoRGB(h, s, v) {
+            var r, g, b, i, f, p, q, t;
+            if (arguments.length === 1) {
+                s = h.s, v = h.v, h = h.h;
+            }
+            i = Math.floor(h * 6);
+            f = h * 6 - i;
+            p = v * (1 - s);
+            q = v * (1 - f * s);
+            t = v * (1 - (1 - f) * s);
+            switch (i % 6) {
+                case 0:
+                    r = v, g = t, b = p;
+                    break;
+                case 1:
+                    r = q, g = v, b = p;
+                    break;
+                case 2:
+                    r = p, g = v, b = t;
+                    break;
+                case 3:
+                    r = p, g = q, b = v;
+                    break;
+                case 4:
+                    r = t, g = p, b = v;
+                    break;
+                case 5:
+                    r = v, g = p, b = q;
+                    break;
+            }
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255)
+            };
+        }
 
 
         function updateArcData() {
