@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Draw D3JS</title>
+</head>
+<body>
+<p> D3JS 드로잉 테스트 </p>
+<!-- 그려질 div를 정의하고 해당 div의 크리를 정한다.-->
+<div id="renderer" , style="width: 1024px; height: 800px"></div>
+</body>
+
+<!-- 스크립트를 작성하기전, d3js라이브러리를 불러온다.-->
+<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script>
+    // 아이디가 renderer 인 객채를 얻고, svg를 붙힌다.
+    var root = d3.select("#renderer").append("svg");
+    // 가로 새로 크기를 설정한다.
+    root.attr('width', 800).attr('height', 600);
+
+
+    var color = [  '#093', '#058', '#F80'];
+    // draw grid x
+    for (var i = 0; i < 10; i++) {
+        root.append('line').attr('x1', 50)
+                .attr('x2', 750).attr('y1', 50 + 50 * i)
+                .attr('y2', 50 + 50 * i).attr('stroke', '#ccc').attr('stroke-width', 0.5);
+    }
+
+    // draw grid y
+    for (var i = 0; i < 29; i++) {
+        root.append('line').attr('x1', 50 + 25 * i)
+                .attr('x2', 50 + 25 * i).attr('y1', 0)
+                .attr('y2', 500).attr('stroke', '#ccc').attr('stroke-width', 0.5);
+    }
+
+
+    // init data
+    var data = [];
+    for (var j = 0; j < 3; j++) {
+        var group = [];
+        for (var i = 0; i < 15 +  Math.random() * 30; i++) {
+            group.push({
+                x: 50 + 700 * Math.random(),
+                y: 50 + 450 * Math.random(),
+                size: Math.random() + j,
+            })
+        }
+        data.push(group);
+    }
+
+    // draw node
+    for(var i = 0 ; i < data.length ; i ++){
+        for(var j = 0 ; j < data[i].length; j ++){
+            var node = data[i][j];
+
+            root.append('circle').attr('cx',node.x).attr('cy',node.y)
+                    .attr('r',node.size * 3 + 1).attr('fill', color[i]);
+        }
+    }
+
+
+</script>
+</html>

@@ -26,7 +26,7 @@ var route_api_crawler = require('./routes/APIS/SiteScraper/SiteScraper')
 var route_api_lda = require('./routes/APIS/LDA/LDA')
 var route_api_cluster = require('./routes/APIS/Cluster/cluster')
 var route_CRC = require('./routes/Projects/CRC/crc')
-var route_ci_burst = require('./routes/ci/burst');
+var route_ci_burst = require('./routes/ci/ci_maker');
 var crypto = require('crypto');
 
 var route_api = require('./routes/apis');
@@ -75,7 +75,7 @@ app.use('/apis/sitescraper', route_api_crawler);
 app.use('/apis/lda', route_api_lda);
 app.use('/apis/cluster', route_api_cluster);
 
-app.use('/ci/burst', route_ci_burst);
+app.use('/ci/', route_ci_burst);
 
 
 // Universe System

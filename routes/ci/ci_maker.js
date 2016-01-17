@@ -8,7 +8,12 @@ var router = express.Router();
 module.exports = router;
 
 
-router.get('/', function (req, res) {
+router.get('/burst', function (req, res) {
     console.log("in");
     res.render('ci/burst');
+})
+
+router.get('/freeArcs', function(req,res){
+    console.log("in");
+    res.render('ci/freearc');
 })

@@ -1,0 +1,247 @@
+extends ../projects_layout
+
+block body
+    script(src='http://www.d3plus.org/js/d3.js')
+    script(src='http://www.d3plus.org/js/d3plus.js')
+    script(src='/foundation/foundation.min.js')
+    link(rel='stylesheet', href='/foundation/foundation.min.css')
+
+    style.
+        .strokeblack {
+            stroke: rgb(0, 0, 0);
+            stroke-width: 2px;
+
+
+    div.container-fulid(style='z-index:0;position:absolute;left:0px;top:0px;width:100%;background:#000000')
+        div#renderer(style='height:100vh;background:#ffffff')
+
+    div(style='position:absolute;right:20px;top:20px;width:300px;')
+        div(align='center')
+            button.btn.btn-success(onclick='appendArcElement()', style='width:100%') Append Element
+        p
+        h5(style='font-size:20px' align='center')#div_selected_number SELECTED : 1
+        div(align='left')
+            div#div_inputs
+    div(style='position:absolute;right:340px;top:20px;width:50px;')
+        div#div_elements
+
+
+
+
+
+    script.
+        var width = 1200;
+        var height = 800;
+        var svg;
+
+        var selectedArc = 1;
+        var arcList = [];
+        var savedIndex = 0;
+
+
+        var text = ["Inner Radius", "Outer Radius", "Rotate Angle", "Size Angle", "Color", "Opacity"];
+        var type = ['number', 'number', 'number', 'number', 'text', 'number'];
+        var defaultValue = [50, 100, 0, 100, '#FFAA00', 50];
+
+        var inputs = [];
+
+        function appendArcController() {
+            var parent = document.getElementById("div_inputs");
+
+            for (var i = 0; i < 6; i++) {
+                var input = document.createElement("INPUT");
+                input.setAttribute("type", type[i]);
+                input.style.width = '300px';
+                input.style.height = height[i];
+                input.style.margin = '2px 1px';
+                input.setAttribute('align','center');
+                input.value = defaultValue[i];
+
+                input.setAttribute('onchange', "changeTest(this)");
+                input.setAttribute('name', text[i]);
+                inputs.push(input);
+
+                var head = document.createElement("div");
+                head.innerHTML = text[i];
+                head.style.paddingtop = '15px';
+                head.style.fontSize = '15px';
+                head.style.color = '#6f6f6f';
+
+                parent.appendChild(head);
+                parent.appendChild(input);
+
+            }
+        }
+
+
+        function initialize() {
+            width = document.getElementById("renderer").offsetWidth;
+            height = document.getElementById("renderer").offsetHeight;
+            svg = d3.select("#renderer").append("svg")
+            svg.attr("width", width).attr("height", height)
+        }
+
+
+
+        function draw() {
+
+        }
+
+        initialize();
+        draw();
+        appendArcElement();
+        appendArcController();
+
+
+
+
+        function onClickElement(v){
+            console.log(Number(v));
+            selectedArc = v;
+
+            var d = arcList[selectedArc];
+            inputs[0].value = d.ArcInfo.iR;
+            inputs[1].value = d.ArcInfo.oR;
+            inputs[2].value = d.ArcInfo.rA;
+            inputs[3].value = d.ArcInfo.sA;
+            inputs[4].value = d.DrawInfo.color;
+            inputs[5].value = d.DrawInfo.opacity;
+
+            document.getElementById("div_selected_number").innerHTML = "SELECTED : " + selectedArc;
+        }
+        function appendArcElement(){
+            savedIndex ++;
+
+            var eleParent = document.getElementById("div_elements");
+            var button = document.createElement("Button");
+            button.className += 'btn btn-default';
+            button.style.width = '40px';
+            button.style.height = '40px';
+            button.style.margin = '1px';
+            button.style.stroke = 'none';
+            button.style.strokeWidth = '0px';
+            button.style.color = "#FFFFFF";
+            button.innerHTML = "" + savedIndex;
+            button.setAttribute('onclick' , 'onClickElement(this.innerHTML)');
+            eleParent.appendChild(button);
+
+            var arc = d3.svg.arc()
+                    .innerRadius(50)
+                    .outerRadius(100)
+                    .startAngle(-50 * (Math.PI / 180)) //converting from degs to radians
+                    .endAngle(50 * (Math.PI / 180)) //just radians
+
+            var svgElement = svg.append("path")
+                    .attr("d", arc)
+                    .attr("transform", "translate(" + width / 2 + " , " + height / 2 + ")")
+                    .attr('fill', '#fffff0')
+
+            var baseElement = {
+                svg: svgElement,
+                d: arc,
+                ArcInfo: {
+                    iR: 50,
+                    oR: 100,
+                    rA: 0,
+                    sA: 100,
+                },
+                button : button,
+                DrawInfo: {
+                    color: '#FFAA00',
+                    opacity: 50,
+                    stroke: '#FFFFFF',
+                },
+                updateD: function (){
+                    console.log(this.ArcInfo);
+                    this.d
+                        .innerRadius(Number(this.ArcInfo.iR))
+                        .outerRadius(Number(this.ArcInfo.oR))
+                        .startAngle((Number(this.ArcInfo.rA) - Number(this.ArcInfo.sA) * 0.5)
+                                * (Math.PI / 180)) //converting from degs to radians
+                        .endAngle((Number(this.ArcInfo.rA) + Number(this.ArcInfo.sA) * 0.5)
+                                * (Math.PI / 180)) //converting from degs to radians
+
+                    console.log(this.d);
+                    return this;
+                },
+
+                updateSVG: function () {
+                    this.svg
+                        .attr("d", this.d)
+                        .attr("fill", this.DrawInfo.color)
+                        .attr("opacity", this.DrawInfo.opacity * 0.01)
+
+                    button.style.background = this.DrawInfo.color;
+                    button.style.stroke = this.DrawInfo.opacity;
+                    return this;
+                }
+
+
+            }
+            baseElement.updateD();
+            baseElement.updateSVG();
+            arcList[savedIndex] = baseElement;
+        }
+
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
+
+        function hexToRgb(hex) {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+
+
+        function updateArcData(){
+
+        }
+
+
+
+        function changeTest(element){
+            switch(element.name){
+                case text[0]:
+                    arcList[selectedArc].ArcInfo.iR = element.value;
+                    break;
+
+                case text[1]:
+                    arcList[selectedArc].ArcInfo.oR = element.value;
+                    break;
+
+                case text[2]:
+                    arcList[selectedArc].ArcInfo.rA = element.value;
+                    break;
+
+                case text[3]:
+                    arcList[selectedArc].ArcInfo.sA = element.value;
+                    break;
+
+                case text[4]:
+                    arcList[selectedArc].DrawInfo.color = element.value;
+                    break;
+
+                case text[5]:
+                    arcList[selectedArc].DrawInfo.opacity = element.value;
+                    break;
+
+                default:
+                    break;
+            }
+
+
+            arcList[selectedArc].updateD().updateSVG();
+
+
+
+        }
+
+        function makeArcData(){
+
+        }
+

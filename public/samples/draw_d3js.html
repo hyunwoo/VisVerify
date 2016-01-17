@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Draw D3JS</title>
+</head>
+<body>
+    <p> D3JS 드로잉 테스트 </p>
+    <!-- 그려질 div를 정의하고 해당 div의 크리를 정한다.-->
+    <div id="renderer", style="width: 1024px; height: 800px"></div>
+</body>
+
+<!-- 스크립트를 작성하기전, d3js라이브러리를 불러온다.-->
+<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script>
+    // 아이디가 renderer 인 객채를 얻고, svg를 붙힌다.
+    var root = d3.select("#renderer").append("svg");
+    // 가로 새로 크기를 설정한다.
+
+
+    root.attr('width', 800).attr('height', 600);
+
+
+
+    // 원그리기
+    var circle = root.append('circle');
+    circle.attr('cx', 200).attr('cy',200).attr('r',100).attr('fill','#000').attr("stroke", "#fa0")
+            .attr("stroke-width", 2);
+
+    // 타원그리기
+    var ellipse = root.append('ellipse');
+    ellipse.attr('cx', 450).attr('cy',200).attr('rx',100).attr('ry',50).attr('fill','#FA0');
+
+    // 사각형 그리기
+    var rect = root.append('rect');
+    rect.attr('x',100).attr('y',400).attr('width',400).attr('height',100).attr('fill','#33F');
+
+
+
+    // line
+    var line = root.append('line');
+    line.attr('x1',400)
+            .attr('y1',100)
+            .attr('x2',100)
+            .attr('y2',300)
+            .attr('stroke','#aa0')
+            .attr('stroke-width',5)
+
+    // polygons
+    var polydata = [ { "x": 0,   "y": 0},  { "x": 100,  "y": 20},
+        { "x": 150,  "y": 150}, { "x": 30,  "y": 60},
+                         { "x": 80,  "y": 5},  { "x": 100, "y": 60}];
+    var polyfunc = d3.svg.line()
+            .x(function(d) { return d.x; })
+            .y(function(d) { return d.y; })
+            .interpolate("linear");
+
+    var cardinalfunc = d3.svg.line()
+            .x(function(d) { return d.x; })
+            .y(function(d) { return d.y; })
+            .interpolate("cardinal"); //
+    var polygraph = root.append("path")
+                                .attr("d", polyfunc(polydata))
+                                .attr("stroke", "#fa0")
+                                .attr("stroke-width", 2)
+                                .attr("fill", "none");
+
+
+    var triangle = [ {x:300, y:400},{x:300, y:500}, {x:200,y:400},{x:300,y:400}];
+
+    var tri = root.append("path")
+            .attr("d", polyfunc(triangle))
+            .attr("stroke", "#fa0")
+            .attr("stroke-width", 2)
+            .attr("fill", "#fa0");
+
+</script>
+</html>

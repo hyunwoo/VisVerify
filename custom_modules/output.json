@@ -1,0 +1,46 @@
+[
+  {
+    centroid: [
+      19425,
+      6852.25
+    ],
+    cluster: [
+      [
+        Object
+      ],
+      [
+        Object
+      ],
+      [
+        Object
+      ],
+      [
+        Object
+      ]
+    ],
+    clusterInd: [
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    centroid: [
+      65629.5,
+      79603.5
+    ],
+    cluster: [
+      [
+        Object
+      ],
+      [
+        Object
+      ]
+    ],
+    clusterInd: [
+      0,
+      1
+    ]
+  }
+]
