@@ -37,7 +37,7 @@ html
 
 
 
-    body#body
+    //body#body
         header
             nav.navbar.navbar-default.sidebar( role='navigation', data-spy='affix', data-offset-top='-10' , style='z-index:100')
                 #bs-sidebar-navbar-collapse-1.collapse.navbar-collapse
@@ -112,9 +112,9 @@ html
                             a(href='#', style='font-size:15px') Message
                                 span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-open(style='font-size:16px; margin-right:5px')
 
-        body
-            div(style="min-height:100%; height:100%")
-                block content
-                //include ./footer.jade
+    body
+        div(style="min-height:100%; height:100%")
+            block content
+            //include ./footer.jade
 
 
