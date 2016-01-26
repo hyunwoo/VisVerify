@@ -15,10 +15,21 @@ block body
     div.container-fulid(style='z-index:0;position:absolute;left:0px;top:0px;width:100%;background:#000000')
         div#renderer(style='height:100vh;background:#ffffff')
 
+    div(style='position:absolute;left:20px;top:20px;width:150px')
+        input#inputFileName(type='text', value='default',name='name', placeholder="download filename", style='border-radius:0px;font-size:15px;height:35px;margin:0px;')
+        input(type='submit', value='Download To SVG', style='width:100%;margin:0px;',onclick='downloadSvg()').btn.btn-primary
+        button.btn.btn-danger(onclick='saveArcToDB()', style='width:150px;margin:0px;') Save To Database
+
+    div(style='position:absolute;left:20px;top:180px;width:150px')
+        input#inputSearchName(type='text', value='default',name='name', placeholder="download filename", style='border-radius:0px;font-size:15px;height:35px;width:100%;margin:0px;')
+        button.btn.btn-danger(onclick='downloadSvg()', style='width:150px;margin:0px;') Load To Database
+
+
     div(style='position:absolute;right:20px;top:20px;width:300px;')
         div(align='center')
             button.btn.btn-success(onclick='appendArcElement()', style='width:100%') Append Element
-        p
+
+
         h5(style='font-size:20px' align='center')#div_selected_number SELECTED : 1
         div(align='left')
             div#div_inputs
@@ -26,386 +37,24 @@ block body
     div(style='position:absolute;right:340px;top:20px;width:50px;')
         div#div_elements
 
+
+
     div(style='z-index:100;position:absolute;right:120px;top:620px;width:200px;', data-slider='')
-        h5(style='font-size:15px;color:#404040') Hue Controller
+        h5(style='font-size:16px;color:#404040') Hue
             input(onchange='onChangeHSB(this.value)',type='range' , style='width:300px')
         p
-        h5(style='font-size:15px;color:#404040') Saturation Controller (not work)
+        h5(style='font-size:16px;color:#404040') Saturation (not work)
             input(type='range' , style='width:300px')
         p
-        h5(style='font-size:15px;color:#404040') Brightness Controller (not work)
+        h5(style='font-size:16px;color:#404040') Brightness (not work)
             input(type='range' , style='width:300px')
 
 
 
+    script(src='/javascripts/ci/FileSaver.js')
+    script(src='/javascripts/ci/svgtopdf.js')
+    script(src='/javascripts/ci/jspdf.js')
+    script(src='/javascripts/ci/freearc.js')
 
 
-
-
-    script.
-        var currentH = 50;
-
-        var width = 1200;
-        var height = 800;
-        var svg;
-
-        var selectedArc = 1;
-        var arcList = [];
-        var savedIndex = 0;
-        var inputParent;
-        var elementButtonParent;
-
-        var text = ["Inner Radius", "Outer Radius", "Rotate Angle", "Size Angle", "Color", "Opacity"];
-        var type = ['number', 'number', 'number', 'number', 'color', 'number'];
-
-        var defaultValue = [50, 100, 0, 100, '#FFAA00', 100];
-
-        var inputs = [];
-
-        function onChangeHSB(v) {
-            console.log(v);
-            var v = Number(v);
-            var delta = v - currentH;
-            currentH = v;
-
-            var keys = Object.keys(arcList);
-            console.log(delta);
-
-            for (var i = 0; i < keys.length; i++) {
-
-                var d = arcList[keys[i]];
-                if(d == null) continue;
-                var hex = d.DrawInfo.color;
-                var rgb = hexToRgb(hex);
-                var hsb = RGBtoHSV(rgb.r, rgb.g, rgb.b);
-                console.log("pre H : " + hsb.h)
-                hsb.h += delta / 50;
-                if (hsb.h > 1.0) {
-                    hsb.h = hsb.h - 1.0;
-                }
-                if(hsb.h < 0.0){
-                    hsb.h = hsb.h + 1.0;
-                }
-
-                console.log("aft H : " + hsb.h)
-
-                console.log(hsb);
-                rgb = HSVtoRGB(hsb.h, hsb.s, hsb.v);
-                console.log(rgb);
-                hex = rgbToHex(rgb.r, rgb.g, rgb.b);
-                d.DrawInfo.color = hex;
-                d.updateSVG();
-
-            }
-        }
-
-
-
-        function deleteElement() {
-            var d = arcList[selectedArc];
-
-            d.svg.remove();
-            elementButtonParent.removeChild(d.button);
-
-            delete arcList[selectedArc];
-
-        }
-
-        function appendArcController() {
-            var parent;
-            inputParent = parent = document.getElementById("div_inputs");
-
-            var delete_button = document.createElement("button");
-            delete_button.style.width = '300px';
-            delete_button.style.height = '30px';
-            delete_button.style.margin = '2px 1px';
-            delete_button.style.background = '#dd0000'
-            delete_button.setAttribute('align', 'center');
-            delete_button.style.fontSize = '12px';
-            delete_button.innerHTML = "DELETE ELEMENT";
-            delete_button.style.color = '#ffffff';
-            delete_button.setAttribute('onclick', 'deleteElement()');
-            parent.appendChild(delete_button);
-
-            for (var i = 0; i < 6; i++) {
-                var input = document.createElement("INPUT");
-                input.setAttribute("type", type[i]);
-                input.style.width = '300px';
-                input.style.height = height[i];
-                input.style.margin = '2px 1px';
-                input.setAttribute('align', 'center');
-                input.value = defaultValue[i];
-
-                input.setAttribute('onchange', "changeTest(this)");
-                input.setAttribute('name', text[i]);
-                inputs.push(input);
-
-                var head = document.createElement("div");
-                head.innerHTML = text[i];
-                head.style.paddingtop = '15px';
-                head.style.fontSize = '15px';
-                head.style.color = '#6f6f6f';
-
-                parent.appendChild(head);
-                parent.appendChild(input);
-            }
-
-        }
-
-
-        function initialize() {
-            width = document.getElementById("renderer").offsetWidth;
-            height = document.getElementById("renderer").offsetHeight;
-            svg = d3.select("#renderer").append("svg")
-            svg.attr("width", width).attr("height", height)
-        }
-
-
-
-        function draw() {
-
-        }
-
-        initialize();
-        draw();
-        appendArcElement();
-        appendArcController();
-
-
-
-
-        function onClickElement(v) {
-            console.log(Number(v));
-            selectedArc = v;
-
-            var d = arcList[selectedArc];
-            inputs[0].value = d.ArcInfo.iR;
-            inputs[1].value = d.ArcInfo.oR;
-            inputs[2].value = d.ArcInfo.rA;
-            inputs[3].value = d.ArcInfo.sA;
-            inputs[4].value = d.DrawInfo.color;
-            inputs[5].value = d.DrawInfo.opacity;
-
-            document.getElementById("div_selected_number").innerHTML = "SELECTED : " + selectedArc;
-        }
-        function appendArcElement() {
-            savedIndex++;
-
-            var eleParent;
-            elementButtonParent = eleParent = document.getElementById("div_elements");
-            var button = document.createElement("Button");
-            button.className += 'btn btn-default';
-            button.style.width = '40px';
-            button.style.height = '40px';
-            button.style.margin = '1px';
-            button.style.stroke = 'none';
-            button.style.strokeWidth = '0px';
-            button.style.color = "#FFFFFF";
-            button.innerHTML = "" + savedIndex;
-            button.setAttribute('onclick', 'onClickElement(this.innerHTML)');
-            eleParent.appendChild(button);
-
-            var colorTable = [
-                '#083064',
-                '#1870b6',
-                '#22aee8',
-                '#039e46',
-                '#53b131',
-                '#fded00',
-                '#f3a400',
-                '#eb7300',
-                '#c21e1a',
-                '#facc00'
-            ];
-            var arc = d3.svg.arc()
-                    .innerRadius(0)
-                    .outerRadius(100)
-                    .startAngle(-50 * (Math.PI / 180)) //converting from degs to radians
-                    .endAngle(50 * (Math.PI / 180)) //just radians
-
-            var svgElement = svg.append("path")
-                    .attr("d", arc)
-                    .attr("transform", "translate(" + width / 2 + " , " + height / 2 + ")")
-                    .attr('fill', '#fffff0')
-
-            var hex = colorTable[savedIndex % colorTable.length];
-
-            var baseElement = {
-                svg: svgElement,
-                d: arc,
-                ArcInfo: {
-                    iR: 0,
-                    oR: 250,
-                    rA: 30 * savedIndex,
-                    sA: 30,
-                },
-                button: button,
-                DrawInfo: {
-                    color: hex,
-                    opacity: defaultValue[5],
-                    stroke: '#FFFFFF',
-                },
-                updateD: function () {
-                    console.log(this.ArcInfo);
-                    this.d
-                            .innerRadius(Number(this.ArcInfo.iR))
-                            .outerRadius(Number(this.ArcInfo.oR))
-                            .startAngle((Number(this.ArcInfo.rA) - Number(this.ArcInfo.sA) * 0.5)
-                                    * (Math.PI / 180)) //converting from degs to radians
-                            .endAngle((Number(this.ArcInfo.rA) + Number(this.ArcInfo.sA) * 0.5)
-                                    * (Math.PI / 180)) //converting from degs to radians
-
-                    console.log(this.d);
-                    return this;
-                },
-
-                updateSVG: function () {
-                    this.svg
-                            .attr("d", this.d)
-                            .attr("fill", this.DrawInfo.color)
-                            .attr("opacity", this.DrawInfo.opacity * 0.01)
-
-                    button.style.background = this.DrawInfo.color;
-                    button.style.stroke = this.DrawInfo.opacity;
-                    return this;
-                }
-
-
-            }
-            baseElement.updateD();
-            baseElement.updateSVG();
-            arcList[savedIndex] = baseElement;
-        }
-
-        function rgbToHex(r, g, b) {
-            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-        }
-
-        function hexToRgb(hex) {
-            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
-
-        function RGBtoHSV(r, g, b) {
-            if (arguments.length === 1) {
-                g = r.g, b = r.b, r = r.r;
-            }
-            var max = Math.max(r, g, b), min = Math.min(r, g, b),
-                    d = max - min,
-                    h,
-                    s = (max === 0 ? 0 : d / max),
-                    v = max / 255;
-
-            switch (max) {
-                case min:
-                    h = 0;
-                    break;
-                case r:
-                    h = (g - b) + d * (g < b ? 6 : 0);
-                    h /= 6 * d;
-                    break;
-                case g:
-                    h = (b - r) + d * 2;
-                    h /= 6 * d;
-                    break;
-                case b:
-                    h = (r - g) + d * 4;
-                    h /= 6 * d;
-                    break;
-            }
-
-            return {
-                h: h,
-                s: s,
-                v: v
-            };
-        }
-
-        function HSVtoRGB(h, s, v) {
-            var r, g, b, i, f, p, q, t;
-            if (arguments.length === 1) {
-                s = h.s, v = h.v, h = h.h;
-            }
-            i = Math.floor(h * 6);
-            f = h * 6 - i;
-            p = v * (1 - s);
-            q = v * (1 - f * s);
-            t = v * (1 - (1 - f) * s);
-            switch (i % 6) {
-                case 0:
-                    r = v, g = t, b = p;
-                    break;
-                case 1:
-                    r = q, g = v, b = p;
-                    break;
-                case 2:
-                    r = p, g = v, b = t;
-                    break;
-                case 3:
-                    r = p, g = q, b = v;
-                    break;
-                case 4:
-                    r = t, g = p, b = v;
-                    break;
-                case 5:
-                    r = v, g = p, b = q;
-                    break;
-            }
-            return {
-                r: Math.round(r * 255),
-                g: Math.round(g * 255),
-                b: Math.round(b * 255)
-            };
-        }
-
-
-        function updateArcData() {
-
-        }
-
-
-
-        function changeTest(element) {
-            switch (element.name) {
-                case text[0]:
-                    arcList[selectedArc].ArcInfo.iR = element.value;
-                    break;
-
-                case text[1]:
-                    arcList[selectedArc].ArcInfo.oR = element.value;
-                    break;
-
-                case text[2]:
-                    arcList[selectedArc].ArcInfo.rA = element.value;
-                    break;
-
-                case text[3]:
-                    arcList[selectedArc].ArcInfo.sA = element.value;
-                    break;
-
-                case text[4]:
-                    arcList[selectedArc].DrawInfo.color = element.value;
-                    break;
-
-                case text[5]:
-                    arcList[selectedArc].DrawInfo.opacity = element.value;
-                    break;
-
-                default:
-                    break;
-            }
-
-
-            arcList[selectedArc].updateD().updateSVG();
-
-
-        }
-
-        function makeArcData() {
-
-        }
 
