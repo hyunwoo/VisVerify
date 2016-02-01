@@ -1,0 +1,19 @@
+//
+   Created by Hyunwoo on 2016. 2. 1..
+extends ../../universe_parent
+block content
+    div.container-fuild
+        div#renderer(style='position:absolute;margin-top:150px;left:0%;width:100%;top:0%;height:100%;background-color: #fff;z-index:0;' )
+
+    script(src="http://www.d3plus.org/js/d3.js")
+    script(src="http://www.d3plus.org/js/d3plus.js")
+    script(src='/universe/crc/data/ADA.js')
+    script.
+        var connections = data;
+        // instantiate d3plus
+        var visualization = d3plus.viz()
+                .container("#renderer")  // container DIV to hold the visualization
+                .type("rings")      // visualization type
+                .edges(connections) // list of node connections
+                .focus("ADA")     // ID of the initial center node
+                .draw()             // finally, draw the visualization!

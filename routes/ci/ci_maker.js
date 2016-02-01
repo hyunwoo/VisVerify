@@ -40,6 +40,17 @@ router.post('/freeArcs/save', function (req, res) {
     })
 })
 
+router.get('/freeArcs/list', function(req,res){
+    var multi = db.multi();
+    multi.select(6);
+    multi.keys('*');
+    multi.exec(function(err,rep){
+        console.log(err,rep);
+        if(!err) res.send(rep[1])
+        else res.send(false);
+    })
+})
+
 router.get('/freeArcs/load', function (req, res) {
 
     console.log("in")

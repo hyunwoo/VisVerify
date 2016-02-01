@@ -22,7 +22,9 @@ block body
 
     div(style='position:absolute;left:20px;top:180px;width:150px')
         input#inputSearchName(type='text', value='default',name='name', placeholder="download filename", style='border-radius:0px;font-size:15px;height:35px;width:100%;margin:0px;')
-        button.btn.btn-danger(onclick='downloadSvg()', style='width:150px;margin:0px;') Load To Database
+        button.btn.btn-danger(onclick='loadArcsFromDB()', style='width:150px;margin:0px;') Load To Database
+
+    div#dbList(style='position:absolute;left:20px;top:270px;width:150px')
 
 
     div(style='position:absolute;right:20px;top:20px;width:300px;')
@@ -38,7 +40,6 @@ block body
         div#div_elements
 
 
-
     div(style='z-index:100;position:absolute;right:120px;top:620px;width:200px;', data-slider='')
         h5(style='font-size:16px;color:#404040') Hue
             input(onchange='onChangeHSB(this.value)',type='range' , style='width:300px')
@@ -50,11 +51,14 @@ block body
             input(type='range' , style='width:300px')
 
 
-
     script(src='/javascripts/ci/FileSaver.js')
     script(src='/javascripts/ci/svgtopdf.js')
     script(src='/javascripts/ci/jspdf.js')
+    script(src='/javascripts/ci/download.js')
+
+
     script(src='/javascripts/ci/freearc.js')
+
 
 
 

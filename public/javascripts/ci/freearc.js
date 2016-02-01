@@ -73,6 +73,27 @@ function deleteElement() {
 
 }
 
+
+function appendDBElement(name) {
+    var parent = document.getElementById("dbList");
+    var elementButton = document.createElement("button");
+    elementButton.classList.add("btn");
+    elementButton.classList.add("btn-warning");
+    elementButton.style.width = '100%';
+    elementButton.style.height = '30px';
+    elementButton.style.margin = '0px 0px';
+    elementButton.setAttribute('align', 'center');
+    elementButton.style.fontSize = '12px';
+    elementButton.innerHTML = name;
+    elementButton.style.color = '#ffffff';
+    elementButton.setAttribute('onclick', 'loadArcsFromDB(this.innerHTML)');
+    parent.appendChild(elementButton)
+
+
+}
+
+
+
 function appendArcController() {
     var parent;
     inputParent = parent = document.getElementById("div_inputs");
@@ -445,6 +466,19 @@ function saveArcToDB() {
     })
 }
 
+
+function loadListFromDB(){
+    $.get('/ci/freearcs/list', function(rep,err){
+        console.log(rep,err);
+        for(var i = 0 ; i < rep.length ; i ++){
+            appendDBElement(rep[i]);
+        }
+
+    })
+
+
+}
+loadListFromDB();
 function loadArc() {
     var filename = document.getElementById("inputFileName").value;
 
@@ -453,6 +487,14 @@ function loadArc() {
 function downloadSvg() {
     savedIndex = 0;
     var filename = document.getElementById("inputSearchName").value;
+    var content = getSvgContents();
+    download(content, filename + ".svg", "text/plain;charset=utf-8");
+}
+function loadArcsFromDB(filename) {
+    savedIndex = 0;
+    if (filename === undefined)
+        filename = document.getElementById("inputSearchName").value;
+    var content = getSvgContents();
     console.log(filename);
     console.log(arcList);
     $.get('/ci/freeArcs/load?name=' + filename, function (rep, sucess) {
@@ -461,8 +503,8 @@ function downloadSvg() {
         if (sucess == false) return;
         var data = JSON.parse(rep);
 
-        for(var i = arcList.length - 1; i >= 0 ; i --){
-            if(arcList[i] == null) continue;
+        for (var i = arcList.length - 1; i >= 0; i--) {
+            if (arcList[i] == null) continue;
             var d = arcList[i];
             d.svg.remove();
             elementButtonParent.removeChild(d.button);
@@ -472,7 +514,7 @@ function downloadSvg() {
         arcList = [];
         savedIndex = 0;
         for (var i = 0; i < data.length; i++) {
-            if(data[i] == null) continue;
+            if (data[i] == null) continue;
             appendArcElement(data[i].ArcInfo, data[i].DrawInfo)
         }
     })

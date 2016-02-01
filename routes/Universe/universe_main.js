@@ -10,16 +10,15 @@ var Func = require('../../functions/defaultFunctions')
 var multi;
 module.exports = router;
 
+
+
 router.get('/', function (req, res) {
     res.render('universe/universe_main', req.session);
 })
-
 router.get('/getData', function (req, res) {
 
 
 })
-
-
 router.get('/upload', function (req, res) {
     if (!DBFunc.UserAuthCheck(req)) {
         console.log('session not exist')
@@ -143,6 +142,11 @@ router.post('/join', function (req, res) {
 
 })
 
+router.get('/netppl', function (req, res) {
+    console.log("netppl in");
+    res.render('universe/project/netppl/netppl_visualization', req.session)
+})
+
 var deleteAfterUpload = function (path) {
     setTimeout(function () {
         fs.unlink(path, function (err) {
@@ -151,3 +155,4 @@ var deleteAfterUpload = function (path) {
         });
     }, 60 * 1000);
 };
+

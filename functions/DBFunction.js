@@ -73,6 +73,7 @@ exports.resSendSuccess = function(res, msg){
 
 
 exports.UserAuthCheck = function(req){
+    console.log(req.session);
     if(req.session.user == null) return false;
     if(req.session.authentication != true) return false;
     return true;
