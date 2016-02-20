@@ -11,6 +11,7 @@ router.get('/', function (req, res) {
 })
 
 
+return;
 var fs = require('fs');
 var readData = fs.readFileSync('/Users/Hyunwoo/Develop/WebPages/VIS/VisVerify/public/universe/sample/pedigree/pedigree_data_0219.js', 'utf8');
 var data = JSON.parse(readData);
