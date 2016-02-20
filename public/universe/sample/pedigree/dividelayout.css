@@ -1,0 +1,138 @@
+@import url('http://fonts.googleapis.com/css?family=Noto+Sans');
+
+svg > rect.rect {
+    stroke: solid;
+    stroke-width: 10px;
+}
+
+.line {
+    opacity: 0.01;
+    fill: black;
+}
+
+rect.outer {
+    z-index: -100 !important;
+    fill: #795548;
+    fill-opacity: 0.2;
+}
+rect.outer.hidden {
+    fill-opacity: 0.0;
+}
+
+.node {
+    fill: #000;
+    stroke: #000;
+    fill-opacity : 1;
+    stroke-opacity: 0.45;
+    stroke-width : 10px;
+}
+
+.text{
+    font-family: 'Noto Sans', sans-serif;
+    font-weight:800;
+    fill : #353535;
+
+}
+
+.text.name {
+    font-size : 10px;
+
+}
+
+.text.sub {
+    font-size : 6px;
+    font-weight:500;
+
+}
+
+
+.node.line1 {
+    fill: #4DB6AC;
+    stroke: #4DB6AC;
+}
+
+
+.node.line2 {
+    fill: #FF9800;
+    stroke: #FF9800;
+
+}
+
+
+.node.line1.selection {
+    fill: #7Df6cC;
+    stroke: #7Df6cC;
+}
+
+
+.node.line2.selection {
+    fill: #FFc844;
+    stroke: #FFc844;
+}
+
+
+.node.selection.nofill {
+    fill :none;
+    stroke-width : 1px;
+}
+
+.node.nofill {
+    fill :none;
+    stroke-width : 1px;
+}
+
+
+.connection.line1{
+    stroke: #4DB6AC;
+    fill : none;
+}
+.connection.line2{
+    stroke: #FF9800;
+    fill : none;
+}
+
+line.grid {
+    stroke: #000;
+    stroke-opacity: 0.25;
+    stroke-width: 0.9px;
+    fill: none;
+}
+
+line.grid.bold {
+    stroke-opacity: 0.95;
+}
+
+circle.grid {
+    stroke: #000;
+    stroke-opacity: 0.25;
+    stroke-width: 0.2px;
+    fill: none;
+}
+
+circle.grid.bold {
+    stroke-opacity: 0.95;
+}
+
+.tip{
+    fill : #000;
+    fill-opacity: 0.75;
+    stroke-width: 2px;
+    stroke: #000;
+    stroke-opacity: 0.8;
+
+}
+
+.tip_head{
+    fill : #fff;
+    text-anchor: middle;
+    alignment-baseline: middle;
+    font-weight: 100;
+    font-size : 20px;
+}
+
+.tip_body{
+    fill : #fff;
+    alignment-baseline: middle;
+    font-weight: 400;
+    font-size : 16px;
+}

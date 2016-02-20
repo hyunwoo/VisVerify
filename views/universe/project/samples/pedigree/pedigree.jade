@@ -1,0 +1,25 @@
+//
+   Created by Hyunwoo on 2016. 2. 19..
+
+extends ../../../universe_parent
+block content
+    link(rel='stylesheet', href='/universe/sample/pedigree/dividelayout.css')
+
+    div#renderer(style='width:100vw; height:calc(100vh - 120px)')
+
+        div(style='position:absolute;left:10px;top:120px;background:rgba(0,0,0,0.7);padding:15px;')
+            h4.text(style='color:#fff;font-weight:200') 권력 설정
+            .btn.btn-primary#grade(onclick='displayMode(this.id)', style='width:80px') 권력 중심
+            .btn.btn-primary#person(onclick='displayMode(this.id)', style='width:80px') 사람 중심
+            h4.text(style='color:#fff;font-weight:200') 그리드 설정
+            .btn.btn-primary#direct(onclick='gridMode(this.id)', style='width:80px') 직선형
+            .btn.btn-primary#radial(onclick='gridMode(this.id)', style='width:80px') 방사형
+            p.double
+            h4.text(style='color:#fff;font-weight:100') for Develop
+            h5.text(style='color:#fff;font-weight:100') Mode Node Area
+            .btn.btn-danger#on(onclick='devMode(this.id)', style='width:80px') Area On
+            .btn.btn-danger#off(onclick='devMode(this.id)', style='width:80px') Area Off
+    script(src='/universe/sample/pedigree/pedigree_data_haschild.js')
+    script(src='/universe/sample/pedigree/dividelayout.js')
+    script(src='/universe/sample/pedigree/outsources.js')
+
