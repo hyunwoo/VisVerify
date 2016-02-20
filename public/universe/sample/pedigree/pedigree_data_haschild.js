@@ -25,8 +25,8 @@ var data = {
           "childCount": 0,
           "totalCount": 1,
           "totalChildSize": 0,
-          "totalSize": 11390625,
-          "refineSize": 11390625
+          "totalSize": 576650390625,
+          "refineSize": 576650390625
         },
         {
           "biggest_uncle_size": 16,
@@ -79,8 +79,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 1771561,
-                  "refineSize": 1771561
+                  "totalSize": 25937424601,
+                  "refineSize": 25937424601
                 },
                 {
                   "biggest_uncle_size": 14,
@@ -103,8 +103,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 1771561,
-                  "refineSize": 1771561
+                  "totalSize": 25937424601,
+                  "refineSize": 25937424601
                 }
               ],
               "depth": "19",
@@ -124,9 +124,9 @@ var data = {
               "title": "주부",
               "childCount": 3,
               "totalCount": 4,
-              "totalChildSize": 3543123,
-              "refineSize": 1771561,
-              "totalSize": 5314684
+              "totalChildSize": 51874849203,
+              "refineSize": 25937424601,
+              "totalSize": 77812273804
             },
             {
               "biggest_uncle_size": 15,
@@ -176,8 +176,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 1771561,
-                  "refineSize": 1771561
+                  "totalSize": 25937424601,
+                  "refineSize": 25937424601
                 },
                 {
                   "biggest_uncle_size": 14,
@@ -200,8 +200,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 1771561,
-                  "refineSize": 1771561
+                  "totalSize": 25937424601,
+                  "refineSize": 25937424601
                 }
               ],
               "depth": "19",
@@ -221,9 +221,9 @@ var data = {
               "title": "별감",
               "childCount": 2,
               "totalCount": 3,
-              "totalChildSize": 3543122,
-              "refineSize": 7529536,
-              "totalSize": 11072658
+              "totalChildSize": 51874849202,
+              "refineSize": 289254654976,
+              "totalSize": 341129504178
             },
             {
               "biggest_uncle_size": 15,
@@ -270,8 +270,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 7529536,
-              "refineSize": 7529536
+              "totalSize": 289254654976,
+              "refineSize": 289254654976
             },
             {
               "biggest_uncle_size": 15,
@@ -315,9 +315,9 @@ var data = {
           "title": "부정",
           "childCount": 11,
           "totalCount": 12,
-          "totalChildSize": 23916881,
-          "refineSize": 4826809,
-          "totalSize": 28743690
+          "totalChildSize": 708196432961,
+          "refineSize": 137858491849,
+          "totalSize": 846054924810
         },
         {
           "biggest_uncle_size": 16,
@@ -343,8 +343,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 11390625,
-              "refineSize": 11390625
+              "totalSize": 576650390625,
+              "refineSize": 576650390625
             },
             {
               "biggest_uncle_size": 15,
@@ -367,8 +367,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 4826809,
-              "refineSize": 4826809
+              "totalSize": 137858491849,
+              "refineSize": 137858491849
             }
           ],
           "depth": "18",
@@ -388,9 +388,9 @@ var data = {
           "title": "첨지",
           "childCount": 2,
           "totalCount": 3,
-          "totalChildSize": 16217434,
-          "refineSize": 7529536,
-          "totalSize": 23746970
+          "totalChildSize": 714508882474,
+          "refineSize": 289254654976,
+          "totalSize": 1003763537450
         },
         {
           "biggest_uncle_size": 16,
@@ -441,8 +441,8 @@ var data = {
               "childCount": 1,
               "totalCount": 2,
               "totalChildSize": 1,
-              "refineSize": 531441,
-              "totalSize": 531442
+              "refineSize": 3486784401,
+              "totalSize": 3486784402
             },
             {
               "biggest_uncle_size": 15,
@@ -511,9 +511,9 @@ var data = {
           "title": "호군",
           "childCount": 4,
           "totalCount": 5,
-          "totalChildSize": 531444,
-          "refineSize": 4826809,
-          "totalSize": 5358253
+          "totalChildSize": 3486784404,
+          "refineSize": 137858491849,
+          "totalSize": 141345276253
         },
         {
           "biggest_uncle_size": 16,
@@ -539,8 +539,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 46656,
-              "refineSize": 46656
+              "totalSize": 60466176,
+              "refineSize": 60466176
             },
             {
               "biggest_uncle_size": 15,
@@ -563,8 +563,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1771561,
-              "refineSize": 1771561
+              "totalSize": 25937424601,
+              "refineSize": 25937424601
             },
             {
               "biggest_uncle_size": 15,
@@ -612,8 +612,8 @@ var data = {
               "childCount": 1,
               "totalCount": 2,
               "totalChildSize": 1,
-              "refineSize": 1771561,
-              "totalSize": 1771562
+              "refineSize": 25937424601,
+              "totalSize": 25937424602
             },
             {
               "biggest_uncle_size": 15,
@@ -636,8 +636,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 7529536,
-              "refineSize": 7529536
+              "totalSize": 289254654976,
+              "refineSize": 289254654976
             },
             {
               "biggest_uncle_size": 15,
@@ -687,8 +687,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 262144,
-                  "refineSize": 262144
+                  "totalSize": 1073741824,
+                  "refineSize": 1073741824
                 }
               ],
               "depth": "19",
@@ -708,9 +708,9 @@ var data = {
               "title": "복성군",
               "childCount": 2,
               "totalCount": 3,
-              "totalChildSize": 262145,
-              "refineSize": 11390625,
-              "totalSize": 11652770
+              "totalChildSize": 1073741825,
+              "refineSize": 576650390625,
+              "totalSize": 577724132450
             }
           ],
           "depth": "18",
@@ -730,9 +730,9 @@ var data = {
           "title": "현감",
           "childCount": 8,
           "totalCount": 9,
-          "totalChildSize": 22772085,
-          "refineSize": 11390625,
-          "totalSize": 34162710
+          "totalChildSize": 918914102805,
+          "refineSize": 576650390625,
+          "totalSize": 1495564493430
         },
         {
           "biggest_uncle_size": 16,
@@ -831,8 +831,8 @@ var data = {
               "childCount": 3,
               "totalCount": 4,
               "totalChildSize": 3,
-              "refineSize": 1771561,
-              "totalSize": 1771564
+              "refineSize": 25937424601,
+              "totalSize": 25937424604
             },
             {
               "biggest_uncle_size": 15,
@@ -855,8 +855,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 7529536,
-              "refineSize": 7529536
+              "totalSize": 289254654976,
+              "refineSize": 289254654976
             },
             {
               "biggest_uncle_size": 15,
@@ -928,8 +928,8 @@ var data = {
               "childCount": 2,
               "totalCount": 3,
               "totalChildSize": 2,
-              "refineSize": 4826809,
-              "totalSize": 4826811
+              "refineSize": 137858491849,
+              "totalSize": 137858491851
             },
             {
               "biggest_uncle_size": 15,
@@ -952,8 +952,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 262144,
-              "refineSize": 262144
+              "totalSize": 1073741824,
+              "refineSize": 1073741824
             },
             {
               "biggest_uncle_size": 15,
@@ -976,8 +976,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1000000,
-              "refineSize": 1000000
+              "totalSize": 10000000000,
+              "refineSize": 10000000000
             }
           ],
           "depth": "18",
@@ -997,9 +997,9 @@ var data = {
           "title": "부사",
           "childCount": 10,
           "totalCount": 11,
-          "totalChildSize": 15390055,
-          "refineSize": 7529536,
-          "totalSize": 22919591
+          "totalChildSize": 464124313255,
+          "refineSize": 289254654976,
+          "totalSize": 753378968231
         }
       ],
       "depth": "17",
@@ -1019,9 +1019,9 @@ var data = {
       "title": "동지총제",
       "childCount": 41,
       "totalCount": 42,
-      "totalChildSize": 126321839,
-      "refineSize": 11390625,
-      "totalSize": 137712464
+      "totalChildSize": 4816757590799,
+      "refineSize": 576650390625,
+      "totalSize": 5393407981424
     },
     {
       "biggest_uncle_size": 15,
@@ -1044,8 +1044,8 @@ var data = {
       "childCount": 0,
       "totalCount": 1,
       "totalChildSize": 0,
-      "totalSize": 11390625,
-      "refineSize": 11390625
+      "totalSize": 576650390625,
+      "refineSize": 576650390625
     },
     {
       "biggest_uncle_size": 15,
@@ -1074,8 +1074,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1771561,
-              "refineSize": 1771561
+              "totalSize": 25937424601,
+              "refineSize": 25937424601
             },
             {
               "biggest_uncle_size": 16,
@@ -1098,8 +1098,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1771561,
-              "refineSize": 1771561
+              "totalSize": 25937424601,
+              "refineSize": 25937424601
             },
             {
               "biggest_uncle_size": 16,
@@ -1122,8 +1122,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 7529536,
-              "refineSize": 7529536
+              "totalSize": 289254654976,
+              "refineSize": 289254654976
             },
             {
               "biggest_uncle_size": 16,
@@ -1146,8 +1146,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1771561,
-              "refineSize": 1771561
+              "totalSize": 25937424601,
+              "refineSize": 25937424601
             },
             {
               "biggest_uncle_size": 16,
@@ -1170,8 +1170,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 2985984,
-              "refineSize": 2985984
+              "totalSize": 61917364224,
+              "refineSize": 61917364224
             },
             {
               "biggest_uncle_size": 16,
@@ -1194,8 +1194,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 2985984,
-              "refineSize": 2985984
+              "totalSize": 61917364224,
+              "refineSize": 61917364224
             }
           ],
           "depth": "18",
@@ -1215,9 +1215,9 @@ var data = {
           "title": "집의",
           "childCount": 6,
           "totalCount": 7,
-          "totalChildSize": 18816187,
-          "refineSize": 7529536,
-          "totalSize": 26345723
+          "totalChildSize": 490901657227,
+          "refineSize": 289254654976,
+          "totalSize": 780156312203
         },
         {
           "biggest_uncle_size": 16,
@@ -1243,8 +1243,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 7529536,
-              "refineSize": 7529536
+              "totalSize": 289254654976,
+              "refineSize": 289254654976
             },
             {
               "biggest_uncle_size": 16,
@@ -1267,8 +1267,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1000000,
-              "refineSize": 1000000
+              "totalSize": 10000000000,
+              "refineSize": 10000000000
             },
             {
               "biggest_uncle_size": 16,
@@ -1316,8 +1316,8 @@ var data = {
               "childCount": 1,
               "totalCount": 2,
               "totalChildSize": 1,
-              "refineSize": 7529536,
-              "totalSize": 7529537
+              "refineSize": 289254654976,
+              "totalSize": 289254654977
             },
             {
               "biggest_uncle_size": 16,
@@ -1340,8 +1340,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 7529536,
-              "refineSize": 7529536
+              "totalSize": 289254654976,
+              "refineSize": 289254654976
             },
             {
               "biggest_uncle_size": 16,
@@ -1364,8 +1364,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 16777216,
-              "refineSize": 16777216
+              "totalSize": 1099511627776,
+              "refineSize": 1099511627776
             },
             {
               "biggest_uncle_size": 16,
@@ -1388,8 +1388,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 7529536,
-              "refineSize": 7529536
+              "totalSize": 289254654976,
+              "refineSize": 289254654976
             },
             {
               "biggest_uncle_size": 16,
@@ -1412,8 +1412,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1771561,
-              "refineSize": 1771561
+              "totalSize": 25937424601,
+              "refineSize": 25937424601
             }
           ],
           "depth": "18",
@@ -1433,9 +1433,9 @@ var data = {
           "title": "영의정",
           "childCount": 8,
           "totalCount": 9,
-          "totalChildSize": 49666922,
-          "refineSize": 16777216,
-          "totalSize": 66444138
+          "totalChildSize": 2292467672282,
+          "refineSize": 1099511627776,
+          "totalSize": 3391979300058
         },
         {
           "biggest_uncle_size": 16,
@@ -1461,8 +1461,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 4826809,
-              "refineSize": 4826809
+              "totalSize": 137858491849,
+              "refineSize": 137858491849
             },
             {
               "biggest_uncle_size": 16,
@@ -1485,8 +1485,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 7529536,
-              "refineSize": 7529536
+              "totalSize": 289254654976,
+              "refineSize": 289254654976
             }
           ],
           "depth": "18",
@@ -1506,9 +1506,9 @@ var data = {
           "title": "녹사",
           "childCount": 2,
           "totalCount": 3,
-          "totalChildSize": 12356345,
-          "refineSize": 117649,
-          "totalSize": 12473994
+          "totalChildSize": 427113146825,
+          "refineSize": 282475249,
+          "totalSize": 427395622074
         },
         {
           "biggest_uncle_size": 16,
@@ -1534,8 +1534,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 4826809,
-              "refineSize": 4826809
+              "totalSize": 137858491849,
+              "refineSize": 137858491849
             }
           ],
           "depth": "18",
@@ -1555,9 +1555,9 @@ var data = {
           "title": "찬성",
           "childCount": 1,
           "totalCount": 2,
-          "totalChildSize": 4826809,
-          "refineSize": 11390625,
-          "totalSize": 16217434
+          "totalChildSize": 137858491849,
+          "refineSize": 576650390625,
+          "totalSize": 714508882474
         },
         {
           "biggest_uncle_size": 16,
@@ -1580,8 +1580,8 @@ var data = {
           "childCount": 0,
           "totalCount": 1,
           "totalChildSize": 0,
-          "totalSize": 1771561,
-          "refineSize": 1771561
+          "totalSize": 25937424601,
+          "refineSize": 25937424601
         },
         {
           "biggest_uncle_size": 16,
@@ -1604,8 +1604,8 @@ var data = {
           "childCount": 0,
           "totalCount": 1,
           "totalChildSize": 0,
-          "totalSize": 4826809,
-          "refineSize": 4826809
+          "totalSize": 137858491849,
+          "refineSize": 137858491849
         },
         {
           "biggest_uncle_size": 16,
@@ -1631,8 +1631,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 4826809,
-              "refineSize": 4826809
+              "totalSize": 137858491849,
+              "refineSize": 137858491849
             },
             {
               "biggest_uncle_size": 16,
@@ -1655,8 +1655,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 262144,
-              "refineSize": 262144
+              "totalSize": 1073741824,
+              "refineSize": 1073741824
             },
             {
               "biggest_uncle_size": 16,
@@ -1679,8 +1679,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 4096,
-              "refineSize": 4096
+              "totalSize": 1048576,
+              "refineSize": 1048576
             }
           ],
           "depth": "18",
@@ -1700,9 +1700,9 @@ var data = {
           "title": "현감",
           "childCount": 3,
           "totalCount": 4,
-          "totalChildSize": 5093049,
-          "refineSize": 1771561,
-          "totalSize": 6864610
+          "totalChildSize": 138933282249,
+          "refineSize": 25937424601,
+          "totalSize": 164870706850
         }
       ],
       "depth": "17",
@@ -1722,9 +1722,9 @@ var data = {
       "title": "안주목사",
       "childCount": 27,
       "totalCount": 28,
-      "totalChildSize": 134944269,
-      "refineSize": 7529536,
-      "totalSize": 142473805
+      "totalChildSize": 5642706740109,
+      "refineSize": 289254654976,
+      "totalSize": 5931961395085
     },
     {
       "biggest_uncle_size": 15,
@@ -1753,8 +1753,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 4826809,
-              "refineSize": 4826809
+              "totalSize": 137858491849,
+              "refineSize": 137858491849
             },
             {
               "biggest_uncle_size": 16,
@@ -1826,8 +1826,8 @@ var data = {
               "childCount": 2,
               "totalCount": 3,
               "totalChildSize": 2,
-              "refineSize": 7529536,
-              "totalSize": 7529538
+              "refineSize": 289254654976,
+              "totalSize": 289254654978
             },
             {
               "biggest_uncle_size": 16,
@@ -1899,8 +1899,8 @@ var data = {
               "childCount": 2,
               "totalCount": 3,
               "totalChildSize": 2,
-              "refineSize": 2985984,
-              "totalSize": 2985986
+              "refineSize": 61917364224,
+              "totalSize": 61917364226
             },
             {
               "biggest_uncle_size": 16,
@@ -1923,8 +1923,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 2985984,
-              "refineSize": 2985984
+              "totalSize": 61917364224,
+              "refineSize": 61917364224
             },
             {
               "biggest_uncle_size": 16,
@@ -2020,8 +2020,8 @@ var data = {
               "childCount": 3,
               "totalCount": 4,
               "totalChildSize": 3,
-              "refineSize": 1000000,
-              "totalSize": 1000003
+              "refineSize": 10000000000,
+              "totalSize": 10000000003
             }
           ],
           "depth": "18",
@@ -2041,9 +2041,9 @@ var data = {
           "title": "화산군",
           "childCount": 12,
           "totalCount": 13,
-          "totalChildSize": 19328320,
-          "refineSize": 11390625,
-          "totalSize": 30718945
+          "totalChildSize": 560947875280,
+          "refineSize": 576650390625,
+          "totalSize": 1137598265905
         },
         {
           "biggest_uncle_size": 16,
@@ -2069,8 +2069,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1771561,
-              "refineSize": 1771561
+              "totalSize": 25937424601,
+              "refineSize": 25937424601
             },
             {
               "biggest_uncle_size": 16,
@@ -2093,8 +2093,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 7529536,
-              "refineSize": 7529536
+              "totalSize": 289254654976,
+              "refineSize": 289254654976
             },
             {
               "biggest_uncle_size": 16,
@@ -2117,8 +2117,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 11390625,
-              "refineSize": 11390625
+              "totalSize": 576650390625,
+              "refineSize": 576650390625
             },
             {
               "biggest_uncle_size": 16,
@@ -2141,8 +2141,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 7529536,
-              "refineSize": 7529536
+              "totalSize": 289254654976,
+              "refineSize": 289254654976
             },
             {
               "biggest_uncle_size": 16,
@@ -2165,8 +2165,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 11390625,
-              "refineSize": 11390625
+              "totalSize": 576650390625,
+              "refineSize": 576650390625
             },
             {
               "biggest_uncle_size": 16,
@@ -2262,8 +2262,8 @@ var data = {
               "childCount": 3,
               "totalCount": 4,
               "totalChildSize": 3,
-              "refineSize": 11390625,
-              "totalSize": 11390628
+              "refineSize": 576650390625,
+              "totalSize": 576650390628
             },
             {
               "biggest_uncle_size": 16,
@@ -2286,8 +2286,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 16777216,
-              "refineSize": 16777216
+              "totalSize": 1099511627776,
+              "refineSize": 1099511627776
             },
             {
               "biggest_uncle_size": 16,
@@ -2310,8 +2310,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 11390625,
-              "refineSize": 11390625
+              "totalSize": 576650390625,
+              "refineSize": 576650390625
             },
             {
               "biggest_uncle_size": 16,
@@ -2334,8 +2334,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 2985984,
-              "refineSize": 2985984
+              "totalSize": 61917364224,
+              "refineSize": 61917364224
             },
             {
               "biggest_uncle_size": 16,
@@ -2358,8 +2358,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 11390625,
-              "refineSize": 11390625
+              "totalSize": 576650390625,
+              "refineSize": 576650390625
             }
           ],
           "depth": "18",
@@ -2379,9 +2379,9 @@ var data = {
           "title": "좌의정 길창부원군",
           "childCount": 13,
           "totalCount": 14,
-          "totalChildSize": 93546961,
-          "refineSize": 16777216,
-          "totalSize": 110324177
+          "totalChildSize": 4649127679681,
+          "refineSize": 1099511627776,
+          "totalSize": 5748639307457
         },
         {
           "biggest_uncle_size": 16,
@@ -2431,8 +2431,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 2985984,
-              "refineSize": 2985984
+              "totalSize": 61917364224,
+              "refineSize": 61917364224
             },
             {
               "biggest_uncle_size": 16,
@@ -2455,8 +2455,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1771561,
-              "refineSize": 1771561
+              "totalSize": 25937424601,
+              "refineSize": 25937424601
             }
           ],
           "depth": "18",
@@ -2476,9 +2476,9 @@ var data = {
           "title": "고사",
           "childCount": 3,
           "totalCount": 4,
-          "totalChildSize": 4757546,
-          "refineSize": 7529536,
-          "totalSize": 12287082
+          "totalChildSize": 87854788826,
+          "refineSize": 289254654976,
+          "totalSize": 377109443802
         },
         {
           "biggest_uncle_size": 16,
@@ -2529,8 +2529,8 @@ var data = {
               "childCount": 1,
               "totalCount": 2,
               "totalChildSize": 1,
-              "refineSize": 2985984,
-              "totalSize": 2985985
+              "refineSize": 61917364224,
+              "totalSize": 61917364225
             },
             {
               "biggest_uncle_size": 16,
@@ -2553,8 +2553,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 46656,
-              "refineSize": 46656
+              "totalSize": 60466176,
+              "refineSize": 60466176
             }
           ],
           "depth": "18",
@@ -2574,9 +2574,9 @@ var data = {
           "title": "현감",
           "childCount": 3,
           "totalCount": 4,
-          "totalChildSize": 3032641,
-          "refineSize": 1771561,
-          "totalSize": 4804202
+          "totalChildSize": 61977830401,
+          "refineSize": 25937424601,
+          "totalSize": 87915255002
         },
         {
           "biggest_uncle_size": 16,
@@ -2599,8 +2599,8 @@ var data = {
           "childCount": 0,
           "totalCount": 1,
           "totalChildSize": 0,
-          "totalSize": 7529536,
-          "refineSize": 7529536
+          "totalSize": 289254654976,
+          "refineSize": 289254654976
         },
         {
           "biggest_uncle_size": 16,
@@ -2626,8 +2626,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1771561,
-              "refineSize": 1771561
+              "totalSize": 25937424601,
+              "refineSize": 25937424601
             },
             {
               "biggest_uncle_size": 16,
@@ -2650,8 +2650,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 4826809,
-              "refineSize": 4826809
+              "totalSize": 137858491849,
+              "refineSize": 137858491849
             },
             {
               "biggest_uncle_size": 16,
@@ -2723,8 +2723,8 @@ var data = {
               "childCount": 2,
               "totalCount": 3,
               "totalChildSize": 2,
-              "refineSize": 11390625,
-              "totalSize": 11390627
+              "refineSize": 576650390625,
+              "totalSize": 576650390627
             },
             {
               "biggest_uncle_size": 16,
@@ -2750,8 +2750,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 1771561,
-                  "refineSize": 1771561
+                  "totalSize": 25937424601,
+                  "refineSize": 25937424601
                 }
               ],
               "depth": "19",
@@ -2771,9 +2771,9 @@ var data = {
               "title": "부사",
               "childCount": 1,
               "totalCount": 2,
-              "totalChildSize": 1771561,
-              "refineSize": 7529536,
-              "totalSize": 9301097
+              "totalChildSize": 25937424601,
+              "refineSize": 289254654976,
+              "totalSize": 315192079577
             }
           ],
           "depth": "18",
@@ -2793,9 +2793,9 @@ var data = {
           "title": "중추",
           "childCount": 7,
           "totalCount": 8,
-          "totalChildSize": 27290094,
-          "refineSize": 11390625,
-          "totalSize": 38680719
+          "totalChildSize": 1055638386654,
+          "refineSize": 576650390625,
+          "totalSize": 1632288777279
         },
         {
           "biggest_uncle_size": 16,
@@ -2824,8 +2824,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 1771561,
-                  "refineSize": 1771561
+                  "totalSize": 25937424601,
+                  "refineSize": 25937424601
                 },
                 {
                   "biggest_uncle_size": 16,
@@ -2872,8 +2872,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 1000000,
-                  "refineSize": 1000000
+                  "totalSize": 10000000000,
+                  "refineSize": 10000000000
                 }
               ],
               "depth": "19",
@@ -2893,9 +2893,9 @@ var data = {
               "title": "별좌",
               "childCount": 3,
               "totalCount": 4,
-              "totalChildSize": 2771562,
-              "refineSize": 2985984,
-              "totalSize": 5757546
+              "totalChildSize": 35937424602,
+              "refineSize": 61917364224,
+              "totalSize": 97854788826
             },
             {
               "biggest_uncle_size": 16,
@@ -2918,8 +2918,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1771561,
-              "refineSize": 1771561
+              "totalSize": 25937424601,
+              "refineSize": 25937424601
             },
             {
               "biggest_uncle_size": 16,
@@ -2942,8 +2942,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 16777216,
-              "refineSize": 16777216
+              "totalSize": 1099511627776,
+              "refineSize": 1099511627776
             }
           ],
           "depth": "18",
@@ -2963,9 +2963,9 @@ var data = {
           "title": "현감",
           "childCount": 6,
           "totalCount": 7,
-          "totalChildSize": 24306323,
-          "refineSize": 1771561,
-          "totalSize": 26077884
+          "totalChildSize": 1223303841203,
+          "refineSize": 25937424601,
+          "totalSize": 1249241265804
         },
         {
           "biggest_uncle_size": 16,
@@ -2991,8 +2991,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1771561,
-              "refineSize": 1771561
+              "totalSize": 25937424601,
+              "refineSize": 25937424601
             },
             {
               "biggest_uncle_size": 16,
@@ -3015,8 +3015,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 4826809,
-              "refineSize": 4826809
+              "totalSize": 137858491849,
+              "refineSize": 137858491849
             },
             {
               "biggest_uncle_size": 16,
@@ -3039,8 +3039,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1771561,
-              "refineSize": 1771561
+              "totalSize": 25937424601,
+              "refineSize": 25937424601
             },
             {
               "biggest_uncle_size": 16,
@@ -3063,8 +3063,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 2985984,
-              "refineSize": 2985984
+              "totalSize": 61917364224,
+              "refineSize": 61917364224
             }
           ],
           "depth": "18",
@@ -3084,9 +3084,9 @@ var data = {
           "title": "영가군",
           "childCount": 4,
           "totalCount": 5,
-          "totalChildSize": 11355915,
-          "refineSize": 11390625,
-          "totalSize": 22746540
+          "totalChildSize": 251650705275,
+          "refineSize": 576650390625,
+          "totalSize": 828301095900
         },
         {
           "biggest_uncle_size": 16,
@@ -3109,8 +3109,8 @@ var data = {
           "childCount": 0,
           "totalCount": 1,
           "totalChildSize": 0,
-          "totalSize": 531441,
-          "refineSize": 531441
+          "totalSize": 3486784401,
+          "refineSize": 3486784401
         }
       ],
       "depth": "17",
@@ -3130,9 +3130,9 @@ var data = {
       "title": "찬성",
       "childCount": 57,
       "totalCount": 58,
-      "totalChildSize": 253700526,
-      "refineSize": 16777216,
-      "totalSize": 270477742
+      "totalChildSize": 11353834850526,
+      "refineSize": 1099511627776,
+      "totalSize": 12453346478302
     },
     {
       "biggest_uncle_size": 15,
@@ -3164,8 +3164,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 4826809,
-                  "refineSize": 4826809
+                  "totalSize": 137858491849,
+                  "refineSize": 137858491849
                 },
                 {
                   "biggest_uncle_size": 12,
@@ -3188,8 +3188,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 1771561,
-                  "refineSize": 1771561
+                  "totalSize": 25937424601,
+                  "refineSize": 25937424601
                 },
                 {
                   "biggest_uncle_size": 12,
@@ -3212,8 +3212,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 4826809,
-                  "refineSize": 4826809
+                  "totalSize": 137858491849,
+                  "refineSize": 137858491849
                 },
                 {
                   "biggest_uncle_size": 12,
@@ -3236,8 +3236,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 262144,
-                  "refineSize": 262144
+                  "totalSize": 1073741824,
+                  "refineSize": 1073741824
                 }
               ],
               "depth": "19",
@@ -3257,9 +3257,9 @@ var data = {
               "title": "감찰",
               "childCount": 4,
               "totalCount": 5,
-              "totalChildSize": 11687323,
-              "refineSize": 2985984,
-              "totalSize": 14673307
+              "totalChildSize": 302728150123,
+              "refineSize": 61917364224,
+              "totalSize": 364645514347
             }
           ],
           "depth": "18",
@@ -3279,9 +3279,9 @@ var data = {
           "title": "부윤",
           "childCount": 5,
           "totalCount": 6,
-          "totalChildSize": 14673307,
-          "refineSize": 11390625,
-          "totalSize": 26063932
+          "totalChildSize": 364645514347,
+          "refineSize": 576650390625,
+          "totalSize": 941295904972
         },
         {
           "biggest_uncle_size": 16,
@@ -3310,8 +3310,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 1771561,
-                  "refineSize": 1771561
+                  "totalSize": 25937424601,
+                  "refineSize": 25937424601
                 },
                 {
                   "biggest_uncle_size": 13,
@@ -3334,8 +3334,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 7529536,
-                  "refineSize": 7529536
+                  "totalSize": 289254654976,
+                  "refineSize": 289254654976
                 },
                 {
                   "biggest_uncle_size": 13,
@@ -3358,8 +3358,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 11390625,
-                  "refineSize": 11390625
+                  "totalSize": 576650390625,
+                  "refineSize": 576650390625
                 }
               ],
               "depth": "19",
@@ -3379,9 +3379,9 @@ var data = {
               "title": "봉례",
               "childCount": 3,
               "totalCount": 4,
-              "totalChildSize": 20691722,
-              "refineSize": 1000000,
-              "totalSize": 21691722
+              "totalChildSize": 891842470202,
+              "refineSize": 10000000000,
+              "totalSize": 901842470202
             },
             {
               "biggest_uncle_size": 15,
@@ -3455,8 +3455,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 1771561,
-                  "refineSize": 1771561
+                  "totalSize": 25937424601,
+                  "refineSize": 25937424601
                 }
               ],
               "depth": "19",
@@ -3476,9 +3476,9 @@ var data = {
               "title": "미상",
               "childCount": 3,
               "totalCount": 4,
-              "totalChildSize": 1771563,
+              "totalChildSize": 25937424603,
               "refineSize": 1,
-              "totalSize": 1771564
+              "totalSize": 25937424604
             },
             {
               "biggest_uncle_size": 15,
@@ -3528,8 +3528,8 @@ var data = {
                   "childCount": 0,
                   "totalCount": 1,
                   "totalChildSize": 0,
-                  "totalSize": 1771561,
-                  "refineSize": 1771561
+                  "totalSize": 25937424601,
+                  "refineSize": 25937424601
                 },
                 {
                   "biggest_uncle_size": 13,
@@ -3555,8 +3555,8 @@ var data = {
                       "childCount": 0,
                       "totalCount": 1,
                       "totalChildSize": 0,
-                      "totalSize": 1771561,
-                      "refineSize": 1771561
+                      "totalSize": 25937424601,
+                      "refineSize": 25937424601
                     }
                   ],
                   "depth": "20",
@@ -3576,9 +3576,9 @@ var data = {
                   "title": "사과",
                   "childCount": 1,
                   "totalCount": 2,
-                  "totalChildSize": 1771561,
-                  "refineSize": 1771561,
-                  "totalSize": 3543122
+                  "totalChildSize": 25937424601,
+                  "refineSize": 25937424601,
+                  "totalSize": 51874849202
                 }
               ],
               "depth": "19",
@@ -3598,9 +3598,9 @@ var data = {
               "title": "호군",
               "childCount": 4,
               "totalCount": 5,
-              "totalChildSize": 5314684,
-              "refineSize": 4826809,
-              "totalSize": 10141493
+              "totalChildSize": 77812273804,
+              "refineSize": 137858491849,
+              "totalSize": 215670765653
             },
             {
               "biggest_uncle_size": 15,
@@ -3672,8 +3672,8 @@ var data = {
               "childCount": 2,
               "totalCount": 3,
               "totalChildSize": 2,
-              "refineSize": 1771561,
-              "totalSize": 1771563
+              "refineSize": 25937424601,
+              "totalSize": 25937424603
             }
           ],
           "depth": "18",
@@ -3693,9 +3693,9 @@ var data = {
           "title": "동지돈녕부사",
           "childCount": 16,
           "totalCount": 17,
-          "totalChildSize": 35376342,
-          "refineSize": 11390625,
-          "totalSize": 46766967
+          "totalChildSize": 1169388085062,
+          "refineSize": 576650390625,
+          "totalSize": 1746038475687
         }
       ],
       "depth": "17",
@@ -3715,9 +3715,9 @@ var data = {
       "title": "길창군",
       "childCount": 23,
       "totalCount": 24,
-      "totalChildSize": 72830899,
-      "refineSize": 16777216,
-      "totalSize": 89608115
+      "totalChildSize": 2687334380659,
+      "refineSize": 1099511627776,
+      "totalSize": 3786846008435
     },
     {
       "biggest_uncle_size": 15,
@@ -3740,8 +3740,8 @@ var data = {
       "childCount": 0,
       "totalCount": 1,
       "totalChildSize": 0,
-      "totalSize": 16777216,
-      "refineSize": 16777216
+      "totalSize": 1099511627776,
+      "refineSize": 1099511627776
     },
     {
       "biggest_uncle_size": 15,
@@ -3767,8 +3767,8 @@ var data = {
           "childCount": 0,
           "totalCount": 1,
           "totalChildSize": 0,
-          "totalSize": 4826809,
-          "refineSize": 4826809
+          "totalSize": 137858491849,
+          "refineSize": 137858491849
         },
         {
           "biggest_uncle_size": 16,
@@ -3842,8 +3842,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 262144,
-              "refineSize": 262144
+              "totalSize": 1073741824,
+              "refineSize": 1073741824
             }
           ],
           "depth": "18",
@@ -3863,9 +3863,9 @@ var data = {
           "title": "주부",
           "childCount": 3,
           "totalCount": 4,
-          "totalChildSize": 262146,
-          "refineSize": 1771561,
-          "totalSize": 2033707
+          "totalChildSize": 1073741826,
+          "refineSize": 25937424601,
+          "totalSize": 27011166427
         },
         {
           "biggest_uncle_size": 16,
@@ -3891,8 +3891,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 4826809,
-              "refineSize": 4826809
+              "totalSize": 137858491849,
+              "refineSize": 137858491849
             },
             {
               "biggest_uncle_size": 14,
@@ -3963,8 +3963,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1771561,
-              "refineSize": 1771561
+              "totalSize": 25937424601,
+              "refineSize": 25937424601
             },
             {
               "biggest_uncle_size": 14,
@@ -4056,9 +4056,9 @@ var data = {
           "title": "첨지",
           "childCount": 7,
           "totalCount": 8,
-          "totalChildSize": 6598375,
-          "refineSize": 7529536,
-          "totalSize": 14127911
+          "totalChildSize": 163795916455,
+          "refineSize": 289254654976,
+          "totalSize": 453050571431
         },
         {
           "biggest_uncle_size": 16,
@@ -4084,8 +4084,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 2985984,
-              "refineSize": 2985984
+              "totalSize": 61917364224,
+              "refineSize": 61917364224
             },
             {
               "biggest_uncle_size": 14,
@@ -4108,8 +4108,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1771561,
-              "refineSize": 1771561
+              "totalSize": 25937424601,
+              "refineSize": 25937424601
             },
             {
               "biggest_uncle_size": 14,
@@ -4132,8 +4132,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 1771561,
-              "refineSize": 1771561
+              "totalSize": 25937424601,
+              "refineSize": 25937424601
             },
             {
               "biggest_uncle_size": 14,
@@ -4156,8 +4156,8 @@ var data = {
               "childCount": 0,
               "totalCount": 1,
               "totalChildSize": 0,
-              "totalSize": 4826809,
-              "refineSize": 4826809
+              "totalSize": 137858491849,
+              "refineSize": 137858491849
             },
             {
               "biggest_uncle_size": 14,
@@ -4201,9 +4201,9 @@ var data = {
           "title": "군수",
           "childCount": 5,
           "totalCount": 6,
-          "totalChildSize": 11355916,
-          "refineSize": 4826809,
-          "totalSize": 16182725
+          "totalChildSize": 251650705276,
+          "refineSize": 137858491849,
+          "totalSize": 389509197125
         },
         {
           "biggest_uncle_size": 16,
@@ -4275,8 +4275,8 @@ var data = {
           "childCount": 2,
           "totalCount": 3,
           "totalChildSize": 2,
-          "refineSize": 1771561,
-          "totalSize": 1771563
+          "refineSize": 25937424601,
+          "totalSize": 25937424603
         },
         {
           "biggest_uncle_size": 16,
@@ -4344,9 +4344,9 @@ var data = {
       "title": "호조판서",
       "childCount": 24,
       "totalCount": 25,
-      "totalChildSize": 38942717,
-      "refineSize": 11390625,
-      "totalSize": 50333342
+      "totalChildSize": 1033366851437,
+      "refineSize": 576650390625,
+      "totalSize": 1610017242062
     }
   ],
   "depth": "16",
@@ -4366,7 +4366,7 @@ var data = {
   "title": "찬성",
   "childCount": 179,
   "totalCount": 180,
-  "totalChildSize": 718773309,
-  "refineSize": 11390625,
-  "totalSize": 730163934
+  "totalChildSize": 30851741123709,
+  "refineSize": 576650390625,
+  "totalSize": 31428391514334
 }

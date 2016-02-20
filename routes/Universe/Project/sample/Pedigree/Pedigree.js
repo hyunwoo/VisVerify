@@ -47,7 +47,7 @@ function nodeChildCount(data) {
 }
 
 function nodeMakeSize(data){
-    var powValue = 6;
+    var powValue = 10;
     if(data.children == null || data.children.length == 0){
         data['totalChildSize'] = 0;
         var val = Math.pow(data.size, powValue);
