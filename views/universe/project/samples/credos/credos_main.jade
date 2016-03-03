@@ -1,0 +1,164 @@
+//
+   Created by Hyunwoo on 2016. 3. 2..
+
+extends ../../../universe_parent
+block content
+    link(rel='stylesheet', href='/universe/sample/credos/switch.css')
+    link(rel='stylesheet', href='/universe/sample/credos/credos.css')
+
+    div(style='background:#FFF').fullpage
+        div#renderer.render-window(style='background:#222;')
+        div(style='position:absolute;left:20px;top:70px;width:150px;padding:10px;background:rgba(15,15,15,0.6)')
+            div(align='center')
+                h4.c5.fit Cluster Selector
+            legend
+            .checkbox.checkbox-info
+                p.half
+                input#checkbox2.styled(type='checkbox')
+                label(for='checkbox2')
+                    h5.fit.c5
+                        | 상태(기관)
+            .checkbox.checkbox-info
+                p.half
+                input#checkbox3.styled(type='checkbox')
+                label(for='checkbox3')
+                    h5.fit.c5
+                        | 상태(정신)
+            .checkbox.checkbox-warning
+                p.half
+                input#checkbox4.styled(type='checkbox')
+                label(for='checkbox4')
+                    h5.fit.c5
+                        | 증상(의료)
+            .checkbox.checkbox-warning
+                p.half
+                input#checkbox6.styled(type='checkbox')
+                label(for='checkbox6')
+                    h5.fit.c5
+                        | 증상(일상)
+            .checkbox.checkbox-danger
+                p.half
+                input#checkbox5.styled(type='checkbox')
+                label(for='checkbox5')
+                    h5.fit.c5
+                        | 복용약
+                p.half
+            button.btn.btn-danger(style='width:100%', onclick='requestNode()') REQUEST
+
+
+
+
+        //div.dashboard-window
+            div(style='width:100%;height:20%;padding:20px')
+                h4.fit 나이:
+                h5 성별 : 아이디 :
+                h5 오늘이 몇 월이고, 무슨 요일인지를 잘 모른다
+                h5 자기가 놔둔 물건을 찾지 못한다
+
+                //div.row.fit(style='height:100%')
+                    div.col-lg-7#dashboard_starplot(style='width:50%;height:100%').fit
+                    div.col-lg-5(style='width:50%;height:100%;overflow:auto;').fit
+                        h4(style='line-height:30px').bold.
+                            상태(정신)
+                        h5(style='line-height:30px').
+                            오늘이 몇 월이고, 무슨 요일인지를 잘 모른다<br>
+                            자기가 놔둔 물건을 찾지 못한다<br>
+                            같은 질문을 반복해서 한다<br>
+                            약속을 하고서 잊어버린다<br>
+                            물건을 가지러 갔다가 잊어버리고 그냥 온다<br>
+                            물건이나, 사람의 이름을 대기가 힘들어 머뭇거린다<br>
+                            대화 중 내용이 이해되지 않아 반복해서 물어본다<br>
+                            길을 잃거나 헤맨 적이 있다<br>
+                            예전에 비해서 계산능력이 떨어졌다<br>
+                            예전에 비해 성격이 변했다<br>
+                            이전에 잘 다루던 기구의 사용이 서툴러졌다<br>
+                            예전에 비해 방이나 집안의 정리 정돈을 하지 못한다<br>
+                            상황에 맞게 스스로 옷을 선택하여 입지 못한다<br>
+                            혼자 대중교통 수단을 이용하여 목적지에 가기 힘들다<br>
+                            내복이나 옷이 더러워져도 갈아입지 않으려고 한다<br>
+        //div(style='position:absolute;left:10px;bottom:470px;')
+            button.btn.btn-danger(style='line-height:30px;width:300px;' align='center').fit
+                h4.bold 상태(기관)
+            div(style='width:300px;height:400px;background:#fff;padding:10px 10px 10px 10px;')
+                h3.fit.bold MjkxMDA1LTIwMTg4MTUg
+                h5.light 현재 복용중인 약
+        div(style='position:absolute;left:10px;bottom:470px;width:1500px;pointer-events: none;')
+            h4.c5.fit ID : MzcwODA2LTIyMjgzMTAg
+            h4.c5.light.fit AGE : 76 , GENDER : MALE
+            h5.c5.light.fit Care Date : 11/19/2008(0), 11/19/2008(1), 11/19/2008(2), 11/19/2008(3), 11/19/2008(4),
+            p.half
+            div.row.fit
+                div.col-sm-1.fit
+                    span.btn.btn-t1.fit(align='center').dashboard.view_button 흡연 : 1
+                div.col-sm-1.fit
+                    span.btn.btn-t2.fit(align='center').dashboard.view_button 음주 : 2
+                div.col-sm-1.fit
+                    span.btn.btn-t0.fit(align='center').dashboard.view_button 가족력 : 0
+            p.half
+            p.half
+            h4.c6.light.fit(style='margin-top:-3px')
+                span.glyphicon.glyphicon-menu-right(style='padding-right:5px;font-size:15px')
+                | 현재 복용중인 약
+            div.row.fit
+                div.col-sm-1.fit
+                    span.btn.btn-lv1(align='center').dashboard.view_button 골다공증  : 0
+                div.col-sm-1.fit
+                    span.btn.btn-lv1(align='center').dashboard.view_button 호르몬 : 0
+                div.col-sm-1.fit
+                    span.btn.btn-lv2(align='center').dashboard.view_button 비타민 : 0
+                div.col-sm-1.fit
+                    span.btn.btn-lv3(align='center').dashboard.view_button 천식 : 3
+                div.col-sm-1.fit
+                    span.btn.btn-lv0(align='center').dashboard.view_button 소화 : 0
+                div.col-sm-1.fit
+                    span.btn.btn-lv0(align='center').dashboard.view_button 소염진통 : 0
+                div.col-sm-1.fit
+                    span.btn.btn-lv0(align='center').dashboard.view_button 고지혈증 : 0
+                div.col-sm-1.fit
+                    span.btn.btn-lv2(align='center').dashboard.view_button 기타 : 0
+        div(style='position:absolute;left:10px;bottom:10px;')
+            button.btn.btn-teal-7(style='line-height:30px;width:300px;' align='center').fit
+                h4.bold 상태(정신)
+            div(style='width:300px;height:400px;background:#fff;padding:10px 10px 10px 10px;overflow:auto')
+                h6.bold(style='line-height:25px').
+                    오늘이 몇 월이고, 무슨 요일인지를 잘 모른다<br>
+                    자기가 놔둔 물건을 찾지 못한다<br>
+                    같은 질문을 반복해서 한다<br>
+                    약속을 하고서 잊어버린다<br>
+                    물건을 가지러 갔다가 잊어버리고 그냥 온다<br>
+                    물건이나, 사람의 이름을 대기가 힘들어 머뭇거린다<br>
+                    대화 중 내용이 이해되지 않아 반복해서 물어본다<br>
+                    길을 잃거나 헤맨 적이 있다<br>
+                    예전에 비해서 계산능력이 떨어졌다<br>
+                    예전에 비해 성격이 변했다<br>
+                    이전에 잘 다루던 기구의 사용이 서툴러졌다<br>
+                    예전에 비해 방이나 집안의 정리 정돈을 하지 못한다<br>
+                    상황에 맞게 스스로 옷을 선택하여 입지 못한다<br>
+                    혼자 대중교통 수단을 이용하여 목적지에 가기 힘들다<br>
+                    내복이나 옷이 더러워져도 갈아입지 않으려고 한다<br>
+
+        div(style='position:absolute;left:320px;bottom:10px;')
+            button.btn.btn-teal-7(style='line-height:30px;width:400px;' align='center').fit
+                h4.bold 상태(기관)
+            div#dashboard_starplot(style='width:400px;height:400px')
+        div(style='position:absolute;left:730px;bottom:10px;')
+            button.btn.btn-teal-7(style='line-height:30px;width:600px;' align='center').fit
+                h4.bold 증상
+            div#dashboard_line(style='width:600px;height:400px;')
+
+
+    script(type='text/javascript', src='http://visjs.org/dist/vis.js')
+    script(type='text/javascript', src='/universe/sample/credos/sampledata.js')
+    script(type='text/javascript', src='/universe/sample/credos/credos_dashboard.js')
+    script(type='text/javascript', src='/universe/sample/credos/credos_visnetwork.js')
+    script.
+        function requestNode(){
+            var body = {};
+            for(var i = 2 ; i < 7 ; i ++){
+                if(document.getElementById('checkbox' + i).checked){
+                    body[i] = true;
+                }
+            }
+            reloadNetwork(body);
+
+        }

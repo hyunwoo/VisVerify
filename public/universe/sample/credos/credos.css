@@ -1,0 +1,66 @@
+
+.dashboard.view_button {
+    width: 100%;
+    height: 30px;
+    padding-top:6px;
+}
+
+.btn.btn-lv0{
+    margin:0px;
+
+    background : #78909C;
+    border-color: #78909C;
+    color:#fff;
+}
+
+.btn.btn-lv1{
+    margin:0px;
+    background : #607D8B;
+    border-color: #607D8B;
+    color:#fff;
+}
+
+.btn.btn-lv2{
+    margin:0px;
+    background : #455A64;
+    border-color: #455A64;
+    color:#fff;
+}
+
+
+.btn.btn-lv3{
+    margin:0px;
+    background : #263238;
+    border-color: #455A64;
+    color:#fff;
+}
+
+.btn.btn-t0{
+    margin:0px;
+    background : #607D8B;
+    border-color: #607D8B;
+    color:#fff;
+}
+.btn.btn-t1{
+    margin:0px;
+    background : #455A64;
+    border-color: #455A64;
+    color:#fff;
+}
+.btn.btn-t2{
+    margin:0px;
+    background : #263238;
+    border-color: #455A64;
+    color:#fff;
+}
+
+.btn.btn-teal-7{
+    margin:0px;
+    background : #37474F;
+    border-color: #37474F;
+    color:#fff;
+
+}
+button.btn.btn-info.disabled{
+    color : #FFF;
+}

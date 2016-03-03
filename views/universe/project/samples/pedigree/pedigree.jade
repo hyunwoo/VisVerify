@@ -4,9 +4,7 @@
 extends ../../../universe_parent
 block content
     link(rel='stylesheet', href='/universe/sample/pedigree/dividelayout.css')
-
-    div#renderer(style='width:100vw; height:calc(100vh - 120px)')
-
+    div.fullpage#renderer
         div(style='position:absolute;left:10px;top:120px;background:rgba(0,0,0,0.7);padding:15px;')
             h4.text(style='color:#fff;font-weight:200') 권력 설정
             .btn.btn-primary#grade(onclick='displayMode(this.id)', style='width:80px') 권력 중심

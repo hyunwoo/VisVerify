@@ -11,14 +11,14 @@ var multi;
 module.exports = router;
 
 
-
 router.get('/', function (req, res) {
     res.render('universe/universe_main', req.session);
 })
+
 router.get('/getData', function (req, res) {
 
-
 })
+
 router.get('/upload', function (req, res) {
     if (!DBFunc.UserAuthCheck(req)) {
         console.log('session not exist')

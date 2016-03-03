@@ -13,14 +13,17 @@ html
         script(src='/js/validate.js')
         script(src='/js/lucust.js')
         script(src='/nvd3/js/nv.d3.js')
+        script(src="http://www.d3plus.org/js/d3plus.js")
         script(type='text/javascript', src='/js/scrollTo.js')
         script(type='text/javascript', src='/js/owl.carousel.min.js')
         script(type='text/javascript', src='/js/wow.js')
         script(type='text/javascript', src='/js/parallax.js')
         script(type='text/javascript', src='/js/nicescroll.js')
         script(type='text/javascript', src='/js/main.js')
+        script(type='text/javascript', src='/js/vis.js')
 
         link(rel='stylesheet', href='/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/css/font-awesome.min.css')
         link(rel='stylesheet', href='/css/awesome-bootstrap-checkbox.css')
         link(rel='stylesheet', href='/stylesheets/node-tooltip.css')
         link(rel='stylesheet', href='/stylesheets/CodeMirror/codemirror.css')
@@ -31,47 +34,51 @@ html
         link(rel='stylesheet', type='text/css', href='/css/animate.css')
         link(rel='stylesheet', type='text/css', href='/css/hoveranimation.css')
         link(rel='stylesheet', href='/nvd3/css/nv.d3.css')
-    body#body
 
-        header(style='height:80px;position:relative;left:0%;width:100%;top:0%;background-color: #000;z-index:1;')
-            nav.navbar.navbar-default( role='navigation', style='padding:0px;')
-                ul.nav.navbar-nav(style='height:40px;padding:0px;margin:0px')
-                    li
-                        h5.light.fit(href='/universe',style='padding:10px 10px 0px 17px') Foxtail with Ajou university
-                            //span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-home(style='font-size:16px; margin-right:5px')
-                ul.nav.navbar-nav.right
-                    if(user === undefined)
-                        li
-                            div.btn.btn-group
-                                a.btn.btn-success.hvr-underline-reveal(href='/universe/login', style='margin-top:1px') SIGN IN
-                    else
-                        li
-                            div.btn.btn-group
-                                a.btn.btn-success(href='/universe/user?email=' + user.email, style='margin-top:1px') #{user.email}
-                    form.navbar-form.navbar-left(role='search')
-                        .form-group
-                            input.form-control.no-right-border(type='text', placeholder='Search')
-                        button.btn.btn-warning(type='submit') &nbsp;
-                            span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-search(style='font-size:16px; margin-right:5px; margin-top:2px')
-            nav.navbar.navbar-default( role='navigation' , style='border-top:0px')
+    body#body
+        header(style='height:50px;position:relative;left:0%;width:100%;top:0%;background-color: #000;z-index:1;')
+            nav.navbar.navbar-default( role='navigation' , style='border-top:0px;height:100%')
                 ul.nav.navbar-nav(style='padding:10px 5px 0px 17px')
                     li
                         //h3.fit.bold
                         a.fit.c-darkblue.hvr-underline-reveal(href='/universe', style='padding-top:5px;font-size:25px;font-weight:700;') UNIVERSE
                 ul.nav.navbar-nav.right(style='padding:0px 20px 0px 20px')
+
                     li
-                        a(href='/universe/project' style='font-size:15px;margin-right:15px').hvr-underline-reveal.
-                            Registered Data
-                        //ul.dropdown-menu.forAnimate(role='menu')
+                        a.dropdown-toggle(data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style='font-size:15px;margin-right:15px').hvr-underline-reveal.
+                            Samples
+                        ul.dropdown-menu.forAnimate(role='menu')
+                            li.item
+                                h5(style='padding-left:10px') Web
+                            li.item
+                                a(href="/projects/cosmovis/", style='font-size:14px') Credos
                             li.item
                                 a(href="/projects/cosmovis/", style='font-size:14px') CRC
                             li.item
                                 a(href='#', style='font-size:14px') Pedigree
+                            li.divider(role='separator')
                             li.item
-                                a(href='#', style='font-size:14px') NWS
+                                h5(style='padding-left:10px') Engine
+                    li
+                        a(href='/universe/project' style='font-size:15px;margin-right:15px').hvr-underline-reveal.
+                            Registered Data
+
                     li
                         a(href='/universe/upload', style='font-size:15px;margin-right:15px').hvr-underline-reveal.
                             Data Upload
+                    form.navbar-form.navbar-left(role='search')
+                        .form-group
+                            input.form-control.no-right-border(type='text', placeholder='Search')
+                        button.btn.btn-warning(type='submit') &nbsp;
+                            span.pull-right.hidden-xs.showopacity.glyphicon.glyphicon-search(style='font-size:16px; margin-right:5px; margin-top:2px')
+                    if(user === undefined)
+                        li
+                            div.btn.btn-group
+                                a.btn.btn-success.hvr-underline-reveal(href='/universe/login', style='margin-top:1px') SIGN IN
+                    if(user !== undefined)
+                        li
+                            div.btn.btn-group
+                                a.btn.btn-success(href='/universe/user?email=' + user.email, style='margin-top:1px') #{user.email}
 
 
         body
@@ -79,7 +86,7 @@ html
 - if(useFooter === undefined || useFooter)
     legend
     div.container(style='background-color: #fff;z-index:1;')
-        div.row(style='margin-top:25px;height:60px;padding-left:30px')
+        div.row(style='margin-top:15px;height:60px;padding-left:30px')
             div.col-sm-6
                 div(align='left')
                     h5.light(style='letter-spacing:1px').fit.

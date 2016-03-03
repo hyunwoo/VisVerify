@@ -5,13 +5,56 @@
 @import url(https://fonts.googleapis.com/css?family=Maven+Pro:400,500,700);
 @import url(https://fonts.googleapis.com/css?family=Ubuntu:400,300,500,700);*/
 @import url(/css/font_nanumbarungothic.css);
-
 @import url(https://fonts.googleapis.com/css?family=Lato:400,300,700);
 
+.switchgroup {
+    font-size: 16px;
+    padding-top: 12px;
+    width:100px;
+}
+
+.switch{
+    margin-top:2px;
+}
+.fullpage {
+    height: -moz-calc(100vh - (50px));
+    height: -webkit-calc(100vh - (50px));
+    height: calc(100vh - (50px));
+    width: 100vw;
+}
+
+.fullheight {
+    height: -moz-calc(100vh - (50px));
+    height: -webkit-calc(100vh - (50px));
+    height: calc(100vh - (50px));
+}
+
+.render-window {
+    width: 100%;
+    height: 100%;
+}
+
+.vertical-center {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.dashboard-window {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    width: 800px;
+    height: -moz-calc(100vh - (50px));
+    height: -webkit-calc(100vh - (50px));
+    height: calc(100vh - (50px));
+    background : rgba(255,255,255,0.15);
+    z-index : 2;
+}
 
 .fontnanum {
-    font-family:Nanum Barun Gothic, sans-serif;
+    font-family: Nanum Barun Gothic, sans-serif;
 }
+
 .center {
     text-align: center;
     vertical-align: middle;
@@ -44,6 +87,9 @@
     margin-right: 35px;
 }
 
+p.half{
+    height: 3px;
+}
 p.double {
     height: 50px;
 }
@@ -194,13 +240,21 @@ body.light {
 }
 
 @-webkit-keyframes disappear_window {
-    from {opacity: 1;}
-    to {opacity: 0;}
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }
 
 @-webkit-keyframes appear_window {
-    from {opacity: 0;}
-    to {opacity: 1;}
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 nav.sidebar {
@@ -558,7 +612,7 @@ p > c {
 }
 
 .c-darkblue {
-    color : #607D8B;
+    color: #607D8B;
 }
 
 .c-gray,
