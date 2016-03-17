@@ -142,8 +142,9 @@ router.post('/join', function (req, res) {
 
 })
 
-router.get('/netppl', function (req, res) {
+router.get('/samples/netppl/partviewer', function (req, res) {
     console.log("netppl in");
+    req.session.useFooter = false;
     res.render('universe/project/netppl/netppl_visualization', req.session)
 })
 

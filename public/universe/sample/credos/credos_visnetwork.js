@@ -6,7 +6,6 @@ var container;
 var nodes;
 var edges;
 
-
 var options ={
     nodes: {
         shape: 'dot',
@@ -38,6 +37,7 @@ var options ={
         tooltipDelay: 200,
     }
 }
+
 function reloadNetwork(body){
     $.post('/universe/samples/credos/api/networkData', body, function(data,success){
         console.log(data,success)
@@ -54,16 +54,17 @@ function reloadNetwork(body){
             edges:edges,
         }, options);
 
-        network.on("click", function (params) {
-            if(params.nodes != null && params.nodes.length != 0){
-                console.log(params.nodes[0])
-                console.log(rawData[params.nodes[0]])
-            }
-
-        });
+        network.on("click", function(params){nodeClickEvent(params)});
 
 
     })
+}
+
+function nodeClickEvent(params){
+    if(params.nodes != null && params.nodes.length != 0){
+        console.log('send : ' + rawData[params.nodes[0]])
+        update_dashboard(rawData[params.nodes[0]])
+    }
 }
 function init(){
 
@@ -82,12 +83,8 @@ function init(){
         };
 
         network = new vis.Network(container, data, options);
-        network.on("click", function (params) {
-            if(params.nodes != null && params.nodes.length != 0){
-                console.log(params.nodes[0])
-                console.log(rawData[params.nodes[0]])
-            }
-
+        network.on("click", function(params){
+            nodeClickEvent(params)
         });
 
     })

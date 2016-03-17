@@ -1,0 +1,59 @@
+//
+   Created by Hyunwoo on 2016. 2. 1..
+extends ../../universe_parent
+block content
+    link(rel='stylesheet', href='/universe/sample/credos/switch.css')
+    link(rel='stylesheet', href='/universe/sample/credos/credos.css')
+
+    div.fullpage
+        div#renderer.render-window(style='background:#222;')
+        div.fit(align='center', style='padding:20px;position:absolute;right:10px;top:60px;height:calc(100vh - 60px);width:300px;background:#fff')
+            h2.light.c2#disp_protein_name asdfasdf
+            h5.bold.c2#disp_protein_node_cnt asdfasdf
+            h5.bold.c2#disp_protein_edge_cnt asdfasdf
+            p.double
+            div(style='width:100%;overflow:scroll; height:calc(100vh - 300px)' align='left' )
+                div(style='width:100%;')
+                    h4.c4.bold Linked Protein
+                    div#connectListGroup
+                        div
+                            h4.c4.light AAA
+                            h5.c4.light AAA
+                            hr
+
+
+
+
+    div.leftpage.h3.fit
+        div.h5(align='center') Protein List
+        ul.list-group#listitems
+            -for(var i = 0 ; i < items.length ; i ++){
+            a.list-group-item(onclick='requestData(\'#{items[i]}\')')
+                h4 #{items[i]}
+                h5 #{items[i]} tag values
+            - }
+
+
+
+    div.progress_page#progress_modal(style='display:hidden')
+        .progress_inner
+            div(align='center')
+                h1.light.c5#protein_name(style='letter-spacing:6px') DTAGASD : #FFASD
+            div(style='margin:auto;width:600px;padding-left:330px')
+                h3.light.fit.c5#protein_node(style='letter-spacing:1px')  DTAGASD : #FFASD
+                h3.light.fit.c5#protein_edge(style='letter-spacing:1px')  DTAGASD : #FFASD
+            div#progress_bar_bg
+                span.expand#progress_bar
+            div(align='center')
+                h4.light.c5#progress_percent 11
+                h5.light.c5#progress_text 11
+
+
+    script(src="/js/vis.js")
+    script(src='/universe/crc/dataloader.js')
+    script.
+        requestData('Entrez1_A1BG');
+
+
+        //
+

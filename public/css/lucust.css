@@ -38,18 +38,20 @@
     margin-right: 35px;
 }
 
-p.double {
-    height : 50px;
-}
-p.triple {
-    height : 75px;
-}
 .strike > span:after {
     left: 100%;
     margin-left: 35px;
 }
 .space {
     height : 20px;
+}
+
+
+p.double {
+    height : 50px;
+}
+p.triple {
+    height : 75px;
 }
 
 h1 {

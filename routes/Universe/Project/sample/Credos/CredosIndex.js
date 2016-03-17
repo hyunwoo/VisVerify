@@ -8,17 +8,9 @@ var kmeans = require('node-kmeans');
 var similarity = require( 'compute-cosine-similarity' );
 module.exports = router;
 
-console.log('start credos data prepare')
-console.log(__dirname);
-
-
-
-
 var data = JSON.parse(fs.readFileSync(__dirname + "/credos_record_4+_indexed.json"));
-// need base group
 
-
-console.log('read complete')
+console.log('[READ COMPLATE] : ' + __dirname + "/credos_record_4+_indexed.json")
 // need node link
 router.get('/', function (req, res) {
     console.log("in");
@@ -53,12 +45,8 @@ router.post('/api/networkData', function(req, res){
         }
     }
 
-    console.log(select_template)
-
-
 
     function createNode(d, limit, func) {
-        console.log(limit)
         var nodeData =[];
         var edgeData = [];
         var kArr = [];
@@ -77,8 +65,6 @@ router.post('/api/networkData', function(req, res){
                 label : data[j]['정보'].values[0][0],
             })
         }
-
-
 
         //var kcount = Math.floor(Math.sqrt(data.length / 2));
         var kcount = 6;
@@ -107,8 +93,6 @@ router.post('/api/networkData', function(req, res){
                         }
 
                         if(perEdge > 3) break;
-
-
                     }
 
                     for(var j = 0 ; j < 2 ; j ++) {
@@ -117,8 +101,6 @@ router.post('/api/networkData', function(req, res){
                             from : i ,
                             to : rand,
                         })
-
-                        console.log('rand ! :' + rand)
                     }
                 }
 
@@ -130,16 +112,14 @@ router.post('/api/networkData', function(req, res){
         });
     }
 
-
-
     createNode(select_template, 0.85 - Math.pow(truecount, 2) * 0.01 , function(network_data){
         if(network_data == null){
             res.send(null);
         } else {
             res.send(network_data);
         }
-
     });
+
 })
 
 

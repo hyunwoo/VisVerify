@@ -2,8 +2,11 @@
    Created by Hyunwoo on 2016. 2. 1..
 extends ../../universe_parent
 block content
-    div.container-fuild
-        div#renderer(style='position:absolute;margin-top:150px;left:0%;width:100%;top:0%;height:100%;background-color: #fff;z-index:0;' )
+    link(rel='stylesheet', href='/universe/sample/credos/switch.css')
+    link(rel='stylesheet', href='/universe/sample/credos/credos.css')
+
+    div.fullpage
+        div#renderer.render-window
 
     script(src="http://www.d3plus.org/js/d3.js")
     script(src="http://www.d3plus.org/js/d3plus.js")

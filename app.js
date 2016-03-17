@@ -86,6 +86,7 @@ var route_universe_dashboard = require('./routes/Universe/Project/dashboard/univ
 var route_universe_Section9 = require('./routes/Universe/Project/sample/Section9/Section9')
 var route_universe_Pedigree = require('./routes/Universe/Project/sample/Pedigree/Pedigree')
 var route_universe_Credos = require('./routes/Universe/Project/sample/Credos/CredosIndex')
+var route_universe_CRC_Go = require('./routes/Universe/Project/sample/CRC/GoNetwork')
 
 app.use('/universe', route_universe);
 app.use('/universe/project', route_universe_project);
@@ -94,6 +95,7 @@ app.use('/universe/dashboard', route_universe_dashboard);
 app.use('/universe/samples/section9', route_universe_Section9);
 app.use('/universe/samples/pedigree', route_universe_Pedigree);
 app.use('/universe/samples/credos', route_universe_Credos);
+app.use('/universe/samples/netppl/gonetwork', route_universe_CRC_Go);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
