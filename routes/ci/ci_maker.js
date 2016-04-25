@@ -13,7 +13,9 @@ var db = require('../../functions/DBFunction').db;
 
 module.exports = router;
 
-
+router.get('/procedural_modeling_logo_drawing', function(req,res){
+    res.render('ci/freearc');
+})
 router.get('/burst', function (req, res) {
     console.log("in");
     res.render('ci/burst');
@@ -21,7 +23,8 @@ router.get('/burst', function (req, res) {
 
 router.get('/freeArcs', function (req, res) {
     console.log("in");
-    res.render('ci/freearc');
+    res.redirect('/ci/procedural_modeling_logo_drawing')
+    //res.render('ci/freearc');
 })
 
 router.post('/freeArcs/save', function (req, res) {

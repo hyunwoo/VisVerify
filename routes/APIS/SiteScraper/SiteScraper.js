@@ -13,7 +13,6 @@ var jsdom = require('jsdom');
 var request = require('request');
 var url = require('url');
 
-
 extractor = require('unfluff');
 
 module.exports = router;
@@ -26,13 +25,6 @@ router.get('/', function (req, res) {
 
 });
 
-
-/*
-var regression = require('regression');
-var data = [[0,1,0],[32, 67,3], [12, 79,5]];
-var result = regression('linear', data);
-console.log(result);
-*/
 
 router.get('/scrap', function(req,res){
     var site ;
@@ -71,7 +63,7 @@ router.get('/scrap', function(req,res){
                 if(isSet != null){
                     console.log("SET!");
                     result.head = $(isSet.head).text();
-                    result.body = $(".article").text();
+                    result.body = $(isSet.body).text();
                     result.setter = isSet.site;
                 } else {
                     result.head = data.title();

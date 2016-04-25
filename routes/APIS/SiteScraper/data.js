@@ -5,14 +5,20 @@
 
 exports.SiteData = [
     {
-        site : "nate.com" ,
-        head : ".articleSubecjt",
-        body : "#realArtcContents",
+        site: "nate.com",
+        head: ".articleSubecjt",
+        body: "#realArtcContents",
     },
 
     {
-        site : "naver.com" ,
-        head : "#articleTitle",
-        body : ".article",
+        site: "naver.com",
+        head: "#articleTitle",
+        body: "#articleBodyContents",
+    },
+
+    {
+        site: 'yonhapnews.co.kr',
+        head: '#newstitle',
+        body: '#articleBody',
     }
 ]
