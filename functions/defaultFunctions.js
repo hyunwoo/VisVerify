@@ -70,7 +70,7 @@ exports.getDate = function () {
     return moment().format();
 }
 
-exports.getUnique = function(){
+exports.getUnique = function () {
     return moment().valueOf();
 }
 

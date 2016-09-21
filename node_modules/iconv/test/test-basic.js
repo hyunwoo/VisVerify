@@ -30,6 +30,9 @@ new Iconv('utf16',   'utf32');
 new Iconv('utf16le', 'utf16be');
 new Iconv('utf32le', 'utf32be');
 
+// https://github.com/bnoordhuis/node-iconv/issues/152
+new Iconv('windows-31J', 'windows-31j');
+
 var iconv = new Iconv('utf-8', 'iso-8859-1');
 assert.throws(function() { iconv.convert() });
 assert.throws(function() { iconv.convert(1) });
@@ -43,6 +46,26 @@ assert.deepEqual(iconv.convert(new Buffer('xxx')), new Buffer('xxx'));
 
 var buffer = new Buffer(1); buffer[0] = 235; // ë
 assert.deepEqual(iconv.convert('ë'), buffer);
+
+// test conversion error messages
+var unknown_conv = 'whatchimajig';
+try {
+  new Iconv('utf-8', unknown_conv);
+  assert.fail('unreachable');
+} catch (e) {
+  assert.equal(e.message,
+               'Conversion from utf-8 to ' + unknown_conv +
+               ' is not supported.');
+}
+
+try {
+  new Iconv(unknown_conv, 'utf-8');
+  assert.fail('unreachable');
+} catch (e) {
+  assert.equal(e.message,
+               'Conversion from ' + unknown_conv +
+               ' to utf-8 is not supported.');
+}
 
 // partial character sequence should throw EINVAL
 buffer = new Buffer(1); buffer[0] = 195;

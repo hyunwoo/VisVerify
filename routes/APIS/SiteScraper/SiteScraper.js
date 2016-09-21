@@ -12,10 +12,8 @@ var iconv = new Iconv('euc-kr', 'UTF-8//TRANSLIT//IGNORE');
 var jsdom = require('jsdom');
 var request = require('request');
 var url = require('url');
+var extractor = require('unfluff');
 
-extractor = require('unfluff');
-
-module.exports = router;
 var sitedata = require('./data');
 var lda = require('../../../functions/LDA');
 
@@ -26,11 +24,11 @@ router.get('/', function (req, res) {
 });
 
 
-router.get('/scrap', function(req,res){
-    var site ;
-    if(req.url.indexOf('?url=') == -1){
+router.get('/scrap', function (req, res) {
+    var site;
+    if (req.url.indexOf('?url=') == -1) {
         res.send({
-            success : false,
+            success: false,
         });
         return;
     } else {
@@ -39,9 +37,9 @@ router.get('/scrap', function(req,res){
 
     console.log(site);
     console.log(site);
-    if(site === undefined){
+    if (site === undefined) {
         res.send({
-            success : false,
+            success: false,
         });
         return;
     }
@@ -52,15 +50,15 @@ router.get('/scrap', function(req,res){
                 var body = iconv.convert(text).toString();
                 var $ = cheerio.load(body);
                 var isSet = null;
-                for(var i = 0 ; i < sitedata.SiteData.length ; i ++){
-                    if(site.indexOf(sitedata.SiteData[i].site) != -1){
+                for (var i = 0; i < sitedata.SiteData.length; i++) {
+                    if (site.indexOf(sitedata.SiteData[i].site) != -1) {
                         isSet = sitedata.SiteData[i];
                         break;
                     }
                 }
                 var result = {};
                 var data = extractor.lazy(body, 'en');
-                if(isSet != null){
+                if (isSet != null) {
                     console.log("SET!");
                     result.head = $(isSet.head).text();
                     result.body = $(isSet.body).text();
@@ -73,29 +71,9 @@ router.get('/scrap', function(req,res){
                 result.images = data.image();
                 result.videos = data.videos();
                 result.success = true;
-                res.send( JSON.stringify(result,null,4));
+                res.send(JSON.stringify(result, null, 4));
             }
         });
 })
 
-
-router.get('/api/lda', function (req, res) {
-    var category_count = req.query.category;
-    var topic_count = req.query.topic;
-    var site = req.query.site;
-    var document = req.query.document;
-
-    console.log(site);
-
-    var options = {
-        url: 'http://www.nytimes.com/2015/11/08/world/middleeast/as-us-escalates-air-war-on-isis-allies-slip-away.html',
-        maxRedirects: '10',
-        headers: {
-            'User-Agent': 'request'
-        }
-    };
-
-
-    res.send('site');
-    return;
-})
+module.exports = router;

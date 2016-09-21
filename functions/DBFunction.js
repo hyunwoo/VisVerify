@@ -5,13 +5,13 @@
 var crypto = require('crypto');
 var Func = require('./defaultFunctions');
 
-//var db = require('redis').createClient(6500, '127.0.0.1');
-//var crc_db = require('redis').createClient(6500, '127.0.0.1'); // 16801
-//var nws_db = require('redis').createClient(6500, '127.0.0.1'); // 16800
+var db = require('redis').createClient(6500, '127.0.0.1');
+var crc_db = require('redis').createClient(6500, '127.0.0.1'); // 16801
+var nws_db = require('redis').createClient(6500, '127.0.0.1'); // 16800
 
-var db = require('redis').createClient(6500, '202.30.24.169');
-var crc_db = require('redis').createClient(16801, '202.30.24.169'); // 16801
-var nws_db = require('redis').createClient(16800, '202.30.24.169'); // 16800
+//var db = require('redis').createClient(6500, '202.30.24.169');
+//var crc_db = require('redis').createClient(16801, '202.30.24.169'); // 16801
+//var nws_db = require('redis').createClient(16800, '202.30.24.169'); // 16800
 
 
 exports.db = db;

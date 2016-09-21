@@ -2,6 +2,15 @@
    Created by hyunwoo on 7/22/15.
 extends ../../projects_layout
 block body
+    script.
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject'] = r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-54343134-3', 'auto');
+        ga('send', 'pageview');
+
     script(src='/javascripts/cosmovis/SementicNodes_eng.js')
     script(src='/javascripts/cosmovis/cosmovis_data.js')
     script(src='/javascripts/cosmovis/hitmap.js')
@@ -11,14 +20,14 @@ block body
                 Cosmovis
             h5.fit
                 c2.
-                    영화 감성어휘기반 시각화
+                    Multilevel Semantic Network Visualization by Analyzing Sentiment Words of Movie Review Data
 
     div(style='position:absolute;right:10px;top:10px')
         a.btn.btn-primary(href='/projects/cosmovis/Supplementary File.zip', style='padding:1 8')
             p.bold(style='padding:0px;margin:0px;font-size:18px;', align='center') Download
             p(style='padding:0px;margin:0px;font-size:14px;', align='center') Supplementary File
 
-    div.container-fluid(style='margin:0px; padding:0px')
+    div(style='margin:0px; padding:0px; height : calc(100vh - 80px);')#bg
         #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
             .modal-dialog(role='document')
                 .modal-content
@@ -30,7 +39,7 @@ block body
                             ,aria-valuemax="100" ,style="width:0%") 0% Complete (success)
                     .modal-footer
                         h5#modelContents(align='center') node & image data loading...
-        svg(id='chart', style='width:100%;' )
+        svg(id='chart' style='margin:auto; positon:relative' )
         style.
             circle {
 
@@ -49,6 +58,13 @@ block body
             circle.outer_grid {
                 stroke: lightgray;
                 fill: transparent;
+            }
+
+            .button_default{
+                cursor:pointer;
+            }
+            .no_event{
+                pointer-events: none;
             }
 
             line {
@@ -106,6 +122,7 @@ block body
                 svg.append('text').text(str)
                         .attr("x", x + w / 2)
                         .attr("y", y + h / 2 + 5)
+                        .attr('class','no_event')
                         .style("font-family", "Raleway , Helvetica, sans-serif")
                         .style("font-size", "13px")
                         .style("font-weight", 'bold')
@@ -124,16 +141,19 @@ block body
 
 
             var svg = d3.select('#chart').append('svg');
-            var width = document.getElementById('chart').offsetWidth;
+            var element_bg = document.getElementById('bg');
+            var element_chart = document.getElementById("chart");
+            var width = element_bg.offsetWidth * 0.85;
             var ratio = width / 1200;
-            document.getElementById("chart").style.height = (800 * ratio) + 'px';
+            var margin_left = width / 0.85 * 0.075;
+            element_chart.style.height = (600 * ratio) + 'px';
+            element_chart.style.width = (1200 * ratio) + 'px';
+            element_chart.style.marginLeft = margin_left;
 
 
             var isfirst = true;
             function reset() {
                 var svg = d3.select('#chart').append('svg');
-                var width = document.getElementById('chart').offsetWidth;
-
 
                 var layer_bg = svg.append('g');
                 if (inverse)
@@ -146,6 +166,11 @@ block body
                             .attr("width", "100%")
                             .attr("height", "100%")
                             .attr("fill", "white");
+
+                if(inverse) document.getElementById('bg').style.background = '#000';
+                else document.getElementById('bg').style.background = '#fff';
+
+
                 var layer_image = svg.append('g');
                 var layer_edge = svg.append('g');
                 var layer_node = svg.append('g');
@@ -322,7 +347,6 @@ block body
                 if (width == undefined) width = 1600;
                 var ratio = width / 1200;
                 var scale_ratio = width / 2560;
-                document.getElementById("chart").style.height = (800 * ratio) + 'px';
                 var height = 800 * ratio;
                 var nodes = [];
                 var edges = [];
