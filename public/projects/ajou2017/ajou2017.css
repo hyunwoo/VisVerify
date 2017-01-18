@@ -29,7 +29,7 @@
 
 .graph-bg > .question-wrapper {
     position: absolute;
-    top: 37%;
+    top: 36%;
     left: calc(50% - 200px);
     width: 400px;
     height: 200px;
@@ -60,12 +60,6 @@
     text-align: center;
     line-height: 250px;
     font-weight: 100;
-}
-
-.pieGraphRatio {
-    font-size: 20px;
-    font-weight: 200;
-    color: #282828;
 }
 
 .pieGraphLine {

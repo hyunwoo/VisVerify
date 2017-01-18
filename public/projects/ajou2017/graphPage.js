@@ -8,18 +8,6 @@ var g;
 var question;
 
 $(function () {
-    drawPieChart();
-});
-
-
-
-
-function drawPieChart(){
-    var svg = d3.select(".graph-bg").append("svg").attr("class", 'fulid-svg');
-    w = svg.style('width').replace('px', '') * 1;
-    h = svg.style('height').replace('px', '') * 1 - 200;
-    g = svg.append('g').attr('transform', 'translate(' + w / 2 + ' , ' + h / 2 + ')');
-
     question = {'key': 'Q. 여러분은 대학생이 되면 가장\n 해보고 싶었던 것은 무엇인가요?', 'value': '신입생 여러분들이 대학생이 되면 가장 하고싶은건 바로 연애군요.'}
 
     var data = [
@@ -32,6 +20,17 @@ function drawPieChart(){
         {key: '캠퍼스', value: '13'},
         {key: '캠퍼스', value: '13'}
     ];
+
+    drawPieChart(data, question);
+});
+
+
+function drawPieChart(data, question) {
+    var svg = d3.select(".graph-bg").append("svg").attr("class", 'fulid-svg');
+    w = svg.style('width').replace('px', '') * 1;
+    h = svg.style('height').replace('px', '') * 1 - 250;
+    g = svg.append('g').attr('transform', 'translate(' + w / 2 + ' , ' + h / 2 + ')');
+
 
     var color = ['#F07774', '#504C64', '#93A8A7', '#24AE94'];
 
@@ -50,16 +49,15 @@ function drawPieChart(){
         var startRatio = startAng / sum + 0.01;
         var endRatio = (Number(startAng) + Number(d.value)) / sum - 0.01;
 
-        drawArc(g, 280, 305, startRatio, endRatio, color[i % color.length]);
+        drawArc(g, 265, 300, startRatio, endRatio, color[i % color.length]);
         startAng += Number(d.value);
-        drawLineFromRatio(g, startRatio, 280, 360, d.key, Math.floor(d.value/sum*100), color[i % color.length]);
+        drawLineFromRatio(g, startRatio, 265, 355, d.key, Math.floor(d.value / sum * 100), color[i % color.length]);
     });
 
     // Question
     $('.question-wrapper').html(question.key);
     $('.story-telling').html(question.value)
 }
-
 
 
 function drawLineFromRatio(section, ratio, rad1, rad2, key, value, color) {
@@ -70,17 +68,25 @@ function drawLineFromRatio(section, ratio, rad1, rad2, key, value, color) {
     if (Math.cos(angle) * rad2 > 30) {
         drawLine(section, Math.cos(angle) * rad2, Math.sin(angle) * rad2
             , Math.cos(angle) * rad2 + 20, Math.sin(angle) * rad2, color, 3);
-        writeText(section, Math.cos(angle) * rad2 + 30, Math.sin(angle) * rad2, key + '(' + value + '%)', color).attr('text-anchor', 'start');;
+        //퍼센트
+        writeText(section, Math.cos(angle) * rad2 + 30, Math.sin(angle) * rad2 - 35, value + '%', color).attr('text-anchor', 'start').attr('font-size', 20);
+        // 글자
+        writeText(section, Math.cos(angle) * rad2 + 30, Math.sin(angle) * rad2, key, color).attr('text-anchor', 'start').attr('font-size', 30);
     } else if (-30 < Math.cos(angle) * rad2 && Math.cos(angle) * rad2 < 30) {
         if (0 < Math.sin(angle)) {
-            writeText(section, Math.cos(angle) * rad2, Math.sin(angle) * rad2 + 20, key + '(' + value + '%)', color)
+            writeText(section, Math.cos(angle) * rad2, Math.sin(angle) * rad2 + 20, value + '%', color).attr('font-size', 20);
+            writeText(section, Math.cos(angle) * rad2, Math.sin(angle) * rad2 + 55, key, color).attr('font-size', 30);
         } else {
-            writeText(section, Math.cos(angle) * rad2, Math.sin(angle) * rad2 - 20, key + '(' + value + '%)', color)
+            writeText(section, Math.cos(angle) * rad2, Math.sin(angle) * rad2 - 50, value + '%', color).attr('font-size', 20);
+            writeText(section, Math.cos(angle) * rad2, Math.sin(angle) * rad2 - 20, key, color)
+                .attr('font-size', 30);
         }
     } else {
         drawLine(section, Math.cos(angle) * rad2, Math.sin(angle) * rad2
             , Math.cos(angle) * rad2 - 20, Math.sin(angle) * rad2, color, 3)
-        writeText(section, Math.cos(angle) * rad2 - 30, Math.sin(angle) * rad2, key + '( ' + value + '% )', color).attr('text-anchor', 'end');
+        writeText(section, Math.cos(angle) * rad2 - 30, Math.sin(angle) * rad2 - 35, value + '%', color).attr('text-anchor', 'end').attr('font-size', 20);
+        writeText(section, Math.cos(angle) * rad2 - 30, Math.sin(angle) * rad2, key, color).attr('text-anchor', 'end')
+            .attr('font-size', 30);
     }
 
 }
