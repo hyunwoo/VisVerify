@@ -8,6 +8,13 @@ var g;
 var question;
 
 $(function () {
+    drawPieChart();
+});
+
+
+
+
+function drawPieChart(){
     var svg = d3.select(".graph-bg").append("svg").attr("class", 'fulid-svg');
     w = svg.style('width').replace('px', '') * 1;
     h = svg.style('height').replace('px', '') * 1 - 200;
@@ -45,17 +52,17 @@ $(function () {
 
         drawArc(g, 280, 305, startRatio, endRatio, color[i % color.length]);
         startAng += Number(d.value);
-        drawLineFromRatio(g, startRatio, 280, 360, d.key, color[i % color.length]);
+        drawLineFromRatio(g, startRatio, 280, 360, d.key, Math.floor(d.value/sum*100), color[i % color.length]);
     });
 
     // Question
     $('.question-wrapper').html(question.key);
     $('.story-telling').html(question.value)
+}
 
-});
 
 
-function drawLineFromRatio(section, ratio, rad1, rad2, key, color) {
+function drawLineFromRatio(section, ratio, rad1, rad2, key, value, color) {
     var angle = ratio * Math.PI * 2 - 90 / 180 * Math.PI;
     drawLine(section, Math.cos(angle) * rad1, Math.sin(angle) * rad1
         , Math.cos(angle) * rad2, Math.sin(angle) * rad2, color, 3);
@@ -63,17 +70,17 @@ function drawLineFromRatio(section, ratio, rad1, rad2, key, color) {
     if (Math.cos(angle) * rad2 > 30) {
         drawLine(section, Math.cos(angle) * rad2, Math.sin(angle) * rad2
             , Math.cos(angle) * rad2 + 20, Math.sin(angle) * rad2, color, 3);
-        writeText(section, Math.cos(angle) * rad2 + 30, Math.sin(angle) * rad2, key, color).attr('text-anchor', 'start');;
+        writeText(section, Math.cos(angle) * rad2 + 30, Math.sin(angle) * rad2, key + '(' + value + '%)', color).attr('text-anchor', 'start');;
     } else if (-30 < Math.cos(angle) * rad2 && Math.cos(angle) * rad2 < 30) {
         if (0 < Math.sin(angle)) {
-            writeText(section, Math.cos(angle) * rad2, Math.sin(angle) * rad2 + 20, key, color)
+            writeText(section, Math.cos(angle) * rad2, Math.sin(angle) * rad2 + 20, key + '(' + value + '%)', color)
         } else {
-            writeText(section, Math.cos(angle) * rad2, Math.sin(angle) * rad2 - 20, key, color)
+            writeText(section, Math.cos(angle) * rad2, Math.sin(angle) * rad2 - 20, key + '(' + value + '%)', color)
         }
     } else {
         drawLine(section, Math.cos(angle) * rad2, Math.sin(angle) * rad2
             , Math.cos(angle) * rad2 - 20, Math.sin(angle) * rad2, color, 3)
-        writeText(section, Math.cos(angle) * rad2 - 30, Math.sin(angle) * rad2, key, color).attr('text-anchor', 'end');
+        writeText(section, Math.cos(angle) * rad2 - 30, Math.sin(angle) * rad2, key + '( ' + value + '% )', color).attr('text-anchor', 'end');
     }
 
 }
