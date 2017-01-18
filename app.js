@@ -45,6 +45,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(busboy());
 app.use(logger('dev'));
 app.use(bodyParser.json({limit: '50mb'}));
@@ -88,6 +89,7 @@ var route_universe_Section9 = require('./routes/Universe/Project/sample/Section9
 var route_universe_Pedigree = require('./routes/Universe/Project/sample/Pedigree/Pedigree')
 var route_universe_Credos = require('./routes/Universe/Project/sample/Credos/CredosIndex')
 var route_universe_CRC_Go = require('./routes/Universe/Project/sample/CRC/GoNetwork')
+var route_universe_Ajou2017 = require('./routes/Universe/Project/sample/Ajou2017/Ajou2017')
 
 app.use('/universe', route_universe);
 app.use('/universe/project', route_universe_project);
@@ -97,6 +99,8 @@ app.use('/universe/samples/section9', route_universe_Section9);
 app.use('/universe/samples/pedigree', route_universe_Pedigree);
 app.use('/universe/samples/credos', route_universe_Credos);
 app.use('/universe/samples/netppl/gonetwork', route_universe_CRC_Go);
+app.use('/universe/samples/ajou2017', route_universe_Ajou2017);
+
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

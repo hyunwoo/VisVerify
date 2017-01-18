@@ -1,0 +1,83 @@
+.window {
+    width: 100%;
+    height: calc(100vh - 160px);
+}
+
+.window > .filter {
+    position: relative;
+    width: 450px;
+    height: calc(100% - 30px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.window > .actor {
+    height: 30px;
+    width: 450px;
+    background: #f00;
+    position: absolute;
+    bottom: 110px;
+    left: 0;
+}
+
+.window > .actor > select {
+    display: inline-block;
+    width: 370px;
+    height: 30px;
+    font-size: 15px;
+    padding-left: 10px;
+    vertical-align: top;
+}
+
+.window > .actor > select > option {
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.window > .actor > .action {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 80px;
+    height: 30px;
+    background: #f0ad4e;
+    vertical-align: top;
+    float: right;
+    border: solid 1px #666;
+}
+
+.initItem {
+    display: none;
+}
+
+.window > .filter > .item {
+    font-size: 25px;
+}
+
+.window > .filter > .header {
+
+}
+
+.window > .filter > .group {
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.window > .filter > .group > .name {
+    font-size: 15px;
+}
+
+.window > .filter > .group > .ipt {
+    display: inline-block;
+    padding: 10px;
+}
+
+.window > .filter > .group > .ipt > input {
+    cursor: pointer;
+}
+
+.window > .filter > .group > .ipt > .item-text {
+    cursor: pointer;
+    font-size: 12px;
+    padding-left: 10px;
+}
