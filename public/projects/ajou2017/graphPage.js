@@ -26,7 +26,9 @@ $(function () {
 
 
 function drawPieChart(data, question) {
+    $('svg').remove();
     var svg = d3.select(".graph-bg").append("svg").attr("class", 'fulid-svg');
+
     w = svg.style('width').replace('px', '') * 1;
     h = svg.style('height').replace('px', '') * 1 - 250;
     g = svg.append('g').attr('transform', 'translate(' + w / 2 + ' , ' + h / 2 + ')');

@@ -19,19 +19,19 @@ block content
         input(type="checkbox" name="checkbox" id="checkbox_id")
         label(for="checkbox_id").item-text Text
     .window
-        .filter#filters
+        .filter#filters.hide
         .actor
-            select
-                option aa
-                option aa
-                option aa
-                option aa
-                option aa
-                option aa
-                option aa
-            .action#actionClick
+            select#selectorQuestion
+            .action#actionClick.glyphicon.glyphicon-play
+            .closer.glyphicon.glyphicon-th-list
         .graph-bg
             .question-wrapper.question
             .story-telling
 
     script(src='/projects/ajou2017/data/data_filter.js')
+    script.
+        $('.actor .closer').click(function () {
+            if ($('#filters').hasClass('hide')) $('#filters').removeClass('hide');
+            else $('#filters').addClass('hide');
+        })
+

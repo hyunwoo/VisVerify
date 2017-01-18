@@ -5,6 +5,10 @@ $(function () {
 
     var t = enter_data;
     var qlist = t[1];
+    console.log(qlist);
+    _.each(qlist, function (q, i) {
+        if (!_.isNil(q)) $('<option q_code="q' + i + '">' + q + '</option>').appendTo('#selectorQuestion');
+    })
 
     t = _.drop(t, 2);
     var filterParent = $('#filter');
@@ -47,6 +51,9 @@ $(function () {
         var item = filterItem.clone();
         item.find('.name').html(q + ' ' + name);
         item.appendTo('#filters');
+
+        console.log($('#selectorQuestion').val());
+
         _.map(options, function (d, i) {
             var opt = checkItem.clone().appendTo(item);
             // console.log(d);
@@ -68,10 +75,18 @@ $(function () {
     function clickAction() {
         console.log('hello');
         makeFilterOption();
+
+        var selectQ = $('#selectorQuestion option:selected').attr('q_code');
+        var selectMessage = $('#selectorQuestion option:selected').text();
+
+        console.log('select q : ' + selectQ);
         var opts = makeFilterOption();
         var d = filterData(opts);
         console.log(JSON.stringify(opts, null, 2));
-        console.log(d);
+        console.log(d.ans[selectQ]);
+
+        var a = {key: 'Q. ' + selectMessage, 'value': '신입생 여러분들이 대학생이 되면 가장 하고싶은건 바로 연애군요.'};
+        drawPieChart(d.ans[selectQ], a);
     }
 
     function makeFilterOption() {
@@ -100,7 +115,7 @@ $(function () {
         var ans = {};
         if (_.isNil(isOr)) isOr = true;
         var data;
-        if (_.isNil(option)) {
+        if (_.isNil(option) || option.length == 0) {
             data = origin_data;
         } else {
             data = _.filter(origin_data, function (d) {
