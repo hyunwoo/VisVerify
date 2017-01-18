@@ -5,9 +5,10 @@ var w;
 var h;
 var g;
 var margin = 200;
-var textMargin = margin-50;
-var barWidth = 30;
+var textMargin = margin - 50;
+var barWidth = 50;
 var hGridGap = 100;
+var percentText = 15;
 $(function () {
     var data = [
         {key: '기계공학', value: '80'},
@@ -35,31 +36,35 @@ function drawBarChart(data) {
         values.push(Number(d.value));
     });
 
-    var max = _.max(values, function(d,i){
+    var max = _.max(values, function (d, i) {
         return d;
     });
 
-    max = max*1;
-    max = max
+    max = max * 1;
+    max = max - max % hGridGap + hGridGap;
 
-    var graphH = h-margin*2;
+    var graphH = h - margin * 2;
     var hGridNum = graphH / hGridGap;
 
     for (var i = 0; i < keys.length; i++) {
         var gap = (w - margin * 2) / (keys.length + 1);
         var gridX = margin + gap * (i + 1);
-
-        var graphValue = values[i]/max *graphH;
+        var graphValue = values[i] / max * graphH;
+        var percentTextPosition = h - (margin + graphValue) - percentText;
         //drawLine(svg, gridX, margin, gridX, h - margin, '#ddd', 1);
         drawRect(svg, gridX - barWidth / 2, h - (margin + graphValue), barWidth, graphValue).attr('fill', color[i % color.length]);
+        // 퍼센트
+        writeText(svg, gridX, percentTextPosition , values[i] + '%').attr('class', 'axis-text').attr('fill',  color[i % color.length]);
         writeText(svg, gridX, h - textMargin, keys[i]).attr('class', 'axis-text');
 
     }
 
-    for(var i = 0 ; i < hGridNum ; i++){
-        var gridY =  h-margin - (hGridGap*i);
-        drawLine(svg, margin, gridY, w - margin,gridY, '#ddd', 1);
-        writeText(svg, textMargin, gridY, graphH / hGridGap * i).attr('class', 'axis-text');
+    for (var i = 0; i < hGridNum; i++) {
+        var gridY = h - margin - (hGridGap * i);
+        drawLine(svg, margin, gridY, w - margin, gridY, '#ddd', 1);
+
+        // 세로 그리드 숫자
+       writeText(svg, textMargin, gridY, Math.floor(max / hGridNum * i)).attr('class', 'axis-text');
     }
 
 
@@ -78,5 +83,5 @@ function drawLine(section, x1, y1, x2, y2, stroke, strokeWidth) {
 }
 
 function drawRect(section, x, y, width, height) {
-    return section.append('rect').attr('x', x).attr('y', y).attr('width', width).attr('height', height).attr('calss', 'bar-chart');
+    return section.append('rect').attr('x', x).attr('y', y).attr('width', width).attr('height', height).attr('class', 'bar-chart');
 }

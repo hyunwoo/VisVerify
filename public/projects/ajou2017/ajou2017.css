@@ -182,5 +182,8 @@
 
 .axis-text{
     font-size: 17px;
-    color:#323232;
+}
+
+.percent-font{
+    font-size: 25px;
 }
