@@ -1,23 +1,93 @@
+@import url(http://fonts.googleapis.com/earlyaccess/hanna.css);
+
 .window {
     width: 100%;
-    height: calc(100vh - 160px);
+    position: relative;
 }
 
 .window > .filter {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 450px;
     height: calc(100% - 30px);
     overflow-y: scroll;
     overflow-x: hidden;
+    z-index: 9;
+    background-color: #fff;
 }
+
+/* suhyun */
+.window > .graph-bg {
+    position: relative;
+    width: 100%;
+    height: 1200px;
+    background-color: #F8F8F8;
+    z-index: 1;
+    font-family:'Hanna', serif;
+}
+
+.graph-bg > .question-wrapper {
+    position: absolute;
+    top: 37%;
+    left: calc(50% - 200px);
+    width: 400px;
+    height: 200px;
+    margin: auto;
+    display: inline-block;
+    text-align: center;
+}
+
+.graph-bg > .question {
+    font-size: 30px;
+    font-weight: 700;
+    white-space: pre-wrap;
+    word-break: keep-all;
+    line-height: 50px;
+    color: #535353;
+    display: inline-block;
+}
+
+.graph-bg > .story-telling {
+    width: 100%;
+    height: 250px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: #39373a;
+    color: #fff;
+    font-size: 40px;
+    text-align: center;
+    line-height: 250px;
+    font-weight: 100;
+}
+
+.pieGraphRatio {
+    font-size: 20px;
+    font-weight: 200;
+    color: #282828;
+}
+
+.pieGraphLine {
+    stroke: #282828;
+    stroke-width: 1px;
+}
+
+.fulid-svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* suhyun */
 
 .window > .actor {
     height: 30px;
     width: 450px;
     background: #f00;
     position: absolute;
-    bottom: 110px;
+    bottom: 0;
     left: 0;
+    z-index: 99;
 }
 
 .window > .actor > select {
