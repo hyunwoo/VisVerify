@@ -21,7 +21,7 @@ $(function () {
         {key: '캠퍼스', value: '13'}
     ];
 
-    drawPieChart(data, question);
+    //drawPieChart(data, question);
 });
 
 

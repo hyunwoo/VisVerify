@@ -24,7 +24,8 @@
 /* suhyun */
 .window > .graph-bg {
     position: relative;
-    width: 100%;
+    width: 1280px;
+    margin: auto;
     height: 1400px;
     background-color: #F8F8F8;
     z-index: 1;
@@ -175,4 +176,11 @@
     cursor: pointer;
     font-size: 12px;
     padding-left: 10px;
+}
+
+/* bar chart */
+
+.axis-text{
+    font-size: 17px;
+    color:#323232;
 }
