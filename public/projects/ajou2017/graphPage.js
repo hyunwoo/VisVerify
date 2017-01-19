@@ -8,10 +8,11 @@ function drawPieChart(data, question) {
     var w;
     var h;
     var g;
-    var question;
 
 
-    $('svg').remove();
+    $('.question').removeClass('cloudAndBar');
+
+    $('.graph-bg svg').remove();
     var svg = d3.select(".graph-bg").append("svg").attr("class", 'fulid-svg');
 
     w = svg.style('width').replace('px', '') * 1;
@@ -42,7 +43,7 @@ function drawPieChart(data, question) {
     });
 
     // Question
-    $('.question-wrapper').html(question.key);
+    $('.question').html(question.key);
     $('.story-telling').html(question.value)
 }
 

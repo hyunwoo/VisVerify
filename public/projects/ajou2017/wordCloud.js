@@ -1,13 +1,23 @@
 function makeWordCloud(data) {
 
 
-    var color = ["#4E4233", "#C48088", "#A8ADB0", "#212A31", "#42586A","#FD7F00"];
+    var colors = [
+        d3.rgb('#3a383a'),
+        d3.rgb('#b93141'),
+        d3.rgb('#399992'),
+        d3.rgb('#694d20'),
+        d3.rgb('#295D7C'),
+        d3.rgb('#CD5556')];
 
+    // Question
+    $('.question').addClass('cloudAndBar');
+    $('.question').html(question.key);
+    $('.story-telling').html(question.value);
 
-    $('.graph-bg').empty();
+    $('.graph-bg svg').remove();
     var svg = d3.select('.graph-bg').append("svg").attr("class", 'fulid-svg');
     var width = svg.style('width').replace('px', '') * 1;
-    var height = svg.style('height').replace('px', '') * 1 -200;
+    var height = svg.style('height').replace('px', '') * 1 - 200;
 
     var maxValue = _.max(data, function (o) {
         return Number(o.value);
@@ -21,8 +31,13 @@ function makeWordCloud(data) {
     var categories = d3.keys(d3.nest().key(function (d) {
         return d.category;
     }).map(data));
-    var color = d3.scale.ordinal().range(["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854"]);
-    var fontSize = d3.scale.pow().exponent(0.5).domain([0, 1]).range([10, 80]);
+    var fontsizeMax = 80;
+    var fontsizeCenter = 40;
+    var fontsizeMin = 10;
+    var color = d3.scale.linear().domain([fontsizeMin, fontsizeCenter, fontsizeMax])
+        .interpolate(d3.interpolateHcl)
+        .range([d3.rgb("#000"), d3.rgb('#fff'), d3.rgb('#f00')]);
+    var fontSize = d3.scale.pow().exponent(0.5).domain([0, 1]).range([fontsizeMin, fontsizeMax]);
 
     var layout = d3.layout.cloud()
         .timeInterval(10)
@@ -33,7 +48,6 @@ function makeWordCloud(data) {
         })
         .font('monospace')
         .fontSize(function (d, i) {
-
             return fontSize(d.value / maxValue);
         })
         .text(function (d) {
@@ -73,15 +87,22 @@ function makeWordCloud(data) {
             .enter().append("text")
             .attr('class', 'cloud-word')
             .style("font-size", function (d) {
-                console.log(d.size);
                 return d.size;
             })
             .style("fonts-family", function (d) {
                 return d.font;
             })
             .style("fill", function (d) {
-                if (_.isNull(d.color)) return "#000";
-                else return d.color;
+                var c = '#000';
+                if (d.size < 20) {
+                    c = colors[5 - (Math.floor(Math.random() * 2))];
+                } else if (d.size < 50) {
+                    c = colors[5 - (Math.floor(Math.random() * 2) + 2)];
+                } else {
+                    c = colors[5 - (Math.floor(Math.random() * 2) + 4)];
+                }
+                console.log(c);
+                return c;
             })
             .attr("text-anchor", "middle")
             .attr("transform", function (d) {

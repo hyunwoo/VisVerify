@@ -3,7 +3,7 @@
  */
 
 
-function drawBarChart(data) {
+function drawBarChart(data,question) {
     var w;
     var h;
     var g;
@@ -13,24 +13,43 @@ function drawBarChart(data) {
     var hGridGap = 100;
     var percentText = 15;
 
-    var color = ['#F1C200', '#7C745E', '#D3C9BF', '#7ACEEE', '#F76970'];
+    $('svg').remove();
+
+    // Question
+    $('.question').addClass('cloudAndBar');
+    $('.question').html(question.key);
+    $('.story-telling').html(question.value);
+
+    var color = [
+        '#eeb700',
+        '#7C745E',
+        '#D3C9BF',
+        '#6fc0ce',
+        '#d48b79'];
     var svg = d3.select(".graph-bg").append("svg").attr("class", 'fulid-svg');
     w = svg.style('width').replace('px', '') * 1;
     h = svg.style('height').replace('px', '') * 1 - margin;
 
     var keys = [];
     var values = [];
+    var sum = 0;
+    _.each(data, function (d) {
+        sum += d.value * 1;
+    });
+
+
     _.map(data, function (d, i) {
         keys.push(d.key);
         values.push(Number(d.value));
     });
+
 
     var max = _.max(values, function (d, i) {
         return d;
     });
 
     max = max * 1;
-    max = max - max % hGridGap + hGridGap;
+    max = max - max % (hGridGap / h * max) + (hGridGap / h * max);
 
     var graphH = h - margin * 2;
     var hGridNum = graphH / hGridGap;
@@ -43,7 +62,7 @@ function drawBarChart(data) {
         //drawLine(svg, gridX, margin, gridX, h - margin, '#ddd', 1);
         drawRect(svg, gridX - barWidth / 2, h - (margin + graphValue), barWidth, graphValue).attr('fill', color[i % color.length]);
         // 퍼센트
-        writeText(svg, gridX, percentTextPosition, values[i] + '%').attr('class', 'axis-text').attr('fill', color[i % color.length]);
+        writeText(svg, gridX, percentTextPosition, Math.floor(values[i] * 100 / sum) + '%').attr('class', 'axis-text').attr('fill', color[i % color.length]);
         writeText(svg, gridX, h - textMargin, keys[i]).attr('class', 'axis-text');
 
     }

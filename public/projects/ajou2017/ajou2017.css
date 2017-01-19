@@ -5,6 +5,7 @@
     width: 100%;
     position: relative;
     background-color: #F8F8F8;
+    font-family: 'Hanna', serif;
 }
 
 .window > .filter {
@@ -30,7 +31,6 @@
     margin: auto;
     height: 1400px;
     z-index: 1;
-    font-family: 'Hanna', serif;
 }
 
 .window > .story-telling {
@@ -47,28 +47,28 @@
     font-weight: 100;
     z-index: 99;
 }
+.graph-bg > .question.cloudAndBar{
+    top: 90px;
+    width: 600px;
+    left: calc(50% - 300px);
+    background: rgba(248,248,248,0.9);
+}
 
-
-.graph-bg > .question-wrapper {
+.graph-bg > .question {
     position: absolute;
     top: 36%;
     left: calc(50% - 200px);
     width: 400px;
-    height: 200px;
     margin: auto;
     display: inline-block;
     text-align: center;
-}
-
-.graph-bg > .question {
     font-size: 30px;
     font-weight: 700;
     white-space: pre-wrap;
     word-break: keep-all;
     line-height: 50px;
     color: #535353;
-    display: inline-block;
-    z-index: 9;
+    z-index: 99999;
 }
 
 .pieGraphLine {
