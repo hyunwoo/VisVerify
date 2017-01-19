@@ -110,9 +110,13 @@ $(function () {
                 break;
             case "PieChart":
                 throughtData = _.take(throughtData, 8);
+                var max = _.max(throughtData, function (d) {
+                    return d.value;
+                }).value;
                 throughtData = _.filter(throughtData, function (d) {
-                    return d.value > 5;
+                    return d.value > max * 0.05;
                 });
+
                 drawPieChart(throughtData, a);
                 break;
             case "WordCloud":

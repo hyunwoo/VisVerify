@@ -25,7 +25,7 @@ function drawBarChart(data,question) {
         '#7C745E',
         '#D3C9BF',
         '#6fc0ce',
-        '#d48b79'];
+        '#F07774'];
     var svg = d3.select(".graph-bg").append("svg").attr("class", 'fulid-svg');
     w = svg.style('width').replace('px', '') * 1;
     h = svg.style('height').replace('px', '') * 1 - margin;
