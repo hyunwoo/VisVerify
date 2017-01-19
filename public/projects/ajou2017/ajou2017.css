@@ -1,8 +1,10 @@
 @import url(http://fonts.googleapis.com/earlyaccess/hanna.css);
 
 .window {
+    min-width: 1200px;
     width: 100%;
     position: relative;
+    background-color: #F8F8F8;
 }
 
 .window > .filter {
@@ -13,7 +15,7 @@
     height: calc(100% - 40px);
     overflow-y: scroll;
     overflow-x: hidden;
-    z-index: 9;
+    z-index: 999;
     background-color: #fff;
 }
 
@@ -27,10 +29,25 @@
     width: 1280px;
     margin: auto;
     height: 1400px;
-    background-color: #F8F8F8;
     z-index: 1;
     font-family: 'Hanna', serif;
 }
+
+.window > .story-telling {
+    width: 100%;
+    height: 250px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: #39373a;
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+    line-height: 250px;
+    font-weight: 100;
+    z-index: 99;
+}
+
 
 .graph-bg > .question-wrapper {
     position: absolute;
@@ -51,20 +68,7 @@
     line-height: 50px;
     color: #535353;
     display: inline-block;
-}
-
-.graph-bg > .story-telling {
-    width: 100%;
-    height: 250px;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    background-color: #39373a;
-    color: #fff;
-    font-size: 30px;
-    text-align: center;
-    line-height: 250px;
-    font-weight: 100;
+    z-index: 9;
 }
 
 .pieGraphLine {
