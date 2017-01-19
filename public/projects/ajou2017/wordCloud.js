@@ -1,10 +1,13 @@
 function makeWordCloud(data) {
 
+
+    var color = ["#4E4233", "#C48088", "#A8ADB0", "#212A31", "#42586A","#FD7F00"];
+
+
     $('.graph-bg').empty();
-    var margin = {top: 0, right: 20, bottom: 0, left: 20};
     var svg = d3.select('.graph-bg').append("svg").attr("class", 'fulid-svg');
     var width = svg.style('width').replace('px', '') * 1;
-    var height = svg.style('height').replace('px', '') * 1;
+    var height = svg.style('height').replace('px', '') * 1 -200;
 
     var maxValue = _.max(data, function (o) {
         return Number(o.value);
