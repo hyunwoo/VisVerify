@@ -1,10 +1,13 @@
 extends ../../../universe_parent
 block content
+    <script src="https://d3js.org/d3.v3.min.js"></script>
     script(src='/projects/ajou2017/ajou2017.js')
     script(src='/projects/ajou2017/data/data_enter.js')
     script(src='/projects/ajou2017/data/data_grad.js')
     script(src='/projects/ajou2017/graphPage.js')
     script(src='/projects/ajou2017/barChart.js')
+    script(src='/projects/ajou2017/d3cloud.js')
+    script(src='/projects/ajou2017/wordCloud.js')
     script(src='/lodash/lodash.js')
     link(rel='stylesheet', href='/projects/ajou2017/ajou2017.css')
     //div.head
@@ -26,7 +29,7 @@ block content
             .action#actionClick.glyphicon.glyphicon-play
             .closer.glyphicon.glyphicon-th-list
         .graph-bg
-            .question-wrapper.question
+        .question-wrapper.question
         .story-telling
 
     script(src='/projects/ajou2017/data/data_filter.js')
@@ -35,4 +38,19 @@ block content
             if ($('#filters').hasClass('hide')) $('#filters').removeClass('hide');
             else $('#filters').addClass('hide');
         })
+        $(function () {
+            question = {'key': 'Q. 여러분은 대학생이 되면 가장\n 해보고 싶었던 것은 무엇인가요?', 'value': '신입생 여러분들이 대학생이 되면 가장 하고싶은건 바로 연애군요.'}
+
+            var data = [
+                {key: '연애', value: '56'},
+                {key: '동아리', value: '47'},
+                {key: 'MT', value: '29'},
+                {key: '해외여행', value: '20'},
+                {key: '공부', value: '17'},
+                {key: '교환학생', value: '16'},
+                {key: '캠퍼스', value: '13'},
+                {key: '캠퍼스', value: '13'}
+            ];
+
+        });
 

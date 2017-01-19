@@ -2,30 +2,15 @@
  * Created by suhyun on 2017. 1. 18..
  */
 
-var w;
-var h;
-var g;
-var question;
-
-$(function () {
-    question = {'key': 'Q. 여러분은 대학생이 되면 가장\n 해보고 싶었던 것은 무엇인가요?', 'value': '신입생 여러분들이 대학생이 되면 가장 하고싶은건 바로 연애군요.'}
-
-    var data = [
-        {key: '연애', value: '56'},
-        {key: '동아리', value: '47'},
-        {key: 'MT', value: '29'},
-        {key: '해외여행', value: '20'},
-        {key: '공부', value: '17'},
-        {key: '교환학생', value: '16'},
-        {key: '캠퍼스', value: '13'},
-        {key: '캠퍼스', value: '13'}
-    ];
-
-    //drawPieChart(data, question);
-});
 
 
 function drawPieChart(data, question) {
+    var w;
+    var h;
+    var g;
+    var question;
+
+
     $('svg').remove();
     var svg = d3.select(".graph-bg").append("svg").attr("class", 'fulid-svg');
 
