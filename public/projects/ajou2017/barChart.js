@@ -23,7 +23,7 @@ function drawBarChart(data,question) {
     var color = [
         '#eeb700',
         '#7C745E',
-        '#D3C9BF',
+        '#8fa7b8',
         '#6fc0ce',
         '#F07774'];
     var svg = d3.select(".graph-bg").append("svg").attr("class", 'fulid-svg');
