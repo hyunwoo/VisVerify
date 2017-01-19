@@ -36,7 +36,7 @@ $(function () {
         });
 
         if (opts.length < 500) {
-            var t = _.take(opts, 20);
+            var t = _.take(opts, 10);
             console.log('create Option : ', qlist[i])
             createFilter(qlist[i], t, 'q' + i);
         }
@@ -76,17 +76,29 @@ $(function () {
         console.log('hello');
         makeFilterOption();
 
-        var selectQ = $('#selectorQuestion option:selected').attr('q_code');
+        var selectQ = $('#selectorQuestion option:selected').attr('q_code') + '_summary';
         var selectMessage = $('#selectorQuestion option:selected').text();
+
 
         console.log('select q : ' + selectQ);
         var opts = makeFilterOption();
-        var d = filterData(opts);
+        var d = filterData(opts, false);
         console.log(JSON.stringify(opts, null, 2));
         console.log(d.ans[selectQ]);
 
+
+        var throughtData = d.ans[selectQ];
+        throughtData = _.sortBy(throughtData, function (d) {
+            return -d.value;
+        });
+
+        console.log(d.data.length)
+
+        //console.log(JSON.stringify(throughtData, null, 2));
         var a = {key: 'Q. ' + selectMessage, 'value': '신입생 여러분들이 대학생이 되면 가장 하고싶은건 바로 연애군요.'};
-        drawPieChart(d.ans[selectQ], a);
+        makeWordCloud(throughtData, a);
+        throughtData = _.take(throughtData, 8);
+        //drawPieChart(throughtData, a);
     }
 
     function makeFilterOption() {
@@ -170,7 +182,8 @@ $(function () {
                 d.a_cat = values;
 
                 _.each(values, function (v) {
-                    if (v == '' || (v.length == 1 && v != '남' && v != '여')) return;
+                    if (v == '' || (v.length == 1 && v != '술' && v != '남' && v != '여')) return;
+                    if (_.indexOf(continueWords, v) != -1) return;
                     var d = _.find(as, {key: v});
                     if (_.isNil(d)) as.push({
                         key: v,
@@ -191,5 +204,8 @@ $(function () {
             ans: ans,
         };
     }
+
+    var continueWords = ['혼자', '내가', '있는', '있다', '없다', '하고싶은', '로움', '로운', '하고', '롭게', '롭다',
+        '아직', '제약이', '로워진다', '원하는', '많은', '많이', '싶다', '하러가기'];
 
 });

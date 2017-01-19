@@ -1,29 +1,18 @@
 /**
  * Created by suhyun on 2017. 1. 19..
  */
-var w;
-var h;
-var g;
-var margin = 200;
-var textMargin = margin - 50;
-var barWidth = 50;
-var hGridGap = 100;
-var percentText = 15;
-$(function () {
-    var data = [
-        {key: '기계공학', value: '80'},
-        {key: '미디어', value: '10'},
-        {key: '심리학과', value: '90'},
-        {key: '심리학과', value: '30'},
-        {key: '심리학과', value: '40'},
-        {key: '심리학과', value: '50'},
-        {key: '심리학과', value: '30'}
-    ];
 
-    drawBarChart(data);
-});
 
 function drawBarChart(data) {
+    var w;
+    var h;
+    var g;
+    var margin = 200;
+    var textMargin = margin - 50;
+    var barWidth = 50;
+    var hGridGap = 100;
+    var percentText = 15;
+
     var color = ['#F1C200', '#7C745E', '#D3C9BF', '#7ACEEE', '#F76970'];
     var svg = d3.select(".graph-bg").append("svg").attr("class", 'fulid-svg');
     w = svg.style('width').replace('px', '') * 1;
@@ -54,7 +43,7 @@ function drawBarChart(data) {
         //drawLine(svg, gridX, margin, gridX, h - margin, '#ddd', 1);
         drawRect(svg, gridX - barWidth / 2, h - (margin + graphValue), barWidth, graphValue).attr('fill', color[i % color.length]);
         // 퍼센트
-        writeText(svg, gridX, percentTextPosition , values[i] + '%').attr('class', 'axis-text').attr('fill',  color[i % color.length]);
+        writeText(svg, gridX, percentTextPosition, values[i] + '%').attr('class', 'axis-text').attr('fill', color[i % color.length]);
         writeText(svg, gridX, h - textMargin, keys[i]).attr('class', 'axis-text');
 
     }
@@ -64,7 +53,7 @@ function drawBarChart(data) {
         drawLine(svg, margin, gridY, w - margin, gridY, '#ddd', 1);
 
         // 세로 그리드 숫자
-       writeText(svg, textMargin, gridY, Math.floor(max / hGridNum * i)).attr('class', 'axis-text');
+        writeText(svg, textMargin, gridY, Math.floor(max / hGridNum * i)).attr('class', 'axis-text');
     }
 
 
