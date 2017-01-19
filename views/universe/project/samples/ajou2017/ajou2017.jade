@@ -25,7 +25,11 @@ block content
     .window
         .filter#filters.hide
         .actor
-            select#selectorQuestion
+            select#selectorQuestion.que
+            select#selectorVisMode.visMode
+                option BarGraph
+                option WordCloud
+                option PieChart
             .action#actionClick.glyphicon.glyphicon-play
             .closer.glyphicon.glyphicon-th-list
         .graph-bg

@@ -85,26 +85,57 @@
 
 .window > .actor {
     height: 40px;
-    width: 450px;
+    width: 100%;
     position: absolute;
     top: 0;
     left: 0;
     z-index: 99;
 }
 
-.window > .actor > select {
+.window > .actor > select.que {
     display: inline-block;
+    margin-top: 5px;
     margin-left: 50px;
     width: 350px;
-    height: 100%;
+    height: calc(100% - 10px);
     font-size: 15px;
     padding-left: 10px;
     vertical-align: top;
 }
 
+
+
+.window > .actor > select.visMode {
+    margin-top: 5px;
+    margin-left: 10px;
+    height: calc(100% - 10px);
+    width: 200px;
+    font-size: 15px;
+    padding-left: 10px;
+    display: inline-block;
+    vertical-align: top;
+
+}
+
 .window > .actor > select > option {
     font-size: 20px;
     line-height: 30px;
+}
+
+.window > .actor > .action {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 5px;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    text-align: center;
+    line-height: 30px;
+    background: #ccc;
+    margin-left : 15px;
+    color: #0a6d9b;
+    cursor: pointer;
+    /*border: solid 1px #666;*/
 }
 
 .window > .actor > .closer {
@@ -123,23 +154,6 @@
 .window > .actor > .closer:hover {
     background: #ccc;
 
-}
-
-.window > .actor > .action {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 50px;
-    height: 40px;
-    font-size: 30px;
-    text-align: center;
-    line-height: 40px;
-    /*background: #0a6d9b;*/
-    color: #0a6d9b;
-    vertical-align: top;
-    float: right;
-    cursor: pointer;
-    /*border: solid 1px #666;*/
 }
 
 .window > .actor > .action:hover {
@@ -184,10 +198,10 @@
 
 /* bar chart */
 
-.axis-text{
+.axis-text {
     font-size: 17px;
 }
 
-.percent-font{
+.percent-font {
     font-size: 25px;
 }
