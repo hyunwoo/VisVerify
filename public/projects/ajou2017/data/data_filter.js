@@ -37,6 +37,7 @@ $(function () {
 
         if (opts.length < 500) {
             var t = _.take(opts, 10);
+            t = _.filter(t, function(o){return o.value > 20;});
             console.log('create Option : ', qlist[i])
             createFilter(qlist[i], t, 'q' + i);
         }

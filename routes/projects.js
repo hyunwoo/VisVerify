@@ -934,7 +934,7 @@ router.get('/streamgraph', function (req, res) {
     res.render('visualization_jade/visual_streamgraph', deliver);
 });
 router.get('/forcedirectedgraph', function (req, res) {
-    var default_data = fs.readFileSync('./exampleData/d3js/miserables.json');
+    var default_data = fs.readFileSync('./exampleData/d3js/networkData.json');
     var deliver = {};
     deliver.tab = 'projects';
     deliver.default_data = JSON.stringify(JSON.parse(default_data), null, 4)

@@ -20,7 +20,9 @@ function drawPieChart(data, question) {
     g = svg.append('g').attr('transform', 'translate(' + w / 2 + ' , ' + h / 2 + ')');
 
 
-    var color = ['#F07774', '#504C64', '#93A8A7', '#24AE94'];
+    var color = ['#354252', '#F07774', '#524642', '#6da9b5', '#fcb129', '#54728b', '#EAC2B2','#8f8d92']
+
+    //['#504C64', '#F07774', '#93A8A7', '#24AE94'];
 
     var keys = [];
     var values = [];

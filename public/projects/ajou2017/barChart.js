@@ -20,12 +20,10 @@ function drawBarChart(data,question) {
     $('.question').html(question.key);
     $('.story-telling').html(question.value);
 
-    var color = [
-        '#eeb700',
-        '#7C745E',
-        '#8fa7b8',
-        '#6fc0ce',
-        '#F07774'];
+    var color = ['#EAC2B2', '#54728b', '#7C745E', '#6da9b5', '#fcb129', '#354252', '#F07774','#8f8d92'];
+
+    //['#eeb700', '#7C745E', '#8fa7b8', '#6fc0ce', '#F07774'];
+
     var svg = d3.select(".graph-bg").append("svg").attr("class", 'fulid-svg');
     w = svg.style('width').replace('px', '') * 1;
     h = svg.style('height').replace('px', '') * 1 - margin;

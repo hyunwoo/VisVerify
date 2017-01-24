@@ -1,15 +1,18 @@
 extends ../../../universe_parent
 block content
     <script src="https://d3js.org/d3.v3.min.js"></script>
+    script(src = '/projects/ajou2017/vis.js')
     script(src='/projects/ajou2017/ajou2017.js')
     script(src='/projects/ajou2017/data/data_enter.js')
     script(src='/projects/ajou2017/data/data_grad.js')
-    script(src='/projects/ajou2017/graphPage.js')
+    script(src='/projects/ajou2017/pieChart.js')
     script(src='/projects/ajou2017/barChart.js')
+    script(src='/projects/ajou2017/network.js')
     script(src='/projects/ajou2017/d3cloud.js')
     script(src='/projects/ajou2017/wordCloud.js')
     script(src='/lodash/lodash.js')
     link(rel='stylesheet', href='/projects/ajou2017/ajou2017.css')
+    link(rel='stylesheet', href='/projects/ajou2017/networkGenerator.css')
     //div.head
         div(align='center' , style='margin-left:20px')
             h4.fit.
@@ -30,10 +33,14 @@ block content
                 option BarGraph
                 option WordCloud
                 option PieChart
+                option Network
             .action#actionClick.glyphicon.glyphicon-play
             .closer.glyphicon.glyphicon-th-list
         .graph-bg
             .question.cloudAndBar
+            #mynetwork
+            #config
+            .vis-configuration-wrapper
         .story-telling
 
     script(src='/projects/ajou2017/data/data_filter.js')
