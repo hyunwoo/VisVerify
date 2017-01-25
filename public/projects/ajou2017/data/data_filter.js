@@ -5,6 +5,7 @@ $(function () {
 
     var t = enter_data;
     var qlist = t[1];
+    console.log(qlist);
     _.each(qlist, function (q, i) {
         if (!_.isNil(q)) $('<option q_code="q' + i + '">' + q + '</option>').appendTo('#selectorQuestion');
     })
@@ -74,11 +75,14 @@ $(function () {
         var selectMessage = $('#selectorQuestion option:selected').text();
         var selectVis = $('#selectorVisMode option:selected').text();
 
-        //console.log('select q : ' + selectQ + ' , select vis : ' + selectVis);
+        console.log('select q : ' + selectQ + ' , select vis : ' + selectVis);
         var opts = makeFilterOption();
         var d = filterData(opts, false);
 
         var throughtData = d.ans[selectQ];
+        if (throughtData.length == 0) throughtData = d.ans[$('#selectorQuestion option:selected').attr('q_code')];
+        console.log('d : ', d.ans);
+        console.log('throught : ', throughtData);
         throughtData = _.sortBy(throughtData, function (d) {
             return -d.value;
         });
@@ -99,7 +103,7 @@ $(function () {
                 });
                 console.log(throughtData.length, throughtData);
 
-                drawBarChart(throughtData, a, color);
+                drawBarChart(throughtData, a);
                 break;
             case "PieChart":
                 throughtData = _.take(throughtData, 8);
@@ -110,14 +114,14 @@ $(function () {
                     return d.value > max * 0.05;
                 });
 
-                drawPieChart(throughtData, a, color);
+                drawPieChart(throughtData, a);
                 break;
             case "WordCloud":
-                makeWordCloud(throughtData, a, color);
+                makeWordCloud(throughtData, a);
                 break;
             case "Network":
                 console.log("Create Network");
-                drawNetwork01(a, color);
+                drawNetwork01(a);
                 break;
         }
 
@@ -401,5 +405,3 @@ $(function () {
 
 
 });
-
-
