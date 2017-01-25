@@ -246,157 +246,21 @@ $(function () {
         if (Q === 'q14_summary') {
             color = ['#F07774', '#354252', '#524642', '#6da9b5', '#fcb129', '#54728b', '#EAC2B2', '#8f8d92'];
         }
-        if (Q === 'q15_summary') {
-            color = colorPalette(175, 119, 102);
-            color = _.map(color, function (d) {
-                return rgbToHex(d[0], d[1], d[2]);
-            })
-
-        }
-        if (Q === 'q16_summary') {
-            color = colorPalette(84, 114, 139);
-            color = _.map(color, function (d) {
-                return rgbToHex(d[0], d[1], d[2]);
-            })
-
-        }
-
+        if (Q === 'q15_summary') color = colorPalette('#c16741', 0.25);
+        if (Q === 'q16_summary') color = colorPalette('#3868b0');
 
         console.log(color);
         return color;
     }
 
 
-    function colorPalette(r, g, b) {
-        var hsv = rgb2hsv(r, g, b);
+    function colorPalette(color, k) {
+        if (k === undefined) k = 0.25;
+        var c = d3.color(color);
         var colors = [];
-        for (var i = 0; i < 8; i++) {
-            colors[i] = hsvToRgb(hsv[0], hsv[1], hsv[2] + 7 * i);
-        }
+        console.log(c);
+        for (var i = 0; i < 8; i++)
+            colors.push(c.brighter(i * k));
         return colors;
     }
-
-
-    function hsvToRgb(h, s, v) {
-        var r, g, b;
-        var i;
-        var f, p, q, t;
-
-        // Make sure our arguments stay in-range
-        h = Math.max(0, Math.min(360, h));
-        s = Math.max(0, Math.min(100, s));
-        v = Math.max(0, Math.min(100, v));
-
-        s /= 100;
-        v /= 100;
-
-        if (s == 0) {
-            // Achromatic (grey)
-            r = g = b = v;
-            return [
-                Math.round(r * 255),
-                Math.round(g * 255),
-                Math.round(b * 255)
-            ];
-        }
-
-        h /= 60; // sector 0 to 5
-        i = Math.floor(h);
-        f = h - i; // factorial part of h
-        p = v * (1 - s);
-        q = v * (1 - s * f);
-        t = v * (1 - s * (1 - f));
-
-        switch (i) {
-            case 0:
-                r = v;
-                g = t;
-                b = p;
-                break;
-
-            case 1:
-                r = q;
-                g = v;
-                b = p;
-                break;
-
-            case 2:
-                r = p;
-                g = v;
-                b = t;
-                break;
-
-            case 3:
-                r = p;
-                g = q;
-                b = v;
-                break;
-
-            case 4:
-                r = t;
-                g = p;
-                b = v;
-                break;
-
-            default: // case 5:
-                r = v;
-                g = p;
-                b = q;
-        }
-
-        return [
-            Math.round(r * 255),
-            Math.round(g * 255),
-            Math.round(b * 255)
-        ];
-    }
-
-
-    function rgbToHex(r, g, b) {
-        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-    }
-
-
-    function rgb2hsv(r, g, b) {
-
-        var computedH = 0;
-        var computedS = 0;
-        var computedV = 0;
-
-        //remove spaces from input RGB values, convert to int
-        var r = parseInt(('' + r).replace(/\s/g, ''), 10);
-        var g = parseInt(('' + g).replace(/\s/g, ''), 10);
-        var b = parseInt(('' + b).replace(/\s/g, ''), 10);
-
-        if (r == null || g == null || b == null ||
-            isNaN(r) || isNaN(g) || isNaN(b)) {
-            alert('Please enter numeric RGB values!');
-            return;
-        }
-        if (r < 0 || g < 0 || b < 0 || r > 255 || g > 255 || b > 255) {
-            alert('RGB values must be in the range 0 to 255.');
-            return;
-        }
-        r = r / 255;
-        g = g / 255;
-        b = b / 255;
-        var minRGB = Math.min(r, Math.min(g, b));
-        var maxRGB = Math.max(r, Math.max(g, b));
-
-        // Black-gray-white
-        if (minRGB == maxRGB) {
-            computedV = minRGB;
-            return [0, 0, computedV];
-        }
-
-        // Colors other than black-gray-white:
-        var d = (r == minRGB) ? g - b : ((b == minRGB) ? r - g : b - r);
-        var h = (r == minRGB) ? 3 : ((b == minRGB) ? 1 : 5);
-        computedH = Math.floor(60 * (h - d / (maxRGB - minRGB)));
-        computedS = Math.ceil(((maxRGB - minRGB) / maxRGB) * 100);
-        computedV = Math.ceil(maxRGB * 100);
-        return [computedH, computedS, computedV];
-    }
-
-
 });
