@@ -3,7 +3,7 @@
  */
 
 
-function drawBarChart(data,question, color) {
+function drawBarChart(data, question, color, notUseGridNumber) {
     var w;
     var h;
     var g;
@@ -28,7 +28,6 @@ function drawBarChart(data,question, color) {
     $('.question').addClass('cloudAndBar');
     $('.question').html(question.key);
     $('.story-telling').html(question.value);
-
 
 
     //['#eeb700', '#7C745E', '#8fa7b8', '#6fc0ce', '#F07774'];
@@ -79,7 +78,8 @@ function drawBarChart(data,question, color) {
         drawLine(svg, margin, gridY, w - margin, gridY, '#ddd', 1);
 
         // 세로 그리드 숫자
-        writeText(svg, textMargin, gridY, Math.floor(max / hGridNum * i)).attr('class', 'axis-text');
+        if (_.isNil(notUseGridNumber) || !notUseGridNumber)
+            writeText(svg, textMargin, gridY, Math.floor(max / hGridNum * i)).attr('class', 'axis-text');
     }
 
 

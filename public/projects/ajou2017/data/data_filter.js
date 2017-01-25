@@ -90,7 +90,9 @@ $(function () {
         var a = {key: 'Q. ' + selectMessage, 'value': '신입생 여러분들이 대학생이 되면 가장 하고싶은건 바로 연애군요.'};
 
         var color = colorPicker(selectQ, selectVis);
-        console.log('color', color)
+
+
+        console.log('color', color);
 
         switch (selectVis) {
             case "BarGraph":
@@ -121,11 +123,10 @@ $(function () {
                 break;
             case "Network":
                 console.log("Create Network");
-                drawNetwork01(a, color);
+                var data = createNetworkData(selectQ, color);
+                drawNetwork01(a, color, data);
                 break;
         }
-
-
     }
 
     function makeFilterOption() {
