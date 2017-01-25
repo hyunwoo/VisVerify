@@ -1,5 +1,6 @@
 extends ../../../universe_parent
 block content
+
     <script src="https://d3js.org/d3.v3.min.js"></script>
     script(src = '/projects/ajou2017/vis.js')
     script(src='/projects/ajou2017/ajou2017.js')
@@ -36,11 +37,12 @@ block content
                 option Network
             .action#actionClick.glyphicon.glyphicon-play
             .closer.glyphicon.glyphicon-th-list
-        .graph-bg
+        .graph-bg.open
             .question.cloudAndBar
+        .network-bg
             #mynetwork
             #config
-            .vis-configuration-wrapper
+            .network-option-opener.glyphicon.glyphicon-plus
         .story-telling
 
     script(src='/projects/ajou2017/data/data_filter.js')

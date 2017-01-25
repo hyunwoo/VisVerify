@@ -13,7 +13,15 @@ function drawBarChart(data,question) {
     var hGridGap = 100;
     var percentText = 15;
 
+    var closeTarget = $('.network-bg');
+    closeTarget.removeClass('open');
+
+    var openTarget = $('.graph-bg');
+    openTarget.addClass('open');
+
+
     $('svg').remove();
+
 
     // Question
     $('.question').addClass('cloudAndBar');

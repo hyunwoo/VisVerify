@@ -2,6 +2,29 @@
  * Created by suhyun on 2017. 1. 24..
  */
 $(function () {
+    $('.network-option-opener').click(function () {
+        var target = $('#config');
+
+        if (!target.hasClass('open')) {
+            target.addClass('open');
+            $('.glyphicon').removeClass('glyphicon-plus');
+            $('.glyphicon').addClass('glyphicon-minus');
+        } else {
+            target.removeClass('open');
+            $('.glyphicon').removeClass('glyphicon-minus');
+            $('.glyphicon').addClass('glyphicon-plus');
+        }
+
+    });
+
+});
+
+
+function drawNetwork01() {
+    $('.graph-bg').removeClass('open');
+    $('.network-bg').addClass('open');
+    $('.question').addClass('cloudAndBar');
+    $('.question').html(question.key);
 
     var color = ['#354252', '#F07774', '#524642', '#6da9b5', '#fcb129', '#54728b', '#EAC2B2', '#8f8d92'];
 
@@ -41,16 +64,10 @@ $(function () {
         {id: 12, label: '그것이알고싶다', color: color[3], font: {color: 'inherit', face: 'Hanna'}, value: 4},
     ]);
 
-    var data = {
+    var da = {
         nodes: nodes,
         edges: edges
     };
-
-    drawNetwork(data);
-});
-
-
-function drawNetwork(data) {
 
     // create a network
     var container = document.getElementById('mynetwork');
@@ -82,6 +99,6 @@ function drawNetwork(data) {
         }
     };
 
-    var network = new vis.Network(container, data, options);
+    new vis.Network(container, da, options);
 
 }

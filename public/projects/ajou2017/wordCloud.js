@@ -14,7 +14,14 @@ function makeWordCloud(data) {
     $('.question').html(question.key);
     $('.story-telling').html(question.value);
 
-    $('.graph-bg svg').remove();
+    $('.network-bg').removeClass('open');
+    $('.graph-bg').addClass('open');
+
+    $('svg').remove();
+
+
+
+
     var svg = d3.select('.graph-bg').append("svg").attr("class", 'fulid-svg');
     var width = svg.style('width').replace('px', '') * 1;
     var height = svg.style('height').replace('px', '') * 1 - 200;
@@ -101,7 +108,6 @@ function makeWordCloud(data) {
                 } else {
                     c = colors[5 - (Math.floor(Math.random() * 2) + 4)];
                 }
-                console.log(c);
                 return c;
             })
             .attr("text-anchor", "middle")

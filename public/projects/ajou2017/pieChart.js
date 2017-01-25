@@ -9,10 +9,15 @@ function drawPieChart(data, question) {
     var h;
     var g;
 
-
     $('.question').removeClass('cloudAndBar');
 
-    $('.graph-bg svg').remove();
+    $('.network-bg').removeClass('open');
+    $('.graph-bg').addClass('open');
+
+
+    $('svg').remove();
+
+
     var svg = d3.select(".graph-bg").append("svg").attr("class", 'fulid-svg');
 
     w = svg.style('width').replace('px', '') * 1;
