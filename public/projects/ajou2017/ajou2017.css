@@ -29,7 +29,7 @@
     position: relative;
     width: 1280px;
     margin: auto;
-    height: 1400px;
+    height: 100vh;
     z-index: 1;
     display: none;
 }
@@ -52,14 +52,14 @@
     font-weight: 100;
     z-index: 99;
 }
-.graph-bg > .question.cloudAndBar{
+.question.cloudAndBar{
     top: 90px;
     width: 600px;
     left: calc(50% - 300px);
     background: rgba(248,248,248,0.9);
 }
 
-.graph-bg > .question {
+.question {
     position: absolute;
     top: 36%;
     left: calc(50% - 200px);
@@ -73,7 +73,7 @@
     word-break: keep-all;
     line-height: 50px;
     color: #535353;
-    z-index: 99999;
+    z-index: 9999999;
 }
 
 .pieGraphLine {

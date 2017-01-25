@@ -13,6 +13,7 @@ function drawBarChart(data,question) {
     var hGridGap = 100;
     var percentText = 15;
 
+    $('#config').empty();
     var closeTarget = $('.network-bg');
     closeTarget.removeClass('open');
 
@@ -27,6 +28,7 @@ function drawBarChart(data,question) {
     $('.question').addClass('cloudAndBar');
     $('.question').html(question.key);
     $('.story-telling').html(question.value);
+
 
     var color = ['#EAC2B2', '#54728b', '#7C745E', '#6da9b5', '#fcb129', '#354252', '#F07774','#8f8d92'];
 

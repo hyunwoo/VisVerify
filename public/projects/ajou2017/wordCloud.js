@@ -14,6 +14,7 @@ function makeWordCloud(data, question) {
     $('.question').html(question.key);
     $('.story-telling').html(question.value);
 
+    $('#config').empty();
     $('.network-bg').removeClass('open');
     $('.graph-bg').addClass('open');
 

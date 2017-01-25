@@ -73,7 +73,6 @@ $(function () {
     $('#actionClick').click(clickAction);
 
     function clickAction() {
-        console.log('hello');
         makeFilterOption();
 
         var selectQ = $('#selectorQuestion option:selected').attr('q_code') + '_summary';
@@ -83,13 +82,6 @@ $(function () {
         console.log('select q : ' + selectQ + ' , select vis : ' + selectVis);
         var opts = makeFilterOption();
         var d = filterData(opts, false);
-        // console.log(JSON.stringify(opts, null, 2));
-        // console.log(d.ans[selectQ]);
-        // console.log(d);
-
-
-        //console.log(JSON.stringify(opts, null, 2));
-        //console.log(d.ans[selectQ]);
 
         var throughtData = d.ans[selectQ];
         throughtData = _.sortBy(throughtData, function (d) {
@@ -98,7 +90,9 @@ $(function () {
 
         var a = {key: 'Q. ' + selectMessage, 'value': '신입생 여러분들이 대학생이 되면 가장 하고싶은건 바로 연애군요.'};
 
-        console.log(throughtData);
+
+
+
         switch (selectVis) {
             case "BarGraph":
                 throughtData = _.take(throughtData, 8);
@@ -128,8 +122,7 @@ $(function () {
                 break;
             case "Network":
                 console.log("Create Network");
-
-                drawNetwork01();
+                drawNetwork01(a);
                 break;
         }
 

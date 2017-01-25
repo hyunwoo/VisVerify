@@ -9,6 +9,7 @@ function drawPieChart(data, question) {
     var h;
     var g;
 
+    $('#config').empty();
     $('.question').removeClass('cloudAndBar');
 
     $('.network-bg').removeClass('open');

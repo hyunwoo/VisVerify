@@ -20,7 +20,7 @@ $(function () {
 });
 
 
-function drawNetwork01() {
+function drawNetwork01(question) {
     $('.graph-bg').removeClass('open');
     $('.network-bg').addClass('open');
     $('.question').addClass('cloudAndBar');
