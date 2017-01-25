@@ -224,6 +224,7 @@ $(function () {
             })
         });
 
+
         var idx = 5;
         var takes = _.take(_.sortBy(ans['q' + idx + '_summary'], function (o) {
             return -o.value;
@@ -231,7 +232,7 @@ $(function () {
 
         return {
             data: data,
-            ans: ans,
+            ans: ans
         };
     }
 
@@ -240,25 +241,20 @@ $(function () {
 
     // 질문에 따라 색상 나열 변경
     function colorPicker(Q, Vis) {
-        console.log(Q);
+        // 기본 컬러 셋팅
         var color = ['#354252', '#F07774', '#524642', '#6da9b5', '#fcb129', '#54728b', '#EAC2B2', '#8f8d92'];
+        if (Q === 'q14_summary') color = ['#F07774', '#354252', '#524642', '#6da9b5', '#fcb129', '#54728b', '#EAC2B2', '#8f8d92'];
 
-        if (Q === 'q14_summary') {
-            color = ['#F07774', '#354252', '#524642', '#6da9b5', '#fcb129', '#54728b', '#EAC2B2', '#8f8d92'];
-        }
-        if (Q === 'q15_summary') color = colorPalette('#c16741', 0.25);
-        if (Q === 'q16_summary') color = colorPalette('#3868b0');
+        if (Q === 'q15_summary') color = makeSpecificColors('#c16741', 0.25);
+        if (Q === 'q16_summary') color = makeSpecificColors('#3868b0');
 
-        console.log(color);
         return color;
     }
 
-
-    function colorPalette(color, k) {
+    function makeSpecificColors(color, k) {
         if (k === undefined) k = 0.25;
         var c = d3.color(color);
         var colors = [];
-        console.log(c);
         for (var i = 0; i < 8; i++)
             colors.push(c.brighter(i * k));
         return colors;
