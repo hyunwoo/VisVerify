@@ -1,13 +1,5 @@
-function makeWordCloud(data, question) {
+function makeWordCloud(data, question, colors) {
 
-
-    var colors = [
-        d3.rgb('#3a383a'),
-        d3.rgb('#b93141'),
-        d3.rgb('#399992'),
-        d3.rgb('#694d20'),
-        d3.rgb('#295D7C'),
-        d3.rgb('#CD5556')];
 
     // Question
     $('.question').addClass('cloudAndBar');

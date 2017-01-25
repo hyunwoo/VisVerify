@@ -20,13 +20,12 @@ $(function () {
 });
 
 
-function drawNetwork01(question) {
+function drawNetwork01(question, color) {
     $('.graph-bg').removeClass('open');
     $('.network-bg').addClass('open');
     $('.question').addClass('cloudAndBar');
     $('.question').html(question.key);
 
-    var color = ['#354252', '#F07774', '#524642', '#6da9b5', '#fcb129', '#54728b', '#EAC2B2', '#8f8d92'];
 
     // create an array with edges
     var edges = new vis.DataSet([

@@ -3,7 +3,7 @@
  */
 
 
-function drawBarChart(data,question) {
+function drawBarChart(data,question, color) {
     var w;
     var h;
     var g;
@@ -30,7 +30,6 @@ function drawBarChart(data,question) {
     $('.story-telling').html(question.value);
 
 
-    var color = ['#EAC2B2', '#54728b', '#7C745E', '#6da9b5', '#fcb129', '#354252', '#F07774','#8f8d92'];
 
     //['#eeb700', '#7C745E', '#8fa7b8', '#6fc0ce', '#F07774'];
 

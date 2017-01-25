@@ -5,7 +5,6 @@ $(function () {
 
     var t = enter_data;
     var qlist = t[1];
-    console.log(qlist);
     _.each(qlist, function (q, i) {
         if (!_.isNil(q)) $('<option q_code="q' + i + '">' + q + '</option>').appendTo('#selectorQuestion');
     })
@@ -37,7 +36,6 @@ $(function () {
 
         if (opts.length < 500) {
             var t = _.take(opts, 10);
-            console.log('create Option : ', qlist[i])
             createFilter(qlist[i], t, 'q' + i);
         }
     }
@@ -47,16 +45,13 @@ $(function () {
 
 
     function createFilter(name, options, q) {
-        console.log('asdf');
         var item = filterItem.clone();
         item.find('.name').html(q + ' ' + name);
         item.appendTo('#filters');
 
-        console.log($('#selectorQuestion').val());
 
         _.map(options, function (d, i) {
             var opt = checkItem.clone().appendTo(item);
-            // console.log(d);
             var check = opt.find('input');
             check.attr('id', q + i);
             check.attr('cat', d.key);
@@ -79,7 +74,7 @@ $(function () {
         var selectMessage = $('#selectorQuestion option:selected').text();
         var selectVis = $('#selectorVisMode option:selected').text();
 
-        console.log('select q : ' + selectQ + ' , select vis : ' + selectVis);
+        //console.log('select q : ' + selectQ + ' , select vis : ' + selectVis);
         var opts = makeFilterOption();
         var d = filterData(opts, false);
 
@@ -90,8 +85,8 @@ $(function () {
 
         var a = {key: 'Q. ' + selectMessage, 'value': '신입생 여러분들이 대학생이 되면 가장 하고싶은건 바로 연애군요.'};
 
-
-
+        var color = colorPicker(selectQ, selectVis);
+        console.log('color', color)
 
         switch (selectVis) {
             case "BarGraph":
@@ -104,7 +99,7 @@ $(function () {
                 });
                 console.log(throughtData.length, throughtData);
 
-                drawBarChart(throughtData, a);
+                drawBarChart(throughtData, a, color);
                 break;
             case "PieChart":
                 throughtData = _.take(throughtData, 8);
@@ -115,14 +110,14 @@ $(function () {
                     return d.value > max * 0.05;
                 });
 
-                drawPieChart(throughtData, a);
+                drawPieChart(throughtData, a, color);
                 break;
             case "WordCloud":
-                makeWordCloud(throughtData, a);
+                makeWordCloud(throughtData, a, color);
                 break;
             case "Network":
                 console.log("Create Network");
-                drawNetwork01(a);
+                drawNetwork01(a, color);
                 break;
         }
 
@@ -239,4 +234,172 @@ $(function () {
     var continueWords = ['혼자', '내가', '있는', '있다', '없다', '하고싶은', '로움', '로운', '하고', '롭게', '롭다',
         '아직', '제약이', '로워진다', '원하는', '많은', '많이', '싶다', '하러가기', '딱히'];
 
+    // 질문에 따라 색상 나열 변경
+    function colorPicker(Q, Vis) {
+        console.log(Q);
+        var color = ['#354252', '#F07774', '#524642', '#6da9b5', '#fcb129', '#54728b', '#EAC2B2', '#8f8d92'];
+
+        if (Q === 'q14_summary') {
+            color = ['#F07774', '#354252', '#524642', '#6da9b5', '#fcb129', '#54728b', '#EAC2B2', '#8f8d92'];
+        }
+        if(Q === 'q15_summary'){
+            color = colorPalette(175, 119, 102);
+            color = _.map(color,function(d){
+                return rgbToHex(d[0], d[1], d[2]);
+            })
+
+        }
+        if(Q === 'q16_summary'){
+            color = colorPalette(84, 114, 139);
+            color = _.map(color,function(d){
+                return rgbToHex(d[0], d[1], d[2]);
+            })
+
+        }
+
+
+
+        console.log(color);
+        return color;
+    }
+
+
+
+
+    function colorPalette(r, g, b) {
+        var hsv = rgb2hsv(r, g, b);
+        var colors = [];
+        for(var i = 0 ; i < 8 ; i++){
+            colors[i] = hsvToRgb(hsv[0], hsv[1], hsv[2] + 7*i);
+        }
+        return colors;
+    }
+
+
+    function hsvToRgb(h, s, v) {
+        var r, g, b;
+        var i;
+        var f, p, q, t;
+
+        // Make sure our arguments stay in-range
+        h = Math.max(0, Math.min(360, h));
+        s = Math.max(0, Math.min(100, s));
+        v = Math.max(0, Math.min(100, v));
+
+        s /= 100;
+        v /= 100;
+
+        if(s == 0) {
+            // Achromatic (grey)
+            r = g = b = v;
+            return [
+                Math.round(r * 255),
+                Math.round(g * 255),
+                Math.round(b * 255)
+            ];
+        }
+
+        h /= 60; // sector 0 to 5
+        i = Math.floor(h);
+        f = h - i; // factorial part of h
+        p = v * (1 - s);
+        q = v * (1 - s * f);
+        t = v * (1 - s * (1 - f));
+
+        switch(i) {
+            case 0:
+                r = v;
+                g = t;
+                b = p;
+                break;
+
+            case 1:
+                r = q;
+                g = v;
+                b = p;
+                break;
+
+            case 2:
+                r = p;
+                g = v;
+                b = t;
+                break;
+
+            case 3:
+                r = p;
+                g = q;
+                b = v;
+                break;
+
+            case 4:
+                r = t;
+                g = p;
+                b = v;
+                break;
+
+            default: // case 5:
+                r = v;
+                g = p;
+                b = q;
+        }
+
+        return [
+            Math.round(r * 255),
+            Math.round(g * 255),
+            Math.round(b * 255)
+        ];
+    }
+
+
+
+    function rgbToHex(r, g, b) {
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+
+
+
+    function rgb2hsv(r, g, b) {
+
+        var computedH = 0;
+        var computedS = 0;
+        var computedV = 0;
+
+        //remove spaces from input RGB values, convert to int
+        var r = parseInt(('' + r).replace(/\s/g, ''), 10);
+        var g = parseInt(('' + g).replace(/\s/g, ''), 10);
+        var b = parseInt(('' + b).replace(/\s/g, ''), 10);
+
+        if (r == null || g == null || b == null ||
+            isNaN(r) || isNaN(g) || isNaN(b)) {
+            alert('Please enter numeric RGB values!');
+            return;
+        }
+        if (r < 0 || g < 0 || b < 0 || r > 255 || g > 255 || b > 255) {
+            alert('RGB values must be in the range 0 to 255.');
+            return;
+        }
+        r = r / 255;
+        g = g / 255;
+        b = b / 255;
+        var minRGB = Math.min(r, Math.min(g, b));
+        var maxRGB = Math.max(r, Math.max(g, b));
+
+        // Black-gray-white
+        if (minRGB == maxRGB) {
+            computedV = minRGB;
+            return [0, 0, computedV];
+        }
+
+        // Colors other than black-gray-white:
+        var d = (r == minRGB) ? g - b : ((b == minRGB) ? r - g : b - r);
+        var h = (r == minRGB) ? 3 : ((b == minRGB) ? 1 : 5);
+        computedH = Math.floor(60 * (h - d / (maxRGB - minRGB)));
+        computedS = Math.ceil(((maxRGB - minRGB) / maxRGB)*100);
+        computedV = Math.ceil(maxRGB*100);
+        return [computedH, computedS, computedV];
+    }
+
+
 });
+
+
