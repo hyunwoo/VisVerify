@@ -1,4 +1,4 @@
-function makeWordCloud(data) {
+function makeWordCloud(data, question) {
 
 
     var colors = [

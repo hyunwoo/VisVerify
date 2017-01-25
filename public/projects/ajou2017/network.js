@@ -86,11 +86,11 @@ function drawNetwork01() {
             stabilization: false
         },
         configure: {
-            filter: function (option, path) {
+            filter: function (o, path) {
                 if (path.indexOf('physics') !== -1) {
                     return true;
                 }
-                if (path.indexOf('smooth') !== -1 || option === 'smooth') {
+                if (path.indexOf('smooth') !== -1 || o === 'smooth') {
                     return true;
                 }
                 return false;

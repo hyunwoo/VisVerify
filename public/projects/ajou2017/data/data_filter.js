@@ -37,7 +37,6 @@ $(function () {
 
         if (opts.length < 500) {
             var t = _.take(opts, 10);
-            t = _.filter(t, function(o){return o.value > 20;});
             console.log('create Option : ', qlist[i])
             createFilter(qlist[i], t, 'q' + i);
         }
@@ -84,6 +83,11 @@ $(function () {
         console.log('select q : ' + selectQ + ' , select vis : ' + selectVis);
         var opts = makeFilterOption();
         var d = filterData(opts, false);
+        // console.log(JSON.stringify(opts, null, 2));
+        // console.log(d.ans[selectQ]);
+        // console.log(d);
+
+
         //console.log(JSON.stringify(opts, null, 2));
         //console.log(d.ans[selectQ]);
 
@@ -91,7 +95,6 @@ $(function () {
         throughtData = _.sortBy(throughtData, function (d) {
             return -d.value;
         });
-
 
         var a = {key: 'Q. ' + selectMessage, 'value': '신입생 여러분들이 대학생이 되면 가장 하고싶은건 바로 연애군요.'};
 
@@ -135,7 +138,7 @@ $(function () {
 
     function makeFilterOption() {
         var opts = [];
-        _.each($('input[type="checkbox"]'), function (ele) {
+        _.each($('input.qu[type="checkbox"]'), function (ele) {
             var input = $(ele);
             if (input.is(':checked')) {
                 console.log(input.attr('q_code'), input.attr('cat'));
@@ -148,7 +151,7 @@ $(function () {
                     opts.push({
                         q: q_code,
                         cat: [cat],
-                    })
+                    });
                 else q.cat.push(cat);
             }
         });
@@ -160,8 +163,10 @@ $(function () {
         if (_.isNil(isOr)) isOr = true;
         var data;
         if (_.isNil(option) || option.length == 0) {
+            console.log('opt nil');
             data = origin_data;
         } else {
+            console.log('opt exist');
             data = _.filter(origin_data, function (d) {
                 var ret = false;
                 var matches = _.map(option, function (p) {
@@ -181,8 +186,9 @@ $(function () {
                 else ret = _.indexOf(matches, false) == -1;
                 return ret;
             });
-
         }
+        console.log('option', option);
+        console.log('data', origin_data);
 
         var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi
 
@@ -238,6 +244,6 @@ $(function () {
     }
 
     var continueWords = ['혼자', '내가', '있는', '있다', '없다', '하고싶은', '로움', '로운', '하고', '롭게', '롭다',
-        '아직', '제약이', '로워진다', '원하는', '많은', '많이', '싶다', '하러가기'];
+        '아직', '제약이', '로워진다', '원하는', '많은', '많이', '싶다', '하러가기', '딱히'];
 
 });
