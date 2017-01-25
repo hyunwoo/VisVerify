@@ -103,7 +103,7 @@ $(function () {
                 });
                 console.log(throughtData.length, throughtData);
 
-                drawBarChart(throughtData, a);
+                drawBarChart(throughtData, a, color);
                 break;
             case "PieChart":
                 throughtData = _.take(throughtData, 8);
@@ -114,14 +114,14 @@ $(function () {
                     return d.value > max * 0.05;
                 });
 
-                drawPieChart(throughtData, a);
+                drawPieChart(throughtData, a, color);
                 break;
             case "WordCloud":
-                makeWordCloud(throughtData, a);
+                makeWordCloud(throughtData, a, color);
                 break;
             case "Network":
                 console.log("Create Network");
-                drawNetwork01(a);
+                drawNetwork01(a, color);
                 break;
         }
 
@@ -246,21 +246,20 @@ $(function () {
         if (Q === 'q14_summary') {
             color = ['#F07774', '#354252', '#524642', '#6da9b5', '#fcb129', '#54728b', '#EAC2B2', '#8f8d92'];
         }
-        if(Q === 'q15_summary'){
+        if (Q === 'q15_summary') {
             color = colorPalette(175, 119, 102);
-            color = _.map(color,function(d){
+            color = _.map(color, function (d) {
                 return rgbToHex(d[0], d[1], d[2]);
             })
 
         }
-        if(Q === 'q16_summary'){
+        if (Q === 'q16_summary') {
             color = colorPalette(84, 114, 139);
-            color = _.map(color,function(d){
+            color = _.map(color, function (d) {
                 return rgbToHex(d[0], d[1], d[2]);
             })
 
         }
-
 
 
         console.log(color);
@@ -268,13 +267,11 @@ $(function () {
     }
 
 
-
-
     function colorPalette(r, g, b) {
         var hsv = rgb2hsv(r, g, b);
         var colors = [];
-        for(var i = 0 ; i < 8 ; i++){
-            colors[i] = hsvToRgb(hsv[0], hsv[1], hsv[2] + 7*i);
+        for (var i = 0; i < 8; i++) {
+            colors[i] = hsvToRgb(hsv[0], hsv[1], hsv[2] + 7 * i);
         }
         return colors;
     }
@@ -293,7 +290,7 @@ $(function () {
         s /= 100;
         v /= 100;
 
-        if(s == 0) {
+        if (s == 0) {
             // Achromatic (grey)
             r = g = b = v;
             return [
@@ -310,7 +307,7 @@ $(function () {
         q = v * (1 - s * f);
         t = v * (1 - s * (1 - f));
 
-        switch(i) {
+        switch (i) {
             case 0:
                 r = v;
                 g = t;
@@ -355,11 +352,9 @@ $(function () {
     }
 
 
-
     function rgbToHex(r, g, b) {
         return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
     }
-
 
 
     function rgb2hsv(r, g, b) {
@@ -398,8 +393,8 @@ $(function () {
         var d = (r == minRGB) ? g - b : ((b == minRGB) ? r - g : b - r);
         var h = (r == minRGB) ? 3 : ((b == minRGB) ? 1 : 5);
         computedH = Math.floor(60 * (h - d / (maxRGB - minRGB)));
-        computedS = Math.ceil(((maxRGB - minRGB) / maxRGB)*100);
-        computedV = Math.ceil(maxRGB*100);
+        computedS = Math.ceil(((maxRGB - minRGB) / maxRGB) * 100);
+        computedV = Math.ceil(maxRGB * 100);
         return [computedH, computedS, computedV];
     }
 
