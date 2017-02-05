@@ -3,7 +3,20 @@
  */
 $(function () {
 
-    var t = enter_data;
+    var t = [];
+
+    var useGradData = false;
+    if (window.location.pathname.endsWith('entered')) useGradData = false;
+    else if (window.location.pathname.endsWith('graded')) useGradData = true;
+    else {
+        window.location = '/universe/samples/ajou2017/entered';
+        return;
+    }
+
+    if (useGradData) t = grad_data;
+    else t = enter_data;
+
+
     var qlist = t[1];
     console.log(qlist);
     _.each(qlist, function (q, i) {
@@ -124,7 +137,7 @@ $(function () {
                 break;
             case "Network":
                 console.log("Create Network");
-                var data = createNetworkData(selectQ, color);
+                var data = createNetworkData(selectQ, color, useGradData);
                 drawNetwork01(a, color, data);
                 break;
         }
@@ -238,8 +251,8 @@ $(function () {
         };
     }
 
-    var continueWords = ['혼자', '내가', '있는', '있다', '없다', '하고싶은', '로움', '로운', '하고', '롭게', '롭다',
-        '아직', '제약이', '로워진다', '원하는', '많은', '많이', '싶다', '하러가기', '딱히', '가기','외국', '공부','만들기'];
+    var continueWords = ['혼자', '내가', '있는', '있다', '없다', '하고싶은', '로움', '로운', '하고', '롭게', '롭다', '많다', '좋다',
+        '아직', '제약이', '로워진다', '원하는', '많은', '많이', '싶다', '하러가기', '딱히', '가기', '외국', '공부', '만들기'];
 
     // 질문에 따라 색상 나열 변경
     function colorPicker(Q, Vis) {

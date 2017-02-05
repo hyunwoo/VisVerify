@@ -9,3 +9,7 @@ module.exports = router;
 router.get('/entered', function (req, res) {
     res.render('universe/project/samples/ajou2017/ajou2017');
 });
+
+router.get('/graded', function (req, res) {
+    res.render('universe/project/samples/ajou2017/ajou2017');
+});
