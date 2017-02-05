@@ -1,0 +1,112 @@
+/**
+ * Created by suhyun on 2017. 2. 5..
+ */
+
+var networkDataGradQ9 = {
+    edges: new vis.DataSet([
+        {from: '음식점', to: 'root'},
+        {from: '카페', to: 'root'},
+        {from: '술집', to: 'root'},
+        {from: '상점', to: 'root'},
+        {from: '놀거리', to: 'root'},
+
+
+        {from: '깡통집', to: '음식점'},
+        {from: '내찜닭', to: '음식점'},
+        {from: '맛이짱', to: '음식점'},
+        {from: '만고쿠', to: '음식점'},
+        {from: '푸드테라피', to: '음식점'},
+        {from: '미스터쉐프', to: '음식점'},
+        {from: '시골', to: '음식점'},
+        {from: '태화장', to: '음식점'},
+        {from: '아맛집', to: '음식점'},
+        {from: '윤씨부엌', to: '음식점'},
+        {from: '이모네손칼국수', to: '음식점'},
+        {from: '알촌', to: '음식점'},
+
+        {from: '까페안녕', to: '카페'},
+        {from: '굿커피', to: '카페'},
+        {from: '3Q', to: '카페'},
+        {from: '스타벅스', to: '카페'},
+        {from: '커피다움', to: '카페'},
+        {from: '키브한커피', to: '카페'},
+        {from: '투썸플레이스', to: '카페'},
+        {from: '키브한 커피', to: '카페'},
+        {from: '커볶수', to: '카페'},
+        {from: '탐앤탐스', to: '카페'},
+        {from: 'KAPPA COFFEE', to: '카페'},
+
+        {from: '39포차', to: '술집'},
+        {from: '두메산골', to: '술집'},
+        {from: '렉스', to: '술집'},
+        {from: '노군맥주', to: '술집'},
+        {from: '온리유', to: '술집'},
+        {from: '빨간석쇠구', to: '술집'},
+        {from: '아대돌곱창', to: '술집'},
+        {from: '오뚜기', to: '술집'},
+        {from: '아주캠프', to: '술집'},
+
+        {from: '왓슨스', to: '상점'},
+        {from: '올리브영', to: '상점'},
+        {from: '부부웍스', to: '상점'},
+
+        {from: '코인노래방', to: '놀거리'},
+        {from: '광교호수공원', to: '놀거리'},
+        {from: '놀숲', to: '놀거리'},
+        {from: '고릴라 PC방', to: '놀거리'},
+        {from: '텔리토비 동산', to: '놀거리'}
+
+    ]),
+    nodes: new vis.DataSet([
+        {id: 'root', label: '추천하는 핫 플레이스', color: color[0], font: {color: 'inherit', face: 'Hanna'}, value: 60},
+
+        {label: '음식점',  id: '음식점',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '카페', id: '카페', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '술집', id: '술집', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '상점', id: '상점', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '놀거리',  id: '놀거리',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '깡통집',  id: '깡통집',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '내찜닭',  id: '내찜닭',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '맛이짱',  id: '맛이짱',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '만고쿠',  id: '만고쿠',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '푸드테라피',  id: '푸드테라피',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '미스터쉐프',  id: '미스터쉐프',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '시골',  id: '시골',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '태화장',  id: '태화장',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '아맛집',  id: '아맛집',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '윤씨부엌',  id: '윤씨부엌',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '이모네손칼국수',  id: '이모네손칼국수',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '알촌',  id: '알촌',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '까페안녕', id: '까페안녕', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '굿커피', id: '굿커피', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '3Q', id: '3Q', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '스타벅스', id: '스타벅스', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '커피다움', id: '커피다움', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '키브한커피', id: '키브한커피', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '투썸플레이스', id: '투썸플레이스', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '키브한 커피', id: '키브한 커피', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '커볶수', id: '커볶수', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '탐앤탐스', id: '탐앤탐스', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: 'KAPPA COFFEE', id: 'KAPPA COFFEE', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '39포차', id: '39포차', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '두메산골', id: '두메산골', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '렉스', id: '렉스', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '노군맥주', id: '노군맥주', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '온리유', id: '온리유', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '빨간석쇠구', id: '빨간석쇠구', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '아대돌곱창', id: '아대돌곱창', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '오뚜기', id: '오뚜기', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '아주캠프', id: '아주캠프', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '왓슨스', id: '왓슨스', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '올리브영', id: '올리브영', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '부부웍스', id: '부부웍스', color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '코인노래방',  id: '코인노래방',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '광교호수공원',  id: '광교호수공원',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '놀숲',  id: '놀숲',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '고릴라 PC방',  id: '고릴라 PC방',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+        {label: '텔리토비 동산',  id: '텔리토비 동산',  color: color[0], font:{color: 'inherit', face: 'Hanna'}, value: 10},
+
+
+    ])
+
+};

@@ -119,6 +119,7 @@ $(function () {
                 drawPieChart(throughtData, a, color);
                 break;
             case "WordCloud":
+                throughtData = _.take(throughtData, 200);
                 makeWordCloud(throughtData, a, color);
                 break;
             case "Network":
