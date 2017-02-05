@@ -265,7 +265,7 @@ $(function () {
             if (Q === 'q15_summary') color = makeSpecificColors('#2C3745', 0.4);
         }
         else {
-            if (Q === 'q9_summary') color = ['#F99', '#F99', '#F99', '#F99', '#F99', '#F99', '#EAC2B2', '#8f8d92'];
+            if (Q === 'q9_summary') color = ['#354252', '#F07774', '#524642', '#6da9b5', '#fcb129', '#54728b', '#EAC2B2', '#8f8d92', '#F07774'];
         }
 
         //if (Q === 'q16_summary') color = makeSpecificColors('#EC7A6C', 0.2);
