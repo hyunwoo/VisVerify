@@ -238,7 +238,7 @@ $(function () {
     }
 
     var continueWords = ['혼자', '내가', '있는', '있다', '없다', '하고싶은', '로움', '로운', '하고', '롭게', '롭다',
-        '아직', '제약이', '로워진다', '원하는', '많은', '많이', '싶다', '하러가기', '딱히'];
+        '아직', '제약이', '로워진다', '원하는', '많은', '많이', '싶다', '하러가기', '딱히', '가기','외국', '공부','만들기'];
 
     // 질문에 따라 색상 나열 변경
     function colorPicker(Q, Vis) {
@@ -246,8 +246,8 @@ $(function () {
         var color = ['#354252', '#F07774', '#524642', '#6da9b5', '#fcb129', '#54728b', '#EAC2B2', '#8f8d92'];
         if (Q === 'q14_summary') color = ['#F07774', '#354252', '#524642', '#6da9b5', '#fcb129', '#54728b', '#EAC2B2', '#8f8d92'];
 
-        if (Q === 'q15_summary') color = makeSpecificColors('#c16741', 0.25);
-        if (Q === 'q16_summary') color = makeSpecificColors('#3868b0');
+        if (Q === 'q15_summary') color = makeSpecificColors('#2C3745', 0.4);
+        //if (Q === 'q16_summary') color = makeSpecificColors('#EC7A6C', 0.2);
 
         return color;
     }

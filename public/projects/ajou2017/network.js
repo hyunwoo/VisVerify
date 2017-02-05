@@ -389,7 +389,7 @@ function createNetworkData(q, color) {
             {id: '수업 선택', label: '수업 선택', color: color[4], font: {color: 'inherit', face: 'Hanna'}, value: 4},
 
 
-            {id: '나쁜점', label: '나쁜점', color: color[1], font: {color: 'inherit', fce: 'Hanna'}, value: 50},
+            {id: '나쁜점', label: '나쁜점', color: color[1], font: {color: 'inherit', face: 'Hanna'}, value: 50},
 
             {id: '책임', label: '책임', color: color[6], font: {color: 'inherit', face: 'Hanna'}, value: 35},
             {id: '부담', label: '부담', color: color[6], font: {color: 'inherit', face: 'Hanna'}, value: 7},
