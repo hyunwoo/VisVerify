@@ -106,14 +106,6 @@ exports.twitDataToNormalDate = function (date, option) {
 }
 
 
-var email = require('emailjs/email');
-var server = email.server.connect({
-    user: "h.hyunwoo@gmail.com",
-    password: "fpdkfvkzm",
-    host: "smtp.gmail.com",
-    ssl: true
-
-});
 
 exports.ColorSet = [
     '#a0a0a0',
@@ -131,13 +123,5 @@ exports.ColorSet = [
 
 
 exports.sendEmail = function (title, body) {
-    server.send({
-        text: body,
-        from: "<h.hyunwoo@gmail.com>",
-        to: "<h.hyunwoo@gmail.com>",
-        cc: "",
-        subject: title
-    }, function (err, message) {
-        console.log(err || message);
-    });
+	return;
 }
